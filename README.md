@@ -3,19 +3,12 @@
 Reimagining CMS Fast Facts communication of summary information
 
 ## About the Project
-<!-- TODO: Write an about statement for this project. -->
+
+CMS makes a number of different data sources available to the public on [data.cms.gov](data.cms.gov). One of those sources is the annual [CMS Fast Facts](https://data.cms.gov/fact-sheet/cms-fast-facts) which is a "quick reference statistical summary on annual CMS program and financial data." The 2025 release contains 13 pages worth of largely tabular data. This project aims to condense the data views while making the infomation more digestible and actionable.
 
 ### Project Vision
-<!-- TODO: What is the vision for this project? -->
 
-### Project Mission
-<!-- TODO: Write a mission statement for this project. -->
-
-### Agency Mission
-<!-- TODO: Must include since this is an agency-led project -->
-
-### Team Mission
-<!-- TODO: Must include since this is an agency-led project -->
+The goal of this projects goal is to improve the communication of these important data components, making it easier for stakeholders and the public to digest and interpret the information.
 
 ## Core Team
 
