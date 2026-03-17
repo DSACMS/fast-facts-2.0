@@ -62,6 +62,19 @@ TODO: A list of CONTRIBUTORS is generated below using contributors.yml located i
 ![](https://img.shields.io/github/contributors/DSACMS/fast-facts-2.0?style=flat-square&label=Contributor%20Count(incl.%20bots)) 
 
 <!-- readme: contributors -start -->
+<table>
+	<tbody>
+		<tr>
+            <td align="center">
+                <a href="https://github.com/achafetz">
+                    <img src="https://avatars.githubusercontent.com/u/8933069?v=4" width="100;" alt="achafetz"/>
+                    <br />
+                    <sub><b>Aaron Chafetz</b></sub>
+                </a>
+            </td>
+		</tr>
+	<tbody>
+</table>
 <!-- readme: contributors -end -->
 
 <!--
