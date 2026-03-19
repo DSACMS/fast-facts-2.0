@@ -54,7 +54,7 @@ df_nhe |>
   filter(type == "Total") |>
   mutate(value = value / 1000)
 
-# VIZ ---------------------------------------------------------------------
+# VIZ - SHARE OF GDP -----------------------------------------------------
 
 #extract Share of GDP value
 df_viz_gdp <- df_nhe |>
@@ -67,12 +67,12 @@ df_viz_gdp |>
   geom_rect(
     aes(
       xmin = 0,
-      xmax = 10,
+      xmax = 12,
       ymin = 0,
-      ymax = 10
+      ymax = 100 / 12
     ),
     color = matterhorn,
-    fill = NA
+    fill = "white"
   ) +
   geom_rect(
     aes(
@@ -84,3 +84,30 @@ df_viz_gdp |>
   ) +
   coord_equal() +
   theme_void()
+
+si_save("Images/context_share-gdp.png")
+
+
+# VIZ  - INSURANCE BREAKDOWN ---------------------------------------------
+
+v_insurance <- c(
+  "Private Health Insurance",
+  "Medicare",
+  "Medicaid (Title XIX)",
+  "CHIP (Title XIX & XXI)",
+  "Department of Defense",
+  "Department of Veterans Affairs"
+)
+
+df_nhe |>
+  filter(type %in% v_insurance) |>
+  mutate(type = fct_lump_prop(type, .1, w = value)) |>
+  count(type, wt = value, name = "value") |>
+  mutate(share = value / sum(value)) |>
+  ggplot(aes(share, "x", fill = fct_reorder(type, share))) +
+  geom_col(color = "white") +
+  labs(x = NULL, y = NULL) +
+  theme_minimal() +
+  theme(axis.text.y = element_blank())
+
+si_preview()
