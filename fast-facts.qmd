@@ -1,0 +1,150 @@
+---
+title: "CMS Fast Facts"
+subtitle: "April 2025 Release"
+logo: assets/CMS_logo.jpeg
+format: 
+  dashboard:
+    theme:
+      - cosmo
+    nav-buttons:
+      - icon: github
+        href: "#"
+        aria-label: "Source Code"
+    scrolling: false
+resources:
+  - assets/CMS_logo.jpeg
+execute:
+  echo: false
+  warning: false
+  message: false
+---
+
+```{r}
+#| label: dependencies
+#| include: false
+
+#dependencies
+library(tidyverse)
+library(gt)
+library(scales)
+
+```
+
+```{r}
+#| label: load_data
+#| include: false
+
+#load each the data needed for each tab, stored in a list element
+context <- read_rds("Dataout/context.rds")
+
+```
+
+# Context {data-icon="house-fill"}
+
+## Row
+
+```{r}
+#| label: ban_nhe
+#| content: valuebox
+#| title: "National Health Expenditures"
+#| icon: heart-pulse-fill
+#| color: primary
+
+list(
+  value = scales::label_number(
+    prefix   = "$",
+    suffix   = "T",
+    accuracy = 0.1,
+    big.mark = ","
+  )(context$bans[["nhe_total"]]/1e3),
+  subtitle = context$years[["nhe_yr"]]
+)
+```
+
+```{r}
+#| label: share-gdp
+#| title: "...share of GDP"
+
+ggplot() +
+  geom_rect(
+    aes(
+      xmin = 0,
+      xmax = 12,
+      ymin = 0,
+      ymax = 100 / 12
+    ),
+    color = "#505050",
+    fill = "white"
+  ) +
+  geom_rect(
+    aes(
+      xmin = 0,
+      xmax = sqrt(context[["nhe_gdp_share"]]*100),
+      ymin = 0,
+      ymax = sqrt(context[["nhe_gdp_share"]]*100)
+    )
+  ) +
+  coord_equal() +
+  theme_void()
+
+
+```
+
+```{r}
+#| label: per_capita
+#| title: "...per capita"
+
+"x"
+
+```
+
+## Row
+```{r}
+#| label: ban_health-insurance
+#| content: valuebox
+#| title: "Health Insurance"
+#| icon: heart-pulse-fill
+#| color: primary
+
+list(
+  value = scales::label_number(
+    prefix   = "$",
+    suffix   = "T",
+    accuracy = 0.1,
+    big.mark = ","
+  )(context$bans[["health_insurance"]]/1e3),
+  subtitle = context$years[["nhe_yr"]]
+)
+```
+
+```{r}
+#| label: insurance
+
+context[["df_insurance"]] |>
+  ggplot(aes(share, "x", fill = fct_reorder(category, share))) +
+  geom_col(color = "white") +
+  labs(x = NULL, y = NULL) +
+  theme_minimal() +
+  theme(axis.text.y = element_blank()) +
+  theme(legend.position = "blank")
+```
+
+## Row
+```{r}
+#| label: ban_fed_spend
+#| content: valuebox
+#| title: "CMS Federal Program Spending"
+#| icon: heart-pulse-fill
+#| color: primary
+
+list(
+  value = scales::label_number(
+    prefix   = "$",
+    suffix   = "T",
+    accuracy = 0.1,
+    big.mark = ","
+  )(context$bans[["fed_spend"]]/1e6),
+  subtitle = context$years[["fed_spend_yr"]]
+)
+```
+
