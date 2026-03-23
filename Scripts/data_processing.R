@@ -83,6 +83,27 @@ bans <- c(
   fed_spend = df_cms |> filter(str_detect(category, "Total Federal")) |> pull()
 )
 
+# financial data for plot
+df_spend <- df_cms |>
+  filter(str_detect(category, "Total (Federal|Program) |FTE", negate = TRUE)) |>
+  mutate(
+    category = str_remove(category, " (\\d|\\(.*)$"),
+    group = case_when(
+      category %in% c("Total Appropriation", "Other Sources") ~ "PM",
+      str_detect(category, "Fraud") ~ "Fraud",
+      TRUE ~ "Spend"
+    ),
+    .before = 1
+  ) |>
+  group_by(group) |>
+  mutate(share = value / sum(value)) |>
+  ungroup()
+
+# FTEs
+fte <- df_cms |>
+  filter(str_detect(category, "FTE")) |>
+  pull()
+
 #identify source years
 nhe_yr <- read_excel(
   path,
@@ -112,13 +133,70 @@ years <- c(
   fed_spend_yr = fed_spend_yr
 )
 
+
+## muli-year pull for sparklines
+files <- list.files(dirname(path), recursive = TRUE, full.names = TRUE)
+
+#get the latest release from each year (if multiple)
+files <- tibble(files = files) |>
+  mutate(
+    release = files |>
+      str_extract("[A-Za-z]{3}\\d{4}") |>
+      str_replace("cts", "Jan") |>
+      my()
+  ) |>
+  group_by(year(release)) |>
+  filter(release == max(release)) |>
+  ungroup() |>
+  pull(files)
+
+read_nhe <- function(path) {
+  read_excel(
+    path,
+    sheet = "NHE",
+    col_names = c("category", "x", "value")
+  ) |>
+    select(-x) |>
+    filter(
+      category %in% v_insurance | str_detect(category, "Year"),
+    ) |>
+    mutate(
+      year = case_when(is.na(value) ~ str_sub(category, -4)),
+      .before = 1
+    ) |>
+    fill(year) |>
+    filter_out(is.na(value))
+}
+
+
+df_insurance_trend <- files |>
+  set_names() |>
+  map(read_nhe) |>
+  list_rbind()
+# list_rbind(names_to = "source") |>
+# mutate(source = basename(source))
+
+df_insurance_trend <- df_insurance_trend %>%
+  arrange(category, year) %>%
+  group_by(category) %>%
+  summarise(
+    latest_year = max(year),
+    latest_value = value[which.max(year)],
+    trend = list(value), # ordered by year (arranged above)
+    .groups = "drop"
+  ) %>%
+  arrange(desc(latest_value))
+
 #bundle tab datapoints/frames
 context <- list(
   bans = bans,
   years = years,
   nhe_gdp_share = nhe_gdp_share,
   nhe_pc = nhe_pc,
-  df_insurance = df_insurance
+  df_insurance = df_insurance,
+  df_insurance_trend = df_insurance_trend,
+  df_spend = df_spend,
+  fte = fte
 )
 
 # export
