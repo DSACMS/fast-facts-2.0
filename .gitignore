@@ -67,3 +67,11 @@ target/
 *.tfstate
 *.tfstate.*
 Documents/CMSFastFacts2025_508.pdf
+
+# specific folders
+fast-facts_files/
+Images/
+
+# specific files
+*.html
+Documents/FastFacts-Mockup.pdf
