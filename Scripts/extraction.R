@@ -258,3 +258,63 @@ df_exp_medicaid <- df_exp_medicaid |>
     source_tab = curr_sht,
     .after = last_col()
   )
+
+# Providers - Insitutional -----------------------------------------------
+
+# NHE --------------------------------------------------------------------
+
+curr_sht <- "NHE"
+
+df_nhe <- read_excel(
+  path,
+  sheet = curr_sht,
+  range = "A3:C12",
+  col_names = c("category", "x", "value")
+)
+
+nhe_gdp_share <- df_nhe |>
+  filter(category == "% of GDP") |>
+  pull()
+
+nhe_gdp_pc <- df_nhe |>
+  filter(category == "Per Capita") |>
+  pull()
+
+
+v_insurance <- c(
+  "Private Health Insurance",
+  "Medicare",
+  "Medicaid (Title XIX)",
+  "CHIP (Title XIX & XXI)",
+  "Department of Defense",
+  "Department of Veterans Affairs"
+)
+
+df_insurance <- df_nhe |>
+  filter(category %in% v_insurance)
+
+nrow(df_insurance) == length(v_insurance)
+
+df_insurance <- df_insurance |>
+  select(-x) |>
+  mutate(category = fct_lump_prop(category, .1, w = value)) |>
+  count(category, wt = value, name = "value") |>
+  mutate(share = value / sum(value))
+
+
+# CMS Financial Data -----------------------------------------------------
+
+curr_sht <- "CMS Financial Data"
+
+df_cms <- read_excel(
+  path,
+  sheet = curr_sht,
+  range = "A3:B12",
+  col_names = c("category", "value")
+)
+
+bans <- c(
+  nhe_total = df_nhe |> filter(category == "Total") |> pull(),
+  health_insurance = df_nhe |> filter(category == "Health Insurance") |> pull(),
+  fed_spend = df_cms |> filter(str_detect(category, "Total Federal")) |> pull()
+)
