@@ -72,6 +72,13 @@ TODO: A list of CONTRIBUTORS is generated below using contributors.yml located i
                     <sub><b>Aaron Chafetz</b></sub>
                 </a>
             </td>
+            <td align="center">
+                <a href="https://github.com/IsaacMilarky">
+                    <img src="https://avatars.githubusercontent.com/u/24639268?v=4" width="100;" alt="IsaacMilarky"/>
+                    <br />
+                    <sub><b>Isaac Milarsky</b></sub>
+                </a>
+            </td>
 		</tr>
 	<tbody>
 </table>
