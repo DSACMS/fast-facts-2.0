@@ -3,23 +3,29 @@
 Reimagining CMS Fast Facts communication of summary information
 
 ## About the Project
-<!-- TODO: Write an about statement for this project. -->
+
+CMS makes a number of different data sources available to the public on [data.cms.gov](data.cms.gov). One of those sources is the annual [CMS Fast Facts](https://data.cms.gov/fact-sheet/cms-fast-facts) which is a "quick reference statistical summary on annual CMS program and financial data." The 2025 release contains 13 pages worth of largely tabular data. This project aims to condense the data views while making the infomation more digestible and actionable.
 
 ### Project Vision
-<!-- TODO: What is the vision for this project? -->
 
-### Project Mission
-<!-- TODO: Write a mission statement for this project. -->
-
-### Agency Mission
-<!-- TODO: Must include since this is an agency-led project -->
-
-### Team Mission
-<!-- TODO: Must include since this is an agency-led project -->
+The goal of this projects goal is to improve the communication of these important data components, making it easier for stakeholders and the public to digest and interpret the information.
 
 ## Core Team
 
 A list of core team members responsible for the code and documentation in this repository can be found in [COMMUNITY.md](COMMUNITY.md).
+
+## Repository Structure
+
+```
+.
+├── assets
+├── Data
+├── Dataout
+├── Documents
+├── Graphics
+├── Images
+└── Scripts
+```
 
 <!--
 ## Repository Structure
@@ -52,7 +58,6 @@ TODO: Add a 'table of contents" for your documentation. Tier 0/1 projects with s
 
 -->
 
-<!-- TODO
 ## Development and Software Delivery Lifecycle
 This section provides an overview of how this project typically manages code changes and delivers software updates. It is intended to help contributors understand the general flow of work, not to set mandatory procedures. Programs and teams may adjust these practices to meet their own requirements, governance structures, or release schedules.
 
@@ -64,7 +69,6 @@ This project aligns with the organization’s common approach to versioning, pre
 [Release Guidelines (OSPO Guide)](https://dsacms.github.io/ospo-guide/outbound/release-guidelines/)
 
 These guidelines outline agency-wide expectations for semantic versioning, release candidates, GitHub releases, and associated review and communication practices. Individual projects may follow this model in full or tailor it to their operational needs.
--->
 
 ## Local Development
 
@@ -98,6 +102,11 @@ Pull-requests are merged to `main` and the changes are immediately deployed to t
 ## Contributing
 
 Thank you for considering contributing to an Open Source project of the US Government! For more information about our contribution guidelines, see [CONTRIBUTING.md](CONTRIBUTING.md).
+
+
+## Codeowners
+
+The contents of this repository are managed by the CMS Open Source Program Office. Those responsible for the code and documentation in this repository can be found in [CODEOWNERS.md](CODEOWNERS.md)
 
 ## Community
 
