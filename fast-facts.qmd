@@ -53,6 +53,7 @@ register_font(
 
 #load each the data needed for each tab, stored in a list element
 context <- read_rds("Dataout/context.rds")
+beneficiaries <- read_rds("Dataout/beneficiaries.rds")
 
 ```
 
@@ -308,4 +309,39 @@ icons |>
     plot.margin   = margin(10, 10, 10, 10)
   )
 
+```
+
+# Beneficiaries
+
+
+```{r}
+#| label: medicaid_exp
+#| title: "DRAFT"
+
+medicaid_exp_tot <- beneficiaries[['df_medicaid_exp']] |> 
+  filter(category == "All Services") |> 
+  pull() 
+
+beneficiaries[['df_medicaid_exp']] |> 
+  filter(category != "All Services") |> 
+  ggplot(aes(value, fct_reorder(category, value))) +
+  geom_blank(aes(x = value *1.1)) +
+  geom_col() +
+  geom_text(
+    aes(
+      label = label_comma(1, prefix = "$", suffix = " B")(value)),
+      hjust = -.1, family = "Source Sans 3",
+  ) +
+  coord_cartesian(clip = "off") +
+  scale_x_continuous(expand = c(.005, .005)) +
+  labs(
+    x = NULL, y = NULL,
+    title = str_glue('All Services = {label_comma(1, prefix = "$", suffix = " B")(medicaid_exp_tot)}')   
+  ) +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_blank(),
+    panel.grid.major.y = element_blank(),
+    panel.grid.minor = element_blank(),
+  )
 ```

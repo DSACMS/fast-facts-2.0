@@ -201,3 +201,106 @@ context <- list(
 
 # export
 write_rds(context, "Dataout/context.rds")
+
+
+# BENEFICIARIES TAB ------------------------------------------------------
+
+# import sheet - Medicaid & CHIP Expenditures
+df_medicaid_exp <- read_excel(
+  path,
+  sheet = "Medicaid & CHIP Expenditures",
+  range = "A5:B11",
+  col_names = c("category", "value")
+)
+
+df_medicaid_exp <- df_medicaid_exp |>
+  mutate(
+    category = str_remove(category, "(\\d|\\(.*)$"),
+  )
+
+# import sheet - Medicare Utilization
+df_medicare_util <- read_excel(
+  path,
+  sheet = "Medicare Utilization",
+  range = "A7:D16",
+  col_names = c("category", "beneficiaries", "x", "payments")
+)
+
+df_medicare_util_d <- read_excel(
+  path,
+  sheet = "Medicare Part D",
+  range = "A4:B9",
+  col_names = c("category", "value")
+)
+
+
+df_medicare_util <- df_medicare_util |>
+  select(-x) |>
+  filter_out(is.na(beneficiaries)) |>
+  mutate(
+    group = case_when(str_detect(category, "Part") ~ category),
+    .before = 1
+  ) |>
+  fill(group)
+
+df_medicare_util_d <- df_medicare_util_d |>
+  filter(str_detect(category, "Beneficiaries|Expenditures")) |>
+  mutate(
+    group = "Part D",
+    category = category |>
+      str_extract("Beneficiaries|Expenditures") |>
+      tolower()
+  ) |>
+  pivot_wider(
+    names_from = category
+  ) |>
+  rename(payments = expenditures) |>
+  mutate(category = "Part D", .after = group)
+
+
+df_medicare_util <- df_medicare_util |>
+  bind_rows(df_medicare_util_d)
+
+
+df_medicare_util <- df_medicare_util |>
+  pivot_longer(
+    c(beneficiaries, payments),
+    names_to = "metric"
+  ) |>
+  group_by(metric) |>
+  mutate(zscore = scale(value)) |>
+  ungroup()
+
+
+#bundle tab data points/frames
+beneficiaries <- list(
+  df_medicaid_exp = df_medicaid_exp
+)
+
+
+df_medicare_util |>
+  filter_out(category %in% c("Part A", "Part B")) |>
+  ggplot(aes(metric, zscore, group = category)) +
+  geom_line() +
+  geom_point() +
+  geom_text(aes(label = label_number(1)(value))) +
+  facet_wrap(~group) +
+  theme_minimal() +
+  theme(
+    panel.grid.minor = element_blank(),
+    panel.grid.major.y = element_blank(),
+    axis.text.y = element_blank(),
+    panel.spacing = unit(.01, "lines")
+  )
+
+df_medicare_util |>
+  filter_out(category %in% c("Part A", "Part B")) |>
+  select(-zscore) |>
+  pivot_wider(
+    names_from = metric
+  ) |>
+  ggplot(aes(beneficiaries, payments, color = group)) +
+  geom_point() +
+  geom_text(aes(label = category)) +
+  # facet_wrap(~group) +
+  theme_minimal()
