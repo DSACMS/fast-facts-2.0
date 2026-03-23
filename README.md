@@ -14,6 +14,19 @@ The goal of this projects goal is to improve the communication of these importan
 
 A list of core team members responsible for the code and documentation in this repository can be found in [COMMUNITY.md](COMMUNITY.md).
 
+## Repository Structure
+
+```
+.
+├── assets
+├── Data
+├── Dataout
+├── Documents
+├── Graphics
+├── Images
+└── Scripts
+```
+
 <!--
 ## Repository Structure
 
@@ -45,7 +58,6 @@ TODO: Add a 'table of contents" for your documentation. Tier 0/1 projects with s
 
 -->
 
-<!-- TODO
 ## Development and Software Delivery Lifecycle
 This section provides an overview of how this project typically manages code changes and delivers software updates. It is intended to help contributors understand the general flow of work, not to set mandatory procedures. Programs and teams may adjust these practices to meet their own requirements, governance structures, or release schedules.
 
@@ -57,7 +69,6 @@ This project aligns with the organization’s common approach to versioning, pre
 [Release Guidelines (OSPO Guide)](https://dsacms.github.io/ospo-guide/outbound/release-guidelines/)
 
 These guidelines outline agency-wide expectations for semantic versioning, release candidates, GitHub releases, and associated review and communication practices. Individual projects may follow this model in full or tailor it to their operational needs.
--->
 
 ## Local Development
 
@@ -91,6 +102,11 @@ Pull-requests are merged to `main` and the changes are immediately deployed to t
 ## Contributing
 
 Thank you for considering contributing to an Open Source project of the US Government! For more information about our contribution guidelines, see [CONTRIBUTING.md](CONTRIBUTING.md).
+
+
+## Codeowners
+
+The contents of this repository are managed by the CMS Open Source Program Office. Those responsible for the code and documentation in this repository can be found in [CODEOWNERS.md](CODEOWNERS.md)
 
 ## Community
 
@@ -143,3 +159,6 @@ For more information and resources about SBOMs, visit: https://www.cisa.gov/sbom
 This project is in the public domain within the United States, and copyright and related rights in the work worldwide are waived through the [CC0 1.0 Universal public domain dedication](https://creativecommons.org/publicdomain/zero/1.0/) as indicated in [LICENSE](LICENSE).
 
 All contributions to this project will be released under the CC0 dedication. By submitting a pull request or issue, you are agreeing to comply with this waiver of copyright interest.
+ 
+ ## Codeowners 
+ The contents of this repository are managed by {responsible organization(s)}. Those responsible for the code and documentation in this repository can be found in [COMMUNITY.md](COMMUNITY.md). 
