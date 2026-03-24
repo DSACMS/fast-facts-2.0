@@ -20,6 +20,23 @@ path <- "Data/CMSFastFacts2025_508.xlsx"
 #review excel sheets
 # excel_sheets(path)
 
+## muli-year pull for sparklines
+files <- list.files(dirname(path), recursive = TRUE, full.names = TRUE)
+
+#get the latest release from each year (if multiple)
+files <- tibble(files = files) |>
+  mutate(
+    release = files |>
+      str_extract("[A-Za-z]{3}\\d{4}") |>
+      str_replace("cts", "Jan") |>
+      my()
+  ) |>
+  group_by(year(release)) |>
+  filter(release == max(release)) |>
+  ungroup() |>
+  pull(files)
+
+
 # CONTEXT TAB ------------------------------------------------------------
 
 # import sheet - NHE
@@ -134,22 +151,6 @@ years <- c(
 )
 
 
-## muli-year pull for sparklines
-files <- list.files(dirname(path), recursive = TRUE, full.names = TRUE)
-
-#get the latest release from each year (if multiple)
-files <- tibble(files = files) |>
-  mutate(
-    release = files |>
-      str_extract("[A-Za-z]{3}\\d{4}") |>
-      str_replace("cts", "Jan") |>
-      my()
-  ) |>
-  group_by(year(release)) |>
-  filter(release == max(release)) |>
-  ungroup() |>
-  pull(files)
-
 read_nhe <- function(path) {
   read_excel(
     path,
@@ -226,6 +227,7 @@ df_medicare_util <- read_excel(
   col_names = c("category", "beneficiaries", "x", "payments")
 )
 
+
 df_medicare_util_d <- read_excel(
   path,
   sheet = "Medicare Part D",
@@ -268,39 +270,150 @@ df_medicare_util <- df_medicare_util |>
     names_to = "metric"
   ) |>
   group_by(metric) |>
-  mutate(zscore = scale(value)) |>
+  # mutate(zscore = scale(value)) |>
+  mutate(zscore = (value - mean(value)) / sd(value)) |>
+  ungroup()
+
+
+df_medicare_util <- df_medicare_util |>
+  mutate(
+    lab_ben = case_when(
+      metric == "beneficiaries" ~ str_glue(
+        "{category}\n{label_number(suffix = 'm')(value)}"
+      )
+    ),
+    lab_exp = case_when(
+      metric == "payments" ~ label_number(1, prefix = "$", suffix = "B")(value)
+    ),
+  )
+
+df_medicare_util |>
+  filter(
+    str_detect(category, "^Part"),
+    metric == "beneficiaries"
+  ) |>
+  select(category, value)
+
+
+read_benes <- function(path) {
+  read_excel(
+    path,
+    sheet = "Populations",
+    range = "A3:E16",
+    na = c("", "--"),
+    .name_repair = make_clean_names
+  ) |>
+    select(-x) |>
+    rename(category = 1) |>
+    rename_with(~ str_remove(., "_\\d{1}$")) |>
+    mutate(
+      ff_release = path |>
+        str_extract("[A-Za-z]{3}\\d{4}") |>
+        str_replace("cts", "Jan") |>
+        my(),
+      category = str_remove(category, "\\d$"),
+      group = case_when(
+        category == "Parts A and/or B" ~ "Medicare",
+        category == "Total" ~ "Medicaid & CHIP"
+      ),
+      .before = category
+    ) |>
+    fill(group) |>
+    filter(!category %in% c(NA, "Medicaid & CHIP")) |>
+    mutate(
+      category = replace_values(
+        category,
+        "Total" ~ "Medicaid & CHIP",
+        "Original Medicare Enrollment" ~ "Original Medicare",
+        "MA Enrollment" ~ "Medicare Advantage"
+      )
+    ) |>
+    pivot_longer(
+      starts_with("cy_"),
+      names_to = "year",
+      names_prefix = "cy_",
+      names_transform = list(year = as.integer)
+    )
+}
+
+df_benes_trend <- files |>
+  keep(~ str_extract(.x, "\\d{4}") |> as.integer() >= 2023) |>
+  set_names() |>
+  map(read_benes) |>
+  list_rbind()
+
+#keep latest observation for each year
+df_benes_trend <- df_benes_trend |>
+  group_by(group, category, year) |>
+  filter(ff_release == max(ff_release)) |>
+  ungroup()
+
+
+#extract numbers for BAN in tab
+benes_bans <- df_benes_trend |>
+  filter(
+    category %in% c("Parts A and/or B", "Part D (MAPD+PDP)", "Medicaid & CHIP"),
+    year == max(year)
+  ) |>
+  mutate(
+    name = case_when(
+      category == "Parts A and/or B" ~ "medicare_ab",
+      category == "Part D (MAPD+PDP)" ~ "medicare_d",
+      category == "Medicaid & CHIP" ~ "medicaid"
+    )
+  ) |>
+  select(name, value) |> # replace `value` with your actual value column name
+  deframe()
+
+
+ban_year <- df_benes_trend |>
+  filter(
+    category %in% c("Parts A and/or B", "Part D (MAPD+PDP)", "Medicaid & CHIP"),
+    year == max(year)
+  ) |>
+  distinct(year) |>
+  pull()
+
+
+#combine years
+benes_years <- c(
+  ban_year = ban_year
+)
+
+df_medicare_type_trend <- df_benes_trend |>
+  filter(category %in% c("Original Medicare", "Medicare Advantage")) |>
+  pivot_wider(names_from = category, values_from = value) |>
+  clean_names()
+
+
+df_medicaid_type_trends <- df_benes_trend |>
+  filter(
+    group == "Medicaid & CHIP",
+    category != "Medicaid & CHIP",
+    !is.na(value)
+  ) |>
+  group_by(category) |>
+  mutate(
+    val_pt = case_when(year == min(year) | year == max(year) ~ value),
+    lab_start = case_when(
+      year == min(year) ~ label_number(1, suffix = "m")(value)
+    ),
+    lab_end = case_when(
+      year == max(year) ~ label_number(1, suffix = "m")(value)
+    ),
+  ) |>
   ungroup()
 
 
 #bundle tab data points/frames
 beneficiaries <- list(
-  df_medicaid_exp = df_medicaid_exp
+  bans = benes_bans,
+  years = benes_years,
+  df_medicare_util = df_medicare_util,
+  df_medicaid_exp = df_medicaid_exp,
+  df_medicare_type_trend = df_medicare_type_trend,
+  df_medicaid_type_trends = df_medicaid_type_trends
 )
 
-
-df_medicare_util |>
-  filter_out(category %in% c("Part A", "Part B")) |>
-  ggplot(aes(metric, zscore, group = category)) +
-  geom_line() +
-  geom_point() +
-  geom_text(aes(label = label_number(1)(value))) +
-  facet_wrap(~group) +
-  theme_minimal() +
-  theme(
-    panel.grid.minor = element_blank(),
-    panel.grid.major.y = element_blank(),
-    axis.text.y = element_blank(),
-    panel.spacing = unit(.01, "lines")
-  )
-
-df_medicare_util |>
-  filter_out(category %in% c("Part A", "Part B")) |>
-  select(-zscore) |>
-  pivot_wider(
-    names_from = metric
-  ) |>
-  ggplot(aes(beneficiaries, payments, color = group)) +
-  geom_point() +
-  geom_text(aes(label = category)) +
-  # facet_wrap(~group) +
-  theme_minimal()
+# export
+write_rds(beneficiaries, "Dataout/beneficiaries.rds")

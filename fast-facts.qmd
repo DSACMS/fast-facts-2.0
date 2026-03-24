@@ -31,6 +31,7 @@ execute:
 
 #dependencies
 library(tidyverse)
+library(ggrepel)
 library(gt)
 library(scales)
 library(waffle)
@@ -313,7 +314,153 @@ icons |>
 
 # Beneficiaries
 
+## Row {height=25%}
 
+```{r}
+#| label: ban_medicare_ab
+#| content: valuebox
+#| title: "Medicare Parts A/B"
+#| icon: heart-pulse-fill
+#| color: primary
+
+list(
+  value = scales::label_number(
+    prefix   = "$",
+    suffix   = "M",
+    # accuracy = 0.1,
+    big.mark = ","
+  )(beneficiaries$bans[["medicare_ab"]]),
+  subtitle = beneficiaries$years[["ban_year"]]
+)
+```
+
+```{r}
+#| label: ban_medicare_d
+#| content: valuebox
+#| title: "Medicare Part D"
+#| icon: heart-pulse-fill
+#| color: primary
+
+list(
+  value = scales::label_number(
+    prefix   = "$",
+    suffix   = "M",
+    # accuracy = 0.1,
+    big.mark = ","
+  )(beneficiaries$bans[["medicare_d"]]),
+  subtitle = beneficiaries$years[["ban_year"]]
+)
+```
+
+```{r}
+#| label: ban_medicaid
+#| content: valuebox
+#| title: "Medicaid & CHIP"
+#| icon: heart-pulse-fill
+#| color: primary
+
+list(
+  value = scales::label_number(
+    prefix   = "$",
+    suffix   = "M",
+    # accuracy = 0.1,
+    big.mark = ","
+  )(beneficiaries$bans[["medicaid"]]),
+  subtitle = beneficiaries$years[["ban_year"]]
+)
+```
+
+## Row
+```{r}
+#| label: medicare_type
+#| title: "DRAFT"
+
+beneficiaries[["df_medicare_type_trend"]] |> 
+  ggplot(aes(x = year)) +
+  geom_ribbon(
+    aes(
+      ymin = pmin(original_medicare, medicare_advantage),
+      ymax = pmax(original_medicare, medicare_advantage)
+    ),
+    fill = "lightgray",
+    alpha = 0.3
+  ) +
+  geom_line(aes(y = original_medicare, color = "Original Medicare")) +
+  geom_line(aes(y = medicare_advantage, color = "Medicare Advantage")) + 
+  geom_point(aes(y = original_medicare, color = "Original Medicare")) +
+  geom_point(aes(y = medicare_advantage, color = "Medicare Advantage")) +
+  labs(x = NULL, y = NULL) + 
+  theme_minimal()
+```
+
+```{r}
+#| label: medicaid_types
+#| title: "DRAFT"
+
+beneficiaries[["df_medicaid_type_trends"]] |> 
+  ggplot(aes(year, value, group = category, color = category, fill = category)) +
+  geom_area(alpha = .4) +
+  geom_line() +
+  geom_point(aes(y = val_pt), na.rm = TRUE) +
+  geom_text(aes(label = lab_start), vjust = -1, na.rm = TRUE, family = "Source Sans 3") +
+  geom_text(aes(label = lab_end), vjust = -1, na.rm = TRUE, family = "Source Sans 3") +
+  facet_grid(~fct_reorder2(category, year, value)) +
+  labs(x = NULL, y = NULL) +
+  coord_cartesian() +
+  theme_minimal() +
+  theme(
+    legend.position = "none"
+  )
+```
+
+## Row
+```{r}
+#| label: orig_medicare_utilization
+#| title: "DRAFT"
+
+beneficiaries[["df_medicare_util"]] |> 
+  filter_out(category %in% c("Part A", "Part B")) |>
+  mutate(category = ifelse(category == "Part D", "Total", category)) |> 
+  ggplot(aes(metric, zscore, group = category, color = group)) +
+  geom_line() +
+  geom_point() +
+  geom_text(
+    aes(label = lab_ben),
+    hjust = 1.1,
+    family = "Source Sans 3",
+    na.rm = TRUE
+  ) +
+  geom_text(
+    aes(label = lab_exp),
+    hjust = -.2,
+    family = "Source Sans 3",
+    na.rm = TRUE
+  ) +
+  facet_wrap(~group) +
+  labs(x = NULL, y = NULL) +
+  coord_cartesian(clip = "off") +
+  theme_minimal() +
+  theme(
+    panel.grid.minor = element_blank(),
+    panel.grid.major.y = element_blank(),
+    axis.text.y = element_blank(),
+    legend.position = "none"
+    # panel.spacing = unit(.01, "lines")
+  )
+
+# df_medicare_util |>
+#   filter_out(category %in% c("Part A", "Part B")) |>
+#   select(-zscore, -starts_with('lab_')) |>
+#   pivot_wider(
+#     names_from = metric
+#   ) |>
+#   ggplot(aes(beneficiaries, payments, color = group)) +
+#   geom_point() +
+#   geom_text(aes(label = category)) +
+#   # facet_wrap(~group) +
+#   labs(x = "Persons Served (millions)", y = "Payments (billions)") +
+#   theme_minimal()
+```
 ```{r}
 #| label: medicaid_exp
 #| title: "DRAFT"
