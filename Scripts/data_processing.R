@@ -431,3 +431,48 @@ beneficiaries <- list(
 
 # export
 write_rds(beneficiaries, "Dataout/beneficiaries.rds")
+
+
+# COST SHARING TAB -------------------------------------------------------
+
+read_costsharing <- function(path) {
+  read_excel(
+    path,
+    sheet = "Deductibles, Coins, Premiums",
+    range = "A3:C22",
+    na = c("", "N/A"),
+    .name_repair = make_clean_names
+  ) |>
+    rename(category = 1) |>
+    filter_out(is.na(category)) |>
+    filter_out(category == "Inpatient Hospital") |>
+    mutate(
+      ff_release = path |>
+        str_extract("[A-Za-z]{3}\\d{4}") |>
+        str_replace("cts", "Jan") |>
+        my(),
+      group = case_when(is.na(pick(2)[[1]]) ~ category),
+      .before = 1
+    ) |>
+    fill(group) |>
+    filter_out(group == category) |>
+    pivot_longer(
+      starts_with("cy_"),
+      names_to = "year",
+      names_prefix = "cy_",
+      names_transform = list(year = as.integer)
+    )
+}
+
+
+df_cs_trend <- files |>
+  keep(~ str_extract(.x, "\\d{4}") |> as.integer() >= 2023) |>
+  set_names() |>
+  map(read_costsharing) |>
+  list_rbind()
+
+#keep latest observation for each year
+df_cs_trend <- df_cs_trend |>
+  group_by(group, category, year) |>
+  filter(ff_release == max(ff_release)) |>
+  ungroup()
