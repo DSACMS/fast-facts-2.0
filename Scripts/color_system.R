@@ -119,6 +119,14 @@ ff_colors <- list(
     warmgray = "#9B9B9B"
   ),
 
+  #chart elements
+  elements = c(
+    title = cobolt_scale[["900"]],
+    subtitle = warmgray_scale[["700"]],
+    axis = "#1A1A1A",
+    annotation = "#1A1A1A"
+  ),
+
   # Full scales (list of named vectors)
   scales = list(
     cobolt = cobolt_scale,
