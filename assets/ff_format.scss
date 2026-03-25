@@ -1,0 +1,230 @@
+// ============================================================
+// CMS Dashboard — Quarto SCSS Theme
+// ============================================================
+
+/*-- scss:defaults --*/
+
+// ── 0. FONT IMPORT ───────────────────────────────────────────
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap');
+
+// ── 1. CMS PROGRAM COLORS ────────────────────────────────────
+$cms-medicaid:  #00A99D;
+$cms-medicare:  #0071BC;
+$cms-chip:      #F7A11A;
+
+$cms-teal:      $cms-medicaid;
+$cms-cobalt:    $cms-medicare;
+$cms-amber:     $cms-chip;
+
+// ── 2. EXTENDED CATEGORICAL PALETTE ─────────────────────────
+$cms-plum:      #7B4F9E;
+$cms-coral:     #E05C3A;
+$cms-green:     #4A8C6F;
+$cms-steel:     #4A90C4;
+$cms-gold:      #F2C94C;
+$cms-charcoal:  #3D3D3D;
+$cms-warmgray:  #9B9B9B;
+
+// ── 3. TINT & SHADE SCALES ───────────────────────────────────
+$teal-100: #B3E8E5; $teal-200: #59CEC8; $teal-500: #00A99D; $teal-700: #007F75; $teal-900: #00524C;
+$blue-100: #B3D6F0; $blue-200: #59A8DC; $blue-500: #0071BC; $blue-700: #00538C; $blue-900: #003459;
+$amber-100: #FDE8B8; $amber-200: #FAC464; $amber-500: #F7A11A; $amber-700: #C07A0D; $amber-900: #7A4D08;
+$plum-100: #DDD0EC; $plum-200: #AD8EC8; $plum-500: #7B4F9E; $plum-700: #5C3A77; $plum-900: #3A244C;
+$coral-100: #F9D0C6; $coral-200: #ED9A85; $coral-500: #E05C3A; $coral-700: #AA3F22; $coral-900: #6E2613;
+$green-100: #C8DFD5; $green-200: #87BAA5; $green-500: #4A8C6F; $green-700: #336652; $green-900: #1E3D31;
+$steel-100: #C8DFF1; $steel-200: #87BBE0; $steel-500: #4A90C4; $steel-700: #316A96; $steel-900: #1C3F5C;
+$gold-100: #FCF0C3; $gold-200: #F7DC87; $gold-500: #F2C94C; $gold-700: #C49A1E; $gold-900: #7A5E0B;
+$gray-100: #C8C8C8; $gray-200: #858585; $gray-500: #3D3D3D; $gray-700: #252525; $gray-900: #111111;
+$wgray-100: #E8E8E8; $wgray-200: #C2C2C2; $wgray-500: #9B9B9B; $wgray-700: #6E6E6E; $wgray-900: #3F3F3F;
+
+// ── 4. SEMANTIC TOKENS ───────────────────────────────────────
+$color-background:   #F5F7FA;
+$color-surface:      #FFFFFF;
+$color-text-primary: #1A1A1A;
+$color-text-light:   #FFFFFF;
+$color-text-muted:   $wgray-500;
+$color-border:       transparent;
+
+// ── 5. BOOTSTRAP / QUARTO VARIABLE OVERRIDES ─────────────────
+$body-bg:            $color-background;
+$body-color:         $color-text-primary;
+
+$primary:            $cms-medicare;
+$secondary:          $cms-medicaid;
+$success:            $cms-green;
+$info:               $cms-steel;
+$warning:            $cms-amber;
+$danger:             $cms-coral;
+$light:              $wgray-100;
+$dark:               $gray-500;
+
+$font-family-sans-serif: "Source Sans 3", system-ui, sans-serif;
+$font-family-base:       "Source Sans 3", system-ui, sans-serif;
+$headings-font-family:   "Source Sans 3", system-ui, sans-serif;
+$font-family-monospace:  "Source Code Pro", "Courier New", monospace;
+
+$font-size-base:      0.95rem;
+$line-height-base:    1.6;
+$headings-color:      $blue-900;
+$headings-font-weight: 600;
+$font-weight-normal:  400;
+$font-weight-bold:    700;
+
+$link-color:          $cms-medicare;
+$link-hover-color:    $blue-700;
+$link-decoration:     none;
+$link-hover-decoration: underline;
+
+$border-width:        0;
+$border-color:        transparent;
+$border-radius:       0.375rem;
+$border-radius-sm:    0.25rem;
+$border-radius-lg:    0.5rem;
+
+$card-border-width:   0;
+$card-border-color:   transparent;
+$card-border-radius:  0.5rem;
+$card-bg:             $color-surface;
+$card-cap-bg:         $color-surface;
+$card-box-shadow:     0 1px 4px rgba(0, 0, 0, 0.07), 0 2px 12px rgba(0, 0, 0, 0.05);
+
+$table-border-color:  transparent;
+$table-border-width:  0;
+$table-striped-bg:    rgba($teal-100, 0.35);
+$table-hover-bg:      rgba($blue-100, 0.3);
+
+$input-border-width:  1px;
+$input-border-color:  $wgray-200;
+$input-focus-border-color: $cms-medicare;
+$input-focus-box-shadow: 0 0 0 0.2rem rgba($cms-medicare, 0.2);
+
+$navbar-bg:                 #015390;  // Official CMS Blue (replaces $cms-medicare)
+$navbar-dark-color:         $color-text-light;
+$navbar-dark-hover-color:   $teal-200;
+$navbar-dark-active-color:  #FFFFFF;
+
+$badge-border-radius: 0.3rem;
+$badge-font-weight:   600;
+
+
+/*-- scss:rules --*/
+
+// ── Font propagation ─────────────────────────────────────────
+*,
+body,
+.quarto-dashboard {
+  font-family: "Source Sans 3", system-ui, sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6,
+.h1, .h2, .h3, .h4, .h5, .h6 {
+  font-family: "Source Sans 3", system-ui, sans-serif;
+  font-weight: 600;
+  color: $blue-900;
+}
+
+// ── Dashboard layout ─────────────────────────────────────────
+.dashboard,
+.quarto-dashboard {
+  background-color: $color-background;
+  border: none;
+}
+
+// ── Value boxes ──────────────────────────────────────────────
+.value-box {
+  border: none !important;
+  border-radius: $border-radius-lg;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+
+  .value-box-title {
+    font-family: "Source Sans 3", system-ui, sans-serif;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    opacity: 0.85;
+  }
+
+  .value-box-value {
+    font-family: "Source Sans 3", system-ui, sans-serif;
+    font-size: 2rem;
+    font-weight: 700;
+    line-height: 1.2;
+  }
+
+  &.medicaid  { background-color: $cms-medicaid; color: $color-text-light; }
+  &.medicare  { background-color: $cms-medicare; color: $color-text-light; }
+  &.chip      { background-color: $cms-chip;     color: $color-text-primary; }
+  &.plum      { background-color: $cms-plum;     color: $color-text-light; }
+  &.coral     { background-color: $cms-coral;    color: $color-text-light; }
+  &.steel     { background-color: $cms-steel;    color: $color-text-primary; }
+  &.gold      { background-color: $cms-gold;     color: $color-text-primary; }
+}
+
+// ── Cards ────────────────────────────────────────────────────
+.card {
+  border: none !important;
+  box-shadow: $card-box-shadow;
+  background-color: $color-surface;
+
+  .card-header,
+  .card-footer {
+    border: none;
+    background-color: $color-surface;
+    font-family: "Source Sans 3", system-ui, sans-serif;
+    font-weight: 600;
+    color: $blue-900;
+  }
+}
+
+// ── Tabset panels ────────────────────────────────────────────
+.panel-tabset {
+  .nav-tabs {
+    border-bottom: 2px solid $wgray-100;
+
+    .nav-link {
+      border: none;
+      font-family: "Source Sans 3", system-ui, sans-serif;
+      color: $wgray-700;
+      font-weight: 500;
+      padding: 0.5rem 1rem;
+
+      &:hover {
+        color: $cms-medicare;
+        background-color: $blue-100;
+        border-radius: $border-radius-sm $border-radius-sm 0 0;
+      }
+
+      &.active {
+        color: $cms-medicare;
+        font-weight: 700;
+        border-bottom: 2px solid $cms-medicare;
+        background-color: transparent;
+      }
+    }
+  }
+}
+
+// ── Sidebar ──────────────────────────────────────────────────
+.sidebar {
+  background-color: $color-surface;
+  border: none !important;
+  box-shadow: 1px 0 8px rgba(0, 0, 0, 0.05);
+
+  .sidebar-title {
+    font-family: "Source Sans 3", system-ui, sans-serif;
+    color: $blue-900;
+    font-weight: 700;
+    font-size: 1rem;
+  }
+}
+
+// ── Scrollbar ────────────────────────────────────────────────
+::-webkit-scrollbar       { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: $wgray-100; }
+::-webkit-scrollbar-thumb {
+  background: $wgray-500;
+  border-radius: 3px;
+
+  &:hover { background: $cms-medicare; }
+}
