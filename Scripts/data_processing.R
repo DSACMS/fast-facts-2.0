@@ -394,6 +394,14 @@ df_medicaid_type_trends <- df_benes_trend |>
   ) |>
   group_by(category) |>
   mutate(
+    fill_color = recode_values(
+      category,
+      "Children" ~ ff_colors$base[["plum"]],
+      "Dual Eligible (includes Aged, Disabled & ESRD)" ~ ff_colors$scales$teal[[
+        "200"
+      ]],
+      "Medicaid Expansion Adults" ~ ff_colors$scales$teal[["900"]],
+    ),
     category = recode_values(
       category,
       "Dual Eligible (includes Aged, Disabled & ESRD)" ~ "Dual Eligible",
