@@ -8,22 +8,22 @@
 @import url('https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap');
 
 // ── 1. CMS PROGRAM COLORS ────────────────────────────────────
-$cms-medicaid:  #00A99D;
-$cms-medicare:  #0071BC;
-$cms-chip:      #F7A11A;
+$ff-medicaid:  #00A99D;
+$ff-medicare:  #0071BC;
+$ff-chip:      #F7A11A;
 
-$cms-teal:      $cms-medicaid;
-$cms-cobalt:    $cms-medicare;
-$cms-amber:     $cms-chip;
+$ff-teal:      $ff-medicaid;
+$ff-cobalt:    $ff-medicare;
+$ff-amber:     $ff-chip;
 
 // ── 2. EXTENDED CATEGORICAL PALETTE ─────────────────────────
-$cms-plum:      #7B4F9E;
-$cms-coral:     #E05C3A;
-$cms-green:     #4A8C6F;
-$cms-steel:     #4A90C4;
-$cms-gold:      #F2C94C;
-$cms-charcoal:  #3D3D3D;
-$cms-warmgray:  #9B9B9B;
+$ff-plum:      #7B4F9E;
+$ff-coral:     #E05C3A;
+$ff-green:     #4A8C6F;
+$ff-steel:     #4A90C4;
+$ff-gold:      #F2C94C;
+$ff-charcoal:  #3D3D3D;
+$ff-warmgray:  #9B9B9B;
 
 // ── 3. TINT & SHADE SCALES ───────────────────────────────────
 $teal-100: #B3E8E5; $teal-200: #59CEC8; $teal-500: #00A99D; $teal-700: #007F75; $teal-900: #00524C;
@@ -49,12 +49,12 @@ $color-border:       transparent;
 $body-bg:            $color-background;
 $body-color:         $color-text-primary;
 
-$primary:            $cms-medicare;
-$secondary:          $cms-medicaid;
-$success:            $cms-green;
-$info:               $cms-steel;
-$warning:            $cms-amber;
-$danger:             $cms-coral;
+$primary:            #015390; 
+$secondary:          $ff-medicare;
+$success:            $ff-green;
+$info:               $ff-steel;
+$warning:            $ff-amber;
+$danger:             $ff-coral;
 $light:              $wgray-100;
 $dark:               $gray-500;
 
@@ -70,7 +70,7 @@ $headings-font-weight: 600;
 $font-weight-normal:  400;
 $font-weight-bold:    700;
 
-$link-color:          $cms-medicare;
+$link-color:          $ff-medicare;
 $link-hover-color:    $blue-700;
 $link-decoration:     none;
 $link-hover-decoration: underline;
@@ -95,10 +95,10 @@ $table-hover-bg:      rgba($blue-100, 0.3);
 
 $input-border-width:  1px;
 $input-border-color:  $wgray-200;
-$input-focus-border-color: $cms-medicare;
-$input-focus-box-shadow: 0 0 0 0.2rem rgba($cms-medicare, 0.2);
+$input-focus-border-color: $ff-medicare;
+$input-focus-box-shadow: 0 0 0 0.2rem rgba($ff-medicare, 0.2);
 
-$navbar-bg:                 #015390;  // Official CMS Blue (replaces $cms-medicare)
+$navbar-bg:                 #015390; 
 $navbar-dark-color:         $color-text-light;
 $navbar-dark-hover-color:   $teal-200;
 $navbar-dark-active-color:  #FFFFFF;
@@ -152,13 +152,13 @@ h1, h2, h3, h4, h5, h6,
     line-height: 1.2;
   }
 
-  &.medicaid  { background-color: $cms-medicaid; color: $color-text-light; }
-  &.medicare  { background-color: $cms-medicare; color: $color-text-light; }
-  &.chip      { background-color: $cms-chip;     color: $color-text-primary; }
-  &.plum      { background-color: $cms-plum;     color: $color-text-light; }
-  &.coral     { background-color: $cms-coral;    color: $color-text-light; }
-  &.steel     { background-color: $cms-steel;    color: $color-text-primary; }
-  &.gold      { background-color: $cms-gold;     color: $color-text-primary; }
+  &.medicaid  { background-color: $ff-medicaid; color: $color-text-light; }
+  &.medicare  { background-color: $ff-medicare; color: $color-text-light; }
+  &.chip      { background-color: $ff-chip;     color: $color-text-primary; }
+  &.plum      { background-color: $ff-plum;     color: $color-text-light; }
+  &.coral     { background-color: $ff-coral;    color: $color-text-light; }
+  &.steel     { background-color: $ff-steel;    color: $color-text-primary; }
+  &.gold      { background-color: $ff-gold;     color: $color-text-primary; }
 }
 
 // ── Cards ────────────────────────────────────────────────────
@@ -190,15 +190,15 @@ h1, h2, h3, h4, h5, h6,
       padding: 0.5rem 1rem;
 
       &:hover {
-        color: $cms-medicare;
+        color: $ff-medicare;
         background-color: $blue-100;
         border-radius: $border-radius-sm $border-radius-sm 0 0;
       }
 
       &.active {
-        color: $cms-medicare;
+        color: $ff-medicare;
         font-weight: 700;
-        border-bottom: 2px solid $cms-medicare;
+        border-bottom: 2px solid $ff-medicare;
         background-color: transparent;
       }
     }
@@ -226,5 +226,5 @@ h1, h2, h3, h4, h5, h6,
   background: $wgray-500;
   border-radius: 3px;
 
-  &:hover { background: $cms-medicare; }
+  &:hover { background: $ff-medicare; }
 }
