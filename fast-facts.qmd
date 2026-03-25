@@ -623,3 +623,5 @@ beneficiaries[['df_medicaid_exp']] |>
     plot.title = element_text(face = "bold", color = ff_colors$elements[["title"]])
   )
 ```
+
+# Cost Sharing
