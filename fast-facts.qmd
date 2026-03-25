@@ -58,7 +58,7 @@ beneficiaries <- read_rds("Dataout/beneficiaries.rds")
 
 ```
 
-# Context {data-icon="house-fill"}
+# Context
 
 ## Column
 
@@ -312,7 +312,7 @@ icons |>
 
 ```
 
-# Beneficiaries
+# Beneficiaries {orientation="rows"}
 
 ## Row {height=25%}
 
@@ -320,12 +320,11 @@ icons |>
 #| label: ban_medicare_ab
 #| content: valuebox
 #| title: "Medicare Parts A/B"
-#| icon: heart-pulse-fill
+#| icon: heart-fill
 #| color: primary
 
 list(
   value = scales::label_number(
-    prefix   = "$",
     suffix   = "M",
     # accuracy = 0.1,
     big.mark = ","
@@ -338,12 +337,11 @@ list(
 #| label: ban_medicare_d
 #| content: valuebox
 #| title: "Medicare Part D"
-#| icon: heart-pulse-fill
+#| icon: capsule-pill
 #| color: primary
 
 list(
   value = scales::label_number(
-    prefix   = "$",
     suffix   = "M",
     # accuracy = 0.1,
     big.mark = ","
@@ -356,12 +354,11 @@ list(
 #| label: ban_medicaid
 #| content: valuebox
 #| title: "Medicaid & CHIP"
-#| icon: heart-pulse-fill
+#| icon: people-fill
 #| color: primary
 
 list(
   value = scales::label_number(
-    prefix   = "$",
     suffix   = "M",
     # accuracy = 0.1,
     big.mark = ","
@@ -373,9 +370,12 @@ list(
 ## Row
 ```{r}
 #| label: medicare_type
-#| title: "DRAFT"
 
-beneficiaries[["df_medicare_type_trend"]] |> 
+beneficiaries[["df_medicare_type_trend"]] |>
+  mutate(
+    lab_og = case_when(year == min(year) | year == max(year) ~ label_number(suffix = "m")(original_medicare)),
+    lab_ma = case_when(year == min(year) | year == max(year) ~ label_number(suffix = "m")(medicare_advantage))
+  ) |> 
   ggplot(aes(x = year)) +
   geom_ribbon(
     aes(
@@ -389,8 +389,25 @@ beneficiaries[["df_medicare_type_trend"]] |>
   geom_line(aes(y = medicare_advantage, color = "Medicare Advantage")) + 
   geom_point(aes(y = original_medicare, color = "Original Medicare")) +
   geom_point(aes(y = medicare_advantage, color = "Medicare Advantage")) +
-  labs(x = NULL, y = NULL) + 
-  theme_minimal()
+  geom_text(
+    aes(y = original_medicare, label = lab_og), 
+    family = "Source Sans 3",
+    vjust = -1, na.rm = TRUE
+    ) +
+  geom_text(
+    aes(y = medicare_advantage, label = lab_ma), 
+    family = "Source Sans 3",
+    vjust = 1.4, na.rm = TRUE
+    ) +
+  labs(
+    x = NULL, y = NULL,
+    title = "Medicare Advantage Overtaking Original Medicare") +
+  coord_cartesian(clip = "off") +
+  theme_minimal(base_size = 22) +
+  theme(
+    legend.position = "none"
+  )
+  
 ```
 
 ```{r}
@@ -406,10 +423,14 @@ beneficiaries[["df_medicaid_type_trends"]] |>
   geom_text(aes(label = lab_end), vjust = -1, na.rm = TRUE, family = "Source Sans 3") +
   facet_grid(~fct_reorder2(category, year, value)) +
   labs(x = NULL, y = NULL) +
-  coord_cartesian() +
+  scale_x_continuous(breaks = range(unique(beneficiaries[["df_medicaid_type_trends"]]$year), na.rm = TRUE)) +
+  coord_cartesian(clip = "off") +
   theme_minimal() +
+  # theme_minimal(base_size = 22) +
   theme(
-    legend.position = "none"
+    legend.position = "none",
+    axis.text.y = element_blank(),
+    panel.grid = element_blank(),
   )
 ```
 
@@ -439,7 +460,7 @@ beneficiaries[["df_medicare_util"]] |>
   facet_wrap(~group) +
   labs(x = NULL, y = NULL) +
   coord_cartesian(clip = "off") +
-  theme_minimal() +
+  theme_minimal(base_size = 22) +
   theme(
     panel.grid.minor = element_blank(),
     panel.grid.major.y = element_blank(),
@@ -485,7 +506,7 @@ beneficiaries[['df_medicaid_exp']] |>
     x = NULL, y = NULL,
     title = str_glue('All Services = {label_comma(1, prefix = "$", suffix = " B")(medicaid_exp_tot)}')   
   ) +
-  theme_minimal() +
+  theme_minimal(base_size = 22) +
   theme(
     axis.text.x = element_blank(),
     panel.grid.major.y = element_blank(),

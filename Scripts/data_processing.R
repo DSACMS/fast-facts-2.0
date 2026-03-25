@@ -394,6 +394,12 @@ df_medicaid_type_trends <- df_benes_trend |>
   ) |>
   group_by(category) |>
   mutate(
+    category = recode_values(
+      category,
+      "Dual Eligible (includes Aged, Disabled & ESRD)" ~ "Dual Eligible",
+      "Medicaid Expansion Adults" ~ "ME Adults",
+      default = category
+    ),
     val_pt = case_when(year == min(year) | year == max(year) ~ value),
     lab_start = case_when(
       year == min(year) ~ label_number(1, suffix = "m")(value)
