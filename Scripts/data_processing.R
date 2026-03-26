@@ -11,6 +11,7 @@
 library(tidyverse)
 library(readxl)
 library(janitor)
+library(scales)
 
 # GLOBAL VARIABLES --------------------------------------------------------
 
@@ -431,3 +432,96 @@ beneficiaries <- list(
 
 # export
 write_rds(beneficiaries, "Dataout/beneficiaries.rds")
+
+
+# COST SHARING TAB -------------------------------------------------------
+
+read_costsharing <- function(path) {
+  read_excel(
+    path,
+    sheet = "Deductibles, Coins, Premiums",
+    range = "A3:C22",
+    na = c("", "N/A"),
+    .name_repair = make_clean_names
+  ) |>
+    rename(category = 1) |>
+    filter_out(is.na(category)) |>
+    filter_out(category == "Inpatient Hospital") |>
+    mutate(
+      ff_release = path |>
+        str_extract("[A-Za-z]{3}\\d{4}") |>
+        str_replace("cts", "Jan") |>
+        my(),
+      group = case_when(is.na(pick(2)[[1]]) ~ category),
+      .before = 1
+    ) |>
+    fill(group) |>
+    filter_out(group == category) |>
+    pivot_longer(
+      starts_with("cy_"),
+      names_to = "year",
+      names_prefix = "cy_",
+      names_transform = list(year = as.integer)
+    )
+}
+
+
+df_cs_trend <- files |>
+  keep(~ str_extract(.x, "\\d{4}") |> as.integer() >= 2023) |>
+  set_names() |>
+  map(read_costsharing) |>
+  list_rbind()
+
+#keep latest observation for each year
+df_cs_trend <- df_cs_trend |>
+  arrange(group, category, year, ff_release) |>
+  group_by(group, category, year) |>
+  filter(ff_release == max(ff_release)) |>
+  ungroup()
+
+
+#
+df_cs_premb <- df_cs_trend |>
+  filter(
+    group == "Premiums",
+    category == "Part B"
+  ) |>
+  mutate(value = str_remove_all(value, "\\$")) |>
+  separate_wider_delim(value, delim = "-", names = c("lower", "upper")) |>
+  pivot_longer(
+    c(lower, upper),
+    names_to = "bound"
+  )
+
+df_cs_trend <- df_cs_trend |>
+  filter_out(
+    group == "Premiums",
+    category == "Part B"
+  ) |>
+  bind_rows(df_cs_premb)
+
+df_cs_trend <- df_cs_trend |>
+  mutate(value = as.numeric(value))
+
+df_cs_trend <- df_cs_trend |>
+  filter(year >= max(year) - 1) |>
+  mutate(
+    ln_group = ifelse(
+      !is.na(bound),
+      str_glue("{group} {category} {bound}"),
+      str_glue("{group} {category}")
+    ),
+    fill_color = ifelse(
+      year == max(year),
+      ff_colors$scales$cobolt["200"],
+      "white"
+    ),
+    order = ifelse(year == max(year), value, 0)
+  ) |>
+  group_by(ln_group) |>
+  mutate(
+    mid_pt = mean(value, na.rm = TRUE),
+    delta = value / lag(value) - 1,
+    delta_lab = label_percent(1, style_positive = "plus")(delta)
+  ) |>
+  ungroup()

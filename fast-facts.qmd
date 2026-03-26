@@ -32,12 +32,10 @@ execute:
 
 #dependencies
 library(tidyverse)
-library(ggrepel)
-library(gt)
-library(gtExtras)
-library(scales)
-library(waffle)
+library(scales, warn.conflicts = FALSE)
 library(systemfonts)
+library(ggrepel)
+library(waffle)
 library(gt)
 library(gtExtras)
 
@@ -66,6 +64,7 @@ register_font(
 #load each the data needed for each tab, stored in a list element
 context <- read_rds("Dataout/context.rds")
 beneficiaries <- read_rds("Dataout/beneficiaries.rds")
+cost_sharing <- read_rds("Dataout/cost_sharing.rds")
 
 ```
 
@@ -621,5 +620,134 @@ beneficiaries[['df_medicaid_exp']] |>
     panel.grid.major.y = element_blank(),
     panel.grid.minor = element_blank(),
     plot.title = element_text(face = "bold", color = ff_colors$elements[["title"]])
+  )
+```
+
+# Cost Sharing {orientation="rows"}
+
+## Row {height="20%"}
+
+```{r}
+#| label: ban_part_a_benes
+#| content: valuebox
+#| title: "Part A Persons Served"
+#| icon: people-fill
+#| color: primary
+
+list(
+  cost_sharing$bans[["part_a_beneficiaries"]],
+  subtitle = cost_sharing$years
+)
+```
+
+
+```{r}
+#| label: ban_part_b_benes
+#| content: valuebox
+#| title: "Part B Persons Served"
+#| icon: people-fill
+#| color: primary
+
+list(
+  cost_sharing$bans[["part_b_beneficiaries"]],
+  subtitle = cost_sharing$years
+)
+```
+
+
+
+```{r}
+#| label: ban_part_d_benes
+#| content: valuebox
+#| title: "Part D Beneficiaries"
+#| icon: people-fill
+#| color: primary
+
+list(
+  cost_sharing$bans[["part_d_beneficiaries"]],
+  subtitle = cost_sharing$years
+)
+```
+
+## Row {height="20%"}
+```{r}
+#| label: ban_part_a_exp
+#| content: valuebox
+#| title: "Part A Program Payments"
+#| icon: people-fill
+#| color: primary
+
+list(
+  cost_sharing$bans[["part_a_payments"]],
+  subtitle = cost_sharing$years
+)
+```
+
+
+```{r}
+#| label: ban_part_b_exp
+#| content: valuebox
+#| title: "Part B Program Payments"
+#| icon: people-fill
+#| color: primary
+
+list(
+  cost_sharing$bans[["part_b_payments"]],
+  subtitle = cost_sharing$years
+)
+```
+
+```{r}
+#| label: ban_part_d_exp
+#| content: valuebox
+#| title: "Part B Expenditures"
+#| icon: people-fill
+#| color: primary
+
+list(
+  cost_sharing$bans[["part_d_payments"]],
+  subtitle = cost_sharing$years
+)
+```
+
+## Row
+
+```{r}
+#| label: dumbell_charts
+#| title: "Medicare Deductibles, Coinsurance, Premiums"
+
+cost_sharing[["df_cs_trend"]] |> 
+  ggplot(aes(value, fct_reorder(category, order, .fun = max, .na_rm = TRUE), group = ln_group)) +
+  geom_path(color = ff_colors$scales$cobolt[["200"]], na.rm = TRUE) +
+  geom_point(
+    color = "white",
+    stroke = 1.1, 
+    size = 4,
+    na.rm = TRUE
+  ) +
+  geom_point(
+    aes(fill = fill_color), na.rm = TRUE,
+    shape = 21, 
+    color = ff_colors$base[["azure"]], 
+    stroke = 1.1, 
+    size = 4, alpha = .4) +
+  geom_text(
+    aes(x = mid_pt, label = delta_lab),
+    na.rm = TRUE,
+    family = "Source Sans 3",
+    color = ff_colors$elements[["annotation"]],
+    vjust = -1.1
+  ) + 
+  # facet_wrap(~group, nrow = 1, scales = "free") +
+  facet_wrap(group ~ ., ncol = 1, scales = "free", space = "free_y", strip.position = "top") +
+  labs(x = NULL, y = NULL) +
+  scale_fill_identity() +
+  scale_x_continuous(label = label_currency()) +
+  theme_minimal() +
+  theme(
+    axis.text = element_text(family = "Source Sans 3"),
+    strip.text = element_text(family = "Source Sans 3", face = "bold", hjust = 0),
+    strip.placement = "outside",
+    panel.spacing = unit(0, "lines")
   )
 ```
