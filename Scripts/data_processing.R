@@ -13,6 +13,10 @@ library(readxl)
 library(janitor)
 library(scales)
 
+#add colors
+
+source("Scripts/color_system.R")
+
 # GLOBAL VARIABLES --------------------------------------------------------
 
 #data file
@@ -436,6 +440,32 @@ write_rds(beneficiaries, "Dataout/beneficiaries.rds")
 
 # COST SHARING TAB -------------------------------------------------------
 
+cs_ban <- df_medicare_util |>
+  filter(group == category) |>
+  mutate(
+    value = ifelse(
+      metric == "beneficiaries",
+      label_number(suffix = "M")(value),
+      label_number(1, prefix = "$", suffix = "B")(value)
+    )
+  ) |>
+  unite(label, c(category, metric)) |>
+  select(label, value) |>
+  mutate(label = label |> str_replace_all(" ", "_") |> tolower()) |>
+  # mutate(label = str_glue("{category}\n{ifelse(metric == 'beneficiaries', 'Persons Served', 'Program Payments')}")) |>
+  deframe()
+
+cs_yr <- read_excel(
+  path,
+  sheet = "Medicare Utilization",
+  range = "A2",
+  col_names = "title"
+) |>
+  pull() |>
+  str_extract("(Fiscal|Calendar) Year .*") |>
+  str_replace("Fiscal Year", "FY") |>
+  str_replace("Calendar Year", "CY")
+
 read_costsharing <- function(path) {
   read_excel(
     path,
@@ -525,3 +555,108 @@ df_cs_trend <- df_cs_trend |>
     delta_lab = label_percent(1, style_positive = "plus")(delta)
   ) |>
   ungroup()
+
+
+#bundle tab data points/frames
+cost_sharing <- list(
+  bans = cs_ban,
+  years = cs_yr,
+  df_cs_trend = df_cs_trend
+)
+
+# export
+write_rds(cost_sharing, "Dataout/cost_sharing.rds")
+
+
+# PROVIDERS --------------------------------------------------------------
+
+read_provider_tab <- function(path, tab) {
+  n_skip <- tab |>
+    recode_values(
+      "Institutional Providers" ~ 2,
+      "NonInstitutional Providers" ~ 3,
+      "DMEPOS Providers" ~ 4
+    )
+
+  yr_row <- n_skip - 1
+
+  cy_year <- read_excel(
+    path,
+    sheet = tab,
+    range = str_glue("A{yr_row}"),
+    col_names = "title"
+  ) |>
+    pull() |>
+    str_extract("\\d{4}") |>
+    as.integer()
+
+  df_tab <- read_excel(
+    path,
+    sheet = tab,
+    skip = n_skip,
+    .name_repair = make_clean_names
+  ) |>
+    rename(
+      type = 1,
+      value = count
+    ) |>
+    filter_out(is.na(value)) |>
+    select(-starts_with("x")) |>
+    mutate(
+      category = tab,
+      category = ifelse(
+        category == "NonInstitutional Providers",
+        "Non-Institutional Providers",
+        category
+      ),
+      .before = 1
+    )
+
+  hospital_subset <- c(
+    "Short Stay",
+    "Psychiatric",
+    "Rehabilitation",
+    "Children's",
+    "Long Term",
+    "Critical Access",
+    "Religious Non-Medical"
+  )
+
+  df_tab <- df_tab |>
+    filter(type != "Total Hospitals") |>
+    mutate(
+      sub_type = case_when(type %in% hospital_subset ~ type),
+      type = ifelse(type %in% hospital_subset, "Hospitals", type),
+      year = cy_year,
+      .after = 2
+    )
+
+  if (tab == "Institutional Providers") {
+    df_tab <- tibble(
+      category = tab,
+      type = "Total Providers",
+      sub_type = NA,
+      value = sum(df_tab$value),
+      year = cy_year
+    ) |>
+      bind_rows(df_tab)
+  }
+}
+
+read_all_providers <- function(path) {
+  tibble(
+    path = rep(path, 3),
+    tab = c(
+      "Institutional Providers",
+      "NonInstitutional Providers",
+      "DMEPOS Providers"
+    )
+  ) |>
+    pmap(read_provider_tab) |>
+    bind_rows()
+}
+
+df_providers <- read_all_providers(path)
+
+df_providers |>
+  filter(catego)
