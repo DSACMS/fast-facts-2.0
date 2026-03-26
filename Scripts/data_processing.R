@@ -11,6 +11,7 @@
 library(tidyverse)
 library(readxl)
 library(janitor)
+library(scales)
 
 # GLOBAL VARIABLES --------------------------------------------------------
 
@@ -473,6 +474,54 @@ df_cs_trend <- files |>
 
 #keep latest observation for each year
 df_cs_trend <- df_cs_trend |>
+  arrange(group, category, year, ff_release) |>
   group_by(group, category, year) |>
   filter(ff_release == max(ff_release)) |>
+  ungroup()
+
+
+#
+df_cs_premb <- df_cs_trend |>
+  filter(
+    group == "Premiums",
+    category == "Part B"
+  ) |>
+  mutate(value = str_remove_all(value, "\\$")) |>
+  separate_wider_delim(value, delim = "-", names = c("lower", "upper")) |>
+  pivot_longer(
+    c(lower, upper),
+    names_to = "bound"
+  )
+
+df_cs_trend <- df_cs_trend |>
+  filter_out(
+    group == "Premiums",
+    category == "Part B"
+  ) |>
+  bind_rows(df_cs_premb)
+
+df_cs_trend <- df_cs_trend |>
+  mutate(value = as.numeric(value))
+
+df_cs_trend <- df_cs_trend |>
+  filter(year >= max(year) - 1) |>
+  mutate(
+    ln_group = ifelse(
+      !is.na(bound),
+      str_glue("{group} {category} {bound}"),
+      str_glue("{group} {category}")
+    ),
+    fill_color = ifelse(
+      year == max(year),
+      ff_colors$scales$cobolt["200"],
+      "white"
+    ),
+    order = ifelse(year == max(year), value, 0)
+  ) |>
+  group_by(ln_group) |>
+  mutate(
+    mid_pt = mean(value, na.rm = TRUE),
+    delta = value / lag(value) - 1,
+    delta_lab = label_percent(1, style_positive = "plus")(delta)
+  ) |>
   ungroup()
