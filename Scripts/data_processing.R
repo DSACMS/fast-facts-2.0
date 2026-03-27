@@ -13,6 +13,10 @@ library(readxl)
 library(janitor)
 library(scales)
 
+#add colors
+
+source("Scripts/color_system.R")
+
 # GLOBAL VARIABLES --------------------------------------------------------
 
 #data file
@@ -152,25 +156,6 @@ years <- c(
 )
 
 
-read_nhe <- function(path) {
-  read_excel(
-    path,
-    sheet = "NHE",
-    col_names = c("category", "x", "value")
-  ) |>
-    select(-x) |>
-    filter(
-      category %in% v_insurance | str_detect(category, "Year"),
-    ) |>
-    mutate(
-      year = case_when(is.na(value) ~ str_sub(category, -4)),
-      .before = 1
-    ) |>
-    fill(year) |>
-    filter_out(is.na(value))
-}
-
-
 df_insurance_trend <- files |>
   set_names() |>
   map(read_nhe) |>
@@ -296,47 +281,6 @@ df_medicare_util |>
   select(category, value)
 
 
-read_benes <- function(path) {
-  read_excel(
-    path,
-    sheet = "Populations",
-    range = "A3:E16",
-    na = c("", "--"),
-    .name_repair = make_clean_names
-  ) |>
-    select(-x) |>
-    rename(category = 1) |>
-    rename_with(~ str_remove(., "_\\d{1}$")) |>
-    mutate(
-      ff_release = path |>
-        str_extract("[A-Za-z]{3}\\d{4}") |>
-        str_replace("cts", "Jan") |>
-        my(),
-      category = str_remove(category, "\\d$"),
-      group = case_when(
-        category == "Parts A and/or B" ~ "Medicare",
-        category == "Total" ~ "Medicaid & CHIP"
-      ),
-      .before = category
-    ) |>
-    fill(group) |>
-    filter(!category %in% c(NA, "Medicaid & CHIP")) |>
-    mutate(
-      category = replace_values(
-        category,
-        "Total" ~ "Medicaid & CHIP",
-        "Original Medicare Enrollment" ~ "Original Medicare",
-        "MA Enrollment" ~ "Medicare Advantage"
-      )
-    ) |>
-    pivot_longer(
-      starts_with("cy_"),
-      names_to = "year",
-      names_prefix = "cy_",
-      names_transform = list(year = as.integer)
-    )
-}
-
 df_benes_trend <- files |>
   keep(~ str_extract(.x, "\\d{4}") |> as.integer() >= 2023) |>
   set_names() |>
@@ -436,34 +380,31 @@ write_rds(beneficiaries, "Dataout/beneficiaries.rds")
 
 # COST SHARING TAB -------------------------------------------------------
 
-read_costsharing <- function(path) {
-  read_excel(
-    path,
-    sheet = "Deductibles, Coins, Premiums",
-    range = "A3:C22",
-    na = c("", "N/A"),
-    .name_repair = make_clean_names
-  ) |>
-    rename(category = 1) |>
-    filter_out(is.na(category)) |>
-    filter_out(category == "Inpatient Hospital") |>
-    mutate(
-      ff_release = path |>
-        str_extract("[A-Za-z]{3}\\d{4}") |>
-        str_replace("cts", "Jan") |>
-        my(),
-      group = case_when(is.na(pick(2)[[1]]) ~ category),
-      .before = 1
-    ) |>
-    fill(group) |>
-    filter_out(group == category) |>
-    pivot_longer(
-      starts_with("cy_"),
-      names_to = "year",
-      names_prefix = "cy_",
-      names_transform = list(year = as.integer)
+cs_ban <- df_medicare_util |>
+  filter(group == category) |>
+  mutate(
+    value = ifelse(
+      metric == "beneficiaries",
+      label_number(suffix = "M")(value),
+      label_number(1, prefix = "$", suffix = "B")(value)
     )
-}
+  ) |>
+  unite(label, c(category, metric)) |>
+  select(label, value) |>
+  mutate(label = label |> str_replace_all(" ", "_") |> tolower()) |>
+  # mutate(label = str_glue("{category}\n{ifelse(metric == 'beneficiaries', 'Persons Served', 'Program Payments')}")) |>
+  deframe()
+
+cs_yr <- read_excel(
+  path,
+  sheet = "Medicare Utilization",
+  range = "A2",
+  col_names = "title"
+) |>
+  pull() |>
+  str_extract("(Fiscal|Calendar) Year .*") |>
+  str_replace("Fiscal Year", "FY") |>
+  str_replace("Calendar Year", "CY")
 
 
 df_cs_trend <- files |>
@@ -525,3 +466,77 @@ df_cs_trend <- df_cs_trend |>
     delta_lab = label_percent(1, style_positive = "plus")(delta)
   ) |>
   ungroup()
+
+
+#bundle tab data points/frames
+cost_sharing <- list(
+  bans = cs_ban,
+  years = cs_yr,
+  df_cs_trend = df_cs_trend
+)
+
+# export
+write_rds(cost_sharing, "Dataout/cost_sharing.rds")
+
+
+# PROVIDERS --------------------------------------------------------------
+
+df_providers <- read_all_providers(path)
+
+ban_providers <- df_providers |>
+  filter(
+    topic == "Providers",
+    str_detect(category, "Total"),
+    year == max(year)
+  ) |>
+  unite(period, c(period_type, year), sep = " ") |>
+  mutate(
+    value = ifelse(
+      value > 1e6,
+      label_number(.1, scale_cut = cut_short_scale())(value),
+      label_number(1, scale_cut = cut_short_scale())(value)
+    )
+  ) |>
+  select(provider_type, period, value)
+
+ban_providers_years <- ban_providers |>
+  select(provider_type, period) |>
+  deframe()
+
+ban_providers <- ban_providers |>
+  select(provider_type, value) |>
+  deframe()
+
+# hospitals subset
+df_hospital_subset <- df_providers |>
+  filter(
+    topic == "Providers",
+    category == "Hospitals",
+    year == max(year)
+  ) |>
+  select(sub_category, value) |>
+  mutate(share = value / sum(value))
+
+#provider coutns
+df_provider_counts <- df_providers |>
+  filter(
+    topic == "Providers",
+    # provider_type %in% c("Institutional", "Non-Institutional"),
+    str_detect(category, "Total", negate = TRUE),
+    year == max(year)
+  ) |>
+  count(provider_type, category, wt = value, name = "value") |>
+  group_by(provider_type) |>
+  mutate(share = value / sum(value)) |>
+  ungroup()
+
+#bundle tab data points/frames
+providers <- list(
+  bans = ban_providers,
+  years = ban_providers_years,
+  df_provider_counts = df_provider_counts,
+  df_hospital_subset = df_hospital_subset
+)
+
+# export
+write_rds(providers, "Dataout/providers.rds")
