@@ -156,25 +156,6 @@ years <- c(
 )
 
 
-read_nhe <- function(path) {
-  read_excel(
-    path,
-    sheet = "NHE",
-    col_names = c("category", "x", "value")
-  ) |>
-    select(-x) |>
-    filter(
-      category %in% v_insurance | str_detect(category, "Year"),
-    ) |>
-    mutate(
-      year = case_when(is.na(value) ~ str_sub(category, -4)),
-      .before = 1
-    ) |>
-    fill(year) |>
-    filter_out(is.na(value))
-}
-
-
 df_insurance_trend <- files |>
   set_names() |>
   map(read_nhe) |>
@@ -299,47 +280,6 @@ df_medicare_util |>
   ) |>
   select(category, value)
 
-
-read_benes <- function(path) {
-  read_excel(
-    path,
-    sheet = "Populations",
-    range = "A3:E16",
-    na = c("", "--"),
-    .name_repair = make_clean_names
-  ) |>
-    select(-x) |>
-    rename(category = 1) |>
-    rename_with(~ str_remove(., "_\\d{1}$")) |>
-    mutate(
-      ff_release = path |>
-        str_extract("[A-Za-z]{3}\\d{4}") |>
-        str_replace("cts", "Jan") |>
-        my(),
-      category = str_remove(category, "\\d$"),
-      group = case_when(
-        category == "Parts A and/or B" ~ "Medicare",
-        category == "Total" ~ "Medicaid & CHIP"
-      ),
-      .before = category
-    ) |>
-    fill(group) |>
-    filter(!category %in% c(NA, "Medicaid & CHIP")) |>
-    mutate(
-      category = replace_values(
-        category,
-        "Total" ~ "Medicaid & CHIP",
-        "Original Medicare Enrollment" ~ "Original Medicare",
-        "MA Enrollment" ~ "Medicare Advantage"
-      )
-    ) |>
-    pivot_longer(
-      starts_with("cy_"),
-      names_to = "year",
-      names_prefix = "cy_",
-      names_transform = list(year = as.integer)
-    )
-}
 
 df_benes_trend <- files |>
   keep(~ str_extract(.x, "\\d{4}") |> as.integer() >= 2023) |>
@@ -466,35 +406,6 @@ cs_yr <- read_excel(
   str_replace("Fiscal Year", "FY") |>
   str_replace("Calendar Year", "CY")
 
-read_costsharing <- function(path) {
-  read_excel(
-    path,
-    sheet = "Deductibles, Coins, Premiums",
-    range = "A3:C22",
-    na = c("", "N/A"),
-    .name_repair = make_clean_names
-  ) |>
-    rename(category = 1) |>
-    filter_out(is.na(category)) |>
-    filter_out(category == "Inpatient Hospital") |>
-    mutate(
-      ff_release = path |>
-        str_extract("[A-Za-z]{3}\\d{4}") |>
-        str_replace("cts", "Jan") |>
-        my(),
-      group = case_when(is.na(pick(2)[[1]]) ~ category),
-      .before = 1
-    ) |>
-    fill(group) |>
-    filter_out(group == category) |>
-    pivot_longer(
-      starts_with("cy_"),
-      names_to = "year",
-      names_prefix = "cy_",
-      names_transform = list(year = as.integer)
-    )
-}
-
 
 df_cs_trend <- files |>
   keep(~ str_extract(.x, "\\d{4}") |> as.integer() >= 2023) |>
@@ -570,93 +481,62 @@ write_rds(cost_sharing, "Dataout/cost_sharing.rds")
 
 # PROVIDERS --------------------------------------------------------------
 
-read_provider_tab <- function(path, tab) {
-  n_skip <- tab |>
-    recode_values(
-      "Institutional Providers" ~ 2,
-      "NonInstitutional Providers" ~ 3,
-      "DMEPOS Providers" ~ 4
-    )
-
-  yr_row <- n_skip - 1
-
-  cy_year <- read_excel(
-    path,
-    sheet = tab,
-    range = str_glue("A{yr_row}"),
-    col_names = "title"
-  ) |>
-    pull() |>
-    str_extract("\\d{4}") |>
-    as.integer()
-
-  df_tab <- read_excel(
-    path,
-    sheet = tab,
-    skip = n_skip,
-    .name_repair = make_clean_names
-  ) |>
-    rename(
-      type = 1,
-      value = count
-    ) |>
-    filter_out(is.na(value)) |>
-    select(-starts_with("x")) |>
-    mutate(
-      category = tab,
-      category = ifelse(
-        category == "NonInstitutional Providers",
-        "Non-Institutional Providers",
-        category
-      ),
-      .before = 1
-    )
-
-  hospital_subset <- c(
-    "Short Stay",
-    "Psychiatric",
-    "Rehabilitation",
-    "Children's",
-    "Long Term",
-    "Critical Access",
-    "Religious Non-Medical"
-  )
-
-  df_tab <- df_tab |>
-    filter(type != "Total Hospitals") |>
-    mutate(
-      sub_type = case_when(type %in% hospital_subset ~ type),
-      type = ifelse(type %in% hospital_subset, "Hospitals", type),
-      year = cy_year,
-      .after = 2
-    )
-
-  if (tab == "Institutional Providers") {
-    df_tab <- tibble(
-      category = tab,
-      type = "Total Providers",
-      sub_type = NA,
-      value = sum(df_tab$value),
-      year = cy_year
-    ) |>
-      bind_rows(df_tab)
-  }
-}
-
-read_all_providers <- function(path) {
-  tibble(
-    path = rep(path, 3),
-    tab = c(
-      "Institutional Providers",
-      "NonInstitutional Providers",
-      "DMEPOS Providers"
-    )
-  ) |>
-    pmap(read_provider_tab) |>
-    bind_rows()
-}
-
 df_providers <- read_all_providers(path)
 
-df_providers |>
-  filter(catego)
+ban_providers <- df_providers |>
+  filter(
+    topic == "Providers",
+    str_detect(category, "Total"),
+    year == max(year)
+  ) |>
+  unite(period, c(period_type, year), sep = " ") |>
+  mutate(
+    value = ifelse(
+      value > 1e6,
+      label_number(.1, scale_cut = cut_short_scale())(value),
+      label_number(1, scale_cut = cut_short_scale())(value)
+    )
+  ) |>
+  select(provider_type, period, value)
+
+ban_providers_years <- ban_providers |>
+  select(provider_type, period) |>
+  deframe()
+
+ban_providers <- ban_providers |>
+  select(provider_type, value) |>
+  deframe()
+
+# hospitals subset
+df_hospital_subset <- df_providers |>
+  filter(
+    topic == "Providers",
+    category == "Hospitals",
+    year == max(year)
+  ) |>
+  select(sub_category, value) |>
+  mutate(share = value / sum(value))
+
+#provider coutns
+df_provider_counts <- df_providers |>
+  filter(
+    topic == "Providers",
+    # provider_type %in% c("Institutional", "Non-Institutional"),
+    str_detect(category, "Total", negate = TRUE),
+    year == max(year)
+  ) |>
+  count(provider_type, category, wt = value, name = "value") |>
+  group_by(provider_type) |>
+  mutate(share = value / sum(value)) |>
+  ungroup()
+
+#bundle tab data points/frames
+providers <- list(
+  bans = ban_providers,
+  years = ban_providers_years,
+  df_provider_counts = df_provider_counts,
+  df_hospital_subset = df_hospital_subset
+)
+
+# export
+write_rds(providers, "Dataout/providers.rds")
