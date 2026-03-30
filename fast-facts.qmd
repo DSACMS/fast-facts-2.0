@@ -250,12 +250,7 @@ context[["df_insurance_trend"]] |>
 #| color: primary
 
 list(
-  value = scales::label_number(
-    prefix   = "$",
-    suffix   = "T",
-    accuracy = 0.1,
-    big.mark = ","
-  )(context$bans[["fed_spend"]]/1e6),
+  value = label_number(.1, scale_cut = cut_short_scale())(context$bans[["fed_spend"]]/1e6),
   subtitle = context$years[["fed_spend_yr"]]
 )
 ```

@@ -39,6 +39,23 @@ files <- tibble(files = files) |>
   pull(files)
 
 
+# Remove Footnotes -------------------------------------------------------
+
+rm_notes <- function(df) {
+  #rename column names with a footnote
+  df <- rename_with(df, ~ str_remove(., "_\\d{1}$"))
+
+  #remove string text with footnotes
+  df <- df |>
+    mutate(across(where(is.character), ~ str_remove(., " \\d$")))
+
+  #remove units notes
+  df <- df |>
+    mutate(across(where(is.character), ~ str_remove(., " \\(.*\\)")))
+
+  return(df)
+}
+
 # Import NHE Tab ---------------------------------------------------------
 
 read_nhe <- function(path) {
@@ -146,18 +163,6 @@ read_provider_tab <- function(path, tab) {
       "DMEPOS Providers" ~ 4
     )
 
-  # yr_row <- n_skip - 1
-
-  # cy_year <- read_excel(
-  #   path,
-  #   sheet = tab,
-  #   range = str_glue("A{yr_row}"),
-  #   col_names = "title"
-  # ) |>
-  #   pull() |>
-  #   str_extract("\\d{4}") |>
-  #   as.integer()
-
   #import
   df_tab <- read_excel(
     path,
@@ -215,13 +220,14 @@ read_provider_tab <- function(path, tab) {
       bind_rows(df_tab)
   }
 
-  period_info <- extract_sheet_year(path, sheet)
+  period_info <- extract_sheet_year(path, tab)
 
   #add meta data
   df_tab <- df_tab |>
     mutate(
       source = basename(path),
       source_tab = tab,
+      source_origin = "CMS/Office of Enterprise Data & Analytics",
       area = "Medicare",
       topic = "Providers",
       provider_type = tab |>
@@ -291,8 +297,13 @@ extract_sheet_year <- function(path, sheet, n_rows = 5) {
 
   if (nrow(m) > 0) {
     return(list(
+      sheet = sheet,
       year = as.integer(m[1, 3]),
-      period_type = if_else(m[1, 2] == "Calendar", "CY", "FY")
+      period_type = if_else(m[1, 2] == "Calendar", "CY", "FY"),
+      period = paste(
+        if_else(m[1, 2] == "Calendar", "CY", "FY"),
+        as.integer(m[1, 3])
+      )
     ))
   }
 
@@ -302,11 +313,105 @@ extract_sheet_year <- function(path, sheet, n_rows = 5) {
 
   if (nrow(m2) > 0) {
     return(list(
+      sheet = sheet,
       year = as.integer(m2[1, 3]),
-      period_type = "point-in-time"
+      period_type = "point-in-time",
+      period = NA_character_
     ))
   }
 
   # No year found in header rows — year is likely in column headers
-  list(year = NA_integer_, period_type = NA_character_)
+  list(
+    sheet = sheet,
+    year = NA_integer_,
+    period_type = NA_character_,
+    period = NA_character_
+  )
+}
+
+
+# Import CMS Financial Data Tab ------------------------------------------
+
+read_financial <- function(path) {
+  #import
+  df_tab <- read_excel(
+    path,
+    sheet = "CMS Financial Data",
+    skip = 2,
+    col_names = c("sub_category", "value"),
+    .name_repair = make_clean_names
+  )
+
+  #clean up notes
+  df_tab <- df_tab |>
+    filter_out(is.na(value)) |>
+    rm_notes()
+
+  #convert to correct units
+  df_tab <- df_tab |>
+    mutate(value = ifelse(sub_category == "FTE Employment", value, value * 1e6))
+
+  #create area + category
+  df_tab <- df_tab |>
+    mutate(
+      topic = ifelse(sub_category == "FTE Employment", "Staffing", "Financial"),
+      area = "CMS",
+      # ifelse(
+      #   str_detect(sub_category, "Medicare|Medicaid|CHIP"),
+      #   str_extract(sub_category, "Medicare|Medicaid|CHIP"),
+      #   "CMS"
+      # ),
+      category = str_extract(
+        sub_category,
+        "(Federal Program Spending|Program Management|Fraud|FTE Employment)"
+      ),
+      metric = ifelse(
+        sub_category == "FTE Employment",
+        "count",
+        "expenditures"
+      ),
+      sub_category = ifelse(
+        sub_category == "FTE Employment",
+        NA_character_,
+        sub_category
+      ),
+      .before = 1
+    ) |>
+    fill(category)
+
+  #remove totals
+  df_tab <- df_tab |>
+    filter_out(
+      sub_category %in%
+        c("Total Federal Program Spending", "Total Program Management")
+    )
+
+  period_info <- extract_sheet_year(path, tab)
+
+  #add meta data
+  df_tab <- df_tab |>
+    mutate(
+      source = basename(path),
+      source_tab = tab,
+      source_origin = "CMS/Office of Financial Management",
+      year = period_info$year,
+      period_type = period_info$period_type
+    )
+
+  #reoder
+  df_tab <- df_tab |>
+    relocate(
+      area,
+      topic,
+      category,
+      sub_category,
+      metric,
+      period_type,
+      year,
+      value,
+      source,
+      source_tab
+    )
+
+  return(df_tab)
 }

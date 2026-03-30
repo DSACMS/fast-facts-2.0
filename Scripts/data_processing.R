@@ -15,6 +15,7 @@ library(scales)
 
 #add colors
 
+source("Scripts/functions.R")
 source("Scripts/color_system.R")
 
 # GLOBAL VARIABLES --------------------------------------------------------
@@ -91,68 +92,40 @@ df_insurance <- df_insurance |>
   mutate(share = value / sum(value))
 
 ## import sheet - CMS Financial Data
-df_cms <- read_excel(
-  path,
-  sheet = "CMS Financial Data",
-  range = "A3:B12",
-  col_names = c("category", "value")
-)
+df_cms <- read_financial(path)
 
 #extract numbers for BAN in tab
 bans <- c(
   nhe_total = df_nhe |> filter(category == "Total") |> pull(),
   health_insurance = df_nhe |> filter(category == "Health Insurance") |> pull(),
-  fed_spend = df_cms |> filter(str_detect(category, "Total Federal")) |> pull()
+  fed_spend = df_cms |>
+    filter(category == "Federal Program Spending") |>
+    count(wt = value) |>
+    pull()
 )
 
 # financial data for plot
 df_spend <- df_cms |>
-  filter(str_detect(category, "Total (Federal|Program) |FTE", negate = TRUE)) |>
-  mutate(
-    category = str_remove(category, " (\\d|\\(.*)$"),
-    group = case_when(
-      category %in% c("Total Appropriation", "Other Sources") ~ "PM",
-      str_detect(category, "Fraud") ~ "Fraud",
-      TRUE ~ "Spend"
-    ),
-    .before = 1
-  ) |>
-  group_by(group) |>
+  filter(str_detect(category, "FTE", negate = TRUE)) |>
+  group_by(category) |>
   mutate(share = value / sum(value)) |>
-  ungroup()
+  ungroup() |>
+  select(category, sub_category, value, share)
 
 # FTEs
 fte <- df_cms |>
   filter(str_detect(category, "FTE")) |>
-  pull()
+  pull(value)
 
 #identify source years
-nhe_yr <- read_excel(
-  path,
-  sheet = "NHE",
-  range = "A1",
-  col_names = "title"
-) |>
-  pull() |>
-  str_extract("(Fiscal|Calendar) Year .*") |>
-  str_replace("Fiscal Year", "FY") |>
-  str_replace("Calendar Year", "CY")
+nhe_yr <- extract_sheet_year(path, "NHE")
 
-fed_spend_yr <- read_excel(
-  path,
-  sheet = "CMS Financial Data",
-  range = "A1",
-  col_names = "title"
-) |>
-  pull() |>
-  str_extract("(Fiscal|Calendar) Year .*") |>
-  str_replace("Fiscal Year", "FY") |>
-  str_replace("Calendar Year", "CY")
+fed_spend_yr <- extract_sheet_year(path, "CMS Financial Data")
 
 #combine years
 years <- c(
-  nhe_yr = nhe_yr,
-  fed_spend_yr = fed_spend_yr
+  nhe_yr = nhe_yr$period,
+  fed_spend_yr = fed_spend_yr$period
 )
 
 
