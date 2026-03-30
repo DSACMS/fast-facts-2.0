@@ -333,10 +333,12 @@ extract_sheet_year <- function(path, sheet, n_rows = 5) {
 # Import CMS Financial Data Tab ------------------------------------------
 
 read_financial <- function(path) {
+  tab <- "CMS Financial Data"
+
   #import
   df_tab <- read_excel(
     path,
-    sheet = "CMS Financial Data",
+    sheet = tab,
     skip = 2,
     col_names = c("sub_category", "value"),
     .name_repair = make_clean_names
@@ -393,7 +395,89 @@ read_financial <- function(path) {
     mutate(
       source = basename(path),
       source_tab = tab,
-      source_origin = "CMS/Office of Financial Management",
+      source_origin = tab,
+      year = period_info$year,
+      period_type = period_info$period_type
+    )
+
+  #reoder
+  df_tab <- df_tab |>
+    relocate(
+      area,
+      topic,
+      category,
+      sub_category,
+      metric,
+      period_type,
+      year,
+      value,
+      source,
+      source_tab
+    )
+
+  return(df_tab)
+}
+
+
+# Import NHE -------------------------------------------------------------
+
+read_nhe <- function(path) {
+  tab <- "NHE"
+
+  #import
+  df_tab <- read_excel(
+    path,
+    sheet = tab,
+    skip = 2,
+    col_names = c("sub_category", "x", "value")
+  )
+
+  #clean up notes
+  df_tab <- df_tab |>
+    select(-x) |>
+    filter_out(is.na(value)) |>
+    rm_notes()
+
+  #adjust units
+  df_tab <- df_tab |>
+    mutate(
+      value = ifelse(
+        sub_category %in% c("% of GDP", "Per Capita"),
+        value,
+        value * 1e9
+      )
+    )
+
+  #groupings
+  df_tab <- df_tab |>
+    mutate(
+      area = case_when(
+        str_detect(sub_category, ("Medicare|Medicaid|CHIP")) ~ "CMS",
+        str_detect(sub_category, "Department") ~ "Federal",
+        TRUE ~ "National"
+      ),
+      category = ifelse(
+        sub_category %in% c("Total", "% of GDP", "Per Capita"),
+        "National Health Expenditures",
+        "Health Insurance"
+      ),
+      metric = case_when(
+        sub_category == "% of GDP" ~ "pct_gdp",
+        sub_category == "Per Capita" ~ "per_capita",
+        TRUE ~ "expenditures"
+      ),
+      .before = 1
+    )
+
+  period_info <- extract_sheet_year(path, tab)
+
+  #add meta data
+  df_tab <- df_tab |>
+    mutate(
+      topic = "NHE",
+      source = basename(path),
+      source_tab = tab,
+      source_origin = "CMS/Office of the Actuary",
       year = period_info$year,
       period_type = period_info$period_type
     )
