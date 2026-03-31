@@ -228,59 +228,30 @@ write_rds(context, "Dataout/context.rds")
 # import sheet - Medicaid & CHIP Expenditures
 df_medicaid_exp <- read_medicaid_exp(path)
 
+# import sheet - Medicare Utilization (A + B)
+df_medicare_util <- read_medicare_util(path)
 
-# import sheet - Medicare Utilization
-df_medicare_util <- read_excel(
-  path,
-  sheet = "Medicare Utilization",
-  range = "A7:D16",
-  col_names = c("category", "beneficiaries", "x", "payments")
-)
+# import sheet - Medicare Utilization (D)
+df_medicare_util_d <- read_medicare_d(path)
 
-
-df_medicare_util_d <- read_excel(
-  path,
-  sheet = "Medicare Part D",
-  range = "A4:B9",
-  col_names = c("category", "value")
-)
-
-
-df_medicare_util <- df_medicare_util |>
-  select(-x) |>
-  filter_out(is.na(beneficiaries)) |>
-  mutate(
-    group = case_when(str_detect(category, "Part") ~ category),
-    .before = 1
-  ) |>
-  fill(group)
-
-df_medicare_util_d <- df_medicare_util_d |>
-  filter(str_detect(category, "Beneficiaries|Expenditures")) |>
-  mutate(
-    group = "Part D",
-    category = category |>
-      str_extract("Beneficiaries|Expenditures") |>
-      tolower()
-  ) |>
-  pivot_wider(
-    names_from = category
-  ) |>
-  rename(payments = expenditures) |>
-  mutate(category = "Part D", .after = group)
-
-
+#bind data together
 df_medicare_util <- df_medicare_util |>
   bind_rows(df_medicare_util_d)
 
 
 df_medicare_util <- df_medicare_util |>
-  pivot_longer(
-    c(beneficiaries, payments),
-    names_to = "metric"
+  filter(metric %in% c("persons_served", "payments")) |>
+  filter_out(
+    category == "Total (A and/or B)" |
+      sub_category %in% c("Benefit Payments", "Administrative Expenses")
   ) |>
+  filter_out(
+    category %in% c("Part A", "Part B") & sub_category == "Total"
+  )
+
+#create z-score for plotting
+df_medicare_util <- df_medicare_util |>
   group_by(metric) |>
-  # mutate(zscore = scale(value)) |>
   mutate(zscore = (value - mean(value)) / sd(value)) |>
   ungroup()
 
@@ -288,21 +259,18 @@ df_medicare_util <- df_medicare_util |>
 df_medicare_util <- df_medicare_util |>
   mutate(
     lab_ben = case_when(
-      metric == "beneficiaries" ~ str_glue(
-        "{category}\n{label_number(suffix = 'm')(value)}"
+      metric == "persons_served" ~ str_glue(
+        "{category}\n{label_number(1, scale_cut =  cut_short_scale())(value)}"
       )
     ),
     lab_exp = case_when(
-      metric == "payments" ~ label_number(1, prefix = "$", suffix = "B")(value)
+      metric == "payments" ~ label_number(
+        1,
+        prefix = "$",
+        scale_cut = cut_short_scale()
+      )(value)
     ),
   )
-
-df_medicare_util |>
-  filter(
-    str_detect(category, "^Part"),
-    metric == "beneficiaries"
-  ) |>
-  select(category, value)
 
 
 df_benes_trend <- files |>
