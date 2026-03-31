@@ -566,3 +566,151 @@ read_medicaid_exp <- function(path) {
 }
 
 # Read Medicare Utilization ----------------------------------------------
+
+read_medicare_util <- function(path) {
+  tab <- "Medicare Utilization"
+
+  #import
+  df_tab <- read_excel(
+    path,
+    sheet = tab,
+    skip = 4,
+    col_names = c("sub_category", "persons_served", "x", "payments")
+  )
+
+  #subset to actual data
+  df_tab <- df_tab |>
+    select(-x) |>
+    filter_out(is.na(persons_served))
+
+  #adjust units
+  df_tab <- df_tab |>
+    mutate(
+      persons_served = persons_served * 1e6,
+      payments = payments * 1e9
+    ) |>
+    pivot_longer(
+      c(persons_served, payments),
+      names_to = "metric"
+    )
+
+  df_tab <- df_tab |>
+    mutate(
+      category = str_extract(sub_category, "(Total|Part (A|B))"),
+      category = ifelse(category == "Total", "Total (A and/or B)", category),
+      sub_category = ifelse(
+        sub_category %in% c("Part A", "Part B"),
+        "Total",
+        sub_category
+      ),
+      .before = 1
+    ) |>
+    fill(category)
+
+  period_info <- extract_sheet_year(path, tab)
+
+  df_tab <- df_tab |>
+    mutate(
+      area = "Medicare",
+      topic = "Utilization",
+      source = basename(path),
+      source_tab = tab,
+      source_origin = "CMS/Office of Enterprise Data & Analytics",
+      year = period_info$year,
+      period_type = period_info$period_type
+    )
+
+  #reoder
+  df_tab <- df_tab |>
+    relocate(
+      area,
+      topic,
+      category,
+      sub_category,
+      metric,
+      period_type,
+      year,
+      value,
+      source,
+      source_tab
+    )
+
+  return(df_tab)
+}
+
+
+# Read Medicare Part D ---------------------------------------------------
+
+read_medicare_d <- function(path) {
+  tab <- "Medicare Part D"
+
+  #import
+  df_tab <- read_excel(
+    path,
+    sheet = tab,
+    skip = 3,
+    col_names = c("sub_category", "value")
+  )
+
+  #subset to actual data
+  df_tab <- df_tab |>
+    filter_out(is.na(value))
+
+  #adjust units
+  df_tab <- df_tab |>
+    mutate(
+      value = ifelse(
+        sub_category == "Utilizing Beneficiaries, in millions",
+        value * 1e6,
+        value * 1e9
+      ),
+      sub_category = str_remove(sub_category, ", in.*"),
+      sub_category = str_remove(sub_category, "^Part D ")
+    )
+
+  df_tab <- df_tab |>
+    mutate(
+      metric = recode_values(
+        sub_category,
+        "Utilizing Beneficiaries" ~ "persons_served",
+        "Prescription Drug Events" ~ "rx_events",
+        default = "payments"
+      ),
+      sub_category = case_when(
+        sub_category %in%
+          c("Benefit Payments", "Administrative Expenses") ~ sub_category,
+        TRUE ~ "Total"
+      )
+    )
+
+  period_info <- extract_sheet_year(path, tab)
+
+  df_tab <- df_tab |>
+    mutate(
+      area = "Medicare",
+      topic = "Utilization",
+      category = "Part D",
+      source = basename(path),
+      source_tab = tab,
+      source_origin = "CMS/Office of Enterprise Data & Analytics/Office of the Actuary",
+      year = period_info$year,
+      period_type = period_info$period_type
+    )
+
+  #reoder
+  df_tab <- df_tab |>
+    relocate(
+      area,
+      topic,
+      category,
+      sub_category,
+      metric,
+      period_type,
+      year,
+      value,
+      source,
+      source_tab
+    )
+
+  return(df_tab)
+}
