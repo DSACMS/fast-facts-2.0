@@ -46,76 +46,131 @@ files <- tibble(files = files) |>
 # CONTEXT TAB ------------------------------------------------------------
 
 # import sheet - NHE
-df_nhe <- read_excel(
-  path,
-  sheet = "NHE",
-  range = "A3:C12",
-  col_names = c("category", "x", "value")
-)
+df_nhe <- read_nhe(path)
+
+#extract NHE total
+nhe_total <- df_nhe |>
+  filter(
+    year == max(year),
+    category == "National Health Expenditures",
+    sub_category == "Total"
+  ) |>
+  mutate(
+    value_fmt = label_number(.1, prefix = "$", scale_cut = cut_short_scale())(
+      value
+    )
+  ) |>
+  pull()
 
 #extract NHE share of GDP
-nhe_gdp_share <- df_nhe |>
-  filter(category == "% of GDP") |>
-  pull()
+df_nhe_gdp_share <- df_nhe |>
+  filter(
+    year == max(year),
+    category == "National Health Expenditures",
+    sub_category == "% of GDP"
+  ) |>
+  mutate(
+    value_fmt = label_percent(1)(value),
+    value_sqrt = sqrt(value * 100)
+  ) |>
+  select(category, sub_category, year, value, value_fmt, value_sqrt)
 
 #extract NHE per capita
-nhe_pc <- df_nhe |>
-  filter(category == "Per Capita") |>
+df_nhe_pc <- df_nhe |>
+  filter(
+    year == max(year),
+    category == "National Health Expenditures",
+    sub_category == "Per Capita"
+  ) |>
+  mutate(
+    value_fmt = label_comma(1, prefix = "$")(value),
+    n_icons = round(value / 1000)
+  ) |>
+  select(category, sub_category, year, value, value_fmt, n_icons)
+
+#insurnace
+df_insurance <- df_nhe |>
+  filter(
+    year == max(year),
+    category == "Health Insurance"
+  )
+
+#extact health insurnace total
+health_insurance <- df_insurance |>
+  count(wt = value) |>
+  mutate(
+    value_fmt = label_number(.1, prefix = "$", scale_cut = cut_short_scale())(n)
+  ) |>
   pull()
 
-#identify list of NHE spending group that need to be included from table
-v_insurance <- c(
-  "Private Health Insurance",
-  "Medicare",
-  "Medicaid (Title XIX)",
-  "CHIP (Title XIX & XXI)",
-  "Department of Defense",
-  "Department of Veterans Affairs"
-)
-
-#filter down
-df_insurance <- df_nhe |>
-  filter(category %in% v_insurance)
-
-#check all NHE categories make it in
-if (nrow(df_insurance) != length(v_insurance)) {
-  stop(
-    "Mismatch: number of rows in df_insurance does not equal length of v_insurance"
-  )
-}
 
 #create a dataframe of health spending by type
 df_insurance <- df_insurance |>
-  select(-x) |>
-  mutate(category = fct_lump_prop(category, .1, w = value)) |>
-  count(category, wt = value, name = "value") |>
-  mutate(share = value / sum(value))
+  select(category, sub_category, year, value) |>
+  mutate(
+    value_fmt = label_number(.1, prefix = "$", scale_cut = cut_short_scale())(
+      value
+    ),
+    share = value / sum(value),
+    fill_color = case_when(
+      str_detect(sub_category, "Medicare") ~ ff_colors$base[["azure"]],
+      str_detect(sub_category, "Medicaid") ~ ff_colors$base[["teal"]],
+      str_detect(sub_category, "CHIP") ~ ff_colors$base[["plum"]],
+      TRUE ~ "#A6A6A6"
+    )
+  )
 
 ## import sheet - CMS Financial Data
 df_cms <- read_financial(path)
 
+#extract fed spending
+fed_spend = df_cms |>
+  filter(category == "Federal Program Spending") |>
+  count(wt = value) |>
+  mutate(
+    value_fmt = label_number(.1, prefix = "$", scale_cut = cut_short_scale())(n)
+  ) |>
+  pull()
+
 #extract numbers for BAN in tab
 bans <- c(
-  nhe_total = df_nhe |> filter(category == "Total") |> pull(),
-  health_insurance = df_nhe |> filter(category == "Health Insurance") |> pull(),
-  fed_spend = df_cms |>
-    filter(category == "Federal Program Spending") |>
-    count(wt = value) |>
-    pull()
+  nhe_total = nhe_total,
+  health_insurance = health_insurance,
+  fed_spend = fed_spend
 )
 
 # financial data for plot
 df_spend <- df_cms |>
-  filter(str_detect(category, "FTE", negate = TRUE)) |>
+  filter(
+    year == max(year),
+    topic == "Financial"
+  ) |>
   group_by(category) |>
-  mutate(share = value / sum(value)) |>
+  mutate(
+    share = value / sum(value),
+    squares = round(share * 100),
+    value_fmt = label_number(.1, prefix = "$", scale_cut = cut_short_scale())(
+      value
+    ),
+    fill_color = recode_values(
+      sub_category,
+      "Medicare Benefits" ~ ff_colors$base[["azure"]],
+      "Total Medicaid" ~ ff_colors$base[["teal"]],
+      "CHIP" ~ ff_colors$base[["plum"]],
+      "Other Spending" ~ ff_colors$scales$charcoal[["200"]]
+    )
+  ) |>
   ungroup() |>
-  select(category, sub_category, value, share)
+  select(category, sub_category, value, value_fmt, share, squares, fill_color)
 
 # FTEs
 fte <- df_cms |>
   filter(str_detect(category, "FTE")) |>
-  pull(value)
+  mutate(
+    value_fmt = label_comma()(value),
+    n_icons = round(value / 1e3)
+  ) |>
+  select(category, year, value, value_fmt, n_icons)
 
 #identify source years
 nhe_yr <- extract_sheet_year(path, "NHE")
@@ -129,32 +184,31 @@ years <- c(
 )
 
 
-df_insurance_trend <- files |>
-  set_names() |>
-  map(read_nhe) |>
-  list_rbind()
-# list_rbind(names_to = "source") |>
-# mutate(source = basename(source))
+# df_insurance_trend <- files |>
+#   set_names() |>
+#   map(read_nhe) |>
+#   list_rbind()
+# # list_rbind(names_to = "source") |>
+# # mutate(source = basename(source))
 
-df_insurance_trend <- df_insurance_trend %>%
-  arrange(category, year) %>%
-  group_by(category) %>%
-  summarise(
-    latest_year = max(year),
-    latest_value = value[which.max(year)],
-    trend = list(value), # ordered by year (arranged above)
-    .groups = "drop"
-  ) %>%
-  arrange(desc(latest_value))
+# df_insurance_trend <- df_insurance_trend %>%
+#   arrange(category, year) %>%
+#   group_by(category) %>%
+#   summarise(
+#     latest_year = max(year),
+#     latest_value = value[which.max(year)],
+#     trend = list(value), # ordered by year (arranged above)
+#     .groups = "drop"
+#   ) %>%
+#   arrange(desc(latest_value))
 
 #bundle tab datapoints/frames
 context <- list(
   bans = bans,
   years = years,
-  nhe_gdp_share = nhe_gdp_share,
-  nhe_pc = nhe_pc,
+  df_nhe_gdp_share = df_nhe_gdp_share,
+  df_nhe_pc = df_nhe_pc,
   df_insurance = df_insurance,
-  df_insurance_trend = df_insurance_trend,
   df_spend = df_spend,
   fte = fte
 )

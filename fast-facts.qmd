@@ -33,7 +33,7 @@ execute:
 #dependencies
 library(tidyverse)
 library(scales, warn.conflicts = FALSE)
-library(systemfonts)
+library(systemfonts, warn.conflicts = FALSE)
 library(ggrepel)
 library(waffle)
 library(gt)
@@ -82,12 +82,7 @@ providers <- read_rds("Dataout/providers.rds")
 #| color: primary
 
 list(
-  value = scales::label_number(
-    prefix   = "$",
-    suffix   = "T",
-    accuracy = 0.1,
-    big.mark = ","
-  )(context$bans[["nhe_total"]]/1e3),
+  value = context$bans[["nhe_total"]],
   subtitle = context$years[["nhe_yr"]]
 )
 ```
@@ -97,36 +92,38 @@ list(
 #| label: share-gdp
 #| title: "NHE share of GDP"
 
-ggplot() +
-  geom_rect(
-    aes(
-      xmin = 0,
-      xmax = 12,
-      ymin = 0,
-      ymax = 100 / 12
-    ),
-    color =  "#A6A6A6",
-    fill = "white", linewidth = 1.1
-  ) +
-  geom_rect(
-    aes(
-      xmin = 0,
-      xmax = sqrt(context[["nhe_gdp_share"]]*100),
-      ymin = 0,
-      ymax = sqrt(context[["nhe_gdp_share"]]*100)
-    ),
-    fill = ff_colors$base[["green"]]
-  ) +
-  labs(title = label_percent()(context[["nhe_gdp_share"]])) +
-  coord_equal() +
-  theme_void() +
-  theme(
-    plot.title = element_text(
-      size = 30, hjust = .5, 
-      family = "Source Sans 3", face = "bold",
-      color = ff_colors$scales$steel["900"]
+context[["df_nhe_gdp_share"]] |> 
+  ggplot() +
+    geom_rect(
+      aes(
+        xmin = 0,
+        xmax = 12,
+        ymin = 0,
+        ymax = 100 / 12
+      ),
+      color =  "#A6A6A6",
+      fill = "white", 
+      linewidth = 1.1
+    ) +
+    geom_rect(
+      aes(
+        xmin = 0,
+        xmax = value_sqrt,
+        ymin = 0,
+        ymax = value_sqrt
+      ),
+      fill = ff_colors$base[["green"]]
+    ) +
+    labs(title = context[["df_nhe_gdp_share"]]$value_fmt) +
+    coord_equal() +
+    theme_void() +
+    theme(
+      plot.title = element_text(
+        size = 30, hjust = .5, 
+        family = "Source Sans 3", face = "bold",
+        color = ff_colors$scales$steel["900"]
+        )
       )
-    )
 
 
 ```
@@ -137,37 +134,36 @@ ggplot() +
 #| title: "NHE per capita"
 
 # Value and scale
-per_capita <- context[["nhe_pc"]]
-n_icons <- round(per_capita / 1000)
+n_units <- context[["df_nhe_pc"]]$n_icons
 
-# Build pictogram data
-icons <- tibble::tibble(
-  index = 1:n_icons,
-  x     = ((index - 1) %% 8) + 1,
-  y     = -((index - 1) %/% 8)
+icons <- tibble(
+  index = 1:(n_units),
+  x     = index,
+  y     = 0
 )
 
-# Plot
-ggplot(icons, aes(x = x, y = y)) +
+icons |> 
+  ggplot(aes(x = x, y = y)) +
   geom_text(
-    label  = "\uf0d6",               # FA "money-bill" glyph
+    label  = "\uf0d6",              # Font Awesome "person" / user icon
     family = "FontAwesome7Solid",
-    size   = 22,
+    size   = 12,
     color  = ff_colors$base[["green"]]
   ) +
-  scale_x_continuous(expand = expansion(add = 0.5)) +  
-  scale_y_continuous(expand = expansion(add = 0.5)) + 
-  coord_fixed(ratio = 1) + 
+  scale_x_continuous(expand = expansion(add = 0.5)) +
+  scale_y_continuous(expand = expansion(add = 0.5)) +
   labs(
-    title    = label_currency()(context[["nhe_pc"]]),
+    title    = context$df_nhe_pc[["value_fmt"]],
     subtitle = "Each icon ≈ $1,000"
   ) +
   theme_void() +
   theme(
-    plot.title    = element_text(family = "Source Sans 3", face = "bold", size = 30, hjust = 0.5, color = ff_colors$elements[["title"]]),
-    plot.subtitle = element_text(family = "Source Sans 3", size = 25, hjust = 0.5, color = ff_colors$elements[["subtitle"]]),
-    plot.margin   = margin(10, 10, 10, 10)  # minimal outer margin
+    plot.title    = element_text(face = "bold", size = 60, hjust = 0.5),
+    plot.subtitle = element_text(size = 25, hjust = 0.5, color = "gray40"),
+    plot.caption  = element_text(size = 9, hjust = 0.5, color = "gray60"),
+    plot.margin   = margin(10, 10, 10, 10)
   )
+
 ```
 
 ## Column
@@ -181,12 +177,7 @@ ggplot(icons, aes(x = x, y = y)) +
 #| color: primary
 
 list(
-  value = scales::label_number(
-    prefix   = "$",
-    suffix   = "T",
-    accuracy = 0.1,
-    big.mark = ","
-  )(context$bans[["health_insurance"]]/1e3),
+  value = context$bans[["health_insurance"]],
   subtitle = context$years[["nhe_yr"]]
 )
 ```
@@ -200,27 +191,15 @@ list(
 #| out.height: "100%"   # Tells the output to fill the container
 #| fig-width: 6
 
-context[["df_insurance_trend"]] |> 
-  select(category, latest_value) |> 
-  mutate(
-    latest_value = latest_value * 1e9,
-    fill_color = 
-      case_when(
-        str_detect(category, "Medicare") ~ ff_colors$base[["azure"]],
-        str_detect(category, "Medicaid") ~ ff_colors$base[["teal"]],
-        str_detect(category, "CHIP") ~ ff_colors$base[["plum"]],
-        TRUE ~ "#A6A6A6"
-        ) 
-  ) |> 
-  ggplot(aes(latest_value, fct_reorder(category, latest_value, .fun = sum), fill = fill_color)) +
-  geom_blank(aes(latest_value * 1.3)) +
+context[["df_insurance"]] |> 
+  ggplot(aes(value, fct_reorder(sub_category, value), fill = fill_color)) +
+  geom_blank(aes(value * 1.3)) +
   geom_col() +
   geom_text(
-    # aes(label = label_comma(prefix = "$", suffix = " B")(latest_value)),
-    aes(label = label_comma(prefix = "$", scale_cut = cut_short_scale())(latest_value)),
+    aes(label = value_fmt),
     hjust = -.2, size = 6, family = "Source Sans 3", color = ff_colors$elements[["annotation"]]
     ) + 
-  facet_wrap(~fct_reorder(category, latest_value, .fun = sum, .desc = TRUE), ncol = 1, scales = "free_y") +
+  facet_wrap(~fct_reorder(sub_category, value, .desc = TRUE), ncol = 1, scales = "free_y") +
   scale_x_continuous(expand = c(.005, .005)) +
   scale_fill_identity() +
   coord_cartesian(clip = "off") +
@@ -250,7 +229,7 @@ context[["df_insurance_trend"]] |>
 #| color: primary
 
 list(
-  value = label_number(.1, scale_cut = cut_short_scale())(context$bans[["fed_spend"]]/1e6),
+  value = context$bans[["fed_spend"]],
   subtitle = context$years[["fed_spend_yr"]]
 )
 ```
@@ -263,21 +242,15 @@ list(
 #| title: "CMS Spending by Category"
 
 context[["df_spend"]] |> 
-  filter(group == "Spend") |> 
-  mutate(squares = round(share * 100)) |> 
-  ggplot(aes(fill = category, values = squares)) +
+  filter(category == "Federal Program Spending") |> 
+  ggplot(aes(values = squares, fill = fill_color)) +
   geom_waffle(
     n_rows  = 10,
     size    = 1.5,
     colour  = "white",
     flip    = FALSE
   ) +
-  scale_fill_manual(values = c(
-    "Medicare Benefits" = ff_colors$base[["azure"]],
-    "Total Medicaid"    = ff_colors$base[["teal"]],
-    "CHIP"              = ff_colors$base[["plum"]],
-    "Other Spending"    = ff_colors$scales$charcoal[["200"]]  #"#a6a6a6"
-  )) +
+  scale_fill_identity() +
   labs(
     subtitle = "Each square represents ~1% of total",
     # caption  = "Source: CMS",
@@ -298,29 +271,13 @@ context[["df_spend"]] |>
 #| label: spend_table
 
 context[["df_spend"]] |> 
-  select(-share) |> 
-  mutate(
-    value = value * 1e6,
-    fill_color = recode_values(
-     category,
-    "Medicare Benefits" ~ ff_colors$base[["azure"]],
-    "Total Medicaid"    ~ ff_colors$base[["teal"]],
-    "CHIP"              ~ ff_colors$base[["plum"]],
-    "Other Spending"    ~ ff_colors$scales$charcoal[["200"]]  #"#a6a6a6"
-    )
-   ) |> 
-  relocate(fill_color, .before = 1) |> 
-  gt(groupname_col =  "group") |> 
+  select(fill_color, category, sub_category, value_fmt) |> 
+  gt(groupname_col =  "category") |> 
   cols_label(
     fill_color = "",
-    category = "",
-    value = "Gross Outlays"
+    sub_category = "",
+    value_fmt = "Gross Outlays"
   ) |> 
-  fmt_currency(
-    columns = value,
-    decimals = 1,
-    suffixing = TRUE 
-    ) |> 
  text_transform(
     locations = cells_body(columns = fill_color),
     fn = function(x) {
@@ -331,6 +288,7 @@ context[["df_spend"]] |>
     }
   ) |>
   cols_align(align = "center", columns = fill_color) |>
+  cols_align(align = "right", columns = value_fmt) |>
   cols_width(fill_color ~ px(24)) |>
   opt_row_striping(row_striping = FALSE) |> 
   tab_options(
@@ -348,11 +306,10 @@ context[["df_spend"]] |>
 #| label: fte
 #| title: "CMS Full-Time Equivalents (FTEs)"
 
-n_units <- round(context[["fte"]] / 1000)
+n_units <- context[["fte"]]$n_icons
 
 icons <- tibble(
-  index = 1:(n_units),
-  x     = index,
+  x     = 1:(n_units),
   y     = 0
 )
 
@@ -367,7 +324,7 @@ icons |>
   scale_x_continuous(expand = expansion(add = 0.5)) +
   scale_y_continuous(expand = expansion(add = 0.5)) +
   labs(
-    title    = label_comma()(context[["fte"]]),
+    title    = context$fte[["value_fmt"]],
     subtitle = "Each icon represents ~1,000 FTEs"
   ) +
   theme_void() +
