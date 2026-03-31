@@ -121,32 +121,97 @@ read_benes <- function(path) {
 # Read Cost Sharing Tab --------------------------------------------------
 
 read_costsharing <- function(path) {
-  read_excel(
+  tab <- "Deductibles, Coins, Premiums"
+
+  df_tab <- read_excel(
     path,
-    sheet = "Deductibles, Coins, Premiums",
-    range = "A3:C22",
+    sheet = tab,
+    skip = 2,
     na = c("", "N/A"),
     .name_repair = make_clean_names
   ) |>
-    rename(category = 1) |>
-    filter_out(is.na(category)) |>
-    filter_out(category == "Inpatient Hospital") |>
+    rename(sub_category = 1)
+
+  df_tab <- df_tab |>
+    filter_out(is.na(sub_category)) |>
+    filter_out(sub_category == "Inpatient Hospital") |>
     mutate(
-      ff_release = path |>
-        str_extract("[A-Za-z]{3}\\d{4}") |>
-        str_replace("cts", "Jan") |>
-        my(),
-      group = case_when(is.na(pick(2)[[1]]) ~ category),
+      category = case_when(is.na(pick(2)[[1]]) ~ sub_category),
       .before = 1
     ) |>
-    fill(group) |>
-    filter_out(group == category) |>
+    fill(category)
+
+  df_tab <- df_tab |>
     pivot_longer(
       starts_with("cy_"),
       names_to = "year",
       names_prefix = "cy_",
-      names_transform = list(year = as.integer)
+      names_transform = list(year = as.integer),
+      values_drop_na = TRUE
     )
+
+  df_tab_prem_b <- df_tab |>
+    filter(
+      category == "Premiums",
+      sub_category == "Part B"
+    ) |>
+    mutate(value = str_remove_all(value, "\\$")) |>
+    separate_wider_delim(value, delim = "-", names = c("lower", "upper")) |>
+    pivot_longer(
+      c(lower, upper),
+      names_to = "bound"
+    )
+
+  df_tab <- df_tab |>
+    filter_out(
+      category == "Premiums",
+      sub_category == "Part B"
+    ) |>
+    bind_rows(df_tab_prem_b)
+
+  df_tab <- df_tab |>
+    mutate(value = as.numeric(value))
+
+  df_tab <- df_tab |>
+    mutate(
+      metric = case_when(
+        str_detect(sub_category, "Deductible|Coinsurance") ~ str_extract(
+          sub_category,
+          "Deductible|Coinsurance"
+        ) |>
+          tolower(),
+        sub_category == "Initial Coverage Limit" ~ "coverage_limit",
+        TRUE ~ "premium"
+      )
+    )
+
+  df_tab <- df_tab |>
+    mutate(
+      area = "Medicare",
+      topic = "Cost Sharing",
+      source = basename(path),
+      source_tab = tab,
+      source_origin = "medicare.gov",
+      period_type = "CY"
+    )
+
+  #reoder
+  df_tab <- df_tab |>
+    relocate(
+      area,
+      topic,
+      category,
+      sub_category,
+      metric,
+      period_type,
+      year,
+      value,
+      bound,
+      source,
+      source_tab
+    )
+
+  return(df_tab)
 }
 
 
