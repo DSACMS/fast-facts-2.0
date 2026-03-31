@@ -57,6 +57,23 @@ rm_notes <- function(df) {
 }
 
 
+# Create Release date from path ------------------------------------------
+
+gen_release_dt <- function(df) {
+  df |>
+    mutate(
+      release_date = path |>
+        str_extract("[A-Za-z]{3}\\d{4}") |>
+        str_replace("cts", "Jan") |>
+        my()
+    )
+}
+
+ff_release = path |>
+  str_extract("[A-Za-z]{3}\\d{4}") |>
+  str_replace("cts", "Jan") |>
+  my()
+
 # Import Beneficiaries Tab -----------------------------------------------
 
 read_benes <- function(path) {
@@ -547,3 +564,5 @@ read_medicaid_exp <- function(path) {
 
   return(df_tab)
 }
+
+# Read Medicare Utilization ----------------------------------------------
