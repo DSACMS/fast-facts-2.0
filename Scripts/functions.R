@@ -56,26 +56,6 @@ rm_notes <- function(df) {
   return(df)
 }
 
-# Import NHE Tab ---------------------------------------------------------
-
-read_nhe <- function(path) {
-  read_excel(
-    path,
-    sheet = "NHE",
-    col_names = c("category", "x", "value")
-  ) |>
-    select(-x) |>
-    filter(
-      category %in% v_insurance | str_detect(category, "Year"),
-    ) |>
-    mutate(
-      year = case_when(is.na(value) ~ str_sub(category, -4)),
-      .before = 1
-    ) |>
-    fill(year) |>
-    filter_out(is.na(value))
-}
-
 
 # Import Beneficiaries Tab -----------------------------------------------
 
@@ -468,6 +448,10 @@ read_nhe <- function(path) {
       ),
       .before = 1
     )
+
+  #remove total row
+  df_tab <- df_tab |>
+    filter_out(sub_category == "Health Insurance")
 
   period_info <- extract_sheet_year(path, tab)
 
