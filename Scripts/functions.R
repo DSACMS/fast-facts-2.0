@@ -47,7 +47,7 @@ rm_notes <- function(df) {
 
   #remove string text with footnotes
   df <- df |>
-    mutate(across(where(is.character), ~ str_remove(., " \\d$")))
+    mutate(across(where(is.character), ~ str_remove(., "( \\d|\\d)$")))
 
   #remove units notes
   df <- df |>
@@ -462,6 +462,70 @@ read_nhe <- function(path) {
       source = basename(path),
       source_tab = tab,
       source_origin = "CMS/Office of the Actuary",
+      year = period_info$year,
+      period_type = period_info$period_type
+    )
+
+  #reoder
+  df_tab <- df_tab |>
+    relocate(
+      area,
+      topic,
+      category,
+      sub_category,
+      metric,
+      period_type,
+      year,
+      value,
+      source,
+      source_tab
+    )
+
+  return(df_tab)
+}
+
+
+# Import Medicaid & CHIP Expenditures ------------------------------------
+
+read_medicaid_exp <- function(path) {
+  tab <- "Medicaid & CHIP Expenditures"
+
+  df_tab <- read_excel(
+    path,
+    sheet = tab,
+    skip = 4,
+    col_names = c("sub_category", "value")
+  )
+
+  df_tab <- df_tab |>
+    filter(!is.na(value)) |>
+    rm_notes()
+
+  df_tab <- df_tab |>
+    mutate(value = value * 1e9)
+
+  #remove total and add other
+  df_tab <- df_tab |>
+    filter(sub_category != "All Services") |>
+    bind_rows(
+      tibble(
+        sub_category = "Other Services",
+        value = sum(df_tab[df_tab$sub_category == "All Services", ]$value) -
+          sum(df_tab[df_tab$sub_category != "All Services", ]$value)
+      )
+    )
+
+  period_info <- extract_sheet_year(path, tab)
+
+  df_tab <- df_tab |>
+    mutate(
+      area = "Medicaid",
+      topic = "Expenditures",
+      category = "Payments (by Selected Type of Service)",
+      metric = "expenditure",
+      source = basename(path),
+      source_tab = tab,
+      source_origin = "CMS/Center for Medicaid and CHIP Services",
       year = period_info$year,
       period_type = period_info$period_type
     )
