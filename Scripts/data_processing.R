@@ -125,7 +125,10 @@ df_cms <- read_financial(path)
 
 #extract fed spending
 fed_spend = df_cms |>
-  filter(category == "Federal Program Spending") |>
+  filter(
+    year == max(year),
+    category == "Federal Program Spending"
+  ) |>
   count(wt = value) |>
   mutate(
     value_fmt = label_number(.1, prefix = "$", scale_cut = cut_short_scale())(n)
@@ -165,7 +168,10 @@ df_spend <- df_cms |>
 
 # FTEs
 fte <- df_cms |>
-  filter(str_detect(category, "FTE")) |>
+  filter(
+    year == max(year),
+    str_detect(category, "FTE")
+  ) |>
   mutate(
     value_fmt = label_comma()(value),
     n_icons = round(value / 1e3)
@@ -220,17 +226,8 @@ write_rds(context, "Dataout/context.rds")
 # BENEFICIARIES TAB ------------------------------------------------------
 
 # import sheet - Medicaid & CHIP Expenditures
-df_medicaid_exp <- read_excel(
-  path,
-  sheet = "Medicaid & CHIP Expenditures",
-  range = "A5:B11",
-  col_names = c("category", "value")
-)
+df_medicaid_exp <- read_medicaid_exp(path)
 
-df_medicaid_exp <- df_medicaid_exp |>
-  mutate(
-    category = str_remove(category, "(\\d|\\(.*)$"),
-  )
 
 # import sheet - Medicare Utilization
 df_medicare_util <- read_excel(
