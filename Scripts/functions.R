@@ -263,6 +263,10 @@ read_benes <- function(path) {
       )
     )
 
+  #adjust units
+  df_tab <- df_tab |>
+    mutate(value = value * 1e6)
+
   df_tab <- df_tab |>
     mutate(
       topic = "Enrollment",
