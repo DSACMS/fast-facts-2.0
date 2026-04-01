@@ -62,7 +62,7 @@ rm_notes <- function(df) {
 gen_release_dt <- function(df) {
   df |>
     mutate(
-      release_date = path |>
+      release_date = source |>
         str_extract("[A-Za-z]{3}\\d{4}") |>
         str_replace("cts", "Jan") |>
         my()
@@ -139,7 +139,7 @@ extract_source <- function(path, sheet) {
   ) |>
     filter(str_detect(a, "SOURCE")) |>
     pull() |>
-    str_remove("^.*:") |>
+    str_remove("^.*: ") |>
     str_trim()
 }
 
@@ -889,12 +889,12 @@ read_medicare_d <- function(path) {
 # Read in full file ------------------------------------------------------
 
 import_fast_facts <- function(path) {
+  shts <- excel_sheets(path)
   #read in all sheets
   df_benes <- read_benes(path)
   df_costsharing <- read_costsharing(path)
   df_medicare_util <- read_medicare_util(path)
   df_medicare_d <- read_medicare_d(path)
-  df_medicaid_exp <- read_medicaid_exp(path)
   df_providers <- read_all_providers(path)
   df_nhe <- read_nhe(path)
   df_financial <- read_financial(path)
@@ -905,11 +905,15 @@ import_fast_facts <- function(path) {
       df_costsharing,
       df_medicare_util,
       df_medicare_d,
-      df_medicaid_exp,
       df_providers,
       df_nhe,
       df_financial
     )
+
+  if ("Medicaid & CHIP Expenditures" %in% shts) {
+    df_medicaid_exp <- read_medicaid_exp(path)
+    df_ff <- bind_rows(df_ff, df_medicaid_exp)
+  }
 
   df_ff <- df_ff |>
     relocate(bound, .after = value) |>
