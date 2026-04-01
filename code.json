@@ -1,0 +1,62 @@
+{
+  "name": "fast-facts-2.0",
+  "version": "",
+  "description": "Reimagining CMS Fast Facts communication of summary information",
+  "longDescription": "",
+  "permissions": {
+    "licenses": [
+      {
+        "name": "CC0-1.0",
+        "URL": ""
+      }
+    ],
+    "usageType": [],
+    "exemptionText": ""
+  },
+  "organization": "Centers for Medicare & Medicaid Services",
+  "repositoryURL": "https://github.com/DSACMS/fast-facts-2.0",
+  "repositoryVisibility": "public",
+  "homepageURL": "",
+  "downloadURL": "",
+  "disclaimerURL": "",
+  "disclaimerText": "",
+  "vcs": "git",
+  "laborHours": 3695,
+  "reuseFrequency": {
+    "forks": 0,
+    "clones": 0
+  },
+  "platforms": [],
+  "categories": [],
+  "languages": [
+    "R",
+    "SCSS"
+  ],
+  "contractNumber": [],
+  "SBOM": "https://github.com/DSACMS/fast-facts-2.0/network/dependencies",
+  "relatedCode": [],
+  "reusedCode": [],
+  "partners": [],
+  "date": {
+    "created": "2026-03-17T15:36:33Z",
+    "lastModified": "2026-03-27T20:36:24Z",
+    "metadataLastUpdated": "2026-04-01T02:30:58.264Z"
+  },
+  "tags": [
+    "dsacms-tier2"
+  ],
+  "contact": {
+    "email": "",
+    "name": ""
+  },
+  "feedbackMechanism": "https://github.com/DSACMS/fast-facts-2.0/issues",
+  "AIUseCaseID": "0",
+  "localisation": false,
+  "userInput": false,
+  "group": "",
+  "projects": [],
+  "systems": [],
+  "subsetInHealthcare": [],
+  "userType": [],
+  "maturityModelTier": 0
+}
