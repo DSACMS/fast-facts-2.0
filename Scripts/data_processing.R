@@ -10,8 +10,8 @@
 
 library(tidyverse)
 library(readxl)
-library(janitor)
-library(scales)
+library(janitor, warn.conflicts = FALSE)
+library(scales, warn.conflicts = FALSE)
 
 #add colors
 
@@ -43,15 +43,34 @@ files <- tibble(files = files) |>
   pull(files)
 
 
+# IMPORT DATA ------------------------------------------------------------
+
+df_ff <- files |>
+  map(import_fast_facts) |>
+  list_rbind()
+
+write_csv(df_ff, "Dataout/Fast_Facts_std.csv", na = "")
+
+
+# INITIAL MUNGING --------------------------------------------------------
+
+#add release date (if needed to filter down where there are overlapping years)
+df_ff <- df_ff |>
+  gen_release_dt()
+
+#identity the latest observation (since each metric may have different most recent year)
+df_ff <- df_ff |>
+  group_by(topic, area) |> #including area which may be different for Enrollment
+  mutate(is_latest = year == max(year)) |>
+  ungroup()
+
+
 # CONTEXT TAB ------------------------------------------------------------
 
-# import sheet - NHE
-df_nhe <- read_nhe(path)
-
 #extract NHE total
-nhe_total <- df_nhe |>
+nhe_total <- df_ff |>
   filter(
-    year == max(year),
+    is_latest == TRUE,
     category == "National Health Expenditures",
     sub_category == "Total"
   ) |>
@@ -63,9 +82,9 @@ nhe_total <- df_nhe |>
   pull()
 
 #extract NHE share of GDP
-df_nhe_gdp_share <- df_nhe |>
+df_nhe_gdp_share <- df_ff |>
   filter(
-    year == max(year),
+    is_latest == TRUE,
     category == "National Health Expenditures",
     sub_category == "% of GDP"
   ) |>
@@ -76,9 +95,9 @@ df_nhe_gdp_share <- df_nhe |>
   select(category, sub_category, year, value, value_fmt, value_sqrt)
 
 #extract NHE per capita
-df_nhe_pc <- df_nhe |>
+df_nhe_pc <- df_ff |>
   filter(
-    year == max(year),
+    is_latest == TRUE,
     category == "National Health Expenditures",
     sub_category == "Per Capita"
   ) |>
@@ -88,24 +107,24 @@ df_nhe_pc <- df_nhe |>
   ) |>
   select(category, sub_category, year, value, value_fmt, n_icons)
 
-#insurnace
-df_insurance <- df_nhe |>
-  filter(
-    year == max(year),
-    category == "Health Insurance"
-  )
-
 #extact health insurnace total
-health_insurance <- df_insurance |>
+health_insurance <- df_ff |>
+  filter(
+    is_latest == TRUE,
+    category == "Health Insurance",
+  ) |>
   count(wt = value) |>
   mutate(
     value_fmt = label_number(.1, prefix = "$", scale_cut = cut_short_scale())(n)
   ) |>
   pull()
 
-
 #create a dataframe of health spending by type
-df_insurance <- df_insurance |>
+df_insurance <- df_ff |>
+  filter(
+    is_latest == TRUE,
+    category == "Health Insurance",
+  ) |>
   select(category, sub_category, year, value) |>
   mutate(
     value_fmt = label_number(.1, prefix = "$", scale_cut = cut_short_scale())(
@@ -120,13 +139,10 @@ df_insurance <- df_insurance |>
     )
   )
 
-## import sheet - CMS Financial Data
-df_cms <- read_financial(path)
-
 #extract fed spending
-fed_spend = df_cms |>
+fed_spend <- df_ff |>
   filter(
-    year == max(year),
+    is_latest == TRUE,
     category == "Federal Program Spending"
   ) |>
   count(wt = value) |>
@@ -136,17 +152,17 @@ fed_spend = df_cms |>
   pull()
 
 #extract numbers for BAN in tab
-bans <- c(
+bans_nhe <- c(
   nhe_total = nhe_total,
   health_insurance = health_insurance,
   fed_spend = fed_spend
 )
 
 # financial data for plot
-df_spend <- df_cms |>
+df_spend <- df_ff |>
   filter(
-    year == max(year),
-    topic == "Financial"
+    topic == "Financial",
+    is_latest == TRUE,
   ) |>
   group_by(category) |>
   mutate(
@@ -167,10 +183,10 @@ df_spend <- df_cms |>
   select(category, sub_category, value, value_fmt, share, squares, fill_color)
 
 # FTEs
-fte <- df_cms |>
+fte <- df_ff |>
   filter(
-    year == max(year),
-    str_detect(category, "FTE")
+    is_latest == TRUE,
+    category == "FTE Employment"
   ) |>
   mutate(
     value_fmt = label_comma()(value),
@@ -178,39 +194,16 @@ fte <- df_cms |>
   ) |>
   select(category, year, value, value_fmt, n_icons)
 
-#identify source years
-nhe_yr <- extract_sheet_year(path, "NHE")
-
-fed_spend_yr <- extract_sheet_year(path, "CMS Financial Data")
-
 #combine years
 years <- c(
-  nhe_yr = nhe_yr$period,
-  fed_spend_yr = fed_spend_yr$period
+  nhe_yr = extract_sheet_year(path, "NHE")$period,
+  fed_spend_yr = extract_sheet_year(path, "CMS Financial Data")$period
 )
 
 
-# df_insurance_trend <- files |>
-#   set_names() |>
-#   map(read_nhe) |>
-#   list_rbind()
-# # list_rbind(names_to = "source") |>
-# # mutate(source = basename(source))
-
-# df_insurance_trend <- df_insurance_trend %>%
-#   arrange(category, year) %>%
-#   group_by(category) %>%
-#   summarise(
-#     latest_year = max(year),
-#     latest_value = value[which.max(year)],
-#     trend = list(value), # ordered by year (arranged above)
-#     .groups = "drop"
-#   ) %>%
-#   arrange(desc(latest_value))
-
 #bundle tab datapoints/frames
 context <- list(
-  bans = bans,
+  bans = bans_nhe,
   years = years,
   df_nhe_gdp_share = df_nhe_gdp_share,
   df_nhe_pc = df_nhe_pc,
@@ -225,22 +218,19 @@ write_rds(context, "Dataout/context.rds")
 
 # BENEFICIARIES TAB ------------------------------------------------------
 
-# import sheet - Medicaid & CHIP Expenditures
-df_medicaid_exp <- read_medicaid_exp(path)
-
-# import sheet - Medicare Utilization (A + B)
-df_medicare_util <- read_medicare_util(path)
-
-# import sheet - Medicare Utilization (D)
-df_medicare_util_d <- read_medicare_d(path)
-
-#bind data together
-df_medicare_util <- df_medicare_util |>
-  bind_rows(df_medicare_util_d)
+df_ff |>
+  filter(
+    topic %in% c("Medicare Utilization", "Medicare Part D"),
+    is_latest == TRUE
+  )
 
 
-df_medicare_util <- df_medicare_util |>
-  filter(metric %in% c("persons_served", "payments")) |>
+df_medicare_util <- df_ff |>
+  filter(
+    topic == "Utilization",
+    is_latest == TRUE,
+    metric %in% c("persons_served", "payments")
+  ) |>
   filter_out(
     category == "Total (A and/or B)" |
       sub_category %in% c("Benefit Payments", "Administrative Expenses")
@@ -273,50 +263,34 @@ df_medicare_util <- df_medicare_util |>
   )
 
 
-df_benes_trend <- files |>
-  keep(~ str_extract(.x, "\\d{4}") |> as.integer() >= 2023) |>
-  set_names() |>
-  map(read_benes) |>
-  list_rbind()
-
-#keep latest observation for each year
-df_benes_trend <- df_benes_trend |>
-  group_by(group, category, year) |>
-  filter(ff_release == max(ff_release)) |>
-  ungroup()
-
-
 #extract numbers for BAN in tab
-benes_bans <- df_benes_trend |>
+df_benes <- df_ff |>
   filter(
-    category %in% c("Parts A and/or B", "Part D (MAPD+PDP)", "Medicaid & CHIP"),
-    year == max(year)
+    topic == "Enrollment",
+    category %in% c("Parts A and/or B", "Part D", "Medicaid & CHIP"),
+    sub_category == "Total",
+    is_latest == TRUE
   ) |>
   mutate(
     name = case_when(
       category == "Parts A and/or B" ~ "medicare_ab",
-      category == "Part D (MAPD+PDP)" ~ "medicare_d",
+      category == "Part D" ~ "medicare_d",
       category == "Medicaid & CHIP" ~ "medicaid"
-    )
-  ) |>
-  select(name, value) |> # replace `value` with your actual value column name
+    ),
+    value_fmt = label_number(1, scale_cut = cut_short_scale())(value)
+  )
+
+benes_bans <- df_benes |>
+  select(name, value_fmt) |>
   deframe()
-
-
-ban_year <- df_benes_trend |>
-  filter(
-    category %in% c("Parts A and/or B", "Part D (MAPD+PDP)", "Medicaid & CHIP"),
-    year == max(year)
-  ) |>
-  distinct(year) |>
-  pull()
 
 
 #combine years
 benes_years <- c(
-  ban_year = ban_year
+  ban_year = unique(df_benes$year)
 )
 
+#Orig v MA trend
 df_medicare_type_trend <- df_benes_trend |>
   filter(category %in% c("Original Medicare", "Medicare Advantage")) |>
   pivot_wider(names_from = category, values_from = value) |>
