@@ -104,7 +104,7 @@ warmgray_scale <- c(
 
 # ── Master CMS Color System ───────────────────────────────────────────────────
 
-ff_colors <- list(
+full_colors <- list(
   # Base colors (named vector for quick categorical use)
   base = c(
     azure = "#0071BC",
@@ -142,4 +142,8 @@ ff_colors <- list(
   )
 )
 
-rm(list = ls(pattern = "_scale$"))
+rm(list = ls(pattern = "_scale$|^ff_"))
+
+ff_colors <- full_colors
+
+rm(full_colors)
