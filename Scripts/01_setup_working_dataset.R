@@ -28,7 +28,8 @@ release <- file.path(
 )
 
 # pull in all historic files as well as current
-files <- list.files(dir_data, recursive = TRUE, full.names = TRUE)
+files <- list.files(dir_data, recursive = TRUE, full.names = TRUE) |>
+  keep(~ str_detect(.x, "~\\$", negate = TRUE)) #drop any open files
 
 #get the latest release from each year (some years have multiple releases)
 files <- tibble(source = files) |>
