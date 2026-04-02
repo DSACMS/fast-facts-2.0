@@ -354,7 +354,6 @@ write_rds(beneficiaries, "Dataout/beneficiaries.rds")
 df_cs_ban <- df_ff |>
   filter(
     topic == "Utilization",
-    ,
     category != "Total (A and/or B)",
     sub_category == "Total",
     metric %in% c("persons_served", "payments"),
@@ -375,7 +374,7 @@ df_cs_ban <- df_ff |>
 
 #store BAN for cost sharing
 cs_ban <- df_cs_ban |>
-  select(-year) |>
+  select(-period) |>
   deframe()
 
 #store year for cost sharing
@@ -427,13 +426,11 @@ write_rds(cost_sharing, "Dataout/cost_sharing.rds")
 
 # PROVIDERS --------------------------------------------------------------
 
-df_providers <- read_all_providers(path)
-
-ban_providers <- df_providers |>
+ban_providers <- df_ff |>
   filter(
     topic == "Providers",
     str_detect(category, "Total"),
-    year == max(year)
+    is_latest == TRUE
   ) |>
   unite(period, c(period_type, year), sep = " ") |>
   mutate(
@@ -454,33 +451,117 @@ ban_providers <- ban_providers |>
   deframe()
 
 # hospitals subset
-df_hospital_subset <- df_providers |>
+df_hospital_subset <- df_ff |>
   filter(
     topic == "Providers",
     category == "Hospitals",
-    year == max(year)
+    is_latest == TRUE,
   ) |>
   select(sub_category, value) |>
-  mutate(share = value / sum(value))
+  mutate(
+    share = value / sum(value),
+    squares = round(share * 100)
+  )
+
+if (sum(df_hospital_subset$squares) > 100) {
+  df_hospital_subset <- df_hospital_subset |>
+    mutate(
+      squares = ifelse(
+        squares == max(squares),
+        squares - (sum(df_hospital_subset$squares) - 100),
+        squares
+      )
+    )
+}
+
+# add color
+df_hospital_subset <- df_hospital_subset |>
+  bind_cols(
+    tibble(
+      fill_color = c(
+        ff_colors$base[(n_distinct(df_hospital_subset$sub_category) - 1):1],
+        ff_colors$scales$charcoal[["200"]]
+      )
+    )
+  )
 
 #provider coutns
-df_provider_counts <- df_providers |>
+df_provider <- df_ff |>
   filter(
     topic == "Providers",
-    # provider_type %in% c("Institutional", "Non-Institutional"),
     str_detect(category, "Total", negate = TRUE),
-    year == max(year)
+    is_latest == TRUE,
   ) |>
   count(provider_type, category, wt = value, name = "value") |>
   group_by(provider_type) |>
   mutate(share = value / sum(value)) |>
-  ungroup()
+  ungroup() |>
+  mutate(
+    value_fmt = label_number(1, scale_cut = cut_short_scale())(value),
+    category = category |>
+      fct_reorder(value) |>
+      fct_relevel("All Other Providers")
+  )
+
+#instutional providers
+df_provider_inst <- df_provider |>
+  filter(provider_type == "Institutional")
+
+#non-instutional providers
+df_provider_noninst <- df_provider |>
+  filter(provider_type == "Non-Institutional")
+
+#DMEPOS providers table
+df_providers_dmepos_tbl <- df_provider |>
+  filter(provider_type == "DMEPOS")
+
+df_providers_dmepos_tbl <- df_providers_dmepos_tbl |>
+  arrange(desc(category)) |>
+  bind_cols(
+    tibble(
+      fill_color = c(
+        ff_colors$scales$green[4:1],
+        rep(
+          ff_colors$scales$charcoal[["200"]],
+          nrow(df_providers_dmepos_tbl) - 4
+        )
+      )
+    )
+  ) |>
+  select(-c(provider_type, share, value_fmt)) |>
+  relocate(fill_color, .before = 1)
+
+#DMEPOS providers viz
+df_providers_dmepos <- df_provider |>
+  filter(provider_type == "DMEPOS") |>
+  mutate(
+    category = fct_lump_n(
+      category,
+      5,
+      w = share,
+      other_level = "All Other DMEPOS Providers"
+    )
+  ) |>
+  count(provider_type, category, wt = value, name = "value") |>
+  mutate(
+    share = value / sum(value),
+    category = category |>
+      fct_reorder(share) |>
+      fct_relevel("All Other DMEPOS Providers"),
+    fill_color = c(
+      unname(ff_colors$scales$green[4:1]),
+      ff_colors$scales$charcoal[["200"]]
+    )
+  )
 
 #bundle tab data points/frames
 providers <- list(
   bans = ban_providers,
   years = ban_providers_years,
-  df_provider_counts = df_provider_counts,
+  df_provider_inst = df_provider_inst,
+  df_provider_noninst = df_provider_noninst,
+  df_providers_dmepos = df_providers_dmepos,
+  df_providers_dmepos_tbl = df_providers_dmepos_tbl,
   df_hospital_subset = df_hospital_subset
 )
 
