@@ -164,8 +164,20 @@ fte <- df_ff |>
 
 #combine years
 years <- c(
-  nhe_yr = extract_sheet_year(path, "NHE")$period,
-  fed_spend_yr = extract_sheet_year(path, "CMS Financial Data")$period
+  nhe_yr = df_ff |>
+    filter(
+      is_latest == TRUE,
+      category == "National Health Expenditures"
+    ) |>
+    distinct(period_type, year) |>
+    unite(period, c(period_type, year), sep = " "),
+  fed_spend_yr = df_ff |>
+    filter(
+      is_latest == TRUE,
+      topic == "Financial"
+    ) |>
+    distinct(period_type, year) |>
+    unite(period, c(period_type, year), sep = " ")
 )
 
 
@@ -339,84 +351,59 @@ write_rds(beneficiaries, "Dataout/beneficiaries.rds")
 
 # COST SHARING TAB -------------------------------------------------------
 
-cs_ban <- df_medicare_util |>
-  filter(group == category) |>
+df_cs_ban <- df_ff |>
+  filter(
+    topic == "Utilization",
+    ,
+    category != "Total (A and/or B)",
+    sub_category == "Total",
+    metric %in% c("persons_served", "payments"),
+    is_latest == TRUE
+  ) |>
   mutate(
-    value = ifelse(
-      metric == "beneficiaries",
-      label_number(suffix = "M")(value),
-      label_number(1, prefix = "$", suffix = "B")(value)
+    value_fmt = ifelse(
+      metric == "persons_served",
+      label_number(1, scale_cut = cut_short_scale())(value),
+      label_number(1, prefix = "$", scale_cut = cut_short_scale())(value)
     )
   ) |>
+  unite(period, c(period_type, year), sep = " ") |>
   unite(label, c(category, metric)) |>
-  select(label, value) |>
-  mutate(label = label |> str_replace_all(" ", "_") |> tolower()) |>
-  # mutate(label = str_glue("{category}\n{ifelse(metric == 'beneficiaries', 'Persons Served', 'Program Payments')}")) |>
+  select(period, label, value_fmt) |>
+  mutate(label = label |> str_replace_all(" ", "_") |> tolower())
+# mutate(label = str_glue("{category}\n{ifelse(metric == 'beneficiaries', 'Persons Served', 'Program Payments')}")) |>
+
+#store BAN for cost sharing
+cs_ban <- df_cs_ban |>
+  select(-year) |>
   deframe()
 
-cs_yr <- read_excel(
-  path,
-  sheet = "Medicare Utilization",
-  range = "A2",
-  col_names = "title"
-) |>
-  pull() |>
-  str_extract("(Fiscal|Calendar) Year .*") |>
-  str_replace("Fiscal Year", "FY") |>
-  str_replace("Calendar Year", "CY")
+#store year for cost sharing
+cs_yr <- df_cs_ban |>
+  distinct(period) |>
+  pull()
 
-
-df_cs_trend <- files |>
-  keep(~ str_extract(.x, "\\d{4}") |> as.integer() >= 2023) |>
-  set_names() |>
-  map(read_costsharing) |>
-  list_rbind()
-
-#keep latest observation for each year
-df_cs_trend <- df_cs_trend |>
-  arrange(group, category, year, ff_release) |>
-  group_by(group, category, year) |>
-  filter(ff_release == max(ff_release)) |>
-  ungroup()
-
-
-#
-df_cs_premb <- df_cs_trend |>
-  filter(
-    group == "Premiums",
-    category == "Part B"
-  ) |>
-  mutate(value = str_remove_all(value, "\\$")) |>
-  separate_wider_delim(value, delim = "-", names = c("lower", "upper")) |>
-  pivot_longer(
-    c(lower, upper),
-    names_to = "bound"
-  )
-
-df_cs_trend <- df_cs_trend |>
-  filter_out(
-    group == "Premiums",
-    category == "Part B"
-  ) |>
-  bind_rows(df_cs_premb)
-
-df_cs_trend <- df_cs_trend |>
-  mutate(value = as.numeric(value))
-
-df_cs_trend <- df_cs_trend |>
+#subset data for cost sharing data
+df_cs_trend <- df_ff |>
+  filter(topic == "Cost Sharing") |>
   filter(year >= max(year) - 1) |>
+  unite(period, c(period_type, year), sep = " ") |>
+  select(topic, category, sub_category, metric, period, value, bound)
+
+#create necessary fields for viz
+df_cs_trend <- df_cs_trend |>
   mutate(
     ln_group = ifelse(
       !is.na(bound),
-      str_glue("{group} {category} {bound}"),
-      str_glue("{group} {category}")
+      str_glue("{category} {sub_category} {bound}"),
+      str_glue("{category} {sub_category}")
     ),
     fill_color = ifelse(
-      year == max(year),
+      period == max(period),
       ff_colors$scales$cobolt["200"],
       "white"
     ),
-    order = ifelse(year == max(year), value, 0)
+    order = ifelse(period == max(period), value, 0)
   ) |>
   group_by(ln_group) |>
   mutate(
