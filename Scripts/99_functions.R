@@ -227,11 +227,12 @@ read_benes <- function(path) {
 
   df_medicaid <- df_medicaid |>
     mutate(
-      area = case_when(
-        sub_category == "CHIP" ~ "CHIP",
-        str_detect(df_anchor$what[2], "CHIP") ~ "Medicaid & CHIP",
-        TRUE ~ "Medicaid"
-      ),
+      area = "Medicaid & CHIP",
+      # area = case_when(
+      #   sub_category == "CHIP" ~ "CHIP",
+      #   str_detect(df_anchor$what[2], "CHIP") ~ "Medicaid & CHIP",
+      #   TRUE ~ "Medicaid"
+      # ),
       .before = 1
     ) |>
     rename_with(~ str_replace(., "x", "fy_")) |>
@@ -710,7 +711,7 @@ read_medicaid_exp <- function(path) {
 
   df_tab <- df_tab |>
     mutate(
-      area = "Medicaid",
+      area = "Medicaid & CHIP",
       topic = "Expenditures",
       category = "Payments (by Selected Type of Service)",
       metric = "expenditure",
