@@ -186,13 +186,17 @@ write_rds(context, "Dataout/context.rds")
 
 # BENEFICIARIES TAB ------------------------------------------------------
 
-df_ff |>
+#Medicaid & CHIP expenditures
+df_medicaid_exp <- df_ff |>
   filter(
-    topic %in% c("Medicare Utilization", "Medicare Part D"),
-    is_latest == TRUE
-  )
+    topic == "Expenditures",
+    category == "Payments (by Selected Type of Service)",
+    is_latest
+  ) |>
+  select(metric, category, sub_category, year, value) |>
+  mutate(value_fmt = label_number(1, scale_cut = cut_short_scale())(value))
 
-
+#medicare utilization
 df_medicare_util <- df_ff |>
   filter(
     topic == "Utilization",
@@ -258,42 +262,63 @@ benes_years <- c(
   ban_year = unique(df_benes$year)
 )
 
-#Orig v MA trend <<<<<<---- LEFT OFF HERE
-df_medicare_type_trend <- df_benes_trend |>
-  filter(category %in% c("Original Medicare", "Medicare Advantage")) |>
-  pivot_wider(names_from = category, values_from = value) |>
-  clean_names()
-
-
-df_medicaid_type_trends <- df_benes_trend |>
+#Orig v MA trend
+df_medicare_trend <- df_ff |>
   filter(
-    group == "Medicaid & CHIP",
-    category != "Medicaid & CHIP",
-    !is.na(value)
+    topic == "Enrollment",
+    sub_category %in% c("Original Medicare Enrollment", "MA Enrollment")
   ) |>
-  group_by(category) |>
+  select(sub_category, metric, year, value) |>
+  mutate(sub_category = str_remove(sub_category, " Enrollment")) |>
+  pivot_wider(
+    names_from = sub_category,
+    values_from = value
+  ) |>
+  clean_names() |>
+  mutate(
+    lab_og = case_when(
+      year == min(year) | year == max(year) ~ label_number(
+        .1,
+        scale_cut = cut_short_scale()
+      )(original_medicare)
+    ),
+    lab_ma = case_when(
+      year == min(year) | year == max(year) ~ label_number(
+        .1,
+        scale_cut = cut_short_scale()
+      )(ma)
+    ),
+    lab_og_cat = case_when(year == 2022 ~ "Original Medicare"),
+    lab_ma_cat = case_when(year == 2022 ~ "Medicare Advantage")
+  )
+
+
+df_medicaid_trend <- df_ff |>
+  filter(
+    topic == "Enrollment",
+    area == "Medicaid & CHIP",
+    sub_category %in%
+      c("Children", "Medicaid Expansion Adults", "Dual Eligible"),
+    year >= 2020
+  ) |>
+  select(metric, sub_category, period_type, year, value) |>
   mutate(
     fill_color = recode_values(
-      category,
+      sub_category,
       "Children" ~ ff_colors$base[["plum"]],
-      "Dual Eligible (includes Aged, Disabled & ESRD)" ~ ff_colors$scales$teal[[
-        "200"
-      ]],
+      "Dual Eligible" ~ ff_colors$scales$teal[["200"]],
       "Medicaid Expansion Adults" ~ ff_colors$scales$teal[["900"]],
-    ),
-    category = recode_values(
-      category,
-      "Dual Eligible (includes Aged, Disabled & ESRD)" ~ "Dual Eligible",
-      "Medicaid Expansion Adults" ~ "ME Adults",
-      default = category
-    ),
+    )
+  ) |>
+  group_by(sub_category) |>
+  mutate(
     val_pt = case_when(year == min(year) | year == max(year) ~ value),
-    lab_start = case_when(
-      year == min(year) ~ label_number(1, suffix = "m")(value)
-    ),
-    lab_end = case_when(
-      year == max(year) ~ label_number(1, suffix = "m")(value)
-    ),
+    lab_val = case_when(
+      year %in% c(min(year), max(year)) ~ label_number(
+        1,
+        scale_cut = cut_short_scale()
+      )(value)
+    )
   ) |>
   ungroup()
 
@@ -304,8 +329,8 @@ beneficiaries <- list(
   years = benes_years,
   df_medicare_util = df_medicare_util,
   df_medicaid_exp = df_medicaid_exp,
-  df_medicare_type_trend = df_medicare_type_trend,
-  df_medicaid_type_trends = df_medicaid_type_trends
+  df_medicare_trend = df_medicare_trend,
+  df_medicaid_trend = df_medicaid_trend
 )
 
 # export
