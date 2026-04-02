@@ -13,7 +13,7 @@ library(readxl)
 library(janitor, warn.conflicts = FALSE)
 library(scales, warn.conflicts = FALSE)
 
-source("Scripts/color_system.R")
+source("Scripts/98_color_system.R")
 
 
 # GLOBAL VARIABLES --------------------------------------------------------

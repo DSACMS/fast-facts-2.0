@@ -11,7 +11,7 @@
 library(tidyverse)
 library(arrow, warn.conflicts = FALSE)
 
-source("Scripts/functions.R")
+source("Scripts/99_functions.R")
 
 # GLOBAL VARIABLES --------------------------------------------------------
 
