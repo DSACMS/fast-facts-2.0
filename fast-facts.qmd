@@ -61,11 +61,12 @@ register_font(
 #| label: load_data
 #| include: false
 
-#load each the data needed for each tab, stored in a list element
-context <- read_rds("Dataout/context.rds")
-beneficiaries <- read_rds("Dataout/beneficiaries.rds")
-cost_sharing <- read_rds("Dataout/cost_sharing.rds")
-providers <- read_rds("Dataout/providers.rds")
+#load each dataset needed for each tab, stored in a list element
+files <- list.files("Dataout", ".rds") |> str_remove(".rds")
+walk(
+  files,
+  ~ assign(.x, read_rds(paste0("Dataout/", .x, ".rds")), envir = .GlobalEnv)
+)
 ```
 
 # Context
