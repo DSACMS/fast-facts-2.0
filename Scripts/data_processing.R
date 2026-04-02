@@ -12,6 +12,7 @@ library(tidyverse)
 library(readxl)
 library(janitor, warn.conflicts = FALSE)
 library(scales, warn.conflicts = FALSE)
+library(arrow, warn.conflicts = FALSE)
 
 #add colors
 
@@ -45,24 +46,7 @@ files <- tibble(files = files) |>
 
 # IMPORT DATA ------------------------------------------------------------
 
-df_ff <- files |>
-  map(import_fast_facts) |>
-  list_rbind()
-
-write_csv(df_ff, "Dataout/Fast_Facts_std.csv", na = "")
-
-
-# INITIAL MUNGING --------------------------------------------------------
-
-#add release date (if needed to filter down where there are overlapping years)
-df_ff <- df_ff |>
-  gen_release_dt()
-
-#identity the latest observation (since each metric may have different most recent year)
-df_ff <- df_ff |>
-  group_by(topic, area) |> #including area which may be different for Enrollment
-  mutate(is_latest = year == max(year)) |>
-  ungroup()
+df_ff <- read_parquet("Dataout/Fast_Facts_std.rds")
 
 
 # CONTEXT TAB ------------------------------------------------------------
@@ -290,7 +274,7 @@ benes_years <- c(
   ban_year = unique(df_benes$year)
 )
 
-#Orig v MA trend
+#Orig v MA trend <<<<<<---- LEFT OFF HERE
 df_medicare_type_trend <- df_benes_trend |>
   filter(category %in% c("Original Medicare", "Medicare Advantage")) |>
   pivot_wider(names_from = category, values_from = value) |>
