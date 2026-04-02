@@ -170,14 +170,16 @@ years <- c(
       category == "National Health Expenditures"
     ) |>
     distinct(period_type, year) |>
-    unite(period, c(period_type, year), sep = " "),
+    unite(period, c(period_type, year), sep = " ") |>
+    pull(),
   fed_spend_yr = df_ff |>
     filter(
       is_latest == TRUE,
       topic == "Financial"
     ) |>
     distinct(period_type, year) |>
-    unite(period, c(period_type, year), sep = " ")
+    unite(period, c(period_type, year), sep = " ") |>
+    pull()
 )
 
 
@@ -234,7 +236,7 @@ df_medicare_util <- df_medicare_util |>
   mutate(
     lab_ben = case_when(
       metric == "persons_served" ~ str_glue(
-        "{category}\n{label_number(1, scale_cut =  cut_short_scale())(value)}"
+        "{sub_category}\n{label_number(1, scale_cut =  cut_short_scale())(value)}"
       )
     ),
     lab_exp = case_when(

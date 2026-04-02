@@ -36,12 +36,12 @@ library(scales, warn.conflicts = FALSE)
 library(systemfonts, warn.conflicts = FALSE)
 library(ggrepel)
 library(waffle)
-library(gt)
+library(gt, warn.conflicts = FALSE)
 library(gtExtras)
 
 #add colors
 
-source("Scripts/color_system.R")
+source("Scripts/98_color_system.R")
 
 # Register the OTF font used for pictograms
 register_font(
@@ -350,11 +350,7 @@ icons |>
 #| color: primary
 
 list(
-  value = scales::label_number(
-    suffix   = "M",
-    # accuracy = 0.1,
-    big.mark = ","
-  )(beneficiaries$bans[["medicare_ab"]]),
+  value = beneficiaries$bans[["medicare_ab"]],
   subtitle = beneficiaries$years[["ban_year"]]
 )
 ```
@@ -367,11 +363,7 @@ list(
 #| color: primary
 
 list(
-  value = scales::label_number(
-    suffix   = "M",
-    # accuracy = 0.1,
-    big.mark = ","
-  )(beneficiaries$bans[["medicare_d"]]),
+  value = beneficiaries$bans[["medicare_d"]],
   subtitle = beneficiaries$years[["ban_year"]]
 )
 ```
@@ -384,11 +376,7 @@ list(
 #| color: primary
 
 list(
-  value = scales::label_number(
-    suffix   = "M",
-    # accuracy = 0.1,
-    big.mark = ","
-  )(beneficiaries$bans[["medicaid"]]),
+  value = beneficiaries$bans[["medicaid"]],
   subtitle = beneficiaries$years[["ban_year"]]
 )
 ```
@@ -489,9 +477,7 @@ beneficiaries[["df_medicaid_trend"]] |>
 #| title: Medicare Utilization
 
 beneficiaries[["df_medicare_util"]] |> 
-  filter_out(category %in% c("Part A", "Part B")) |>
-  mutate(category = ifelse(category == "Part D", "Total", category)) |> 
-  ggplot(aes(metric, zscore, group = category, color = group)) +
+  ggplot(aes(metric, zscore, group = sub_category, color = category)) +
   geom_line() +
   geom_point() +
   geom_text(
@@ -508,7 +494,7 @@ beneficiaries[["df_medicare_util"]] |>
     color = ff_colors$elements[["annotation"]],
     na.rm = TRUE
   ) +
-  facet_wrap(~group) +
+  facet_wrap(~category) +
   scale_color_manual(
     values = 
       c(
@@ -547,8 +533,7 @@ beneficiaries[["df_medicare_util"]] |>
 medicaid_exp_tot <- sum(beneficiaries[['df_medicaid_exp']]$value)
 
 beneficiaries[['df_medicaid_exp']] |> 
-  filter(category != "All Services") |> 
-  ggplot(aes(value, fct_reorder(category, value))) +
+  ggplot(aes(value, fct_reorder(sub_category, value))) +
   geom_blank(aes(x = value *1.3)) +
   geom_col(fill = ff_colors$base[["teal"]]) +
   geom_text(
@@ -583,7 +568,7 @@ beneficiaries[['df_medicaid_exp']] |>
 #| color: primary
 
 list(
-  cost_sharing$bans[["part_a_beneficiaries"]],
+  cost_sharing$bans[["part_a_persons_served"]],
   subtitle = cost_sharing$years
 )
 ```
@@ -597,7 +582,7 @@ list(
 #| color: primary
 
 list(
-  cost_sharing$bans[["part_b_beneficiaries"]],
+  cost_sharing$bans[["part_b_persons_served"]],
   subtitle = cost_sharing$years
 )
 ```
@@ -612,7 +597,7 @@ list(
 #| color: primary
 
 list(
-  cost_sharing$bans[["part_d_beneficiaries"]],
+  cost_sharing$bans[["part_d_persons_served"]],
   subtitle = cost_sharing$years
 )
 ```
@@ -665,7 +650,7 @@ list(
 #| title: "Medicare Deductibles, Coinsurance, Premiums"
 
 cost_sharing[["df_cs_trend"]] |> 
-  ggplot(aes(value, fct_reorder(category, order, .fun = max, .na_rm = TRUE), group = ln_group)) +
+  ggplot(aes(value, fct_reorder(sub_category, order, .fun = max, .na_rm = TRUE), group = ln_group)) +
   geom_path(color = ff_colors$scales$cobolt[["200"]], na.rm = TRUE) +
   geom_point(
     color = "white",
@@ -687,7 +672,7 @@ cost_sharing[["df_cs_trend"]] |>
     vjust = -1.1
   ) + 
   # facet_wrap(~group, nrow = 1, scales = "free") +
-  facet_wrap(group ~ ., ncol = 1, scales = "free", space = "free_y", strip.position = "top") +
+  facet_wrap(category ~ ., ncol = 1, scales = "free", space = "free_y", strip.position = "top") +
   labs(x = NULL, y = NULL) +
   scale_fill_identity() +
   scale_x_continuous(label = label_currency()) +
@@ -725,13 +710,13 @@ list(
 #| label: institutional_providers
 #| title: "Institutional Providers"
 
-providers[["df_provider_counts"]] |> 
-  filter(provider_type == "Institutional") |> 
-  ggplot(aes(value, fct_reorder(category, value))) + 
+providers[["df_provider_inst"]] |> 
+  # ggplot(aes(value, fct_reorder(category, value))) + 
+  ggplot(aes(value, category)) + 
   geom_blank(aes(value * 1.1)) +
   geom_col(fill = ff_colors$scales$steel[["700"]]) +
   geom_text(
-    aes(label = label_number(1, scale_cut = cut_short_scale())(value)),
+    aes(label = value_fmt),
     hjust = -.1,
     family = "Source Sans 3", color = ff_colors$elements[['annotation']],
     ) +
@@ -753,26 +738,7 @@ providers[["df_provider_counts"]] |>
 #| label: hopsital_type
 #| title: "Hospital Subset"
 
-df_hospital <- providers[["df_hospital_subset"]] |> 
-  mutate(squares = round(share * 100))
-
-if (sum(df_hospital$squares) > 100) {
-  df_hospital <- df_hospital |> 
-    mutate(squares = ifelse(squares == max(squares), squares - (sum(df_hospital$squares) - 100), squares))
-}
-
-df_hospital <- df_hospital |> 
-   bind_cols(
-    tibble(
-      fill_color = 
-        c(
-          ff_colors$base[(n_distinct(df_hospital$sub_category)-1):1], 
-          ff_colors$scales$charcoal[["200"]])
-        )
-    )
-
-
-df_hospital |> 
+providers[["df_hospital_subset"]]  |> 
   ggplot(aes(fill = fill_color, values = squares)) +
   geom_waffle(
     n_rows  = 10,
@@ -783,7 +749,6 @@ df_hospital |>
   scale_fill_identity() +
   labs(
     subtitle = "Each square represents ~1% of total",
-    # caption  = "Source: CMS",
     fill     = NULL
   ) +
   coord_fixed() +
@@ -800,7 +765,7 @@ df_hospital |>
 #| label: hopsital_table
 #| title: "Hospital Table"
 
-df_hospital |> 
+providers[["df_hospital_subset"]]  |> 
   relocate(fill_color, .before = 1) |> 
   arrange(desc(value)) |> 
   select(-squares) |> 
@@ -862,13 +827,13 @@ list(
 #| label: noninstitutional_providers
 #| title: "Non-Institutional Providers"
 
-providers[["df_provider_counts"]] |> 
-  filter(provider_type == "Non-Institutional") |> 
-  ggplot(aes(value, fct_reorder(category, value) |> fct_relevel("All Other Providers"))) +
+providers[["df_provider_noninst"]] |> 
+  # ggplot(aes(value, fct_reorder(category, value) |> fct_relevel("All Other Providers"))) +
+  ggplot(aes(value, category)) +
   geom_blank(aes(value * 1.1)) +
   geom_col(fill = ff_colors$scales$steel[["500"]]) +
   geom_text(
-    aes(label = label_number(1, scale_cut = cut_short_scale())(value)),
+    aes(label = value_fmt),
     hjust = -.1,
     family = "Source Sans 3", color = ff_colors$elements[['annotation']],
     ) +
@@ -891,7 +856,7 @@ providers[["df_provider_counts"]] |>
 #| label: ban_DMEPOS
 #| content: valuebox
 #| title: "DMEPOS"
-#| icon: eyeglasses
+#| icon: people-fill
 #| color: primary
 
 list(
@@ -904,21 +869,8 @@ list(
 ```{r}
 #| label: dmepos_viz
 #| title: DMEPOS Provider Share
-df_providers_viz <- providers[["df_provider_counts"]] |> 
-  filter(provider_type == "DMEPOS") |> 
-  mutate(category = fct_lump_n(category, 5, w = share, other_level = "All Other DMEPOS Providers")) |> 
-  group_by(provider_type, category) |> 
-  summarise(
-    value = sum(value),
-    .groups = "drop"
-  ) |> 
-  mutate(
-    share = value / sum(value),
-    category = category |> fct_reorder(share) |> fct_relevel("All Other DMEPOS Providers"),
-    fill_color = c(unname(ff_colors$scales$green[4:1]), ff_colors$scales$charcoal[["200"]])
-  ) 
 
-df_providers_viz|> 
+providers[["df_providers_dmepos"]]|> 
   ggplot(aes(share, provider_type, fill = category)) +
   geom_col() +
   scale_fill_manual(values = c(ff_colors$scales$charcoal[["200"]], unname(ff_colors$scales$green[1:4]))) +
@@ -932,25 +884,8 @@ df_providers_viz|>
 ```{r}
 #| label: dmepos_table
 #| title: DMEPOS Provider Table
-df_dmepos_tbl <- providers[["df_provider_counts"]] |> 
-  filter(provider_type == "DMEPOS") |> 
-  mutate(category = category |> fct_reorder(share) |> fct_relevel("All Other DMEPOS Providers")) |> 
-  arrange(desc(category)) 
-  
-df_dmepos_tbl <- df_dmepos_tbl |> 
-  bind_cols(
-    tibble(
-      fill_color = 
-        c(
-          ff_colors$scales$green[4:1], 
-          rep(ff_colors$scales$charcoal[["200"]], nrow(df_dmepos_tbl) - 4)
-        )
-    )
-  ) |> 
-  select(-c(provider_type, share)) 
 
-df_dmepos_tbl |>
-  relocate(fill_color, .before = 1) |> 
+providers[["df_providers_dmepos_tbl"]] |>
   gt() |> 
   cols_label(
       fill_color = "",
