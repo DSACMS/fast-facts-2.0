@@ -395,47 +395,50 @@ list(
 
 ## Row
 ```{r}
-#| label: medicare_type
+#| label: df_medicare_trend
 #| title: "Medicare Advantage Overtaking Original Medicare"
 
-beneficiaries[["df_medicare_type_trend"]] |>
-  mutate(
-    lab_og = case_when(year == min(year) | year == max(year) ~ label_number(suffix = "M")(original_medicare)),
-    lab_ma = case_when(year == min(year) | year == max(year) ~ label_number(suffix = "M")(medicare_advantage))
-  ) |> 
+beneficiaries[["df_medicare_trend"]] |>
   ggplot(aes(x = year)) +
   geom_ribbon(
     aes(
-      ymin = pmin(original_medicare, medicare_advantage),
-      ymax = pmax(original_medicare, medicare_advantage)
+      ymin = pmin(original_medicare, ma),
+      ymax = pmax(original_medicare, ma)
     ),
     fill = ff_colors$base["warmgray"], #"lightgray",
     alpha = 0.3
   ) +
   geom_line(aes(y = original_medicare, color = "Original Medicare")) +
-  geom_line(aes(y = medicare_advantage, color = "Medicare Advantage")) + 
+  geom_line(aes(y = ma, color = "Medicare Advantage")) + 
   geom_point(aes(y = original_medicare, color = "Original Medicare")) +
-  geom_point(aes(y = medicare_advantage, color = "Medicare Advantage")) +
+  geom_point(aes(y = ma, color = "Medicare Advantage")) +
   geom_text(
     aes(y = original_medicare, label = lab_og), 
     family = "Source Sans 3",
     vjust = -1, na.rm = TRUE
     ) +
   geom_text(
-    aes(y = medicare_advantage, label = lab_ma), 
+    aes(y = ma, label = lab_ma), 
     family = "Source Sans 3", color = ff_colors$elements["annotation"],
     vjust = 1.4, na.rm = TRUE
+    ) +
+  geom_text(
+    aes(y = original_medicare, label = lab_og_cat, color = "Original Medicare"), 
+    family = "Source Sans 3",
+    vjust = -2.5, hjust = 0, na.rm = TRUE
+    ) +
+  geom_text(
+    aes(y = ma, label = lab_ma_cat, color = "Medicare Advantage"), 
+    family = "Source Sans 3",
+    vjust = 2.5, hjust = 0, na.rm = TRUE
     ) +
   scale_color_manual(
     values = c(
       "Original Medicare" = ff_colors$scales$cobolt[["900"]],
       "Medicare Advantage" = ff_colors$scales$cobolt[["200"]]
       )
-      )+
-  labs(
-    x = NULL, y = NULL,
-    # title = "Medicare Advantage Overtaking Original Medicare"
-    ) +
+      ) +
+  labs(x = NULL, y = NULL) +
   coord_cartesian(clip = "off") +
   theme_minimal(base_size = 22) +
   theme(
@@ -448,28 +451,22 @@ beneficiaries[["df_medicare_type_trend"]] |>
 ```
 
 ```{r}
-#| label: medicaid_types
+#| label: df_medicaid_trend
 #| title: "Trends in Medicaid Sub-Populations"
 
-beneficiaries[["df_medicaid_type_trends"]] |> 
-  ggplot(aes(year, value, group = category, fill = fill_color, color = fill_color)) +
+beneficiaries[["df_medicaid_trend"]] |> 
+  ggplot(aes(year, value, group = sub_category, fill = fill_color, color = fill_color)) +
   geom_area(alpha = .4) +
   geom_line() +
   geom_point(aes(y = val_pt), na.rm = TRUE) +
   geom_text(
-    aes(label = lab_start), 
+    aes(label = lab_val), 
     vjust = -1, na.rm = TRUE, 
     family = "Source Sans 3", 
     color = ff_colors$elements[["annotation"]]
     ) +
-  geom_text(
-    aes(label = lab_end), 
-    vjust = -1, na.rm = TRUE, 
-    family = "Source Sans 3",
-    color = ff_colors$elements[["annotation"]]
-    ) +
-  facet_grid(~fct_reorder2(category, year, value)) +
-  scale_x_continuous(breaks = range(unique(beneficiaries[["df_medicaid_type_trends"]]$year), na.rm = TRUE)) +
+  facet_grid(~fct_reorder2(sub_category, year, value)) +
+  scale_x_continuous(breaks = range(unique(beneficiaries[["df_medicaid_trend"]]$year), na.rm = TRUE)) +
   scale_color_identity() +
   scale_fill_identity() +
   coord_cartesian(clip = "off") +
@@ -547,9 +544,7 @@ beneficiaries[["df_medicare_util"]] |>
 #| label: medicaid_exp
 #| title: Medicaid Expenditures
 
-medicaid_exp_tot <- beneficiaries[['df_medicaid_exp']] |> 
-  filter(category == "All Services") |> 
-  pull() 
+medicaid_exp_tot <- sum(beneficiaries[['df_medicaid_exp']]$value)
 
 beneficiaries[['df_medicaid_exp']] |> 
   filter(category != "All Services") |> 
@@ -558,14 +553,14 @@ beneficiaries[['df_medicaid_exp']] |>
   geom_col(fill = ff_colors$base[["teal"]]) +
   geom_text(
     aes(
-      label = label_comma(1, prefix = "$", suffix = " B")(value)),
+      label = value_fmt),
       hjust = -.1, family = "Source Sans 3", color = ff_colors$elements[["annotation"]]
   ) +
   coord_cartesian(clip = "off") +
   scale_x_continuous(expand = c(.005, .005)) +
   labs(
     x = NULL, y = NULL,
-    title = str_glue('All Services = {label_comma(1, prefix = "$", suffix = " B")(medicaid_exp_tot)}')   
+    title = str_glue('All Services = {label_comma(1, prefix = "$", cale_cut = cut_short_scale())(medicaid_exp_tot)}')   
   ) +
   theme_minimal(base_size = 22) +
   theme(
