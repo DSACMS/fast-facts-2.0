@@ -10,7 +10,7 @@
 
 library(tidyverse)
 library(readxl)
-library(janitor)
+library(janitor, warn.conflicts = FALSE)
 library(scales, warn.conflicts = FALSE)
 
 source("Scripts/color_system.R")
