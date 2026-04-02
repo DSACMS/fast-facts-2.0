@@ -16,37 +16,21 @@ library(arrow, warn.conflicts = FALSE)
 
 #add colors
 
-source("Scripts/functions.R")
-source("Scripts/color_system.R")
+source("Scripts/98_color_system.R")
+source("Scripts/99_functions.R")
 
 # GLOBAL VARIABLES --------------------------------------------------------
 
-#data file
-path <- "Data/CMSFastFacts2025_508.xlsx"
+#data output directory
+dir_out <- "Dataout"
 
-#review excel sheets
-# excel_sheets(path)
-
-## muli-year pull for sparklines
-files <- list.files(dirname(path), recursive = TRUE, full.names = TRUE)
-
-#get the latest release from each year (if multiple)
-files <- tibble(files = files) |>
-  mutate(
-    release = files |>
-      str_extract("[A-Za-z]{3}\\d{4}") |>
-      str_replace("cts", "Jan") |>
-      my()
-  ) |>
-  group_by(year(release)) |>
-  filter(release == max(release)) |>
-  ungroup() |>
-  pull(files)
-
+#path to data file
+(path <- list.files(dir_out, ".parquet", full.names = TRUE))
 
 # IMPORT DATA ------------------------------------------------------------
 
-df_ff <- read_parquet("Dataout/Fast_Facts_std.rds")
+#read in Fast Facts structured dataset
+df_ff <- read_parquet(path)
 
 
 # CONTEXT TAB ------------------------------------------------------------
