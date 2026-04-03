@@ -1,0 +1,543 @@
+area,topic,category,sub_category,provider_type,metric,period_type,year,value,bound,source,source_tab,source_origin,release_date,is_latest
+Medicare,Enrollment,Parts A and/or B,Total,,enrollment,CY,2019,61500000,,CMSFastFactsNov2021.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Office of the Actuary,2021-11-01,FALSE
+Medicare,Enrollment,Parts A and/or B,Aged,,enrollment,CY,2019,53000000,,CMSFastFactsNov2021.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Office of the Actuary,2021-11-01,FALSE
+Medicare,Enrollment,Parts A and/or B,Disabled,,enrollment,CY,2019,8500000,,CMSFastFactsNov2021.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Office of the Actuary,2021-11-01,FALSE
+Medicare,Enrollment,Parts A and/or B,Original Medicare Enrollment,,enrollment,CY,2019,38600000,,CMSFastFactsNov2021.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Office of the Actuary,2021-11-01,FALSE
+Medicare,Enrollment,Parts A and/or B,MA & Other Health Plan Enrollment,,enrollment,CY,2019,22900000,,CMSFastFactsNov2021.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Office of the Actuary,2021-11-01,FALSE
+Medicare,Enrollment,Parts A and/or B,MA Enrollment,,enrollment,CY,2019,22200000,,CMSFastFactsNov2021.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Office of the Actuary,2021-11-01,FALSE
+Medicare,Enrollment,Part D,Total,,enrollment,CY,2019,45800000,,CMSFastFactsNov2021.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Office of the Actuary,2021-11-01,FALSE
+Medicaid & CHIP,Enrollment,Medicaid & CHIP,Total,,enrollment,FY,2018,73900000,,CMSFastFactsNov2021.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Office of the Actuary,2021-11-01,FALSE
+Medicaid & CHIP,Enrollment,Medicaid & CHIP,Aged,,enrollment,FY,2018,6000000,,CMSFastFactsNov2021.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Office of the Actuary,2021-11-01,FALSE
+Medicaid & CHIP,Enrollment,Medicaid & CHIP,Blind/Disabled,,enrollment,FY,2018,10700000,,CMSFastFactsNov2021.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Office of the Actuary,2021-11-01,FALSE
+Medicaid & CHIP,Enrollment,Medicaid & CHIP,Children,,enrollment,FY,2018,28100000,,CMSFastFactsNov2021.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Office of the Actuary,2021-11-01,FALSE
+Medicaid & CHIP,Enrollment,Medicaid & CHIP,Adults,,enrollment,FY,2018,15600000,,CMSFastFactsNov2021.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Office of the Actuary,2021-11-01,FALSE
+Medicaid & CHIP,Enrollment,Medicaid & CHIP,Expansion Adult,,enrollment,FY,2018,12200000,,CMSFastFactsNov2021.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Office of the Actuary,2021-11-01,FALSE
+Medicaid & CHIP,Enrollment,Medicaid & CHIP,Total,,enrollment,FY,2018,7000000,,CMSFastFactsNov2021.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Office of the Actuary,2021-11-01,FALSE
+Medicare,Utilization,Total (A and/or B),Total,,persons_served,CY,2019,34300000,,CMSFastFactsNov2021.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2021-11-01,FALSE
+Medicare,Utilization,Total (A and/or B),Total,,payments,CY,2019,400200000000,,CMSFastFactsNov2021.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2021-11-01,FALSE
+Medicare,Utilization,Part A,Total,,persons_served,CY,2019,7500000,,CMSFastFactsNov2021.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2021-11-01,FALSE
+Medicare,Utilization,Part A,Total,,payments,CY,2019,193300000000,,CMSFastFactsNov2021.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2021-11-01,FALSE
+Medicare,Utilization,Part A,Inpatient Hospital,,persons_served,CY,2019,6300000,,CMSFastFactsNov2021.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2021-11-01,FALSE
+Medicare,Utilization,Part A,Inpatient Hospital,,payments,CY,2019,138500000000,,CMSFastFactsNov2021.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2021-11-01,FALSE
+Medicare,Utilization,Part A,Skilled Nursing Facility,,persons_served,CY,2019,1600000,,CMSFastFactsNov2021.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2021-11-01,FALSE
+Medicare,Utilization,Part A,Skilled Nursing Facility,,payments,CY,2019,27100000000,,CMSFastFactsNov2021.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2021-11-01,FALSE
+Medicare,Utilization,Part A,Home Health Agency,,persons_served,CY,2019,1500000,,CMSFastFactsNov2021.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2021-11-01,FALSE
+Medicare,Utilization,Part A,Home Health Agency,,payments,CY,2019,6700000000,,CMSFastFactsNov2021.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2021-11-01,FALSE
+Medicare,Utilization,Part A,Hospice,,persons_served,CY,2019,1600000,,CMSFastFactsNov2021.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2021-11-01,FALSE
+Medicare,Utilization,Part A,Hospice,,payments,CY,2019,20900000000,,CMSFastFactsNov2021.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2021-11-01,FALSE
+Medicare,Utilization,Part B,Total,,persons_served,CY,2019,33700000,,CMSFastFactsNov2021.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2021-11-01,FALSE
+Medicare,Utilization,Part B,Total,,payments,CY,2019,207000000000,,CMSFastFactsNov2021.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2021-11-01,FALSE
+Medicare,Utilization,Part B,Physician/DME,,persons_served,CY,2019,33200000.000000004,,CMSFastFactsNov2021.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2021-11-01,FALSE
+Medicare,Utilization,Part B,Physician/DME,,payments,CY,2019,114800000000,,CMSFastFactsNov2021.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2021-11-01,FALSE
+Medicare,Utilization,Part B,Outpatient,,persons_served,CY,2019,25400000,,CMSFastFactsNov2021.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2021-11-01,FALSE
+Medicare,Utilization,Part B,Outpatient,,payments,CY,2019,81000000000,,CMSFastFactsNov2021.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2021-11-01,FALSE
+Medicare,Utilization,Part B,Home Health Agency,,persons_served,CY,2019,1900000,,CMSFastFactsNov2021.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2021-11-01,FALSE
+Medicare,Utilization,Part B,Home Health Agency,,payments,CY,2019,11200000000,,CMSFastFactsNov2021.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2021-11-01,FALSE
+Medicare,Utilization,Part D,Total,,persons_served,CY,2019,45100000,,CMSFastFactsNov2021.xlsx,Medicare Part D,CMS/Office of Enterprise Data & Analytics/Office of the Actuary,2021-11-01,FALSE
+Medicare,Utilization,Part D,Total,,rx_events,CY,2019,1500000000,,CMSFastFactsNov2021.xlsx,Medicare Part D,CMS/Office of Enterprise Data & Analytics/Office of the Actuary,2021-11-01,FALSE
+Medicare,Utilization,Part D,Total,,payments,CY,2019,97600000000,,CMSFastFactsNov2021.xlsx,Medicare Part D,CMS/Office of Enterprise Data & Analytics/Office of the Actuary,2021-11-01,FALSE
+Medicare,Utilization,Part D,Benefit Payments,,payments,CY,2019,97100000000,,CMSFastFactsNov2021.xlsx,Medicare Part D,CMS/Office of Enterprise Data & Analytics/Office of the Actuary,2021-11-01,FALSE
+Medicare,Utilization,Part D,Administrative Expenses,,payments,CY,2019,500000000,,CMSFastFactsNov2021.xlsx,Medicare Part D,CMS/Office of Enterprise Data & Analytics/Office of the Actuary,2021-11-01,FALSE
+Medicare,Providers,Total Providers,,Institutional,count,CY,2020,344967,,CMSFastFactsNov2021.xlsx,Institutional Providers,CMS/Office of Enterprise Data & Analytics,2021-11-01,FALSE
+Medicare,Providers,Hospitals,Short Stay,Institutional,count,CY,2020,3481,,CMSFastFactsNov2021.xlsx,Institutional Providers,CMS/Office of Enterprise Data & Analytics,2021-11-01,FALSE
+Medicare,Providers,Hospitals,Psychiatric,Institutional,count,CY,2020,613,,CMSFastFactsNov2021.xlsx,Institutional Providers,CMS/Office of Enterprise Data & Analytics,2021-11-01,FALSE
+Medicare,Providers,Hospitals,Rehabilitation,Institutional,count,CY,2020,314,,CMSFastFactsNov2021.xlsx,Institutional Providers,CMS/Office of Enterprise Data & Analytics,2021-11-01,FALSE
+Medicare,Providers,Hospitals,Children's,Institutional,count,CY,2020,93,,CMSFastFactsNov2021.xlsx,Institutional Providers,CMS/Office of Enterprise Data & Analytics,2021-11-01,FALSE
+Medicare,Providers,Hospitals,Long Term,Institutional,count,CY,2020,347,,CMSFastFactsNov2021.xlsx,Institutional Providers,CMS/Office of Enterprise Data & Analytics,2021-11-01,FALSE
+Medicare,Providers,Hospitals,Critical Access,Institutional,count,CY,2020,1351,,CMSFastFactsNov2021.xlsx,Institutional Providers,CMS/Office of Enterprise Data & Analytics,2021-11-01,FALSE
+Medicare,Providers,Hospitals,Religious Non-Medical,Institutional,count,CY,2020,15,,CMSFastFactsNov2021.xlsx,Institutional Providers,CMS/Office of Enterprise Data & Analytics,2021-11-01,FALSE
+Medicare,Providers,Home Health Agencies,,Institutional,count,CY,2020,11221,,CMSFastFactsNov2021.xlsx,Institutional Providers,CMS/Office of Enterprise Data & Analytics,2021-11-01,FALSE
+Medicare,Providers,Skilled Nursing Facilities,,Institutional,count,CY,2020,15015,,CMSFastFactsNov2021.xlsx,Institutional Providers,CMS/Office of Enterprise Data & Analytics,2021-11-01,FALSE
+Medicare,Providers,Labs,,Institutional,count,CY,2020,284414,,CMSFastFactsNov2021.xlsx,Institutional Providers,CMS/Office of Enterprise Data & Analytics,2021-11-01,FALSE
+Medicare,Providers,Outpatient PT/Speech Pathology,,Institutional,count,CY,2020,2044,,CMSFastFactsNov2021.xlsx,Institutional Providers,CMS/Office of Enterprise Data & Analytics,2021-11-01,FALSE
+Medicare,Providers,Rural Health Clinics,,Institutional,count,CY,2020,4736,,CMSFastFactsNov2021.xlsx,Institutional Providers,CMS/Office of Enterprise Data & Analytics,2021-11-01,FALSE
+Medicare,Providers,Federally Qualified Health Centers,,Institutional,count,CY,2020,10000,,CMSFastFactsNov2021.xlsx,Institutional Providers,CMS/Office of Enterprise Data & Analytics,2021-11-01,FALSE
+Medicare,Providers,Ambulatory Surgical Centers,,Institutional,count,CY,2020,5905,,CMSFastFactsNov2021.xlsx,Institutional Providers,CMS/Office of Enterprise Data & Analytics,2021-11-01,FALSE
+Medicare,Providers,Comprehensive Outpatient Rehab Facilities,,Institutional,count,CY,2020,158,,CMSFastFactsNov2021.xlsx,Institutional Providers,CMS/Office of Enterprise Data & Analytics,2021-11-01,FALSE
+Medicare,Providers,Hospices,,Institutional,count,CY,2020,5260,,CMSFastFactsNov2021.xlsx,Institutional Providers,CMS/Office of Enterprise Data & Analytics,2021-11-01,FALSE
+Medicare,Providers,Total Providers,,Non-Institutional,count,CY,2020,1404045,,CMSFastFactsNov2021.xlsx,NonInstitutional Providers,CMS/Office of Enterprise Data & Analytics,2021-11-01,FALSE
+Medicare,Providers,Primary Care,,Non-Institutional,count,CY,2020,223327,,CMSFastFactsNov2021.xlsx,NonInstitutional Providers,CMS/Office of Enterprise Data & Analytics,2021-11-01,FALSE
+Medicare,Providers,Medical Specialties,,Non-Institutional,count,CY,2020,176717,,CMSFastFactsNov2021.xlsx,NonInstitutional Providers,CMS/Office of Enterprise Data & Analytics,2021-11-01,FALSE
+Medicare,Providers,Surgical Specialties,,Non-Institutional,count,CY,2020,111703,,CMSFastFactsNov2021.xlsx,NonInstitutional Providers,CMS/Office of Enterprise Data & Analytics,2021-11-01,FALSE
+Medicare,Providers,Emergency Medicine,,Non-Institutional,count,CY,2020,50359,,CMSFastFactsNov2021.xlsx,NonInstitutional Providers,CMS/Office of Enterprise Data & Analytics,2021-11-01,FALSE
+Medicare,Providers,Anesthesiology,,Non-Institutional,count,CY,2020,43339,,CMSFastFactsNov2021.xlsx,NonInstitutional Providers,CMS/Office of Enterprise Data & Analytics,2021-11-01,FALSE
+Medicare,Providers,Radiology,,Non-Institutional,count,CY,2020,39739,,CMSFastFactsNov2021.xlsx,NonInstitutional Providers,CMS/Office of Enterprise Data & Analytics,2021-11-01,FALSE
+Medicare,Providers,Obstetrics-Gynecology,,Non-Institutional,count,CY,2020,35282,,CMSFastFactsNov2021.xlsx,NonInstitutional Providers,CMS/Office of Enterprise Data & Analytics,2021-11-01,FALSE
+Medicare,Providers,Psychiatry,,Non-Institutional,count,CY,2020,27873,,CMSFastFactsNov2021.xlsx,NonInstitutional Providers,CMS/Office of Enterprise Data & Analytics,2021-11-01,FALSE
+Medicare,Providers,Pathology,,Non-Institutional,count,CY,2020,12572,,CMSFastFactsNov2021.xlsx,NonInstitutional Providers,CMS/Office of Enterprise Data & Analytics,2021-11-01,FALSE
+Medicare,Providers,Non-Physician Practitioners,,Non-Institutional,count,CY,2020,515083,,CMSFastFactsNov2021.xlsx,NonInstitutional Providers,CMS/Office of Enterprise Data & Analytics,2021-11-01,FALSE
+Medicare,Providers,Limited Licensed Practitioners,,Non-Institutional,count,CY,2020,104353,,CMSFastFactsNov2021.xlsx,NonInstitutional Providers,CMS/Office of Enterprise Data & Analytics,2021-11-01,FALSE
+Medicare,Providers,Ambulance Service Supplier,,Non-Institutional,count,CY,2020,10213,,CMSFastFactsNov2021.xlsx,NonInstitutional Providers,CMS/Office of Enterprise Data & Analytics,2021-11-01,FALSE
+Medicare,Providers,Opioid Treatment Programs,,Non-Institutional,count,CY,2020,921,,CMSFastFactsNov2021.xlsx,NonInstitutional Providers,CMS/Office of Enterprise Data & Analytics,2021-11-01,FALSE
+Medicare,Providers,All Other Providers,,Non-Institutional,count,CY,2020,76834,,CMSFastFactsNov2021.xlsx,NonInstitutional Providers,CMS/Office of Enterprise Data & Analytics,2021-11-01,FALSE
+Medicare,Providers,Total DMEPOS Providers,,DMEPOS,count,CY,2020,79314,,CMSFastFactsNov2021.xlsx,DMEPOS Providers,CMS/Office of Enterprise Data & Analytics,2021-11-01,FALSE
+Medicare,Providers,Pharmacy,,DMEPOS,count,CY,2020,47019,,CMSFastFactsNov2021.xlsx,DMEPOS Providers,CMS/Office of Enterprise Data & Analytics,2021-11-01,FALSE
+Medicare,Providers,Medical Supply Company,,DMEPOS,count,CY,2020,9367,,CMSFastFactsNov2021.xlsx,DMEPOS Providers,CMS/Office of Enterprise Data & Analytics,2021-11-01,FALSE
+Medicare,Providers,Podiatry,,DMEPOS,count,CY,2020,4900,,CMSFastFactsNov2021.xlsx,DMEPOS Providers,CMS/Office of Enterprise Data & Analytics,2021-11-01,FALSE
+Medicare,Providers,Optometry,,DMEPOS,count,CY,2020,4229,,CMSFastFactsNov2021.xlsx,DMEPOS Providers,CMS/Office of Enterprise Data & Analytics,2021-11-01,FALSE
+Medicare,Providers,Individual Certified Prosthetist/Orthotist,,DMEPOS,count,CY,2020,2494,,CMSFastFactsNov2021.xlsx,DMEPOS Providers,CMS/Office of Enterprise Data & Analytics,2021-11-01,FALSE
+Medicare,Providers,Orthopedic Surgery,,DMEPOS,count,CY,2020,2020,,CMSFastFactsNov2021.xlsx,DMEPOS Providers,CMS/Office of Enterprise Data & Analytics,2021-11-01,FALSE
+Medicare,Providers,General Practice,,DMEPOS,count,CY,2020,1586,,CMSFastFactsNov2021.xlsx,DMEPOS Providers,CMS/Office of Enterprise Data & Analytics,2021-11-01,FALSE
+Medicare,Providers,Optician,,DMEPOS,count,CY,2020,1261,,CMSFastFactsNov2021.xlsx,DMEPOS Providers,CMS/Office of Enterprise Data & Analytics,2021-11-01,FALSE
+Medicare,Providers,Ophthalmology,,DMEPOS,count,CY,2020,1194,,CMSFastFactsNov2021.xlsx,DMEPOS Providers,CMS/Office of Enterprise Data & Analytics,2021-11-01,FALSE
+Medicare,Providers,All Other DMEPOS Providers,,DMEPOS,count,CY,2020,5502,,CMSFastFactsNov2021.xlsx,DMEPOS Providers,CMS/Office of Enterprise Data & Analytics,2021-11-01,FALSE
+National,NHE,National Health Expenditures,Total,,expenditures,CY,2019,3795400000000,,CMSFastFactsNov2021.xlsx,NHE,CMS/Office of the Actuary,2021-11-01,FALSE
+National,NHE,National Health Expenditures,% of GDP,,pct_gdp,CY,2019,0.177,,CMSFastFactsNov2021.xlsx,NHE,CMS/Office of the Actuary,2021-11-01,FALSE
+National,NHE,National Health Expenditures,Per Capita,,per_capita,CY,2019,11582,,CMSFastFactsNov2021.xlsx,NHE,CMS/Office of the Actuary,2021-11-01,FALSE
+National,NHE,Health Insurance,Private Health Insurance,,expenditures,CY,2019,1195100000000,,CMSFastFactsNov2021.xlsx,NHE,CMS/Office of the Actuary,2021-11-01,FALSE
+CMS,NHE,Health Insurance,Medicare,,expenditures,CY,2019,799400000000,,CMSFastFactsNov2021.xlsx,NHE,CMS/Office of the Actuary,2021-11-01,FALSE
+CMS,NHE,Health Insurance,Medicaid,,expenditures,CY,2019,613500000000,,CMSFastFactsNov2021.xlsx,NHE,CMS/Office of the Actuary,2021-11-01,FALSE
+CMS,NHE,Health Insurance,CHIP,,expenditures,CY,2019,19900000000,,CMSFastFactsNov2021.xlsx,NHE,CMS/Office of the Actuary,2021-11-01,FALSE
+Federal,NHE,Health Insurance,Department of Defense,,expenditures,CY,2019,42600000000,,CMSFastFactsNov2021.xlsx,NHE,CMS/Office of the Actuary,2021-11-01,FALSE
+Federal,NHE,Health Insurance,Department of Veterans Affairs,,expenditures,CY,2019,82300000000,,CMSFastFactsNov2021.xlsx,NHE,CMS/Office of the Actuary,2021-11-01,FALSE
+CMS,Financial,Federal Program Spending,Medicare Benefits,,expenditures,FY,2020,909800000,,CMSFastFactsNov2021.xlsx,CMS Financial Data,CMS/Office of Financial Management,2021-11-01,FALSE
+CMS,Financial,Federal Program Spending,Total Medicaid,,expenditures,FY,2020,473700000,,CMSFastFactsNov2021.xlsx,CMS Financial Data,CMS/Office of Financial Management,2021-11-01,FALSE
+CMS,Financial,Federal Program Spending,CHIP,,expenditures,FY,2020,16900000,,CMSFastFactsNov2021.xlsx,CMS Financial Data,CMS/Office of Financial Management,2021-11-01,FALSE
+CMS,Financial,Federal Program Spending,Other Spending,,expenditures,FY,2020,100000,,CMSFastFactsNov2021.xlsx,CMS Financial Data,CMS/Office of Financial Management,2021-11-01,FALSE
+CMS,Financial,Program Management,Total Appropriation,,expenditures,FY,2020,4174700000,,CMSFastFactsNov2021.xlsx,CMS Financial Data,CMS/Office of Financial Management,2021-11-01,FALSE
+CMS,Financial,Program Management,Other Sources,,expenditures,FY,2020,1872100000,,CMSFastFactsNov2021.xlsx,CMS Financial Data,CMS/Office of Financial Management,2021-11-01,FALSE
+CMS,Financial,Fraud,Total Health Care Fraud & Abuse Control Funding,,expenditures,FY,2020,2226900000,,CMSFastFactsNov2021.xlsx,CMS Financial Data,CMS/Office of Financial Management,2021-11-01,FALSE
+CMS,Staffing,FTE Employment,,,count,FY,2020,6206,,CMSFastFactsNov2021.xlsx,CMS Financial Data,CMS/Office of Financial Management,2021-11-01,FALSE
+Medicaid & CHIP,Enrollment,Medicaid & CHIP,Total,,enrollment,FY,2019,73900000,,CMSFastFactsAug2022.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Office of the Actuary,2022-08-01,FALSE
+Medicaid & CHIP,Enrollment,Medicaid & CHIP,Aged,,enrollment,FY,2019,6100000,,CMSFastFactsAug2022.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Office of the Actuary,2022-08-01,FALSE
+Medicaid & CHIP,Enrollment,Medicaid & CHIP,Aged,,enrollment,FY,2020,6300000,,CMSFastFactsAug2022.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Office of the Actuary,2022-08-01,FALSE
+Medicaid & CHIP,Enrollment,Medicaid & CHIP,Aged,,enrollment,FY,2021,6500000,,CMSFastFactsAug2022.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Office of the Actuary,2022-08-01,FALSE
+Medicaid & CHIP,Enrollment,Medicaid & CHIP,Blind/Disabled,,enrollment,FY,2019,10200000,,CMSFastFactsAug2022.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Office of the Actuary,2022-08-01,FALSE
+Medicaid & CHIP,Enrollment,Medicaid & CHIP,Blind/Disabled,,enrollment,FY,2020,10100000,,CMSFastFactsAug2022.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Office of the Actuary,2022-08-01,FALSE
+Medicaid & CHIP,Enrollment,Medicaid & CHIP,Blind/Disabled,,enrollment,FY,2021,10200000,,CMSFastFactsAug2022.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Office of the Actuary,2022-08-01,FALSE
+Medicaid & CHIP,Enrollment,Medicaid & CHIP,Children,,enrollment,FY,2019,28900000,,CMSFastFactsAug2022.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Office of the Actuary,2022-08-01,FALSE
+Medicaid & CHIP,Enrollment,Medicaid & CHIP,Adults,,enrollment,FY,2019,15200000,,CMSFastFactsAug2022.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Office of the Actuary,2022-08-01,FALSE
+Medicaid & CHIP,Enrollment,Medicaid & CHIP,Adults,,enrollment,FY,2020,15400000,,CMSFastFactsAug2022.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Office of the Actuary,2022-08-01,FALSE
+Medicaid & CHIP,Enrollment,Medicaid & CHIP,Adults,,enrollment,FY,2021,17000000,,CMSFastFactsAug2022.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Office of the Actuary,2022-08-01,FALSE
+Medicaid & CHIP,Enrollment,Medicaid & CHIP,Expansion Adult,,enrollment,FY,2019,12100000,,CMSFastFactsAug2022.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Office of the Actuary,2022-08-01,FALSE
+Medicaid & CHIP,Enrollment,Medicaid & CHIP,Expansion Adult,,enrollment,FY,2020,12800000,,CMSFastFactsAug2022.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Office of the Actuary,2022-08-01,FALSE
+Medicaid & CHIP,Enrollment,Medicaid & CHIP,Expansion Adult,,enrollment,FY,2021,15000000,,CMSFastFactsAug2022.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Office of the Actuary,2022-08-01,FALSE
+Medicaid & CHIP,Enrollment,Medicaid & CHIP,Total,,enrollment,FY,2019,7200000,,CMSFastFactsAug2022.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Office of the Actuary,2022-08-01,FALSE
+Medicare,Cost Sharing,Part A,Deductible,,deductible,CY,2021,1484,,CMSFastFactsAug2022.xlsx,"Deductibles, Coins, Premiums",CMS/Office of the Actuary,2022-08-01,FALSE
+Medicare,Cost Sharing,Part A,Deductible,,deductible,CY,2022,1556,,CMSFastFactsAug2022.xlsx,"Deductibles, Coins, Premiums",CMS/Office of the Actuary,2022-08-01,FALSE
+Medicare,Cost Sharing,Part A,Coinsurance/Day,,coinsurance,CY,2021,371,,CMSFastFactsAug2022.xlsx,"Deductibles, Coins, Premiums",CMS/Office of the Actuary,2022-08-01,FALSE
+Medicare,Cost Sharing,Part A,Coinsurance/Day,,coinsurance,CY,2022,389,,CMSFastFactsAug2022.xlsx,"Deductibles, Coins, Premiums",CMS/Office of the Actuary,2022-08-01,FALSE
+Medicare,Cost Sharing,Part A,Coinsurance/LTR Day,,coinsurance,CY,2021,742,,CMSFastFactsAug2022.xlsx,"Deductibles, Coins, Premiums",CMS/Office of the Actuary,2022-08-01,FALSE
+Medicare,Cost Sharing,Part A,Coinsurance/LTR Day,,coinsurance,CY,2022,778,,CMSFastFactsAug2022.xlsx,"Deductibles, Coins, Premiums",CMS/Office of the Actuary,2022-08-01,FALSE
+Medicare,Cost Sharing,Part A,Coinsurance/SNF Day,,coinsurance,CY,2021,185.5,,CMSFastFactsAug2022.xlsx,"Deductibles, Coins, Premiums",CMS/Office of the Actuary,2022-08-01,FALSE
+Medicare,Cost Sharing,Part A,Coinsurance/SNF Day,,coinsurance,CY,2022,194.5,,CMSFastFactsAug2022.xlsx,"Deductibles, Coins, Premiums",CMS/Office of the Actuary,2022-08-01,FALSE
+Medicare,Cost Sharing,Part B,Deductible,,deductible,CY,2021,203,,CMSFastFactsAug2022.xlsx,"Deductibles, Coins, Premiums",CMS/Office of the Actuary,2022-08-01,FALSE
+Medicare,Cost Sharing,Part B,Deductible,,deductible,CY,2022,233,,CMSFastFactsAug2022.xlsx,"Deductibles, Coins, Premiums",CMS/Office of the Actuary,2022-08-01,FALSE
+Medicare,Cost Sharing,Part D,Maximum Deductible,,deductible,CY,2021,445,,CMSFastFactsAug2022.xlsx,"Deductibles, Coins, Premiums",CMS/Office of the Actuary,2022-08-01,FALSE
+Medicare,Cost Sharing,Part D,Maximum Deductible,,deductible,CY,2022,480,,CMSFastFactsAug2022.xlsx,"Deductibles, Coins, Premiums",CMS/Office of the Actuary,2022-08-01,FALSE
+Medicare,Cost Sharing,Part D,Initial Coverage Limit,,coverage_limit,CY,2021,4130,,CMSFastFactsAug2022.xlsx,"Deductibles, Coins, Premiums",CMS/Office of the Actuary,2022-08-01,FALSE
+Medicare,Cost Sharing,Part D,Initial Coverage Limit,,coverage_limit,CY,2022,4430,,CMSFastFactsAug2022.xlsx,"Deductibles, Coins, Premiums",CMS/Office of the Actuary,2022-08-01,FALSE
+Medicare,Cost Sharing,Part D,Out-of-Pocket Threshold,,premium,CY,2021,6550,,CMSFastFactsAug2022.xlsx,"Deductibles, Coins, Premiums",CMS/Office of the Actuary,2022-08-01,FALSE
+Medicare,Cost Sharing,Part D,Out-of-Pocket Threshold,,premium,CY,2022,7050,,CMSFastFactsAug2022.xlsx,"Deductibles, Coins, Premiums",CMS/Office of the Actuary,2022-08-01,FALSE
+Medicare,Cost Sharing,Premiums,Part A,,premium,CY,2021,471,,CMSFastFactsAug2022.xlsx,"Deductibles, Coins, Premiums",CMS/Office of the Actuary,2022-08-01,FALSE
+Medicare,Cost Sharing,Premiums,Part A,,premium,CY,2022,499,,CMSFastFactsAug2022.xlsx,"Deductibles, Coins, Premiums",CMS/Office of the Actuary,2022-08-01,FALSE
+Medicare,Cost Sharing,Premiums,Part B,,premium,CY,2021,148.5,lower,CMSFastFactsAug2022.xlsx,"Deductibles, Coins, Premiums",CMS/Office of the Actuary,2022-08-01,FALSE
+Medicare,Cost Sharing,Premiums,Part B,,premium,CY,2021,504.9,upper,CMSFastFactsAug2022.xlsx,"Deductibles, Coins, Premiums",CMS/Office of the Actuary,2022-08-01,FALSE
+Medicare,Cost Sharing,Premiums,Part B,,premium,CY,2022,170.1,lower,CMSFastFactsAug2022.xlsx,"Deductibles, Coins, Premiums",CMS/Office of the Actuary,2022-08-01,FALSE
+Medicare,Cost Sharing,Premiums,Part B,,premium,CY,2022,578.3,upper,CMSFastFactsAug2022.xlsx,"Deductibles, Coins, Premiums",CMS/Office of the Actuary,2022-08-01,FALSE
+Medicare,Utilization,Total (A and/or B),Total,,persons_served,CY,2020,33400000,,CMSFastFactsAug2022.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2022-08-01,FALSE
+Medicare,Utilization,Total (A and/or B),Total,,payments,CY,2020,379600000000,,CMSFastFactsAug2022.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2022-08-01,FALSE
+Medicare,Utilization,Part A,Total,,persons_served,CY,2020,6900000,,CMSFastFactsAug2022.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2022-08-01,FALSE
+Medicare,Utilization,Part A,Total,,payments,CY,2020,187400000000,,CMSFastFactsAug2022.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2022-08-01,FALSE
+Medicare,Utilization,Part A,Inpatient Hospital,,persons_served,CY,2020,5400000,,CMSFastFactsAug2022.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2022-08-01,FALSE
+Medicare,Utilization,Part A,Inpatient Hospital,,payments,CY,2020,130199999999.99998,,CMSFastFactsAug2022.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2022-08-01,FALSE
+Medicare,Utilization,Part A,Skilled Nursing Facility,,persons_served,CY,2020,1500000,,CMSFastFactsAug2022.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2022-08-01,FALSE
+Medicare,Utilization,Part A,Skilled Nursing Facility,,payments,CY,2020,28600000000,,CMSFastFactsAug2022.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2022-08-01,FALSE
+Medicare,Utilization,Part A,Home Health Agency,,persons_served,CY,2020,1400000,,CMSFastFactsAug2022.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2022-08-01,FALSE
+Medicare,Utilization,Part A,Home Health Agency,,payments,CY,2020,6300000000,,CMSFastFactsAug2022.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2022-08-01,FALSE
+Medicare,Utilization,Part A,Hospice,,persons_served,CY,2020,1700000,,CMSFastFactsAug2022.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2022-08-01,FALSE
+Medicare,Utilization,Part A,Hospice,,payments,CY,2020,22400000000,,CMSFastFactsAug2022.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2022-08-01,FALSE
+Medicare,Utilization,Part B,Total,,persons_served,CY,2020,32700000.000000004,,CMSFastFactsAug2022.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2022-08-01,FALSE
+Medicare,Utilization,Part B,Total,,payments,CY,2020,192200000000,,CMSFastFactsAug2022.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2022-08-01,FALSE
+Medicare,Utilization,Part B,Physician/DME,,persons_served,CY,2020,32200000.000000004,,CMSFastFactsAug2022.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2022-08-01,FALSE
+Medicare,Utilization,Part B,Physician/DME,,payments,CY,2020,106500000000,,CMSFastFactsAug2022.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2022-08-01,FALSE
+Medicare,Utilization,Part B,Outpatient,,persons_served,CY,2020,23300000,,CMSFastFactsAug2022.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2022-08-01,FALSE
+Medicare,Utilization,Part B,Outpatient,,payments,CY,2020,74800000000,,CMSFastFactsAug2022.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2022-08-01,FALSE
+Medicare,Utilization,Part B,Home Health Agency,,persons_served,CY,2020,1800000,,CMSFastFactsAug2022.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2022-08-01,FALSE
+Medicare,Utilization,Part B,Home Health Agency,,payments,CY,2020,10800000000,,CMSFastFactsAug2022.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2022-08-01,FALSE
+Medicare,Utilization,Part D,Total,,persons_served,CY,2020,46200000,,CMSFastFactsAug2022.xlsx,Medicare Part D,CMS/Office of Enterprise Data & Analytics/Office of the Actuary,2022-08-01,FALSE
+Medicare,Utilization,Part D,Total,,rx_events,CY,2020,1500000000,,CMSFastFactsAug2022.xlsx,Medicare Part D,CMS/Office of Enterprise Data & Analytics/Office of the Actuary,2022-08-01,FALSE
+Medicare,Utilization,Part D,Total,,payments,CY,2020,105800000000,,CMSFastFactsAug2022.xlsx,Medicare Part D,CMS/Office of Enterprise Data & Analytics/Office of the Actuary,2022-08-01,FALSE
+Medicare,Utilization,Part D,Benefit Payments,,payments,CY,2020,104600000000,,CMSFastFactsAug2022.xlsx,Medicare Part D,CMS/Office of Enterprise Data & Analytics/Office of the Actuary,2022-08-01,FALSE
+Medicare,Utilization,Part D,Administrative Expenses,,payments,CY,2020,400000000,,CMSFastFactsAug2022.xlsx,Medicare Part D,CMS/Office of Enterprise Data & Analytics/Office of the Actuary,2022-08-01,FALSE
+National,NHE,National Health Expenditures,Total,,expenditures,CY,2020,4124000000000,,CMSFastFactsAug2022.xlsx,NHE,CMS/Office of the Actuary,2022-08-01,FALSE
+National,NHE,National Health Expenditures,% of GDP,,pct_gdp,CY,2020,0.197,,CMSFastFactsAug2022.xlsx,NHE,CMS/Office of the Actuary,2022-08-01,FALSE
+National,NHE,National Health Expenditures,Per Capita,,per_capita,CY,2020,12530,,CMSFastFactsAug2022.xlsx,NHE,CMS/Office of the Actuary,2022-08-01,FALSE
+National,NHE,Health Insurance,Private Health Insurance,,expenditures,CY,2020,1151400000000,,CMSFastFactsAug2022.xlsx,NHE,CMS/Office of the Actuary,2022-08-01,FALSE
+CMS,NHE,Health Insurance,Medicare,,expenditures,CY,2020,829500000000,,CMSFastFactsAug2022.xlsx,NHE,CMS/Office of the Actuary,2022-08-01,FALSE
+CMS,NHE,Health Insurance,Medicaid,,expenditures,CY,2020,671200000000,,CMSFastFactsAug2022.xlsx,NHE,CMS/Office of the Actuary,2022-08-01,FALSE
+CMS,NHE,Health Insurance,CHIP,,expenditures,CY,2020,21300000000,,CMSFastFactsAug2022.xlsx,NHE,CMS/Office of the Actuary,2022-08-01,FALSE
+Federal,NHE,Health Insurance,Department of Defense,,expenditures,CY,2020,43800000000,,CMSFastFactsAug2022.xlsx,NHE,CMS/Office of the Actuary,2022-08-01,FALSE
+Federal,NHE,Health Insurance,Department of Veterans Affairs,,expenditures,CY,2020,92200000000,,CMSFastFactsAug2022.xlsx,NHE,CMS/Office of the Actuary,2022-08-01,FALSE
+CMS,Financial,Federal Program Spending,Medicare Benefits,,expenditures,FY,2021,903000000,,CMSFastFactsAug2022.xlsx,CMS Financial Data,CMS/Office of Financial Management,2022-08-01,FALSE
+CMS,Financial,Federal Program Spending,Total Medicaid,,expenditures,FY,2021,532100000,,CMSFastFactsAug2022.xlsx,CMS Financial Data,CMS/Office of Financial Management,2022-08-01,FALSE
+CMS,Financial,Federal Program Spending,CHIP,,expenditures,FY,2021,16100000.000000002,,CMSFastFactsAug2022.xlsx,CMS Financial Data,CMS/Office of Financial Management,2022-08-01,FALSE
+CMS,Financial,Federal Program Spending,Other Spending,,expenditures,FY,2021,12100000,,CMSFastFactsAug2022.xlsx,CMS Financial Data,CMS/Office of Financial Management,2022-08-01,FALSE
+CMS,Financial,Program Management,Total Appropriation,,expenditures,FY,2021,4478000000,,CMSFastFactsAug2022.xlsx,CMS Financial Data,CMS/Office of Financial Management,2022-08-01,FALSE
+CMS,Financial,Program Management,Other Sources,,expenditures,FY,2021,2537000000,,CMSFastFactsAug2022.xlsx,CMS Financial Data,CMS/Office of Financial Management,2022-08-01,FALSE
+CMS,Financial,Fraud,Total Health Care Fraud & Abuse Control Funding,,expenditures,FY,2021,2222400000,,CMSFastFactsAug2022.xlsx,CMS Financial Data,CMS/Office of Financial Management,2022-08-01,FALSE
+CMS,Staffing,FTE Employment,,,count,FY,2021,6287,,CMSFastFactsAug2022.xlsx,CMS Financial Data,CMS/Office of Financial Management,2022-08-01,FALSE
+Medicare,Enrollment,Parts A and/or B,Total,,enrollment,CY,2020,62800000,,CMSFastFactsOct2023_508.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Centers for Medicaid and CHIP Services,2023-10-01,FALSE
+Medicare,Enrollment,Parts A and/or B,Aged,,enrollment,CY,2020,54500000,,CMSFastFactsOct2023_508.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Centers for Medicaid and CHIP Services,2023-10-01,FALSE
+Medicare,Enrollment,Parts A and/or B,Disabled,,enrollment,CY,2020,8300000.000000001,,CMSFastFactsOct2023_508.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Centers for Medicaid and CHIP Services,2023-10-01,FALSE
+Medicare,Enrollment,Parts A and/or B,Original Medicare Enrollment,,enrollment,CY,2020,37800000,,CMSFastFactsOct2023_508.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Centers for Medicaid and CHIP Services,2023-10-01,FALSE
+Medicare,Enrollment,Parts A and/or B,MA & Other Health Plan Enrollment,,enrollment,CY,2020,25100000,,CMSFastFactsOct2023_508.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Centers for Medicaid and CHIP Services,2023-10-01,FALSE
+Medicare,Enrollment,Parts A and/or B,MA Enrollment,,enrollment,CY,2020,24400000,,CMSFastFactsOct2023_508.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Centers for Medicaid and CHIP Services,2023-10-01,FALSE
+Medicare,Enrollment,Part D,Total,,enrollment,CY,2020,47400000,,CMSFastFactsOct2023_508.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Centers for Medicaid and CHIP Services,2023-10-01,FALSE
+Medicaid & CHIP,Enrollment,Medicaid & CHIP,Total,,enrollment,FY,2020,72700000,,CMSFastFactsOct2023_508.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Centers for Medicaid and CHIP Services,2023-10-01,FALSE
+Medicaid & CHIP,Enrollment,Medicaid & CHIP,Dual Eligible,,enrollment,FY,2020,8000000,,CMSFastFactsOct2023_508.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Centers for Medicaid and CHIP Services,2023-10-01,FALSE
+Medicaid & CHIP,Enrollment,Medicaid & CHIP,Children,,enrollment,FY,2020,35700000,,CMSFastFactsOct2023_508.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Centers for Medicaid and CHIP Services,2023-10-01,FALSE
+Medicaid & CHIP,Enrollment,Medicaid & CHIP,Medicaid Expansion Adults,,enrollment,FY,2020,18700000,,CMSFastFactsOct2023_508.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Centers for Medicaid and CHIP Services,2023-10-01,FALSE
+Medicare,Utilization,Total (A and/or B),Total,,persons_served,CY,2021,33299999.999999996,,CMSFastFactsOct2023_508.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2023-10-01,FALSE
+Medicare,Utilization,Total (A and/or B),Total,,payments,CY,2021,396100000000,,CMSFastFactsOct2023_508.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2023-10-01,FALSE
+Medicare,Utilization,Part A,Total,,persons_served,CY,2021,6700000,,CMSFastFactsOct2023_508.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2023-10-01,FALSE
+Medicare,Utilization,Part A,Total,,payments,CY,2021,187700000000,,CMSFastFactsOct2023_508.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2023-10-01,FALSE
+Medicare,Utilization,Part A,Inpatient Hospital,,persons_served,CY,2021,5100000,,CMSFastFactsOct2023_508.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2023-10-01,FALSE
+Medicare,Utilization,Part A,Inpatient Hospital,,payments,CY,2021,131300000000.00002,,CMSFastFactsOct2023_508.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2023-10-01,FALSE
+Medicare,Utilization,Part A,Skilled Nursing Facility,,persons_served,CY,2021,1400000,,CMSFastFactsOct2023_508.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2023-10-01,FALSE
+Medicare,Utilization,Part A,Skilled Nursing Facility,,payments,CY,2021,27200000000,,CMSFastFactsOct2023_508.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2023-10-01,FALSE
+Medicare,Utilization,Part A,Home Health Agency,,persons_served,CY,2021,1300000,,CMSFastFactsOct2023_508.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2023-10-01,FALSE
+Medicare,Utilization,Part A,Home Health Agency,,payments,CY,2021,6100000000,,CMSFastFactsOct2023_508.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2023-10-01,FALSE
+Medicare,Utilization,Part A,Hospice,,persons_served,CY,2021,1700000,,CMSFastFactsOct2023_508.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2023-10-01,FALSE
+Medicare,Utilization,Part A,Hospice,,payments,CY,2021,23100000000,,CMSFastFactsOct2023_508.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2023-10-01,FALSE
+Medicare,Utilization,Part B,Total,,persons_served,CY,2021,32700000.000000004,,CMSFastFactsOct2023_508.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2023-10-01,FALSE
+Medicare,Utilization,Part B,Total,,payments,CY,2021,208400000000,,CMSFastFactsOct2023_508.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2023-10-01,FALSE
+Medicare,Utilization,Part B,Physician/DME,,persons_served,CY,2021,32100000,,CMSFastFactsOct2023_508.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2023-10-01,FALSE
+Medicare,Utilization,Part B,Physician/DME,,payments,CY,2021,117400000000,,CMSFastFactsOct2023_508.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2023-10-01,FALSE
+Medicare,Utilization,Part B,Outpatient,,persons_served,CY,2021,23900000,,CMSFastFactsOct2023_508.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2023-10-01,FALSE
+Medicare,Utilization,Part B,Outpatient,,payments,CY,2021,80300000000,,CMSFastFactsOct2023_508.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2023-10-01,FALSE
+Medicare,Utilization,Part B,Home Health Agency,,persons_served,CY,2021,1800000,,CMSFastFactsOct2023_508.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2023-10-01,FALSE
+Medicare,Utilization,Part B,Home Health Agency,,payments,CY,2021,10800000000,,CMSFastFactsOct2023_508.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2023-10-01,FALSE
+Medicare,Utilization,Part D,Total,,persons_served,CY,2021,47600000,,CMSFastFactsOct2023_508.xlsx,Medicare Part D,CMS/Office of Enterprise Data & Analytics/Office of the Actuary,2023-10-01,FALSE
+Medicare,Utilization,Part D,Total,,rx_events,CY,2021,1500000000,,CMSFastFactsOct2023_508.xlsx,Medicare Part D,CMS/Office of Enterprise Data & Analytics/Office of the Actuary,2023-10-01,FALSE
+Medicare,Utilization,Part D,Total,,payments,CY,2021,104900000000,,CMSFastFactsOct2023_508.xlsx,Medicare Part D,CMS/Office of Enterprise Data & Analytics/Office of the Actuary,2023-10-01,FALSE
+Medicare,Utilization,Part D,Benefit Payments,,payments,CY,2021,104400000000,,CMSFastFactsOct2023_508.xlsx,Medicare Part D,CMS/Office of Enterprise Data & Analytics/Office of the Actuary,2023-10-01,FALSE
+Medicare,Utilization,Part D,Administrative Expenses,,payments,CY,2021,500000000,,CMSFastFactsOct2023_508.xlsx,Medicare Part D,CMS/Office of Enterprise Data & Analytics/Office of the Actuary,2023-10-01,FALSE
+Medicare,Providers,Total Providers,,Institutional,count,CY,2021,374021,,CMSFastFactsOct2023_508.xlsx,Institutional Providers,CMS/Office of Enterprise Data & Analytics,2023-10-01,FALSE
+Medicare,Providers,Hospitals,Short Stay,Institutional,count,CY,2021,3506,,CMSFastFactsOct2023_508.xlsx,Institutional Providers,CMS/Office of Enterprise Data & Analytics,2023-10-01,FALSE
+Medicare,Providers,Hospitals,Psychiatric,Institutional,count,CY,2021,622,,CMSFastFactsOct2023_508.xlsx,Institutional Providers,CMS/Office of Enterprise Data & Analytics,2023-10-01,FALSE
+Medicare,Providers,Hospitals,Rehabilitation,Institutional,count,CY,2021,332,,CMSFastFactsOct2023_508.xlsx,Institutional Providers,CMS/Office of Enterprise Data & Analytics,2023-10-01,FALSE
+Medicare,Providers,Hospitals,Children's,Institutional,count,CY,2021,91,,CMSFastFactsOct2023_508.xlsx,Institutional Providers,CMS/Office of Enterprise Data & Analytics,2023-10-01,FALSE
+Medicare,Providers,Hospitals,Long Term,Institutional,count,CY,2021,344,,CMSFastFactsOct2023_508.xlsx,Institutional Providers,CMS/Office of Enterprise Data & Analytics,2023-10-01,FALSE
+Medicare,Providers,Hospitals,Critical Access,Institutional,count,CY,2021,1358,,CMSFastFactsOct2023_508.xlsx,Institutional Providers,CMS/Office of Enterprise Data & Analytics,2023-10-01,FALSE
+Medicare,Providers,Hospitals,Religious Non-Medical,Institutional,count,CY,2021,13,,CMSFastFactsOct2023_508.xlsx,Institutional Providers,CMS/Office of Enterprise Data & Analytics,2023-10-01,FALSE
+Medicare,Providers,Home Health Agencies,,Institutional,count,CY,2021,11353,,CMSFastFactsOct2023_508.xlsx,Institutional Providers,CMS/Office of Enterprise Data & Analytics,2023-10-01,FALSE
+Medicare,Providers,Skilled Nursing Facilities,,Institutional,count,CY,2021,14908,,CMSFastFactsOct2023_508.xlsx,Institutional Providers,CMS/Office of Enterprise Data & Analytics,2023-10-01,FALSE
+Medicare,Providers,Labs,,Institutional,count,CY,2021,311775,,CMSFastFactsOct2023_508.xlsx,Institutional Providers,CMS/Office of Enterprise Data & Analytics,2023-10-01,FALSE
+Medicare,Providers,Outpatient PT/Speech Pathology,,Institutional,count,CY,2021,2023,,CMSFastFactsOct2023_508.xlsx,Institutional Providers,CMS/Office of Enterprise Data & Analytics,2023-10-01,FALSE
+Medicare,Providers,Rural Health Clinics,,Institutional,count,CY,2021,5009,,CMSFastFactsOct2023_508.xlsx,Institutional Providers,CMS/Office of Enterprise Data & Analytics,2023-10-01,FALSE
+Medicare,Providers,Federally Qualified Health Centers,,Institutional,count,CY,2021,10509,,CMSFastFactsOct2023_508.xlsx,Institutional Providers,CMS/Office of Enterprise Data & Analytics,2023-10-01,FALSE
+Medicare,Providers,Ambulatory Surgical Centers,,Institutional,count,CY,2021,6055,,CMSFastFactsOct2023_508.xlsx,Institutional Providers,CMS/Office of Enterprise Data & Analytics,2023-10-01,FALSE
+Medicare,Providers,Comprehensive Outpatient Rehab Facilities,,Institutional,count,CY,2021,157,,CMSFastFactsOct2023_508.xlsx,Institutional Providers,CMS/Office of Enterprise Data & Analytics,2023-10-01,FALSE
+Medicare,Providers,Hospices,,Institutional,count,CY,2021,5966,,CMSFastFactsOct2023_508.xlsx,Institutional Providers,CMS/Office of Enterprise Data & Analytics,2023-10-01,FALSE
+Medicare,Providers,Total Providers,,Non-Institutional,count,CY,2021,1444008,,CMSFastFactsOct2023_508.xlsx,NonInstitutional Providers,CMS/Office of Enterprise Data & Analytics,2023-10-01,FALSE
+Medicare,Providers,Primary Care,,Non-Institutional,count,CY,2021,222065,,CMSFastFactsOct2023_508.xlsx,NonInstitutional Providers,CMS/Office of Enterprise Data & Analytics,2023-10-01,FALSE
+Medicare,Providers,Medical Specialties,,Non-Institutional,count,CY,2021,180247,,CMSFastFactsOct2023_508.xlsx,NonInstitutional Providers,CMS/Office of Enterprise Data & Analytics,2023-10-01,FALSE
+Medicare,Providers,Surgical Specialties,,Non-Institutional,count,CY,2021,111724,,CMSFastFactsOct2023_508.xlsx,NonInstitutional Providers,CMS/Office of Enterprise Data & Analytics,2023-10-01,FALSE
+Medicare,Providers,Emergency Medicine,,Non-Institutional,count,CY,2021,50660,,CMSFastFactsOct2023_508.xlsx,NonInstitutional Providers,CMS/Office of Enterprise Data & Analytics,2023-10-01,FALSE
+Medicare,Providers,Anesthesiology,,Non-Institutional,count,CY,2021,43493,,CMSFastFactsOct2023_508.xlsx,NonInstitutional Providers,CMS/Office of Enterprise Data & Analytics,2023-10-01,FALSE
+Medicare,Providers,Radiology,,Non-Institutional,count,CY,2021,40085,,CMSFastFactsOct2023_508.xlsx,NonInstitutional Providers,CMS/Office of Enterprise Data & Analytics,2023-10-01,FALSE
+Medicare,Providers,Obstetrics-Gynecology,,Non-Institutional,count,CY,2021,35323,,CMSFastFactsOct2023_508.xlsx,NonInstitutional Providers,CMS/Office of Enterprise Data & Analytics,2023-10-01,FALSE
+Medicare,Providers,Psychiatry,,Non-Institutional,count,CY,2021,27631,,CMSFastFactsOct2023_508.xlsx,NonInstitutional Providers,CMS/Office of Enterprise Data & Analytics,2023-10-01,FALSE
+Medicare,Providers,Pathology,,Non-Institutional,count,CY,2021,12585,,CMSFastFactsOct2023_508.xlsx,NonInstitutional Providers,CMS/Office of Enterprise Data & Analytics,2023-10-01,FALSE
+Medicare,Providers,Non-Physician Practitioners,,Non-Institutional,count,CY,2021,548738,,CMSFastFactsOct2023_508.xlsx,NonInstitutional Providers,CMS/Office of Enterprise Data & Analytics,2023-10-01,FALSE
+Medicare,Providers,Limited Licensed Practitioners,,Non-Institutional,count,CY,2021,104412,,CMSFastFactsOct2023_508.xlsx,NonInstitutional Providers,CMS/Office of Enterprise Data & Analytics,2023-10-01,FALSE
+Medicare,Providers,Ambulance Service Supplier,,Non-Institutional,count,CY,2021,10230,,CMSFastFactsOct2023_508.xlsx,NonInstitutional Providers,CMS/Office of Enterprise Data & Analytics,2023-10-01,FALSE
+Medicare,Providers,Opioid Treatment Programs,,Non-Institutional,count,CY,2021,1049,,CMSFastFactsOct2023_508.xlsx,NonInstitutional Providers,CMS/Office of Enterprise Data & Analytics,2023-10-01,FALSE
+Medicare,Providers,All Other Providers,,Non-Institutional,count,CY,2021,78345,,CMSFastFactsOct2023_508.xlsx,NonInstitutional Providers,CMS/Office of Enterprise Data & Analytics,2023-10-01,FALSE
+Medicare,Providers,Total DMEPOS Providers,,DMEPOS,count,CY,2021,77782,,CMSFastFactsOct2023_508.xlsx,DMEPOS Providers,CMS/Office of Enterprise Data & Analytics,2023-10-01,FALSE
+Medicare,Providers,Pharmacy,,DMEPOS,count,CY,2021,46203,,CMSFastFactsOct2023_508.xlsx,DMEPOS Providers,CMS/Office of Enterprise Data & Analytics,2023-10-01,FALSE
+Medicare,Providers,Medical Supply Company,,DMEPOS,count,CY,2021,9062,,CMSFastFactsOct2023_508.xlsx,DMEPOS Providers,CMS/Office of Enterprise Data & Analytics,2023-10-01,FALSE
+Medicare,Providers,Podiatry,,DMEPOS,count,CY,2021,4776,,CMSFastFactsOct2023_508.xlsx,DMEPOS Providers,CMS/Office of Enterprise Data & Analytics,2023-10-01,FALSE
+Medicare,Providers,Optometry,,DMEPOS,count,CY,2021,3993,,CMSFastFactsOct2023_508.xlsx,DMEPOS Providers,CMS/Office of Enterprise Data & Analytics,2023-10-01,FALSE
+Medicare,Providers,Individual Certified Prosthetist/Orthotist,,DMEPOS,count,CY,2021,2509,,CMSFastFactsOct2023_508.xlsx,DMEPOS Providers,CMS/Office of Enterprise Data & Analytics,2023-10-01,FALSE
+Medicare,Providers,Orthopedic Surgery,,DMEPOS,count,CY,2021,2106,,CMSFastFactsOct2023_508.xlsx,DMEPOS Providers,CMS/Office of Enterprise Data & Analytics,2023-10-01,FALSE
+Medicare,Providers,General Practice,,DMEPOS,count,CY,2021,1528,,CMSFastFactsOct2023_508.xlsx,DMEPOS Providers,CMS/Office of Enterprise Data & Analytics,2023-10-01,FALSE
+Medicare,Providers,Optician,,DMEPOS,count,CY,2021,1217,,CMSFastFactsOct2023_508.xlsx,DMEPOS Providers,CMS/Office of Enterprise Data & Analytics,2023-10-01,FALSE
+Medicare,Providers,Ophthalmology,,DMEPOS,count,CY,2021,1112,,CMSFastFactsOct2023_508.xlsx,DMEPOS Providers,CMS/Office of Enterprise Data & Analytics,2023-10-01,FALSE
+Medicare,Providers,All Other DMEPOS Providers,,DMEPOS,count,CY,2021,5416,,CMSFastFactsOct2023_508.xlsx,DMEPOS Providers,CMS/Office of Enterprise Data & Analytics,2023-10-01,FALSE
+National,NHE,National Health Expenditures,Total,,expenditures,CY,2021,4255100000000.0005,,CMSFastFactsOct2023_508.xlsx,NHE,CMS/Office of the Actuary,2023-10-01,FALSE
+National,NHE,National Health Expenditures,% of GDP,,pct_gdp,CY,2021,0.183,,CMSFastFactsOct2023_508.xlsx,NHE,CMS/Office of the Actuary,2023-10-01,FALSE
+National,NHE,National Health Expenditures,Per Capita,,per_capita,CY,2021,12914,,CMSFastFactsOct2023_508.xlsx,NHE,CMS/Office of the Actuary,2023-10-01,FALSE
+National,NHE,Health Insurance,Private Health Insurance,,expenditures,CY,2021,1211400000000,,CMSFastFactsOct2023_508.xlsx,NHE,CMS/Office of the Actuary,2023-10-01,FALSE
+CMS,NHE,Health Insurance,Medicare,,expenditures,CY,2021,900800000000,,CMSFastFactsOct2023_508.xlsx,NHE,CMS/Office of the Actuary,2023-10-01,FALSE
+CMS,NHE,Health Insurance,Medicaid,,expenditures,CY,2021,734000000000,,CMSFastFactsOct2023_508.xlsx,NHE,CMS/Office of the Actuary,2023-10-01,FALSE
+CMS,NHE,Health Insurance,CHIP,,expenditures,CY,2021,22300000000,,CMSFastFactsOct2023_508.xlsx,NHE,CMS/Office of the Actuary,2023-10-01,FALSE
+Federal,NHE,Health Insurance,Department of Defense,,expenditures,CY,2021,43900000000,,CMSFastFactsOct2023_508.xlsx,NHE,CMS/Office of the Actuary,2023-10-01,FALSE
+Federal,NHE,Health Insurance,Department of Veterans Affairs,,expenditures,CY,2021,106000000000,,CMSFastFactsOct2023_508.xlsx,NHE,CMS/Office of the Actuary,2023-10-01,FALSE
+CMS,Financial,Federal Program Spending,Medicare Benefits,,expenditures,FY,2022,971200000,,CMSFastFactsOct2023_508.xlsx,CMS Financial Data,CMS/Office of Financial Management,2023-10-01,FALSE
+CMS,Financial,Federal Program Spending,Total Medicaid,,expenditures,FY,2022,605500000,,CMSFastFactsOct2023_508.xlsx,CMS Financial Data,CMS/Office of Financial Management,2023-10-01,FALSE
+CMS,Financial,Federal Program Spending,CHIP,,expenditures,FY,2022,16700000,,CMSFastFactsOct2023_508.xlsx,CMS Financial Data,CMS/Office of Financial Management,2023-10-01,FALSE
+CMS,Financial,Federal Program Spending,Other Spending,,expenditures,FY,2022,11900000,,CMSFastFactsOct2023_508.xlsx,CMS Financial Data,CMS/Office of Financial Management,2023-10-01,FALSE
+CMS,Financial,Program Management,Total Appropriation,,expenditures,FY,2022,7150500000,,CMSFastFactsOct2023_508.xlsx,CMS Financial Data,CMS/Office of Financial Management,2023-10-01,FALSE
+CMS,Financial,Program Management,Other Sources,,expenditures,FY,2022,2864700000,,CMSFastFactsOct2023_508.xlsx,CMS Financial Data,CMS/Office of Financial Management,2023-10-01,FALSE
+CMS,Financial,Fraud,Total Health Care Fraud & Abuse Control Funding,,expenditures,FY,2022,2312000000,,CMSFastFactsOct2023_508.xlsx,CMS Financial Data,CMS/Office of Financial Management,2023-10-01,FALSE
+CMS,Staffing,FTE Employment,,,count,FY,2022,6244,,CMSFastFactsOct2023_508.xlsx,CMS Financial Data,CMS/Office of Financial Management,2023-10-01,FALSE
+Medicaid & CHIP,Expenditures,Payments (by Selected Type of Service),Inpatient Services,,expenditure,FY,2019,64000000000,,CMSFastFactsOct2023_508.xlsx,Medicaid & CHIP Expenditures,CMS/Center for Medicaid and CHIP Services,2023-10-01,FALSE
+Medicaid & CHIP,Expenditures,Payments (by Selected Type of Service),Long-Term Care,,expenditure,FY,2019,130000000000,,CMSFastFactsOct2023_508.xlsx,Medicaid & CHIP Expenditures,CMS/Center for Medicaid and CHIP Services,2023-10-01,FALSE
+Medicaid & CHIP,Expenditures,Payments (by Selected Type of Service),"Physician, Laboratory and Other Services",,expenditure,FY,2019,96000000000,,CMSFastFactsOct2023_508.xlsx,Medicaid & CHIP Expenditures,CMS/Center for Medicaid and CHIP Services,2023-10-01,FALSE
+Medicaid & CHIP,Expenditures,Payments (by Selected Type of Service),Prescription Drugs,,expenditure,FY,2019,6000000000,,CMSFastFactsOct2023_508.xlsx,Medicaid & CHIP Expenditures,CMS/Center for Medicaid and CHIP Services,2023-10-01,FALSE
+Medicaid & CHIP,Expenditures,Payments (by Selected Type of Service),Managed Care,,expenditure,FY,2019,310000000000,,CMSFastFactsOct2023_508.xlsx,Medicaid & CHIP Expenditures,CMS/Center for Medicaid and CHIP Services,2023-10-01,FALSE
+Medicaid & CHIP,Expenditures,Payments (by Selected Type of Service),Administrative,,expenditure,FY,2019,30000000000,,CMSFastFactsOct2023_508.xlsx,Medicaid & CHIP Expenditures,CMS/Center for Medicaid and CHIP Services,2023-10-01,FALSE
+Medicaid & CHIP,Expenditures,Payments (by Selected Type of Service),Other Services,,expenditure,FY,2019,9700000000,,CMSFastFactsOct2023_508.xlsx,Medicaid & CHIP Expenditures,CMS/Center for Medicaid and CHIP Services,2023-10-01,FALSE
+Medicare,Enrollment,Parts A and/or B,Total,,enrollment,CY,2021,63900000,,CMSFastFactsMar2024_508.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Centers for Medicaid and CHIP Services,2024-03-01,FALSE
+Medicare,Enrollment,Parts A and/or B,Aged,,enrollment,CY,2021,55900000,,CMSFastFactsMar2024_508.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Centers for Medicaid and CHIP Services,2024-03-01,FALSE
+Medicare,Enrollment,Parts A and/or B,Disabled,,enrollment,CY,2021,8000000,,CMSFastFactsMar2024_508.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Centers for Medicaid and CHIP Services,2024-03-01,FALSE
+Medicare,Enrollment,Parts A and/or B,Original Medicare Enrollment,,enrollment,CY,2021,36400000,,CMSFastFactsMar2024_508.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Centers for Medicaid and CHIP Services,2024-03-01,FALSE
+Medicare,Enrollment,Parts A and/or B,MA & Other Health Plan Enrollment,,enrollment,CY,2021,27500000,,CMSFastFactsMar2024_508.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Centers for Medicaid and CHIP Services,2024-03-01,FALSE
+Medicare,Enrollment,Parts A and/or B,MA Enrollment,,enrollment,CY,2021,26900000,,CMSFastFactsMar2024_508.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Centers for Medicaid and CHIP Services,2024-03-01,FALSE
+Medicare,Enrollment,Part D,Total,,enrollment,CY,2021,48800000,,CMSFastFactsMar2024_508.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Centers for Medicaid and CHIP Services,2024-03-01,FALSE
+Medicaid & CHIP,Enrollment,Medicaid & CHIP,Total,,enrollment,FY,2021,86700000,,CMSFastFactsMar2024_508.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Centers for Medicaid and CHIP Services,2024-03-01,FALSE
+Medicaid & CHIP,Enrollment,Medicaid & CHIP,Dual Eligible,,enrollment,FY,2021,8600000,,CMSFastFactsMar2024_508.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Centers for Medicaid and CHIP Services,2024-03-01,FALSE
+Medicaid & CHIP,Enrollment,Medicaid & CHIP,Children,,enrollment,FY,2021,40100000,,CMSFastFactsMar2024_508.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Centers for Medicaid and CHIP Services,2024-03-01,FALSE
+Medicaid & CHIP,Enrollment,Medicaid & CHIP,Medicaid Expansion Adults,,enrollment,FY,2021,21800000,,CMSFastFactsMar2024_508.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Centers for Medicaid and CHIP Services,2024-03-01,FALSE
+Medicare,Cost Sharing,Part A,Deductible,,deductible,CY,2023,1600,,CMSFastFactsMar2024_508.xlsx,"Deductibles, Coins, Premiums",CMS/Office of the Actuary,2024-03-01,FALSE
+Medicare,Cost Sharing,Part A,Coinsurance/Day (Days 61-90),,coinsurance,CY,2023,400,,CMSFastFactsMar2024_508.xlsx,"Deductibles, Coins, Premiums",CMS/Office of the Actuary,2024-03-01,FALSE
+Medicare,Cost Sharing,Part A,Coinsurance/LTR Day,,coinsurance,CY,2023,800,,CMSFastFactsMar2024_508.xlsx,"Deductibles, Coins, Premiums",CMS/Office of the Actuary,2024-03-01,FALSE
+Medicare,Cost Sharing,Part A,Coinsurance/SNF Day (Days 21-100),,coinsurance,CY,2023,200,,CMSFastFactsMar2024_508.xlsx,"Deductibles, Coins, Premiums",CMS/Office of the Actuary,2024-03-01,FALSE
+Medicare,Cost Sharing,Part B,Deductible,,deductible,CY,2023,226,,CMSFastFactsMar2024_508.xlsx,"Deductibles, Coins, Premiums",CMS/Office of the Actuary,2024-03-01,FALSE
+Medicare,Cost Sharing,Part D,Maximum Deductible,,deductible,CY,2023,505,,CMSFastFactsMar2024_508.xlsx,"Deductibles, Coins, Premiums",CMS/Office of the Actuary,2024-03-01,FALSE
+Medicare,Cost Sharing,Part D,Initial Coverage Limit,,coverage_limit,CY,2023,4660,,CMSFastFactsMar2024_508.xlsx,"Deductibles, Coins, Premiums",CMS/Office of the Actuary,2024-03-01,FALSE
+Medicare,Cost Sharing,Part D,Out-of-Pocket Threshold,,premium,CY,2023,7400,,CMSFastFactsMar2024_508.xlsx,"Deductibles, Coins, Premiums",CMS/Office of the Actuary,2024-03-01,FALSE
+Medicare,Cost Sharing,Premiums,Part A (Reduced),,premium,CY,2023,278,,CMSFastFactsMar2024_508.xlsx,"Deductibles, Coins, Premiums",CMS/Office of the Actuary,2024-03-01,FALSE
+Medicare,Cost Sharing,Premiums,Part A (Full),,premium,CY,2023,506,,CMSFastFactsMar2024_508.xlsx,"Deductibles, Coins, Premiums",CMS/Office of the Actuary,2024-03-01,FALSE
+Medicare,Cost Sharing,Premiums,Part B,,premium,CY,2023,164.9,lower,CMSFastFactsMar2024_508.xlsx,"Deductibles, Coins, Premiums",CMS/Office of the Actuary,2024-03-01,FALSE
+Medicare,Cost Sharing,Premiums,Part B,,premium,CY,2023,560.5,upper,CMSFastFactsMar2024_508.xlsx,"Deductibles, Coins, Premiums",CMS/Office of the Actuary,2024-03-01,FALSE
+Medicare,Utilization,Total (A and/or B),Total,,persons_served,CY,2022,34600000,,CMSFastFactsMar2024_508.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2024-03-01,FALSE
+Medicare,Utilization,Total (A and/or B),Total,,payments,CY,2022,395000000000,,CMSFastFactsMar2024_508.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2024-03-01,FALSE
+Medicare,Utilization,Part A,Total,,persons_served,CY,2022,6500000,,CMSFastFactsMar2024_508.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2024-03-01,FALSE
+Medicare,Utilization,Part A,Total,,payments,CY,2022,186300000000,,CMSFastFactsMar2024_508.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2024-03-01,FALSE
+Medicare,Utilization,Part A,Inpatient Hospital,,persons_served,CY,2022,4900000,,CMSFastFactsMar2024_508.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2024-03-01,FALSE
+Medicare,Utilization,Part A,Inpatient Hospital,,payments,CY,2022,127700000000,,CMSFastFactsMar2024_508.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2024-03-01,FALSE
+Medicare,Utilization,Part A,Skilled Nursing Facility,,persons_served,CY,2022,1400000,,CMSFastFactsMar2024_508.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2024-03-01,FALSE
+Medicare,Utilization,Part A,Skilled Nursing Facility,,payments,CY,2022,29000000000,,CMSFastFactsMar2024_508.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2024-03-01,FALSE
+Medicare,Utilization,Part A,Home Health Agency,,persons_served,CY,2022,1200000,,CMSFastFactsMar2024_508.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2024-03-01,FALSE
+Medicare,Utilization,Part A,Home Health Agency,,payments,CY,2022,5900000000,,CMSFastFactsMar2024_508.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2024-03-01,FALSE
+Medicare,Utilization,Part A,Hospice,,persons_served,CY,2022,1800000,,CMSFastFactsMar2024_508.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2024-03-01,FALSE
+Medicare,Utilization,Part A,Hospice,,payments,CY,2022,23700000000,,CMSFastFactsMar2024_508.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2024-03-01,FALSE
+Medicare,Utilization,Part B,Total,,persons_served,CY,2022,33800000,,CMSFastFactsMar2024_508.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2024-03-01,FALSE
+Medicare,Utilization,Part B,Total,,payments,CY,2022,208600000000,,CMSFastFactsMar2024_508.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2024-03-01,FALSE
+Medicare,Utilization,Part B,Physician/DME,,persons_served,CY,2022,33299999.999999996,,CMSFastFactsMar2024_508.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2024-03-01,FALSE
+Medicare,Utilization,Part B,Physician/DME,,payments,CY,2022,116400000000,,CMSFastFactsMar2024_508.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2024-03-01,FALSE
+Medicare,Utilization,Part B,Outpatient,,persons_served,CY,2022,22600000,,CMSFastFactsMar2024_508.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2024-03-01,FALSE
+Medicare,Utilization,Part B,Outpatient,,payments,CY,2022,82000000000,,CMSFastFactsMar2024_508.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2024-03-01,FALSE
+Medicare,Utilization,Part B,Home Health Agency,,persons_served,CY,2022,1700000,,CMSFastFactsMar2024_508.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2024-03-01,FALSE
+Medicare,Utilization,Part B,Home Health Agency,,payments,CY,2022,10200000000,,CMSFastFactsMar2024_508.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2024-03-01,FALSE
+Medicare,Utilization,Part D,Total,,persons_served,CY,2022,49200000,,CMSFastFactsMar2024_508.xlsx,Medicare Part D,CMS/Office of Enterprise Data & Analytics/Office of the Actuary,2024-03-01,FALSE
+Medicare,Utilization,Part D,Total,,rx_events,CY,2022,1500000000,,CMSFastFactsMar2024_508.xlsx,Medicare Part D,CMS/Office of Enterprise Data & Analytics/Office of the Actuary,2024-03-01,FALSE
+Medicare,Utilization,Part D,Total,,payments,CY,2022,125700000000,,CMSFastFactsMar2024_508.xlsx,Medicare Part D,CMS/Office of Enterprise Data & Analytics/Office of the Actuary,2024-03-01,FALSE
+Medicare,Utilization,Part D,Benefit Payments,,payments,CY,2022,125200000000,,CMSFastFactsMar2024_508.xlsx,Medicare Part D,CMS/Office of Enterprise Data & Analytics/Office of the Actuary,2024-03-01,FALSE
+Medicare,Utilization,Part D,Administrative Expenses,,payments,CY,2022,500000000,,CMSFastFactsMar2024_508.xlsx,Medicare Part D,CMS/Office of Enterprise Data & Analytics/Office of the Actuary,2024-03-01,FALSE
+Medicare,Providers,Total Providers,,Institutional,count,CY,2022,380961,,CMSFastFactsMar2024_508.xlsx,Institutional Providers,CMS/Office of Enterprise Data & Analytics,2024-03-01,FALSE
+Medicare,Providers,Hospitals,Short Stay,Institutional,count,CY,2022,3446,,CMSFastFactsMar2024_508.xlsx,Institutional Providers,CMS/Office of Enterprise Data & Analytics,2024-03-01,FALSE
+Medicare,Providers,Hospitals,Psychiatric,Institutional,count,CY,2022,631,,CMSFastFactsMar2024_508.xlsx,Institutional Providers,CMS/Office of Enterprise Data & Analytics,2024-03-01,FALSE
+Medicare,Providers,Hospitals,Rehabilitation,Institutional,count,CY,2022,350,,CMSFastFactsMar2024_508.xlsx,Institutional Providers,CMS/Office of Enterprise Data & Analytics,2024-03-01,FALSE
+Medicare,Providers,Hospitals,Children's,Institutional,count,CY,2022,91,,CMSFastFactsMar2024_508.xlsx,Institutional Providers,CMS/Office of Enterprise Data & Analytics,2024-03-01,FALSE
+Medicare,Providers,Hospitals,Long Term,Institutional,count,CY,2022,339,,CMSFastFactsMar2024_508.xlsx,Institutional Providers,CMS/Office of Enterprise Data & Analytics,2024-03-01,FALSE
+Medicare,Providers,Hospitals,Critical Access,Institutional,count,CY,2022,1361,,CMSFastFactsMar2024_508.xlsx,Institutional Providers,CMS/Office of Enterprise Data & Analytics,2024-03-01,FALSE
+Medicare,Providers,Hospitals,Religious Non-Medical,Institutional,count,CY,2022,13,,CMSFastFactsMar2024_508.xlsx,Institutional Providers,CMS/Office of Enterprise Data & Analytics,2024-03-01,FALSE
+Medicare,Providers,Home Health Agencies,,Institutional,count,CY,2022,11604,,CMSFastFactsMar2024_508.xlsx,Institutional Providers,CMS/Office of Enterprise Data & Analytics,2024-03-01,FALSE
+Medicare,Providers,Skilled Nursing Facilities,,Institutional,count,CY,2022,14795,,CMSFastFactsMar2024_508.xlsx,Institutional Providers,CMS/Office of Enterprise Data & Analytics,2024-03-01,FALSE
+Medicare,Providers,Labs,,Institutional,count,CY,2022,316944,,CMSFastFactsMar2024_508.xlsx,Institutional Providers,CMS/Office of Enterprise Data & Analytics,2024-03-01,FALSE
+Medicare,Providers,Outpatient PT/Speech Pathology,,Institutional,count,CY,2022,1954,,CMSFastFactsMar2024_508.xlsx,Institutional Providers,CMS/Office of Enterprise Data & Analytics,2024-03-01,FALSE
+Medicare,Providers,Rural Health Clinics,,Institutional,count,CY,2022,5224,,CMSFastFactsMar2024_508.xlsx,Institutional Providers,CMS/Office of Enterprise Data & Analytics,2024-03-01,FALSE
+Medicare,Providers,Federally Qualified Health Centers,,Institutional,count,CY,2022,11117,,CMSFastFactsMar2024_508.xlsx,Institutional Providers,CMS/Office of Enterprise Data & Analytics,2024-03-01,FALSE
+Medicare,Providers,Ambulatory Surgical Centers,,Institutional,count,CY,2022,6100,,CMSFastFactsMar2024_508.xlsx,Institutional Providers,CMS/Office of Enterprise Data & Analytics,2024-03-01,FALSE
+Medicare,Providers,Comprehensive Outpatient Rehab Facilities,,Institutional,count,CY,2022,148,,CMSFastFactsMar2024_508.xlsx,Institutional Providers,CMS/Office of Enterprise Data & Analytics,2024-03-01,FALSE
+Medicare,Providers,Hospices,,Institutional,count,CY,2022,6844,,CMSFastFactsMar2024_508.xlsx,Institutional Providers,CMS/Office of Enterprise Data & Analytics,2024-03-01,FALSE
+Medicare,Providers,Total Providers,,Non-Institutional,count,CY,2022,1484780,,CMSFastFactsMar2024_508.xlsx,NonInstitutional Providers,CMS/Office of Enterprise Data & Analytics,2024-03-01,FALSE
+Medicare,Providers,Primary Care,,Non-Institutional,count,CY,2022,221170,,CMSFastFactsMar2024_508.xlsx,NonInstitutional Providers,CMS/Office of Enterprise Data & Analytics,2024-03-01,FALSE
+Medicare,Providers,Medical Specialties,,Non-Institutional,count,CY,2022,183980,,CMSFastFactsMar2024_508.xlsx,NonInstitutional Providers,CMS/Office of Enterprise Data & Analytics,2024-03-01,FALSE
+Medicare,Providers,Surgical Specialties,,Non-Institutional,count,CY,2022,111911,,CMSFastFactsMar2024_508.xlsx,NonInstitutional Providers,CMS/Office of Enterprise Data & Analytics,2024-03-01,FALSE
+Medicare,Providers,Emergency Medicine,,Non-Institutional,count,CY,2022,51659,,CMSFastFactsMar2024_508.xlsx,NonInstitutional Providers,CMS/Office of Enterprise Data & Analytics,2024-03-01,FALSE
+Medicare,Providers,Anesthesiology,,Non-Institutional,count,CY,2022,43905,,CMSFastFactsMar2024_508.xlsx,NonInstitutional Providers,CMS/Office of Enterprise Data & Analytics,2024-03-01,FALSE
+Medicare,Providers,Radiology,,Non-Institutional,count,CY,2022,40780,,CMSFastFactsMar2024_508.xlsx,NonInstitutional Providers,CMS/Office of Enterprise Data & Analytics,2024-03-01,FALSE
+Medicare,Providers,Obstetrics-Gynecology,,Non-Institutional,count,CY,2022,35242,,CMSFastFactsMar2024_508.xlsx,NonInstitutional Providers,CMS/Office of Enterprise Data & Analytics,2024-03-01,FALSE
+Medicare,Providers,Psychiatry,,Non-Institutional,count,CY,2022,27572,,CMSFastFactsMar2024_508.xlsx,NonInstitutional Providers,CMS/Office of Enterprise Data & Analytics,2024-03-01,FALSE
+Medicare,Providers,Pathology,,Non-Institutional,count,CY,2022,12686,,CMSFastFactsMar2024_508.xlsx,NonInstitutional Providers,CMS/Office of Enterprise Data & Analytics,2024-03-01,FALSE
+Medicare,Providers,Non-Physician Practitioners,,Non-Institutional,count,CY,2022,584326,,CMSFastFactsMar2024_508.xlsx,NonInstitutional Providers,CMS/Office of Enterprise Data & Analytics,2024-03-01,FALSE
+Medicare,Providers,Limited Licensed Practitioners,,Non-Institutional,count,CY,2022,103961,,CMSFastFactsMar2024_508.xlsx,NonInstitutional Providers,CMS/Office of Enterprise Data & Analytics,2024-03-01,FALSE
+Medicare,Providers,Ambulance Service Supplier,,Non-Institutional,count,CY,2022,10240,,CMSFastFactsMar2024_508.xlsx,NonInstitutional Providers,CMS/Office of Enterprise Data & Analytics,2024-03-01,FALSE
+Medicare,Providers,Opioid Treatment Programs,,Non-Institutional,count,CY,2022,1121,,CMSFastFactsMar2024_508.xlsx,NonInstitutional Providers,CMS/Office of Enterprise Data & Analytics,2024-03-01,FALSE
+Medicare,Providers,All Other Providers,,Non-Institutional,count,CY,2022,77922,,CMSFastFactsMar2024_508.xlsx,NonInstitutional Providers,CMS/Office of Enterprise Data & Analytics,2024-03-01,FALSE
+Medicare,Providers,Total DMEPOS Providers,,DMEPOS,count,CY,2022,75810,,CMSFastFactsMar2024_508.xlsx,DMEPOS Providers,CMS/Office of Enterprise Data & Analytics,2024-03-01,FALSE
+Medicare,Providers,Pharmacy,,DMEPOS,count,CY,2022,45784,,CMSFastFactsMar2024_508.xlsx,DMEPOS Providers,CMS/Office of Enterprise Data & Analytics,2024-03-01,FALSE
+Medicare,Providers,Medical Supply Company,,DMEPOS,count,CY,2022,8693,,CMSFastFactsMar2024_508.xlsx,DMEPOS Providers,CMS/Office of Enterprise Data & Analytics,2024-03-01,FALSE
+Medicare,Providers,Podiatry,,DMEPOS,count,CY,2022,4595,,CMSFastFactsMar2024_508.xlsx,DMEPOS Providers,CMS/Office of Enterprise Data & Analytics,2024-03-01,FALSE
+Medicare,Providers,Optometry,,DMEPOS,count,CY,2022,3658,,CMSFastFactsMar2024_508.xlsx,DMEPOS Providers,CMS/Office of Enterprise Data & Analytics,2024-03-01,FALSE
+Medicare,Providers,Individual Certified Prosthetist/Orthotist,,DMEPOS,count,CY,2022,2506,,CMSFastFactsMar2024_508.xlsx,DMEPOS Providers,CMS/Office of Enterprise Data & Analytics,2024-03-01,FALSE
+Medicare,Providers,Orthopedic Surgery,,DMEPOS,count,CY,2022,2064,,CMSFastFactsMar2024_508.xlsx,DMEPOS Providers,CMS/Office of Enterprise Data & Analytics,2024-03-01,FALSE
+Medicare,Providers,General Practice,,DMEPOS,count,CY,2022,1444,,CMSFastFactsMar2024_508.xlsx,DMEPOS Providers,CMS/Office of Enterprise Data & Analytics,2024-03-01,FALSE
+Medicare,Providers,Optician,,DMEPOS,count,CY,2022,1001,,CMSFastFactsMar2024_508.xlsx,DMEPOS Providers,CMS/Office of Enterprise Data & Analytics,2024-03-01,FALSE
+Medicare,Providers,Ophthalmology,,DMEPOS,count,CY,2022,1021,,CMSFastFactsMar2024_508.xlsx,DMEPOS Providers,CMS/Office of Enterprise Data & Analytics,2024-03-01,FALSE
+Medicare,Providers,All Other DMEPOS Providers,,DMEPOS,count,CY,2022,5165,,CMSFastFactsMar2024_508.xlsx,DMEPOS Providers,CMS/Office of Enterprise Data & Analytics,2024-03-01,FALSE
+National,NHE,National Health Expenditures,Total,,expenditures,CY,2022,4464600000000,,CMSFastFactsMar2024_508.xlsx,NHE,CMS/Office of the Actuary,2024-03-01,FALSE
+National,NHE,National Health Expenditures,% of GDP,,pct_gdp,CY,2022,0.173,,CMSFastFactsMar2024_508.xlsx,NHE,CMS/Office of the Actuary,2024-03-01,FALSE
+National,NHE,National Health Expenditures,Per Capita,,per_capita,CY,2022,13493,,CMSFastFactsMar2024_508.xlsx,NHE,CMS/Office of the Actuary,2024-03-01,FALSE
+National,NHE,Health Insurance,Private Health Insurance,,expenditures,CY,2022,1289800000000,,CMSFastFactsMar2024_508.xlsx,NHE,CMS/Office of the Actuary,2024-03-01,FALSE
+CMS,NHE,Health Insurance,Medicare,,expenditures,CY,2022,944300000000,,CMSFastFactsMar2024_508.xlsx,NHE,CMS/Office of the Actuary,2024-03-01,FALSE
+CMS,NHE,Health Insurance,Medicaid,,expenditures,CY,2022,805700000000,,CMSFastFactsMar2024_508.xlsx,NHE,CMS/Office of the Actuary,2024-03-01,FALSE
+CMS,NHE,Health Insurance,CHIP,,expenditures,CY,2022,23500000000,,CMSFastFactsMar2024_508.xlsx,NHE,CMS/Office of the Actuary,2024-03-01,FALSE
+Federal,NHE,Health Insurance,Department of Defense,,expenditures,CY,2022,46200000000,,CMSFastFactsMar2024_508.xlsx,NHE,CMS/Office of the Actuary,2024-03-01,FALSE
+Federal,NHE,Health Insurance,Department of Veterans Affairs,,expenditures,CY,2022,102000000000,,CMSFastFactsMar2024_508.xlsx,NHE,CMS/Office of the Actuary,2024-03-01,FALSE
+CMS,Financial,Federal Program Spending,Medicare Benefits,,expenditures,FY,2023,1013467000,,CMSFastFactsMar2024_508.xlsx,CMS Financial Data,CMS/Office of Financial Management,2024-03-01,FALSE
+CMS,Financial,Federal Program Spending,Total Medicaid,,expenditures,FY,2023,637070000,,CMSFastFactsMar2024_508.xlsx,CMS Financial Data,CMS/Office of Financial Management,2024-03-01,FALSE
+CMS,Financial,Federal Program Spending,CHIP,,expenditures,FY,2023,17588000,,CMSFastFactsMar2024_508.xlsx,CMS Financial Data,CMS/Office of Financial Management,2024-03-01,FALSE
+CMS,Financial,Federal Program Spending,Other Spending,,expenditures,FY,2023,13671000,,CMSFastFactsMar2024_508.xlsx,CMS Financial Data,CMS/Office of Financial Management,2024-03-01,FALSE
+CMS,Financial,Program Management,Total Appropriation,,expenditures,FY,2023,4322343000,,CMSFastFactsMar2024_508.xlsx,CMS Financial Data,CMS/Office of Financial Management,2024-03-01,FALSE
+CMS,Financial,Program Management,Other Sources,,expenditures,FY,2023,2792270000,,CMSFastFactsMar2024_508.xlsx,CMS Financial Data,CMS/Office of Financial Management,2024-03-01,FALSE
+CMS,Financial,Fraud,Total Health Care Fraud & Abuse Control Funding,,expenditures,FY,2023,2415892923.0000005,,CMSFastFactsMar2024_508.xlsx,CMS Financial Data,CMS/Office of Financial Management,2024-03-01,FALSE
+CMS,Staffing,FTE Employment,,,count,FY,2023,6609,,CMSFastFactsMar2024_508.xlsx,CMS Financial Data,CMS/Office of Financial Management,2024-03-01,FALSE
+Medicaid & CHIP,Expenditures,Payments (by Selected Type of Service),Inpatient Services,,expenditure,FY,2022,68000000000,,CMSFastFactsMar2024_508.xlsx,Medicaid & CHIP Expenditures,CMS/Center for Medicaid and CHIP Services,2024-03-01,FALSE
+Medicaid & CHIP,Expenditures,Payments (by Selected Type of Service),Long-Term Care,,expenditure,FY,2022,154800000000,,CMSFastFactsMar2024_508.xlsx,Medicaid & CHIP Expenditures,CMS/Center for Medicaid and CHIP Services,2024-03-01,FALSE
+Medicaid & CHIP,Expenditures,Payments (by Selected Type of Service),"Physician, Laboratory and Other Services",,expenditure,FY,2022,109400000000,,CMSFastFactsMar2024_508.xlsx,Medicaid & CHIP Expenditures,CMS/Center for Medicaid and CHIP Services,2024-03-01,FALSE
+Medicaid & CHIP,Expenditures,Payments (by Selected Type of Service),Prescription Drugs,,expenditure,FY,2022,14000000000,,CMSFastFactsMar2024_508.xlsx,Medicaid & CHIP Expenditures,CMS/Center for Medicaid and CHIP Services,2024-03-01,FALSE
+Medicaid & CHIP,Expenditures,Payments (by Selected Type of Service),Managed Care,,expenditure,FY,2022,458900000000,,CMSFastFactsMar2024_508.xlsx,Medicaid & CHIP Expenditures,CMS/Center for Medicaid and CHIP Services,2024-03-01,FALSE
+Medicaid & CHIP,Expenditures,Payments (by Selected Type of Service),Administrative,,expenditure,FY,2022,32500000000,,CMSFastFactsMar2024_508.xlsx,Medicaid & CHIP Expenditures,CMS/Center for Medicaid and CHIP Services,2024-03-01,FALSE
+Medicaid & CHIP,Expenditures,Payments (by Selected Type of Service),Other Services,,expenditure,FY,2022,8900000000,,CMSFastFactsMar2024_508.xlsx,Medicaid & CHIP Expenditures,CMS/Center for Medicaid and CHIP Services,2024-03-01,FALSE
+Medicare,Enrollment,Parts A and/or B,Total,,enrollment,CY,2022,65099999.99999999,,CMSFastFacts2025_508.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Centers for Medicaid and CHIP Services,2025-04-01,FALSE
+Medicare,Enrollment,Parts A and/or B,Total,,enrollment,CY,2023,66500000,,CMSFastFacts2025_508.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Centers for Medicaid and CHIP Services,2025-04-01,FALSE
+Medicare,Enrollment,Parts A and/or B,Total,,enrollment,CY,2024,67800000,,CMSFastFacts2025_508.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Centers for Medicaid and CHIP Services,2025-04-01,TRUE
+Medicare,Enrollment,Parts A and/or B,Aged,,enrollment,CY,2022,57400000,,CMSFastFacts2025_508.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Centers for Medicaid and CHIP Services,2025-04-01,FALSE
+Medicare,Enrollment,Parts A and/or B,Aged,,enrollment,CY,2023,59000000,,CMSFastFacts2025_508.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Centers for Medicaid and CHIP Services,2025-04-01,FALSE
+Medicare,Enrollment,Parts A and/or B,Aged,,enrollment,CY,2024,60700000,,CMSFastFacts2025_508.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Centers for Medicaid and CHIP Services,2025-04-01,TRUE
+Medicare,Enrollment,Parts A and/or B,Disabled,,enrollment,CY,2022,7800000,,CMSFastFacts2025_508.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Centers for Medicaid and CHIP Services,2025-04-01,FALSE
+Medicare,Enrollment,Parts A and/or B,Disabled,,enrollment,CY,2023,7500000,,CMSFastFacts2025_508.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Centers for Medicaid and CHIP Services,2025-04-01,FALSE
+Medicare,Enrollment,Parts A and/or B,Disabled,,enrollment,CY,2024,7200000,,CMSFastFacts2025_508.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Centers for Medicaid and CHIP Services,2025-04-01,TRUE
+Medicare,Enrollment,Parts A and/or B,Original Medicare Enrollment,,enrollment,CY,2022,35300000,,CMSFastFacts2025_508.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Centers for Medicaid and CHIP Services,2025-04-01,FALSE
+Medicare,Enrollment,Parts A and/or B,Original Medicare Enrollment,,enrollment,CY,2023,34400000,,CMSFastFacts2025_508.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Centers for Medicaid and CHIP Services,2025-04-01,FALSE
+Medicare,Enrollment,Parts A and/or B,Original Medicare Enrollment,,enrollment,CY,2024,33800000,,CMSFastFacts2025_508.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Centers for Medicaid and CHIP Services,2025-04-01,TRUE
+Medicare,Enrollment,Parts A and/or B,MA & Other Health Plan Enrollment,,enrollment,CY,2022,29800000,,CMSFastFacts2025_508.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Centers for Medicaid and CHIP Services,2025-04-01,FALSE
+Medicare,Enrollment,Parts A and/or B,MA & Other Health Plan Enrollment,,enrollment,CY,2023,32100000,,CMSFastFacts2025_508.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Centers for Medicaid and CHIP Services,2025-04-01,FALSE
+Medicare,Enrollment,Parts A and/or B,MA & Other Health Plan Enrollment,,enrollment,CY,2024,34100000,,CMSFastFacts2025_508.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Centers for Medicaid and CHIP Services,2025-04-01,TRUE
+Medicare,Enrollment,Parts A and/or B,MA Enrollment,,enrollment,CY,2022,29100000,,CMSFastFacts2025_508.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Centers for Medicaid and CHIP Services,2025-04-01,FALSE
+Medicare,Enrollment,Parts A and/or B,MA Enrollment,,enrollment,CY,2023,31600000,,CMSFastFacts2025_508.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Centers for Medicaid and CHIP Services,2025-04-01,FALSE
+Medicare,Enrollment,Parts A and/or B,MA Enrollment,,enrollment,CY,2024,33600000,,CMSFastFacts2025_508.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Centers for Medicaid and CHIP Services,2025-04-01,TRUE
+Medicare,Enrollment,Part D,Total,,enrollment,CY,2022,50300000,,CMSFastFacts2025_508.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Centers for Medicaid and CHIP Services,2025-04-01,FALSE
+Medicare,Enrollment,Part D,Total,,enrollment,CY,2023,51900000,,CMSFastFacts2025_508.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Centers for Medicaid and CHIP Services,2025-04-01,FALSE
+Medicare,Enrollment,Part D,Total,,enrollment,CY,2024,54400000,,CMSFastFacts2025_508.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Centers for Medicaid and CHIP Services,2025-04-01,TRUE
+Medicaid & CHIP,Enrollment,Medicaid & CHIP,Total,,enrollment,FY,2022,92600000,,CMSFastFacts2025_508.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Centers for Medicaid and CHIP Services,2025-04-01,FALSE
+Medicaid & CHIP,Enrollment,Medicaid & CHIP,Total,,enrollment,FY,2023,85600000,,CMSFastFacts2025_508.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Centers for Medicaid and CHIP Services,2025-04-01,FALSE
+Medicaid & CHIP,Enrollment,Medicaid & CHIP,Total,,enrollment,FY,2024,82300000,,CMSFastFacts2025_508.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Centers for Medicaid and CHIP Services,2025-04-01,TRUE
+Medicaid & CHIP,Enrollment,Medicaid & CHIP,Dual Eligible,,enrollment,FY,2022,9200000,,CMSFastFacts2025_508.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Centers for Medicaid and CHIP Services,2025-04-01,FALSE
+Medicaid & CHIP,Enrollment,Medicaid & CHIP,Dual Eligible,,enrollment,FY,2023,9500000,,CMSFastFacts2025_508.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Centers for Medicaid and CHIP Services,2025-04-01,FALSE
+Medicaid & CHIP,Enrollment,Medicaid & CHIP,Children,,enrollment,FY,2022,41700000,,CMSFastFacts2025_508.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Centers for Medicaid and CHIP Services,2025-04-01,FALSE
+Medicaid & CHIP,Enrollment,Medicaid & CHIP,Children,,enrollment,FY,2023,38600000,,CMSFastFacts2025_508.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Centers for Medicaid and CHIP Services,2025-04-01,FALSE
+Medicaid & CHIP,Enrollment,Medicaid & CHIP,Children,,enrollment,FY,2024,37600000,,CMSFastFacts2025_508.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Centers for Medicaid and CHIP Services,2025-04-01,TRUE
+Medicaid & CHIP,Enrollment,Medicaid & CHIP,Medicaid Expansion Adults,,enrollment,FY,2022,24100000,,CMSFastFacts2025_508.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Centers for Medicaid and CHIP Services,2025-04-01,FALSE
+Medicaid & CHIP,Enrollment,Medicaid & CHIP,Medicaid Expansion Adults,,enrollment,FY,2023,23200000,,CMSFastFacts2025_508.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Centers for Medicaid and CHIP Services,2025-04-01,FALSE
+Medicare,Cost Sharing,Part A,Deductible,,deductible,CY,2024,1632,,CMSFastFacts2025_508.xlsx,"Deductibles, Coins, Premiums",https://www.medicare.gov,2025-04-01,FALSE
+Medicare,Cost Sharing,Part A,Deductible,,deductible,CY,2025,1676,,CMSFastFacts2025_508.xlsx,"Deductibles, Coins, Premiums",https://www.medicare.gov,2025-04-01,TRUE
+Medicare,Cost Sharing,Part A,Coinsurance/Day (Days 61-90),,coinsurance,CY,2024,408,,CMSFastFacts2025_508.xlsx,"Deductibles, Coins, Premiums",https://www.medicare.gov,2025-04-01,FALSE
+Medicare,Cost Sharing,Part A,Coinsurance/Day (Days 61-90),,coinsurance,CY,2025,419,,CMSFastFacts2025_508.xlsx,"Deductibles, Coins, Premiums",https://www.medicare.gov,2025-04-01,TRUE
+Medicare,Cost Sharing,Part A,Coinsurance/LTR Day,,coinsurance,CY,2024,816,,CMSFastFacts2025_508.xlsx,"Deductibles, Coins, Premiums",https://www.medicare.gov,2025-04-01,FALSE
+Medicare,Cost Sharing,Part A,Coinsurance/LTR Day,,coinsurance,CY,2025,838,,CMSFastFacts2025_508.xlsx,"Deductibles, Coins, Premiums",https://www.medicare.gov,2025-04-01,TRUE
+Medicare,Cost Sharing,Part A,Coinsurance/SNF Day (Days 21-100),,coinsurance,CY,2024,204,,CMSFastFacts2025_508.xlsx,"Deductibles, Coins, Premiums",https://www.medicare.gov,2025-04-01,FALSE
+Medicare,Cost Sharing,Part A,Coinsurance/SNF Day (Days 21-100),,coinsurance,CY,2025,209.5,,CMSFastFacts2025_508.xlsx,"Deductibles, Coins, Premiums",https://www.medicare.gov,2025-04-01,TRUE
+Medicare,Cost Sharing,Part B,Deductible,,deductible,CY,2024,240,,CMSFastFacts2025_508.xlsx,"Deductibles, Coins, Premiums",https://www.medicare.gov,2025-04-01,FALSE
+Medicare,Cost Sharing,Part B,Deductible,,deductible,CY,2025,257,,CMSFastFacts2025_508.xlsx,"Deductibles, Coins, Premiums",https://www.medicare.gov,2025-04-01,TRUE
+Medicare,Cost Sharing,Part D,Maximum Deductible,,deductible,CY,2024,545,,CMSFastFacts2025_508.xlsx,"Deductibles, Coins, Premiums",https://www.medicare.gov,2025-04-01,FALSE
+Medicare,Cost Sharing,Part D,Maximum Deductible,,deductible,CY,2025,590,,CMSFastFacts2025_508.xlsx,"Deductibles, Coins, Premiums",https://www.medicare.gov,2025-04-01,TRUE
+Medicare,Cost Sharing,Part D,Initial Coverage Limit,,coverage_limit,CY,2024,5030,,CMSFastFacts2025_508.xlsx,"Deductibles, Coins, Premiums",https://www.medicare.gov,2025-04-01,FALSE
+Medicare,Cost Sharing,Part D,Out-of-Pocket Threshold,,premium,CY,2024,8000,,CMSFastFacts2025_508.xlsx,"Deductibles, Coins, Premiums",https://www.medicare.gov,2025-04-01,FALSE
+Medicare,Cost Sharing,Part D,Out-of-Pocket Threshold,,premium,CY,2025,2000,,CMSFastFacts2025_508.xlsx,"Deductibles, Coins, Premiums",https://www.medicare.gov,2025-04-01,TRUE
+Medicare,Cost Sharing,Premiums,Part A (Reduced),,premium,CY,2024,278,,CMSFastFacts2025_508.xlsx,"Deductibles, Coins, Premiums",https://www.medicare.gov,2025-04-01,FALSE
+Medicare,Cost Sharing,Premiums,Part A (Reduced),,premium,CY,2025,285,,CMSFastFacts2025_508.xlsx,"Deductibles, Coins, Premiums",https://www.medicare.gov,2025-04-01,TRUE
+Medicare,Cost Sharing,Premiums,Part A (Full),,premium,CY,2024,505,,CMSFastFacts2025_508.xlsx,"Deductibles, Coins, Premiums",https://www.medicare.gov,2025-04-01,FALSE
+Medicare,Cost Sharing,Premiums,Part A (Full),,premium,CY,2025,518,,CMSFastFacts2025_508.xlsx,"Deductibles, Coins, Premiums",https://www.medicare.gov,2025-04-01,TRUE
+Medicare,Cost Sharing,Premiums,Part B,,premium,CY,2024,174.7,lower,CMSFastFacts2025_508.xlsx,"Deductibles, Coins, Premiums",https://www.medicare.gov,2025-04-01,FALSE
+Medicare,Cost Sharing,Premiums,Part B,,premium,CY,2024,594,upper,CMSFastFacts2025_508.xlsx,"Deductibles, Coins, Premiums",https://www.medicare.gov,2025-04-01,FALSE
+Medicare,Cost Sharing,Premiums,Part B,,premium,CY,2025,185,lower,CMSFastFacts2025_508.xlsx,"Deductibles, Coins, Premiums",https://www.medicare.gov,2025-04-01,TRUE
+Medicare,Cost Sharing,Premiums,Part B,,premium,CY,2025,628.9,upper,CMSFastFacts2025_508.xlsx,"Deductibles, Coins, Premiums",https://www.medicare.gov,2025-04-01,TRUE
+Medicare,Utilization,Total (A and/or B),Total,,persons_served,CY,2023,33700000,,CMSFastFacts2025_508.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2025-04-01,TRUE
+Medicare,Utilization,Total (A and/or B),Total,,payments,CY,2023,403100000000,,CMSFastFacts2025_508.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2025-04-01,TRUE
+Medicare,Utilization,Part A,Total,,persons_served,CY,2023,6300000,,CMSFastFacts2025_508.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2025-04-01,TRUE
+Medicare,Utilization,Part A,Total,,payments,CY,2023,184700000000,,CMSFastFacts2025_508.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2025-04-01,TRUE
+Medicare,Utilization,Part A,Inpatient Hospital,,persons_served,CY,2023,4800000,,CMSFastFacts2025_508.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2025-04-01,TRUE
+Medicare,Utilization,Part A,Inpatient Hospital,,payments,CY,2023,126300000000,,CMSFastFacts2025_508.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2025-04-01,TRUE
+Medicare,Utilization,Part A,Skilled Nursing Facility,,persons_served,CY,2023,1300000,,CMSFastFacts2025_508.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2025-04-01,TRUE
+Medicare,Utilization,Part A,Skilled Nursing Facility,,payments,CY,2023,27100000000,,CMSFastFacts2025_508.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2025-04-01,TRUE
+Medicare,Utilization,Part A,Home Health Agency,,persons_served,CY,2023,1200000,,CMSFastFacts2025_508.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2025-04-01,TRUE
+Medicare,Utilization,Part A,Home Health Agency,,payments,CY,2023,5900000000,,CMSFastFacts2025_508.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2025-04-01,TRUE
+Medicare,Utilization,Part A,Hospice,,persons_served,CY,2023,1800000,,CMSFastFacts2025_508.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2025-04-01,TRUE
+Medicare,Utilization,Part A,Hospice,,payments,CY,2023,25600000000,,CMSFastFacts2025_508.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2025-04-01,TRUE
+Medicare,Utilization,Part B,Total,,persons_served,CY,2023,32900000,,CMSFastFacts2025_508.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2025-04-01,TRUE
+Medicare,Utilization,Part B,Total,,payments,CY,2023,218400000000,,CMSFastFacts2025_508.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2025-04-01,TRUE
+Medicare,Utilization,Part B,Physician/DME,,persons_served,CY,2023,32400000,,CMSFastFacts2025_508.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2025-04-01,TRUE
+Medicare,Utilization,Part B,Physician/DME,,payments,CY,2023,125400000000,,CMSFastFacts2025_508.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2025-04-01,TRUE
+Medicare,Utilization,Part B,Outpatient,,persons_served,CY,2023,21900000,,CMSFastFacts2025_508.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2025-04-01,TRUE
+Medicare,Utilization,Part B,Outpatient,,payments,CY,2023,83300000000,,CMSFastFacts2025_508.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2025-04-01,TRUE
+Medicare,Utilization,Part B,Home Health Agency,,persons_served,CY,2023,1600000,,CMSFastFacts2025_508.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2025-04-01,TRUE
+Medicare,Utilization,Part B,Home Health Agency,,payments,CY,2023,10000000000,,CMSFastFacts2025_508.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2025-04-01,TRUE
+Medicare,Utilization,Part D,Total,,persons_served,CY,2023,50800000,,CMSFastFacts2025_508.xlsx,Medicare Part D,CMS/Office of Enterprise Data & Analytics/Office of the Actuary,2025-04-01,TRUE
+Medicare,Utilization,Part D,Total,,rx_events,CY,2023,1600000000,,CMSFastFacts2025_508.xlsx,Medicare Part D,CMS/Office of Enterprise Data & Analytics/Office of the Actuary,2025-04-01,TRUE
+Medicare,Utilization,Part D,Total,,payments,CY,2023,131100000000,,CMSFastFacts2025_508.xlsx,Medicare Part D,CMS/Office of Enterprise Data & Analytics/Office of the Actuary,2025-04-01,TRUE
+Medicare,Utilization,Part D,Benefit Payments,,payments,CY,2023,130500000000,,CMSFastFacts2025_508.xlsx,Medicare Part D,CMS/Office of Enterprise Data & Analytics/Office of the Actuary,2025-04-01,TRUE
+Medicare,Utilization,Part D,Administrative Expenses,,payments,CY,2023,500000000,,CMSFastFacts2025_508.xlsx,Medicare Part D,CMS/Office of Enterprise Data & Analytics/Office of the Actuary,2025-04-01,TRUE
+Medicare,Providers,Total Providers,,Institutional,count,CY,2023,380063,,CMSFastFacts2025_508.xlsx,Institutional Providers,CMS/Office of Enterprise Data & Analytics,2025-04-01,TRUE
+Medicare,Providers,Hospitals,Short Stay,Institutional,count,CY,2023,3170,,CMSFastFacts2025_508.xlsx,Institutional Providers,CMS/Office of Enterprise Data & Analytics,2025-04-01,TRUE
+Medicare,Providers,Hospitals,Psychiatric,Institutional,count,CY,2023,642,,CMSFastFacts2025_508.xlsx,Institutional Providers,CMS/Office of Enterprise Data & Analytics,2025-04-01,TRUE
+Medicare,Providers,Hospitals,Rehabilitation,Institutional,count,CY,2023,378,,CMSFastFacts2025_508.xlsx,Institutional Providers,CMS/Office of Enterprise Data & Analytics,2025-04-01,TRUE
+Medicare,Providers,Hospitals,Children's,Institutional,count,CY,2023,92,,CMSFastFacts2025_508.xlsx,Institutional Providers,CMS/Office of Enterprise Data & Analytics,2025-04-01,TRUE
+Medicare,Providers,Hospitals,Long Term,Institutional,count,CY,2023,332,,CMSFastFacts2025_508.xlsx,Institutional Providers,CMS/Office of Enterprise Data & Analytics,2025-04-01,TRUE
+Medicare,Providers,Hospitals,Critical Access,Institutional,count,CY,2023,1368,,CMSFastFacts2025_508.xlsx,Institutional Providers,CMS/Office of Enterprise Data & Analytics,2025-04-01,TRUE
+Medicare,Providers,Hospitals,Religious Non-Medical,Institutional,count,CY,2023,13,,CMSFastFacts2025_508.xlsx,Institutional Providers,CMS/Office of Enterprise Data & Analytics,2025-04-01,TRUE
+Medicare,Providers,Home Health Agencies,,Institutional,count,CY,2023,11968,,CMSFastFacts2025_508.xlsx,Institutional Providers,CMS/Office of Enterprise Data & Analytics,2025-04-01,TRUE
+Medicare,Providers,Skilled Nursing Facilities,,Institutional,count,CY,2023,14598,,CMSFastFacts2025_508.xlsx,Institutional Providers,CMS/Office of Enterprise Data & Analytics,2025-04-01,TRUE
+Medicare,Providers,Labs,,Institutional,count,CY,2023,314874,,CMSFastFacts2025_508.xlsx,Institutional Providers,CMS/Office of Enterprise Data & Analytics,2025-04-01,TRUE
+Medicare,Providers,Outpatient PT/Speech Pathology,,Institutional,count,CY,2023,1922,,CMSFastFacts2025_508.xlsx,Institutional Providers,CMS/Office of Enterprise Data & Analytics,2025-04-01,TRUE
+Medicare,Providers,Rural Health Clinics,,Institutional,count,CY,2023,5410,,CMSFastFacts2025_508.xlsx,Institutional Providers,CMS/Office of Enterprise Data & Analytics,2025-04-01,TRUE
+Medicare,Providers,Federally Qualified Health Centers,,Institutional,count,CY,2023,11723,,CMSFastFacts2025_508.xlsx,Institutional Providers,CMS/Office of Enterprise Data & Analytics,2025-04-01,TRUE
+Medicare,Providers,Ambulatory Surgical Centers,,Institutional,count,CY,2023,6309,,CMSFastFacts2025_508.xlsx,Institutional Providers,CMS/Office of Enterprise Data & Analytics,2025-04-01,TRUE
+Medicare,Providers,Comprehensive Outpatient Rehab Facilities,,Institutional,count,CY,2023,142,,CMSFastFacts2025_508.xlsx,Institutional Providers,CMS/Office of Enterprise Data & Analytics,2025-04-01,TRUE
+Medicare,Providers,Hospices,,Institutional,count,CY,2023,7122,,CMSFastFacts2025_508.xlsx,Institutional Providers,CMS/Office of Enterprise Data & Analytics,2025-04-01,TRUE
+Medicare,Providers,Total Providers,,Non-Institutional,count,CY,2023,1523718,,CMSFastFacts2025_508.xlsx,NonInstitutional Providers,CMS/Office of Enterprise Data & Analytics,2025-04-01,TRUE
+Medicare,Providers,Primary Care,,Non-Institutional,count,CY,2023,221442,,CMSFastFacts2025_508.xlsx,NonInstitutional Providers,CMS/Office of Enterprise Data & Analytics,2025-04-01,TRUE
+Medicare,Providers,Medical Specialties,,Non-Institutional,count,CY,2023,187644,,CMSFastFacts2025_508.xlsx,NonInstitutional Providers,CMS/Office of Enterprise Data & Analytics,2025-04-01,TRUE
+Medicare,Providers,Surgical Specialties,,Non-Institutional,count,CY,2023,112381,,CMSFastFacts2025_508.xlsx,NonInstitutional Providers,CMS/Office of Enterprise Data & Analytics,2025-04-01,TRUE
+Medicare,Providers,Emergency Medicine,,Non-Institutional,count,CY,2023,52888,,CMSFastFacts2025_508.xlsx,NonInstitutional Providers,CMS/Office of Enterprise Data & Analytics,2025-04-01,TRUE
+Medicare,Providers,Anesthesiology,,Non-Institutional,count,CY,2023,44628,,CMSFastFacts2025_508.xlsx,NonInstitutional Providers,CMS/Office of Enterprise Data & Analytics,2025-04-01,TRUE
+Medicare,Providers,Radiology,,Non-Institutional,count,CY,2023,41569,,CMSFastFacts2025_508.xlsx,NonInstitutional Providers,CMS/Office of Enterprise Data & Analytics,2025-04-01,TRUE
+Medicare,Providers,Obstetrics-Gynecology,,Non-Institutional,count,CY,2023,35067,,CMSFastFacts2025_508.xlsx,NonInstitutional Providers,CMS/Office of Enterprise Data & Analytics,2025-04-01,TRUE
+Medicare,Providers,Psychiatry,,Non-Institutional,count,CY,2023,27617,,CMSFastFacts2025_508.xlsx,NonInstitutional Providers,CMS/Office of Enterprise Data & Analytics,2025-04-01,TRUE
+Medicare,Providers,Pathology,,Non-Institutional,count,CY,2023,12792,,CMSFastFacts2025_508.xlsx,NonInstitutional Providers,CMS/Office of Enterprise Data & Analytics,2025-04-01,TRUE
+Medicare,Providers,Non-Physician Practitioners,,Non-Institutional,count,CY,2023,617632,,CMSFastFacts2025_508.xlsx,NonInstitutional Providers,CMS/Office of Enterprise Data & Analytics,2025-04-01,TRUE
+Medicare,Providers,Limited Licensed Practitioners,,Non-Institutional,count,CY,2023,103135,,CMSFastFacts2025_508.xlsx,NonInstitutional Providers,CMS/Office of Enterprise Data & Analytics,2025-04-01,TRUE
+Medicare,Providers,Ambulance Service Supplier,,Non-Institutional,count,CY,2023,10271,,CMSFastFacts2025_508.xlsx,NonInstitutional Providers,CMS/Office of Enterprise Data & Analytics,2025-04-01,TRUE
+Medicare,Providers,Opioid Treatment Programs,,Non-Institutional,count,CY,2023,1169,,CMSFastFacts2025_508.xlsx,NonInstitutional Providers,CMS/Office of Enterprise Data & Analytics,2025-04-01,TRUE
+Medicare,Providers,All Other Providers,,Non-Institutional,count,CY,2023,76573,,CMSFastFacts2025_508.xlsx,NonInstitutional Providers,CMS/Office of Enterprise Data & Analytics,2025-04-01,TRUE
+Medicare,Providers,Total DMEPOS Providers,,DMEPOS,count,CY,2023,73279,,CMSFastFacts2025_508.xlsx,DMEPOS Providers,CMS/Office of Enterprise Data & Analytics,2025-04-01,TRUE
+Medicare,Providers,Pharmacy,,DMEPOS,count,CY,2023,44791,,CMSFastFacts2025_508.xlsx,DMEPOS Providers,CMS/Office of Enterprise Data & Analytics,2025-04-01,TRUE
+Medicare,Providers,Medical Supply Company,,DMEPOS,count,CY,2023,8442,,CMSFastFacts2025_508.xlsx,DMEPOS Providers,CMS/Office of Enterprise Data & Analytics,2025-04-01,TRUE
+Medicare,Providers,Podiatry,,DMEPOS,count,CY,2023,4324,,CMSFastFacts2025_508.xlsx,DMEPOS Providers,CMS/Office of Enterprise Data & Analytics,2025-04-01,TRUE
+Medicare,Providers,Optometry,,DMEPOS,count,CY,2023,3344,,CMSFastFacts2025_508.xlsx,DMEPOS Providers,CMS/Office of Enterprise Data & Analytics,2025-04-01,TRUE
+Medicare,Providers,Individual Certified Prosthetist/Orthotist,,DMEPOS,count,CY,2023,2583,,CMSFastFacts2025_508.xlsx,DMEPOS Providers,CMS/Office of Enterprise Data & Analytics,2025-04-01,TRUE
+Medicare,Providers,Orthopedic Surgery,,DMEPOS,count,CY,2023,1979,,CMSFastFacts2025_508.xlsx,DMEPOS Providers,CMS/Office of Enterprise Data & Analytics,2025-04-01,TRUE
+Medicare,Providers,General Practice,,DMEPOS,count,CY,2023,1302,,CMSFastFacts2025_508.xlsx,DMEPOS Providers,CMS/Office of Enterprise Data & Analytics,2025-04-01,TRUE
+Medicare,Providers,Optician,,DMEPOS,count,CY,2023,854,,CMSFastFacts2025_508.xlsx,DMEPOS Providers,CMS/Office of Enterprise Data & Analytics,2025-04-01,TRUE
+Medicare,Providers,Ophthalmology,,DMEPOS,count,CY,2023,905,,CMSFastFacts2025_508.xlsx,DMEPOS Providers,CMS/Office of Enterprise Data & Analytics,2025-04-01,TRUE
+Medicare,Providers,All Other DMEPOS Providers,,DMEPOS,count,CY,2023,4941,,CMSFastFacts2025_508.xlsx,DMEPOS Providers,CMS/Office of Enterprise Data & Analytics,2025-04-01,TRUE
+National,NHE,National Health Expenditures,Total,,expenditures,CY,2023,4866500000000,,CMSFastFacts2025_508.xlsx,NHE,CMS/Office of the Actuary,2025-04-01,TRUE
+National,NHE,National Health Expenditures,% of GDP,,pct_gdp,CY,2023,0.176,,CMSFastFacts2025_508.xlsx,NHE,CMS/Office of the Actuary,2025-04-01,TRUE
+National,NHE,National Health Expenditures,Per Capita,,per_capita,CY,2023,14570,,CMSFastFacts2025_508.xlsx,NHE,CMS/Office of the Actuary,2025-04-01,TRUE
+National,NHE,Health Insurance,Private Health Insurance,,expenditures,CY,2023,1464600000000,,CMSFastFacts2025_508.xlsx,NHE,CMS/Office of the Actuary,2025-04-01,TRUE
+CMS,NHE,Health Insurance,Medicare,,expenditures,CY,2023,1029800000000,,CMSFastFacts2025_508.xlsx,NHE,CMS/Office of the Actuary,2025-04-01,TRUE
+CMS,NHE,Health Insurance,Medicaid,,expenditures,CY,2023,871700000000,,CMSFastFacts2025_508.xlsx,NHE,CMS/Office of the Actuary,2025-04-01,TRUE
+CMS,NHE,Health Insurance,CHIP,,expenditures,CY,2023,24700000000,,CMSFastFacts2025_508.xlsx,NHE,CMS/Office of the Actuary,2025-04-01,TRUE
+Federal,NHE,Health Insurance,Department of Defense,,expenditures,CY,2023,48200000000,,CMSFastFacts2025_508.xlsx,NHE,CMS/Office of the Actuary,2025-04-01,TRUE
+Federal,NHE,Health Insurance,Department of Veterans Affairs,,expenditures,CY,2023,119600000000,,CMSFastFacts2025_508.xlsx,NHE,CMS/Office of the Actuary,2025-04-01,TRUE
+CMS,Financial,Federal Program Spending,Medicare Benefits,,expenditures,FY,2024,1039840000000,,CMSFastFacts2025_508.xlsx,CMS Financial Data,CMS/Office of Financial Management,2025-04-01,TRUE
+CMS,Financial,Federal Program Spending,Total Medicaid,,expenditures,FY,2024,637847000000,,CMSFastFacts2025_508.xlsx,CMS Financial Data,CMS/Office of Financial Management,2025-04-01,TRUE
+CMS,Financial,Federal Program Spending,CHIP,,expenditures,FY,2024,19457000000,,CMSFastFacts2025_508.xlsx,CMS Financial Data,CMS/Office of Financial Management,2025-04-01,TRUE
+CMS,Financial,Federal Program Spending,Other Spending,,expenditures,FY,2024,17625000000,,CMSFastFacts2025_508.xlsx,CMS Financial Data,CMS/Office of Financial Management,2025-04-01,TRUE
+CMS,Financial,Program Management,Total Appropriation,,expenditures,FY,2024,4124700000,,CMSFastFacts2025_508.xlsx,CMS Financial Data,CMS/Office of Financial Management,2025-04-01,TRUE
+CMS,Financial,Program Management,Other Sources,,expenditures,FY,2024,3112900000,,CMSFastFacts2025_508.xlsx,CMS Financial Data,CMS/Office of Financial Management,2025-04-01,TRUE
+CMS,Financial,Fraud,Total Health Care Fraud & Abuse Control Funding,,expenditures,FY,2024,2514900000,,CMSFastFacts2025_508.xlsx,CMS Financial Data,CMS/Office of Financial Management,2025-04-01,TRUE
+CMS,Staffing,FTE Employment,,,count,FY,2024,6661,,CMSFastFacts2025_508.xlsx,CMS Financial Data,CMS/Office of Financial Management,2025-04-01,TRUE
+Medicaid & CHIP,Expenditures,Payments (by Selected Type of Service),Inpatient Services,,expenditure,FY,2023,69700000000,,CMSFastFacts2025_508.xlsx,Medicaid & CHIP Expenditures,CMS/Center for Medicaid and CHIP Services,2025-04-01,TRUE
+Medicaid & CHIP,Expenditures,Payments (by Selected Type of Service),Long-Term Care,,expenditure,FY,2023,169100000000,,CMSFastFacts2025_508.xlsx,Medicaid & CHIP Expenditures,CMS/Center for Medicaid and CHIP Services,2025-04-01,TRUE
+Medicaid & CHIP,Expenditures,Payments (by Selected Type of Service),"Physician, Laboratory and Other Services",,expenditure,FY,2023,116100000000,,CMSFastFacts2025_508.xlsx,Medicaid & CHIP Expenditures,CMS/Center for Medicaid and CHIP Services,2025-04-01,TRUE
+Medicaid & CHIP,Expenditures,Payments (by Selected Type of Service),Prescription Drugs,,expenditure,FY,2023,20600000000,,CMSFastFacts2025_508.xlsx,Medicaid & CHIP Expenditures,CMS/Center for Medicaid and CHIP Services,2025-04-01,TRUE
+Medicaid & CHIP,Expenditures,Payments (by Selected Type of Service),Managed Care,,expenditure,FY,2023,504600000000,,CMSFastFacts2025_508.xlsx,Medicaid & CHIP Expenditures,CMS/Center for Medicaid and CHIP Services,2025-04-01,TRUE
+Medicaid & CHIP,Expenditures,Payments (by Selected Type of Service),Administrative,,expenditure,FY,2023,35300000000,,CMSFastFacts2025_508.xlsx,Medicaid & CHIP Expenditures,CMS/Center for Medicaid and CHIP Services,2025-04-01,TRUE
+Medicaid & CHIP,Expenditures,Payments (by Selected Type of Service),Other Services,,expenditure,FY,2023,2200000000,,CMSFastFacts2025_508.xlsx,Medicaid & CHIP Expenditures,CMS/Center for Medicaid and CHIP Services,2025-04-01,TRUE

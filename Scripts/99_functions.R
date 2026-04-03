@@ -64,6 +64,7 @@ gen_release_dt <- function(df) {
     mutate(
       release_date = source |>
         str_extract("[A-Za-z]{3}\\d{4}") |>
+        str_replace("cts2025", "Apr2025") |>
         str_replace("cts", "Jan") |>
         my()
     )
