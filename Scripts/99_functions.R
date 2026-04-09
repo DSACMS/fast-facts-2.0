@@ -97,7 +97,7 @@ extract_sheet_year <- function(path, sheet, n_rows = 5) {
   if (nrow(m) > 0) {
     return(list(
       sheet = sheet,
-      year = as.integer(m[1, 3]),
+      data_year = as.integer(m[1, 3]),
       period_type = if_else(m[1, 2] == "Calendar", "CY", "FY"),
       period = paste(
         if_else(m[1, 2] == "Calendar", "CY", "FY"),
@@ -113,7 +113,7 @@ extract_sheet_year <- function(path, sheet, n_rows = 5) {
   if (nrow(m2) > 0) {
     return(list(
       sheet = sheet,
-      year = as.integer(m2[1, 3]),
+      data_year = as.integer(m2[1, 3]),
       period_type = "point-in-time",
       period = NA_character_
     ))
@@ -122,7 +122,7 @@ extract_sheet_year <- function(path, sheet, n_rows = 5) {
   # No year found in header rows — year is likely in column headers
   list(
     sheet = sheet,
-    year = NA_integer_,
+    data_year = NA_integer_,
     period_type = NA_character_,
     period = NA_character_
   )
@@ -200,11 +200,11 @@ read_benes <- function(path) {
     ) |>
     pivot_longer(
       -c(sub_category, area),
-      names_to = c("period_type", "year"),
+      names_to = c("period_type", "data_year"),
       names_sep = "_",
       names_transform = list(
         period_type = toupper,
-        year = as.integer
+        data_year = as.integer
       )
     )
 
@@ -239,11 +239,11 @@ read_benes <- function(path) {
     rename_with(~ str_replace(., "x", "fy_")) |>
     pivot_longer(
       -c(sub_category, area),
-      names_to = c("period_type", "year"),
+      names_to = c("period_type", "data_year"),
       names_sep = "_",
       names_transform = list(
         period_type = toupper,
-        year = as.integer
+        data_year = as.integer
       ),
       values_drop_na = TRUE
     )
@@ -287,7 +287,7 @@ read_benes <- function(path) {
       sub_category,
       metric,
       period_type,
-      year,
+      data_year,
       value,
       source,
       source_tab
@@ -323,9 +323,9 @@ read_costsharing <- function(path) {
   df_tab <- df_tab |>
     pivot_longer(
       starts_with("cy_"),
-      names_to = "year",
+      names_to = "data_year",
       names_prefix = "cy_",
-      names_transform = list(year = as.integer),
+      names_transform = list(data_year = as.integer),
       values_drop_na = TRUE
     )
 
@@ -383,7 +383,7 @@ read_costsharing <- function(path) {
       sub_category,
       metric,
       period_type,
-      year,
+      data_year,
       value,
       bound,
       source,
@@ -464,7 +464,7 @@ read_provider_tab <- function(path, tab) {
         str_remove(" Providers") |>
         str_replace("NonI", "Non-I"),
       metric = "count",
-      year = period_info$year,
+      data_year = period_info$data_year,
       period_type = period_info$period_type
     )
 
@@ -478,7 +478,7 @@ read_provider_tab <- function(path, tab) {
       provider_type,
       metric,
       period_type,
-      year,
+      data_year,
       value,
       source,
       source_tab
@@ -569,7 +569,7 @@ read_financial <- function(path) {
       source = basename(path),
       source_tab = tab,
       source_origin = extract_source(path, tab),
-      year = period_info$year,
+      data_year = period_info$data_year,
       period_type = period_info$period_type
     )
 
@@ -582,7 +582,7 @@ read_financial <- function(path) {
       sub_category,
       metric,
       period_type,
-      year,
+      data_year,
       value,
       source,
       source_tab
@@ -655,7 +655,7 @@ read_nhe <- function(path) {
       source = basename(path),
       source_tab = tab,
       source_origin = extract_source(path, tab),
-      year = period_info$year,
+      data_year = period_info$data_year,
       period_type = period_info$period_type
     )
 
@@ -668,7 +668,7 @@ read_nhe <- function(path) {
       sub_category,
       metric,
       period_type,
-      year,
+      data_year,
       value,
       source,
       source_tab
@@ -719,7 +719,7 @@ read_medicaid_exp <- function(path) {
       source = basename(path),
       source_tab = tab,
       source_origin = extract_source(path, tab),
-      year = period_info$year,
+      data_year = period_info$data_year,
       period_type = period_info$period_type
     )
 
@@ -732,7 +732,7 @@ read_medicaid_exp <- function(path) {
       sub_category,
       metric,
       period_type,
-      year,
+      data_year,
       value,
       source,
       source_tab
@@ -792,7 +792,7 @@ read_medicare_util <- function(path) {
       source = basename(path),
       source_tab = tab,
       source_origin = extract_source(path, tab),
-      year = period_info$year,
+      data_year = period_info$data_year,
       period_type = period_info$period_type
     )
 
@@ -805,7 +805,7 @@ read_medicare_util <- function(path) {
       sub_category,
       metric,
       period_type,
-      year,
+      data_year,
       value,
       source,
       source_tab
@@ -869,7 +869,7 @@ read_medicare_d <- function(path) {
       source = basename(path),
       source_tab = tab,
       source_origin = extract_source(path, tab),
-      year = period_info$year,
+      data_year = period_info$data_year,
       period_type = period_info$period_type
     )
 
@@ -882,7 +882,7 @@ read_medicare_d <- function(path) {
       sub_category,
       metric,
       period_type,
-      year,
+      data_year,
       value,
       source,
       source_tab

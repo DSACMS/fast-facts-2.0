@@ -157,9 +157,9 @@ informant <- informant |>
   #   fn = snip_highest(column = "year")
   # ) |>
   info_columns(
-    columns = year,
+    columns = data_year,
     info = str_glue(
-      'The associated year for the reported `value`.  Due to reporting lags, the `year` may be one or more years prior to the CMS Fast Facts`release_date`. Each `topic` in a given release may cover one or more years. <br>Levels: {min(df_ff$year)}-{max(df_ff$year)}'
+      'The associated year for the reported `value`.  Due to reporting lags, the `data_year` may be one or more years prior to the CMS Fast Facts`release_date`. Each `topic` in a given release may cover one or more years. <br>Levels: {min(df_ff$data_year)}-{max(df_ff$data_year)}'
     )
   ) |>
   info_columns(

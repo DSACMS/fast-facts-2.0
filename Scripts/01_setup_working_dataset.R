@@ -57,14 +57,14 @@ df_ff <- df_ff |>
 
 #keep latest observations for each year
 df_ff <- df_ff |>
-  group_by(topic, area, category, sub_category, metric, bound, year) |>
+  group_by(topic, area, category, sub_category, metric, bound, data_year) |>
   filter(release_date == max(release_date)) |>
   ungroup()
 
 #identity the latest observation (since each metric may have different most recent year)
 df_ff <- df_ff |>
   group_by(topic, area) |> #including area which may be different for Enrollment
-  mutate(is_latest = year == max(year)) |>
+  mutate(is_latest = data_year == max(data_year)) |>
   ungroup()
 
 

@@ -69,11 +69,14 @@ target/
 
 # specific folders
 fast-facts_files/
+test_files/
 Images/
 Data/Historic/
+README_files/
 
 # specific files
 *.html
 Documents/CMSFastFacts2025_508.pdf
 Documents/FastFacts-Mockup.pdf
 ~$*.xlsx
+test.qmd
