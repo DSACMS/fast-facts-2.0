@@ -68,7 +68,8 @@ target/
 *.tfstate.*
 
 # specific folders
-*._files/
+fast-facts_files/
+test_files/
 Images/
 Data/Historic/
 
