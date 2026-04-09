@@ -1,4 +1,4 @@
-area,topic,category,sub_category,provider_type,metric,period_type,year,value,bound,source,source_tab,source_origin,release_date,is_latest
+area,topic,category,sub_category,provider_type,metric,period_type,data_year,value,bound,source,source_tab,source_origin,release_date,is_latest
 Medicare,Enrollment,Parts A and/or B,Total,,enrollment,CY,2019,61500000,,CMSFastFactsNov2021.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Office of the Actuary,2021-11-01,FALSE
 Medicare,Enrollment,Parts A and/or B,Aged,,enrollment,CY,2019,53000000,,CMSFastFactsNov2021.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Office of the Actuary,2021-11-01,FALSE
 Medicare,Enrollment,Parts A and/or B,Disabled,,enrollment,CY,2019,8500000,,CMSFastFactsNov2021.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Office of the Actuary,2021-11-01,FALSE
