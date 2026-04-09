@@ -60,7 +60,7 @@ df_nhe_gdp_share <- df_ff |>
     value_fmt = label_percent(1)(value),
     value_sqrt = sqrt(value * 100)
   ) |>
-  select(category, sub_category, year, value, value_fmt, value_sqrt)
+  select(category, sub_category, data_year, value, value_fmt, value_sqrt)
 
 #extract NHE per capita
 df_nhe_pc <- df_ff |>
@@ -73,7 +73,7 @@ df_nhe_pc <- df_ff |>
     value_fmt = label_comma(1, prefix = "$")(value),
     n_icons = round(value / 1000)
   ) |>
-  select(category, sub_category, year, value, value_fmt, n_icons)
+  select(category, sub_category, data_year, value, value_fmt, n_icons)
 
 #extact health insurnace total
 health_insurance <- df_ff |>
@@ -93,7 +93,7 @@ df_insurance <- df_ff |>
     is_latest == TRUE,
     category == "Health Insurance",
   ) |>
-  select(category, sub_category, year, value) |>
+  select(category, sub_category, data_year, value) |>
   mutate(
     value_fmt = label_number(.1, prefix = "$", scale_cut = cut_short_scale())(
       value
@@ -160,7 +160,7 @@ fte <- df_ff |>
     value_fmt = label_comma()(value),
     n_icons = round(value / 1e3)
   ) |>
-  select(category, year, value, value_fmt, n_icons)
+  select(category, data_year, value, value_fmt, n_icons)
 
 #combine years
 years <- c(
@@ -169,16 +169,16 @@ years <- c(
       is_latest == TRUE,
       category == "National Health Expenditures"
     ) |>
-    distinct(period_type, year) |>
-    unite(period, c(period_type, year), sep = " ") |>
+    distinct(period_type, data_year) |>
+    unite(period, c(period_type, data_year), sep = " ") |>
     pull(),
   fed_spend_yr = df_ff |>
     filter(
       is_latest == TRUE,
       topic == "Financial"
     ) |>
-    distinct(period_type, year) |>
-    unite(period, c(period_type, year), sep = " ") |>
+    distinct(period_type, data_year) |>
+    unite(period, c(period_type, data_year), sep = " ") |>
     pull()
 )
 
@@ -207,7 +207,7 @@ df_medicaid_exp <- df_ff |>
     category == "Payments (by Selected Type of Service)",
     is_latest
   ) |>
-  select(metric, category, sub_category, year, value) |>
+  select(metric, category, sub_category, data_year, value) |>
   mutate(value_fmt = label_number(1, scale_cut = cut_short_scale())(value))
 
 #medicare utilization
@@ -273,7 +273,7 @@ benes_bans <- df_benes |>
 
 #combine years
 benes_years <- c(
-  ban_year = unique(df_benes$year)
+  ban_year = unique(df_benes$data_year)
 )
 
 #Orig v MA trend
@@ -282,7 +282,7 @@ df_medicare_trend <- df_ff |>
     topic == "Enrollment",
     sub_category %in% c("Original Medicare Enrollment", "MA Enrollment")
   ) |>
-  select(sub_category, metric, year, value) |>
+  select(sub_category, metric, data_year, value) |>
   mutate(sub_category = str_remove(sub_category, " Enrollment")) |>
   pivot_wider(
     names_from = sub_category,
@@ -291,19 +291,19 @@ df_medicare_trend <- df_ff |>
   clean_names() |>
   mutate(
     lab_og = case_when(
-      year == min(year) | year == max(year) ~ label_number(
+      data_year == min(data_year) | data_year == max(data_year) ~ label_number(
         .1,
         scale_cut = cut_short_scale()
       )(original_medicare)
     ),
     lab_ma = case_when(
-      year == min(year) | year == max(year) ~ label_number(
+      data_year == min(data_year) | data_year == max(data_year) ~ label_number(
         .1,
         scale_cut = cut_short_scale()
       )(ma)
     ),
-    lab_og_cat = case_when(year == 2022 ~ "Original Medicare"),
-    lab_ma_cat = case_when(year == 2022 ~ "Medicare Advantage")
+    lab_og_cat = case_when(data_year == 2022 ~ "Original Medicare"),
+    lab_ma_cat = case_when(data_year == 2022 ~ "Medicare Advantage")
   )
 
 
@@ -313,9 +313,9 @@ df_medicaid_trend <- df_ff |>
     area == "Medicaid & CHIP",
     sub_category %in%
       c("Children", "Medicaid Expansion Adults", "Dual Eligible"),
-    year >= 2020
+    data_year >= 2020
   ) |>
-  select(metric, sub_category, period_type, year, value) |>
+  select(metric, sub_category, period_type, data_year, value) |>
   mutate(
     fill_color = recode_values(
       sub_category,
@@ -326,9 +326,11 @@ df_medicaid_trend <- df_ff |>
   ) |>
   group_by(sub_category) |>
   mutate(
-    val_pt = case_when(year == min(year) | year == max(year) ~ value),
+    val_pt = case_when(
+      data_year == min(data_year) | data_year == max(data_year) ~ value
+    ),
     lab_val = case_when(
-      year %in% c(min(year), max(year)) ~ label_number(
+      data_year %in% c(min(data_year), max(data_year)) ~ label_number(
         1,
         scale_cut = cut_short_scale()
       )(value)
@@ -368,7 +370,7 @@ df_cs_ban <- df_ff |>
       label_number(1, prefix = "$", scale_cut = cut_short_scale())(value)
     )
   ) |>
-  unite(period, c(period_type, year), sep = " ") |>
+  unite(period, c(period_type, data_year), sep = " ") |>
   unite(label, c(category, metric)) |>
   select(period, label, value_fmt) |>
   mutate(label = label |> str_replace_all(" ", "_") |> tolower())
@@ -387,8 +389,8 @@ cs_yr <- df_cs_ban |>
 #subset data for cost sharing data
 df_cs_trend <- df_ff |>
   filter(topic == "Cost Sharing") |>
-  filter(year >= max(year) - 1) |>
-  unite(period, c(period_type, year), sep = " ") |>
+  filter(data_year >= max(data_year) - 1) |>
+  unite(period, c(period_type, data_year), sep = " ") |>
   select(topic, category, sub_category, metric, period, value, bound)
 
 #create necessary fields for viz
@@ -434,7 +436,7 @@ ban_providers <- df_ff |>
     str_detect(category, "Total"),
     is_latest == TRUE
   ) |>
-  unite(period, c(period_type, year), sep = " ") |>
+  unite(period, c(period_type, data_year), sep = " ") |>
   mutate(
     value = ifelse(
       value > 1e6,
