@@ -98,7 +98,7 @@ $input-border-color:  $wgray-200;
 $input-focus-border-color: $ff-medicare;
 $input-focus-box-shadow: 0 0 0 0.2rem rgba($ff-medicare, 0.2);
 
-$navbar-bg:                 #015390; 
+$navbar-bg:                 #10548E; 
 $navbar-dark-color:         $color-text-light;
 $navbar-dark-hover-color:   $teal-200;
 $navbar-dark-active-color:  #FFFFFF;
@@ -141,15 +141,34 @@ h1, h2, h3, h4, h5, h6,
     font-size: 0.8rem;
     font-weight: 600;
     text-transform: uppercase;
-    letter-spacing: 0.04em;
+    letter-spacing: 0.06em;
     opacity: 0.85;
+  }
+
+  .value-box-subtitle {
+    font-size: 0.75rem;
+    font-weight: 400;
+    letter-spacing: 0.25em;
+    margin-top: .25rem;
+    display: block;
+    opacity: 0.75;
   }
 
   .value-box-value {
     font-family: "Source Sans 3", system-ui, sans-serif;
-    font-size: 2rem;
+    font-size: 2.2rem;
     font-weight: 700;
-    line-height: 1.2;
+    line-height: -0.02em;
+  }
+
+  .value-box-showcase {
+    font-size: 2.5rem;
+    opacity: 0.7;
+}
+
+  &.bg-primary {
+    background-color: $primary !important;
+    color: $color-text-light !important;
   }
 
   &.medicaid  { background-color: $ff-medicaid; color: $color-text-light; }
@@ -164,6 +183,9 @@ h1, h2, h3, h4, h5, h6,
 // ── Cards ────────────────────────────────────────────────────
 .card {
   border: none !important;
+  border-top: 3px solid $blue-900;
+  border-radius: $card-border-radius !important;
+  overflow: hidden;
   box-shadow: $card-box-shadow;
   background-color: $color-surface;
 
