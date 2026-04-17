@@ -73,10 +73,12 @@ test_files/
 Images/
 Data/Historic/
 README_files/
+assets/test/
 
 # specific files
 *.html
 Documents/CMSFastFacts2025_508.pdf
 Documents/FastFacts-Mockup.pdf
+Documents/fast-facts-2.0_alpha.pdf
 ~$*.xlsx
 test.qmd
