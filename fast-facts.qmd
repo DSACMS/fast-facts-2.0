@@ -75,7 +75,7 @@ walk(
 
 ### Row {height="20%"}
 
-:::{.valuebox label = "ban_nhe" icon="heart-pulse-fill" color="primary"}
+:::{.valuebox .text-white label = "ban_nhe" icon="heart-pulse-fill" color="#015390"}
 National Health Expenditures (NHE)
 
 `r context$bans[["nhe_total"]]`
@@ -133,6 +133,9 @@ context[["df_nhe_gdp_share"]] |>
 ```{r}
 #| label: per_capita
 #| title: "NHE per capita"
+#| out-width: 100%
+#| fig-width: 14
+#| fig-height: 4
 
 # Value and scale
 n_units <- context[["df_nhe_pc"]]$n_icons
@@ -148,7 +151,7 @@ icons |>
   geom_text(
     label  = "\uf0d6",              # Font Awesome "person" / user icon
     family = "FontAwesome7Solid",
-    size   = 12,
+    size   = 18,
     color  = ff_colors$base[["green"]]
   ) +
   scale_x_continuous(expand = expansion(add = 0.5)) +
@@ -170,18 +173,15 @@ icons |>
 ## Column
 
 ### Row {height=20%}
-```{r}
-#| label: ban_health-insurance
-#| content: valuebox
-#| title: "Health Insurance"
-#| icon: shield-plus
-#| color: primary
 
-list(
-  value = context$bans[["health_insurance"]],
-  subtitle = context$years[["nhe_yr"]]
-)
-```
+:::{.valuebox .text-white label = "ban_health-insurance" icon="shield-plus" color="#015390"}
+Health Insurance
+
+`r context$bans[["health_insurance"]]`
+
+`r context$years[["nhe_yr"]]`
+
+:::
 
 ### Row
 
@@ -222,18 +222,15 @@ context[["df_insurance"]] |>
 ## Column
 
 ### Row {height=20%}
-```{r}
-#| label: ban_fed_spend
-#| content: valuebox
-#| title: "CMS Federal Program Spending"
-#| icon: bank
-#| color: primary
 
-list(
-  value = context$bans[["fed_spend"]],
-  subtitle = context$years[["fed_spend_yr"]]
-)
-```
+:::{.valuebox .text-white label = "ban_fed_spend" icon="bank" color="#015390"}
+CMS Federal Program Spending
+
+`r context$bans[["fed_spend"]]`
+
+`r context$years[["fed_spend_yr"]]`
+
+:::
 
 ### Row
 
@@ -315,6 +312,9 @@ context[["df_spend"]] |>
 ```{r}
 #| label: fte
 #| title: "CMS Full-Time Equivalents (FTEs)"
+#| out-width: 100%
+#| fig-width: 14
+#| fig-height: 4
 
 n_units <- context[["fte"]]$n_icons
 
@@ -351,44 +351,34 @@ icons |>
 
 ## Row {height=25%}
 
-```{r}
-#| label: ban_medicare_ab
-#| content: valuebox
-#| title: "Medicare Parts A/B"
-#| icon: heart-fill
-#| color: primary
+:::{.valuebox .text-white label = "ban_medicare_ab" icon="heart-fill" color="#015390"}
+Medicare Parts A/B
 
-list(
-  value = beneficiaries$bans[["medicare_ab"]],
-  subtitle = beneficiaries$years[["ban_year"]]
-)
-```
+`r beneficiaries$bans[["medicare_ab"]]`
 
-```{r}
-#| label: ban_medicare_d
-#| content: valuebox
-#| title: "Medicare Part D"
-#| icon: capsule-pill
-#| color: primary
+`r beneficiaries$years[["ban_year"]]`
 
-list(
-  value = beneficiaries$bans[["medicare_d"]],
-  subtitle = beneficiaries$years[["ban_year"]]
-)
-```
+:::
 
-```{r}
-#| label: ban_medicaid
-#| content: valuebox
-#| title: "Medicaid & CHIP"
-#| icon: people-fill
-#| color: primary
 
-list(
-  value = beneficiaries$bans[["medicaid"]],
-  subtitle = beneficiaries$years[["ban_year"]]
-)
-```
+:::{.valuebox .text-white label = "ban_medicare_d" icon="capsule-pill" color="#015390"}
+Medicare Part D
+
+`r beneficiaries$bans[["medicare_d"]]`
+
+`r beneficiaries$years[["ban_year"]]`
+
+:::
+
+:::{.valuebox .text-white label = "ban_medicaid" icon="people-fill" color="#015390"}
+Medicaid & CHIP
+
+`r beneficiaries$bans[["medicaid"]]`
+
+`r beneficiaries$years[["ban_year"]]`
+
+:::
+
 
 ## Row
 ```{r}
@@ -569,88 +559,62 @@ beneficiaries[['df_medicaid_exp']] |>
 
 ## Row {height="20%"}
 
-```{r}
-#| label: ban_part_a_benes
-#| content: valuebox
-#| title: "Part A Persons Served"
-#| icon: people-fill
-#| color: primary
+:::{.valuebox .text-white label = "ban_part_a_benes" icon="people-fill" color="#015390"}
+Part A Persons Served
 
-list(
-  cost_sharing$bans[["part_a_persons_served"]],
-  subtitle = cost_sharing$years
-)
-```
+`r cost_sharing$bans[["part_a_persons_served"]]`
 
+`r cost_sharing$years`
 
-```{r}
-#| label: ban_part_b_benes
-#| content: valuebox
-#| title: "Part B Persons Served"
-#| icon: people-fill
-#| color: primary
+:::
 
-list(
-  cost_sharing$bans[["part_b_persons_served"]],
-  subtitle = cost_sharing$years
-)
-```
+:::{.valuebox .text-white label = "ban_part_b_benes" icon="people-fill" color="#015390"}
+Part B Persons Served
 
+`r cost_sharing$bans[["part_b_persons_served"]]`
 
+`r cost_sharing$years`
 
-```{r}
-#| label: ban_part_d_benes
-#| content: valuebox
-#| title: "Part D Beneficiaries"
-#| icon: people-fill
-#| color: primary
+:::
 
-list(
-  cost_sharing$bans[["part_d_persons_served"]],
-  subtitle = cost_sharing$years
-)
-```
+:::{.valuebox .text-white label = "ban_part_d_benes" icon="people-fill" color="#015390"}
+Part D Persons Served
+
+`r cost_sharing$bans[["part_d_persons_served"]]`
+
+`r cost_sharing$years`
+
+:::
+
 
 ## Row {height="20%"}
-```{r}
-#| label: ban_part_a_exp
-#| content: valuebox
-#| title: "Part A Program Payments"
-#| icon: people-fill
-#| color: primary
 
-list(
-  cost_sharing$bans[["part_a_payments"]],
-  subtitle = cost_sharing$years
-)
-```
+:::{.valuebox .text-white label = "ban_part_a_exp" icon="people-fill" color="#015390"}
+Part A Program Payments
 
+`r cost_sharing$bans[["part_a_payments"]]`
 
-```{r}
-#| label: ban_part_b_exp
-#| content: valuebox
-#| title: "Part B Program Payments"
-#| icon: people-fill
-#| color: primary
+`r cost_sharing$years`
 
-list(
-  cost_sharing$bans[["part_b_payments"]],
-  subtitle = cost_sharing$years
-)
-```
+:::
 
-```{r}
-#| label: ban_part_d_exp
-#| content: valuebox
-#| title: "Part B Expenditures"
-#| icon: people-fill
-#| color: primary
+:::{.valuebox .text-white label = "ban_part_b_exp" icon="people-fill" color="#015390"}
+Part B Program Payments
 
-list(
-  cost_sharing$bans[["part_d_payments"]],
-  subtitle = cost_sharing$years
-)
-```
+`r cost_sharing$bans[["part_b_payments"]]`
+
+`r cost_sharing$years`
+
+:::
+
+:::{.valuebox .text-white label = "ban_part_d_exp" icon="people-fill" color="#015390"}
+Part D Expenditures
+
+`r cost_sharing$bans[["part_d_payments"]]`
+
+`r cost_sharing$years`
+
+:::
 
 ## Row
 
@@ -700,18 +664,15 @@ cost_sharing[["df_cs_trend"]] |>
 
 ### Row {height=20%}
 
-```{r}
-#| label: ban_inst
-#| content: valuebox
-#| title: "Institutional Providers"
-#| icon: hospital
-#| color: primary
+:::{.valuebox .text-white label = "ban_inst" icon="hospital" color="#015390"}
+Institutional Providers
 
-list(
-  providers$bans[["Institutional"]],
-  subtitle = providers$years["Institutional"]
-)
-```
+`r providers$bans[["Institutional"]]`
+
+`r providers$years["Institutional"]`
+
+:::
+
 
 ### Row
 
@@ -819,18 +780,16 @@ providers[["df_hospital_subset"]]  |>
 ## Column
 
 ### Row {height="20%"}
-```{r}
-#| label: ban_non_inst
-#| content: valuebox
-#| title: "Non-Institutional Providers"
-#| icon: clipboard2-pulse-fill
-#| color: primary
 
-list(
-  providers$bans[["Non-Institutional"]],
-  subtitle = providers$years["Non-Institutional"]
-)
-```
+:::{.valuebox .text-white label = "ban_non_inst" icon="clipboard2-pulse-fill" color="#015390"}
+Non-Institutional Providers
+
+`r providers$bans[["Non-Institutional"]]`
+
+`r providers$years["Non-Institutional"]`
+
+:::
+
 
 ```{r}
 #| label: noninstitutional_providers
@@ -860,19 +819,16 @@ providers[["df_provider_noninst"]] |>
 
 ## Column
 
-### Row {height=20%}
-```{r}
-#| label: ban_DMEPOS
-#| content: valuebox
-#| title: "DMEPOS"
-#| icon: people-fill
-#| color: primary
+### Row {height=20%} 
 
-list(
-  providers$bans[["DMEPOS"]],
-  subtitle = providers$years["DMEPOS"]
-)
-```
+:::{.valuebox .text-white label = "ban_DMEPOS" icon="people-fill" color="#015390"}
+DMEPOS
+
+`r providers$bans[["DMEPOS"]]`
+
+`r providers$years["DMEPOS"]`
+
+:::
 
 
 ```{r}
