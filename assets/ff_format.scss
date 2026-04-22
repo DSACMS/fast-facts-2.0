@@ -171,6 +171,11 @@ h1, h2, h3, h4, h5, h6,
     color: $color-text-light !important;
   }
 
+  &.text-white {
+    color: $color-text-light !important;
+    .value-box-title, .value-box-value, .value-box-subtitle { color: $color-text-light !important; }
+  }
+
   &.medicaid  { background-color: $ff-medicaid; color: $color-text-light; }
   &.medicare  { background-color: $ff-medicare; color: $color-text-light; }
   &.chip      { background-color: $ff-chip;     color: $color-text-primary; }
