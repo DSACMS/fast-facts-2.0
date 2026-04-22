@@ -58,11 +58,9 @@
   "feedbackMechanism": "https://github.com/DSACMS/fast-facts-2.0/issues",
   "AIUseCaseID": "0",
   "localisation": false,
-  "repositoryType": [
-    "data",
-    "tools"
-  ],
+  "repositoryType": "tools",
   "userInput": true,
+  "fismaLevel": "low",
   "group": "CMS/OA/DSAC",
   "projects": [
     "OEDA"
