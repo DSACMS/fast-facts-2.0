@@ -356,37 +356,6 @@ write_rds(beneficiaries, "Dataout/beneficiaries.rds")
 
 # COST SHARING TAB -------------------------------------------------------
 
-df_cs_ban <- df_ff |>
-  filter(
-    topic == "Utilization",
-    category != "Total (A and/or B)",
-    sub_category == "Total",
-    metric %in% c("persons_served", "payments"),
-    is_latest == TRUE
-  ) |>
-  mutate(
-    value_fmt = ifelse(
-      metric == "persons_served",
-      label_number(1, scale_cut = cut_short_scale())(value),
-      label_number(1, prefix = "$", scale_cut = cut_short_scale())(value)
-    )
-  ) |>
-  unite(period, c(period_type, data_year), sep = " ") |>
-  unite(label, c(category, metric)) |>
-  select(period, label, value_fmt) |>
-  mutate(label = label |> str_replace_all(" ", "_") |> tolower())
-# mutate(label = str_glue("{category}\n{ifelse(metric == 'beneficiaries', 'Persons Served', 'Program Payments')}")) |>
-
-#store BAN for cost sharing
-cs_ban <- df_cs_ban |>
-  select(-period) |>
-  deframe()
-
-#store year for cost sharing
-cs_yr <- df_cs_ban |>
-  distinct(period) |>
-  pull()
-
 #subset data for cost sharing data
 df_cs_trend <- df_ff |>
   filter(topic == "Cost Sharing") |>
@@ -417,11 +386,34 @@ df_cs_trend <- df_cs_trend |>
   ) |>
   ungroup()
 
+df_cs_trend <- df_cs_trend |>
+  mutate(
+    metric_lab = case_when(
+      metric == "coinsurance" ~ "Coinsurance (Part A)",
+      sub_category %in%
+        c(
+          "Out-of-Pocket Threshold",
+          "Initial Coverage Limit"
+        ) ~ "Other (Part D)",
+      TRUE ~ str_glue("{str_to_title(metric)}s")
+    ),
+    metric_lab = factor(
+      metric_lab,
+      c("Premiums", "Coinsurance (Part A)", "Deductibles", "Other (Part D)")
+    ),
+    sub_category = case_when(
+      !is.na(bound) ~ str_glue("{sub_category} (upper/lower bounds)"),
+      metric == "deductible" &
+        category == "Part A" ~ "Part A (Inpatient Hospital)",
+      metric == "deductible" & category == "Part D" ~ "Part D (Maximum)",
+      metric == "deductible" ~ category,
+      TRUE ~ str_remove(sub_category, "Coinsurance/")
+    )
+  )
+
 
 #bundle tab data points/frames
 cost_sharing <- list(
-  bans = cs_ban,
-  years = cs_yr,
   df_cs_trend = df_cs_trend
 )
 
