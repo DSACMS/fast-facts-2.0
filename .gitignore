@@ -74,6 +74,7 @@ Images/
 Data/Historic/
 README_files/
 assets/test/
+Graphics/
 
 # specific files
 *.html
@@ -83,3 +84,4 @@ Documents/fast-facts-2.0_alpha.pdf
 ~$*.xlsx
 test.qmd
 .Rproj.user
+*.pptx
