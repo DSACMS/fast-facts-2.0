@@ -130,6 +130,23 @@ h1, h2, h3, h4, h5, h6,
   border: none;
 }
 
+.footer-source {
+  font-size: 0.75rem;
+  color: $gray-600;       // use a Sass variable if you've defined one
+  padding: 4px 8px;
+  text-align: center;
+
+  .card {
+    border: none;
+    background: transparent;
+    box-shadow: none;
+
+    .card-header {
+      display: none;
+    }
+  }
+}
+
 // ── Value boxes ──────────────────────────────────────────────
 .value-box {
   border: none !important;
