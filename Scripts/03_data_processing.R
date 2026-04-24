@@ -220,10 +220,10 @@ df_medicare_util <- df_ff |>
   filter_out(
     category == "Total (A and/or B)" |
       sub_category %in% c("Benefit Payments", "Administrative Expenses")
-  ) |>
-  filter_out(
-    category %in% c("Part A", "Part B") & sub_category == "Total"
-  )
+  ) #|>
+# filter_out(
+#   category %in% c("Part A", "Part B") & sub_category == "Total"
+# )
 
 #create z-score for plotting
 df_medicare_util <- df_medicare_util |>
@@ -234,18 +234,19 @@ df_medicare_util <- df_medicare_util |>
 
 df_medicare_util <- df_medicare_util |>
   mutate(
-    lab_ben = case_when(
-      metric == "persons_served" ~ str_glue(
-        "{sub_category}\n{label_number(1, scale_cut =  cut_short_scale())(value)}"
-      )
-    ),
     lab_exp = case_when(
       metric == "payments" ~ label_number(
         1,
-        prefix = "$",
+        prefix = '$',
         scale_cut = cut_short_scale()
       )(value)
     ),
+    lab_ben = case_when(
+      metric == "persons_served" ~ str_glue(
+        "{sub_category} {label_number(1, scale_cut =  cut_short_scale())(value)}"
+      )
+    ),
+    lab_pos = ifelse(metric == "persons_served", -1, 1.5)
   )
 
 
