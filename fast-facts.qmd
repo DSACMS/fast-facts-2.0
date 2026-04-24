@@ -13,10 +13,10 @@ format:
         href: "#"
         aria-label: "Source Code"
     scrolling: false
-    dpi: 330
 knitr:
   opts_chunk: 
     dev: ragg_png
+    dpi: 192
 resources:
   - assets/CMS_logo_reverse.png
 execute:
@@ -172,16 +172,7 @@ icons |>
 
 ### Column
 
-### Row {height=20%}
-
-:::{.valuebox .text-white label = "ban_health-insurance" icon="shield-plus" color="#015390"}
-Health Insurance
-
-`r context$bans[["health_insurance"]]`
-
-`r context$years[["nhe_yr"]]`
-
-:::
+### Row {height=25%}
 
 :::{.valuebox .text-white label = "ban_health-insurance" icon="shield-plus" color="#015390"}
 Health Insurance
@@ -230,16 +221,7 @@ context[["df_insurance"]] |>
 
 ### Column
 
-### Row {height=20%}
-
-:::{.valuebox .text-white label = "ban_fed_spend" icon="bank" color="#015390"}
-CMS Federal Program Spending
-
-`r context$bans[["fed_spend"]]`
-
-`r context$years[["fed_spend_yr"]]`
-
-:::
+### Row {height=25%}
 
 :::{.valuebox .text-white label = "ban_fed_spend" icon="bank" color="#015390"}
 CMS Federal Program Spending
@@ -582,72 +564,13 @@ beneficiaries[['df_medicaid_exp']] |>
 
 # Cost Sharing
 
-## Row {height="20%"}
 
-:::{.valuebox .text-white label = "ban_part_a_benes" icon="people-fill" color="#015390"}
-Part A Persons Served
-
-`r cost_sharing$bans[["part_a_persons_served"]]`
-
-`r cost_sharing$years`
-
-:::
-
-:::{.valuebox .text-white label = "ban_part_b_benes" icon="people-fill" color="#015390"}
-Part B Persons Served
-
-`r cost_sharing$bans[["part_b_persons_served"]]`
-
-`r cost_sharing$years`
-
-:::
-
-:::{.valuebox .text-white label = "ban_part_d_benes" icon="people-fill" color="#015390"}
-Part D Persons Served
-
-`r cost_sharing$bans[["part_d_persons_served"]]`
-
-`r cost_sharing$years`
-
-:::
-
-
-## Row {height="20%"}
-
-:::{.valuebox .text-white label = "ban_part_a_exp" icon="people-fill" color="#015390"}
-Part A Program Payments
-
-`r cost_sharing$bans[["part_a_payments"]]`
-
-`r cost_sharing$years`
-
-:::
-
-:::{.valuebox .text-white label = "ban_part_b_exp" icon="people-fill" color="#015390"}
-Part B Program Payments
-
-`r cost_sharing$bans[["part_b_payments"]]`
-
-`r cost_sharing$years`
-
-:::
-
-:::{.valuebox .text-white label = "ban_part_d_exp" icon="people-fill" color="#015390"}
-Part D Expenditures
-
-`r cost_sharing$bans[["part_d_payments"]]`
-
-`r cost_sharing$years`
-
-:::
-
-## Row
-
+## Row {height="95%"}
 ```{r}
 #| label: dumbell_charts
 #| title: "Medicare Deductibles, Coinsurance, Premiums"
 
-cost_sharing[["df_cs_trend"]] |> 
+cost_sharing[["df_cs_trend"]]  |> 
   ggplot(aes(value, fct_reorder(sub_category, order, .fun = max, .na_rm = TRUE), group = ln_group)) +
   geom_path(color = ff_colors$scales$cobolt[["200"]], na.rm = TRUE) +
   geom_point(
@@ -667,21 +590,34 @@ cost_sharing[["df_cs_trend"]] |>
     na.rm = TRUE,
     family = "Source Sans 3",
     color = ff_colors$elements[["annotation"]],
+    size = 2.9,
     vjust = -1.1
-  ) + 
-  # facet_wrap(~group, nrow = 1, scales = "free") +
-  facet_wrap(category ~ ., ncol = 1, scales = "free", space = "free_y", strip.position = "top") +
-  labs(x = NULL, y = NULL) +
-  scale_fill_identity() +
-  scale_x_continuous(label = label_currency()) +
+  ) +
+  facet_wrap(~metric_lab, scales = "free", space = "free_y") +
+  scale_fill_identity(
+    guide = "legend",
+    breaks = c("white", ff_colors$scales$cobolt["200"]),
+    labels = unique(cost_sharing[["df_cs_trend"]]$period) |> sort()
+  ) +
+  coord_cartesian(clip = "off") +
+  labs(x = NULL, y = NULL, fill = NULL) +
+  scale_x_continuous(label = label_number(prefix = "$", scale_cut = cut_short_scale()), limits = c(0, NA), position = "top") +
   theme_minimal() +
   theme(
-    axis.text = element_text(family = "Source Sans 3"),
-    strip.text = element_text(family = "Source Sans 3", face = "bold", hjust = 0),
+    panel.grid.major.y = element_blank(),
+    text = element_text(family = "Source Sans 3"),
+    strip.text = element_text(family = "Source Sans 3", face = "bold", size = 12, hjust = 0),
     strip.placement = "outside",
-    panel.spacing = unit(0, "lines")
+    legend.position = "top"
   )
+
 ```
+
+## Row {.no-title height="5%"}
+
+::: {.footer-source}
+CMS Fast Facts April 2025 Release &bull; Data sources: https://www.medicare.gov
+:::
 
 # Providers
 
