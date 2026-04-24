@@ -172,7 +172,16 @@ icons |>
 
 ### Column
 
-#### Row {height=24%}
+### Row {height=20%}
+
+:::{.valuebox .text-white label = "ban_health-insurance" icon="shield-plus" color="#015390"}
+Health Insurance
+
+`r context$bans[["health_insurance"]]`
+
+`r context$years[["nhe_yr"]]`
+
+:::
 
 :::{.valuebox .text-white label = "ban_health-insurance" icon="shield-plus" color="#015390"}
 Health Insurance
@@ -221,7 +230,16 @@ context[["df_insurance"]] |>
 
 ### Column
 
-#### Row {height=25%}
+### Row {height=20%}
+
+:::{.valuebox .text-white label = "ban_fed_spend" icon="bank" color="#015390"}
+CMS Federal Program Spending
+
+`r context$bans[["fed_spend"]]`
+
+`r context$years[["fed_spend_yr"]]`
+
+:::
 
 :::{.valuebox .text-white label = "ban_fed_spend" icon="bank" color="#015390"}
 CMS Federal Program Spending
