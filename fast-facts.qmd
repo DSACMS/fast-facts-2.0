@@ -5,7 +5,6 @@ logo: assets/CMS_logo_reverse.png
 format: 
   dashboard:
     fig-format: png
-    orientation: columns
     theme:
       - cosmo
       - assets/ff_format.scss
@@ -71,11 +70,12 @@ walk(
 
 # Context
 
-## Column
+## Row {height="95%"}
 
-### Row {height="20%"}
+### Column
 
-:::{.valuebox .text-white label = "ban_nhe" icon="heart-pulse-fill" color="#015390"}
+#### Row {height="25%"}
+:::{.valuebox .text-white  label = "ban_nhe" icon="heart-pulse-fill" color="#015390"}
 National Health Expenditures (NHE)
 
 `r context$bans[["nhe_total"]]`
@@ -84,7 +84,7 @@ National Health Expenditures (NHE)
 
 :::
 
-### Row {height="50%"}
+#### Row {height="50%"}
 ```{r}
 #| label: share-gdp
 #| title: "NHE share of GDP"
@@ -129,7 +129,7 @@ context[["df_nhe_gdp_share"]] |>
 
 ```
 
-### Row {height="30%"}
+#### Row {height="25%"}
 ```{r}
 #| label: per_capita
 #| title: "NHE per capita"
@@ -170,9 +170,9 @@ icons |>
 
 ```
 
-## Column
+### Column
 
-### Row {height=20%}
+#### Row {height=24%}
 
 :::{.valuebox .text-white label = "ban_health-insurance" icon="shield-plus" color="#015390"}
 Health Insurance
@@ -183,7 +183,7 @@ Health Insurance
 
 :::
 
-### Row
+#### Row {height=75%}
 
 ```{r}
 #| label: insurnace_bar
@@ -219,9 +219,9 @@ context[["df_insurance"]] |>
 
 ```
 
-## Column
+### Column
 
-### Row {height=20%}
+#### Row {height=25%}
 
 :::{.valuebox .text-white label = "ban_fed_spend" icon="bank" color="#015390"}
 CMS Federal Program Spending
@@ -232,9 +232,9 @@ CMS Federal Program Spending
 
 :::
 
-### Row
-
 #### Row
+
+##### Row
 ```{r}
 #| label: fed_spend_pictogram
 #| title: "CMS Spending by Category"
@@ -263,7 +263,7 @@ context[["df_spend"]] |>
   )
 ```
 
-#### Row
+##### Row
 
 ```{r}
 #| label: spend_table
@@ -308,7 +308,7 @@ context[["df_spend"]] |>
 ```
 
 
-### Row {height="20%"}
+#### Row {height="20%"}
 ```{r}
 #| label: fte
 #| title: "CMS Full-Time Equivalents (FTEs)"
@@ -347,7 +347,14 @@ icons |>
 
 ```
 
-# Beneficiaries {orientation="rows"}
+
+## Row {.no-title height="5%"}
+
+::: {.footer-source}
+CMS Fast Facts April 2025 Release &bull; Data sources: CMS/Office of the Actuary, CMS/Office of Financial Management 
+:::
+
+# Beneficiaries
 
 ## Row {height=25%}
 
@@ -555,7 +562,7 @@ beneficiaries[['df_medicaid_exp']] |>
   )
 ```
 
-# Cost Sharing {orientation="rows"}
+# Cost Sharing
 
 ## Row {height="20%"}
 
