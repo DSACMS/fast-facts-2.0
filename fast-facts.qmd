@@ -172,7 +172,7 @@ icons |>
 
 ### Column
 
-### Row {height=25%}
+### Row {height="25%"}
 
 :::{.valuebox .text-white label = "ban_health-insurance" icon="shield-plus" color="#015390"}
 Health Insurance
@@ -183,7 +183,7 @@ Health Insurance
 
 :::
 
-#### Row {height=75%}
+#### Row {height="75%"}
 
 ```{r}
 #| label: insurnace_bar
@@ -221,7 +221,7 @@ context[["df_insurance"]] |>
 
 ### Column
 
-### Row {height=25%}
+### Row {height="25%"}
 
 :::{.valuebox .text-white label = "ban_fed_spend" icon="bank" color="#015390"}
 CMS Federal Program Spending
@@ -232,7 +232,7 @@ CMS Federal Program Spending
 
 :::
 
-#### Row
+#### Row {height="55%"}
 
 ##### Row
 ```{r}
@@ -351,19 +351,22 @@ icons |>
 ## Row {.no-title height="5%"}
 
 ::: {.footer-source}
-CMS Fast Facts April 2026 Release &bull; Data sources: CMS/Office of the Actuary, CMS/Office of Financial Management 
+`r context[["footnote"]]`
 :::
+
 
 # Beneficiaries
 
-## Row {height=25%}
+
+## Row {height="25%"}
+
 
 :::{.valuebox .text-white label = "ban_medicare_ab" icon="heart-fill" color="#015390"}
 Medicare Parts A/B
 
 `r beneficiaries$bans[["medicare_ab"]]`
 
-`r beneficiaries$years[["ban_year"]]`
+`r beneficiaries$years[["medicare"]]`
 
 :::
 
@@ -373,7 +376,7 @@ Medicare Part D
 
 `r beneficiaries$bans[["medicare_d"]]`
 
-`r beneficiaries$years[["ban_year"]]`
+`r beneficiaries$years[["medicare"]]`
 
 :::
 
@@ -382,7 +385,7 @@ Medicaid & CHIP
 
 `r beneficiaries$bans[["medicaid"]]`
 
-`r beneficiaries$years[["ban_year"]]`
+`r beneficiaries$years[["medicaid"]]`
 
 :::
 
@@ -532,6 +535,8 @@ beneficiaries[["df_medicare_util"]] |>
 #   labs(x = "Persons Served (millions)", y = "Payments (billions)") +
 #   theme_minimal()
 ```
+
+
 ```{r}
 #| label: medicaid_exp
 #| title: Medicaid Expenditures
@@ -561,6 +566,13 @@ beneficiaries[['df_medicaid_exp']] |>
     plot.title = element_text(face = "bold", color = ff_colors$elements[["title"]])
   )
 ```
+
+## Row {.no-title height="5%"}
+
+::: {.footer-source}
+`r beneficiaries[["footnote"]]`
+:::
+
 
 # Cost Sharing
 
@@ -616,14 +628,16 @@ cost_sharing[["df_cs_trend"]]  |>
 ## Row {.no-title height="5%"}
 
 ::: {.footer-source}
-CMS Fast Facts April 2026 Release &bull; Data sources: https://www.medicare.gov
+`r cost_sharing[["footnote"]]`
 :::
 
 # Providers
 
-## Column
+## Row {height="95%"}
 
-### Row {height=20%}
+### Column
+
+#### Row {height="25%"}
 
 :::{.valuebox .text-white label = "ban_inst" icon="hospital" color="#015390"}
 Institutional Providers
@@ -635,7 +649,7 @@ Institutional Providers
 :::
 
 
-### Row
+#### Row
 
 ```{r}
 #| label: institutional_providers
@@ -662,9 +676,9 @@ providers[["df_provider_inst"]] |>
   )
 ```
 
-### Row 
+#### Row 
 
-#### Column
+##### Column
 ```{r}
 #| label: hopsital_type
 #| title: "Hospital Subset"
@@ -691,7 +705,7 @@ providers[["df_hospital_subset"]]  |>
   )
 ```
 
-#### Column
+##### Column
 ```{r}
 #| label: hopsital_table
 #| title: "Hospital Table"
@@ -738,9 +752,9 @@ providers[["df_hospital_subset"]]  |>
   )
 ```
 
-## Column
+### Column
 
-### Row {height="20%"}
+#### Row {height="25%"}
 
 :::{.valuebox .text-white label = "ban_non_inst" icon="clipboard2-pulse-fill" color="#015390"}
 Non-Institutional Providers
@@ -778,9 +792,9 @@ providers[["df_provider_noninst"]] |>
 ```
 
 
-## Column
+### Column
 
-### Row {height=20%} 
+#### Row {height=25%} 
 
 :::{.valuebox .text-white label = "ban_DMEPOS" icon="people-fill" color="#015390"}
 DMEPOS
@@ -845,3 +859,9 @@ providers[["df_providers_dmepos_tbl"]] |>
   )
   
 ```
+
+## Row {.no-title height="5%"}
+
+::: {.footer-source}
+`r providers[["footnote"]]`
+:::

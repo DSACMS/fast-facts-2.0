@@ -182,6 +182,28 @@ years <- c(
     pull()
 )
 
+#gather sources for footnote
+v_context_sources <- df_ff |>
+  filter(
+    is_latest == TRUE,
+    category %in%
+      c(
+        "National Health Expenditures",
+        "Health Insurance",
+        "Federal Program Spending",
+        "FTE Employment"
+      ),
+    is_latest == TRUE
+  ) |>
+  distinct(source_origin) |>
+  pull() |>
+  sort() |>
+  paste0(collapse = ", ")
+
+v_context_footnote <- str_glue(
+  "CMS Fast Facts {format(max(df_ff$release_date), '%B %Y')} Release &bull; Data sources: {v_context_sources}"
+)
+
 
 #bundle tab datapoints/frames
 context <- list(
@@ -191,7 +213,8 @@ context <- list(
   df_nhe_pc = df_nhe_pc,
   df_insurance = df_insurance,
   df_spend = df_spend,
-  fte = fte
+  fte = fte,
+  footnote = v_context_footnote
 )
 
 # export
@@ -273,9 +296,12 @@ benes_bans <- df_benes |>
 
 
 #combine years
-benes_years <- c(
-  ban_year = unique(df_benes$data_year)
-)
+benes_years <- df_benes |>
+  filter(is_latest) |>
+  distinct(area, period_type, data_year) |>
+  mutate(area = str_extract(area, "Medic(are|aid)") |> tolower()) |>
+  unite(period, c(period_type, data_year), sep = " ") |>
+  deframe()
 
 #Orig v MA trend
 df_medicare_trend <- df_ff |>
@@ -339,6 +365,27 @@ df_medicaid_trend <- df_ff |>
   ) |>
   ungroup()
 
+#gather sources for footnote
+v_benes_sources <- df_ff |>
+  filter(
+    topic %in% c("Expenditures", "Utilization", "Enrollment"),
+    is_latest == TRUE
+  ) |>
+  distinct(source_origin) |>
+  mutate(
+    source_origin = str_remove(
+      source_origin,
+      "Office of Enterprise Data & Analytics/"
+    )
+  ) |>
+  pull() |>
+  sort() |>
+  paste0(collapse = ", ")
+
+v_benes_footnote <- str_glue(
+  "CMS Fast Facts {format(max(df_ff$release_date), '%B %Y')} Release &bull; Data sources: {v_benes_sources}"
+)
+
 
 #bundle tab data points/frames
 beneficiaries <- list(
@@ -347,7 +394,8 @@ beneficiaries <- list(
   df_medicare_util = df_medicare_util,
   df_medicaid_exp = df_medicaid_exp,
   df_medicare_trend = df_medicare_trend,
-  df_medicaid_trend = df_medicaid_trend
+  df_medicaid_trend = df_medicaid_trend,
+  footnote = v_benes_footnote
 )
 
 # export
@@ -412,9 +460,26 @@ df_cs_trend <- df_cs_trend |>
   )
 
 
+#gather sources for footnote
+v_costsharing_sources <- df_ff |>
+  filter(
+    topic %in% c("Cost Sharing"),
+    is_latest == TRUE
+  ) |>
+  distinct(source_origin) |>
+  pull() |>
+  sort() |>
+  paste0(collapse = ", ")
+
+v_costsharing_footnote <- str_glue(
+  "CMS Fast Facts {format(max(df_ff$release_date), '%B %Y')} Release &bull; Data sources: {v_costsharing_sources}"
+)
+
+
 #bundle tab data points/frames
 cost_sharing <- list(
-  df_cs_trend = df_cs_trend
+  df_cs_trend = df_cs_trend,
+  footnote = v_costsharing_footnote
 )
 
 # export
@@ -551,6 +616,21 @@ df_providers_dmepos <- df_provider |>
     )
   )
 
+#gather sources for footnote
+v_providers_sources <- df_ff |>
+  filter(
+    topic %in% c("Providers"),
+    is_latest == TRUE
+  ) |>
+  distinct(source_origin) |>
+  pull() |>
+  sort() |>
+  paste0(collapse = ", ")
+
+v_providers_footnote <- str_glue(
+  "CMS Fast Facts {format(max(df_ff$release_date), '%B %Y')} Release &bull; Data sources: {v_providers_sources}"
+)
+
 #bundle tab data points/frames
 providers <- list(
   bans = ban_providers,
@@ -559,7 +639,8 @@ providers <- list(
   df_provider_noninst = df_provider_noninst,
   df_providers_dmepos = df_providers_dmepos,
   df_providers_dmepos_tbl = df_providers_dmepos_tbl,
-  df_hospital_subset = df_hospital_subset
+  df_hospital_subset = df_hospital_subset,
+  footnote = v_providers_footnote
 )
 
 # export
