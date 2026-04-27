@@ -4,7 +4,7 @@
 # REF ID:   73eeb778772f
 # LICENSE:  MIT
 # DATE:     2026-03-27
-# UPDATED:
+# UPDATED:  2026-04-27
 
 # DEPENDENCIES ------------------------------------------------------------
 
@@ -64,7 +64,7 @@ gen_release_dt <- function(df) {
     mutate(
       release_date = source |>
         str_extract("[A-Za-z]{3}\\d{4}") |>
-        str_replace("cts2025", "Apr2025") |>
+        str_replace("cts202(.)", "Apr202\\1") |> # 2025 + 2056 files had no month in release so adding it manually
         str_replace("cts", "Jan") |>
         my()
     )

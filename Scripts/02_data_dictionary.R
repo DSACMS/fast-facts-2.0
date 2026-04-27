@@ -4,7 +4,7 @@
 # REF ID:   61fccb95aa0b
 # LICENSE:  MIT
 # DATE:     2026-04-03
-# UPDATED:
+# UPDATED:  2026-04-27
 
 # DEPENDENCIES ------------------------------------------------------------
 
@@ -86,20 +86,20 @@ informant <- informant |>
     )
   ) |>
   info_tabular(
-    "What's New in 2025" = c(
+    "What's New in 2026" = c(
       "
-      -   Medicare Populations, CY 2024
-      -   Medicaid & CHIP Populations, CY 2024
-      -   Medicare Deductibles, Coinsurance, Premiums, CY 2025
-      -   Original Medicare Persons Served and Payments by Type of Service, CY 2023
-      -   Medicare Part D Utilization and Expenditures, CY 2023
-      -   Medicaid & CHIP Payments by Type of Service, FY 2023
-      -   Medicare Institutional Providers, CY 2023
-      -   Medicare Non-Institutional Providers by Specialty, CY 2023
-      -   Medicare Durable Medical Equipment Prosthetics, Orthotics & Supplies (DMEPOS) Providers by Specialty, CY 2023
-      -   Medicare Prepaid Contracts, February 2025
-      -   National Health Expenditures, CY 2023
-      -   CMS Financial Data, FY 2024
+      -   Medicare Populations, CY 2025
+      -   Medicaid & CHIP Populations, CY 2025
+      -   Medicare Deductibles, Coinsurance, Premiums, CY 2026
+      -   Original Medicare Persons Served and Payments by Type of Service, CY 2024
+      -   Medicare Part D Utilization and Expenditures, CY 2024
+      -   Medicaid & CHIP Payments by Type of Service, FY 2024
+      -   Medicare Institutional Providers, CY 2024
+      -   Medicare Non-Institutional Providers by Specialty, CY 2024
+      -   Medicare Durable Medical Equipment Prosthetics, Orthotics & Supplies (DMEPOS) Providers by Specialty, CY 2024
+      -   Medicare Prepaid Contracts, February 2026
+      -   National Health Expenditures, CY 2024
+      -   CMS Financial Data, FY 2025
       "
     )
   )
@@ -206,7 +206,7 @@ informant <- informant |>
     section_name = "methodology",
     creation = str_glue("Dataset generated {today()}"),
     # section_name = "source",
-    "Source Reference Information & Methodology (Apr 2025 Release)" = c(
+    "Source Reference Information & Methodology (Apr 2026 Release)" = c(
       "**Populations**",
       "_Medicare Enrollment_",
       "The data reported in the Medicare Populations table come from CMS administrative enrollment data for beneficiaries enrolled in the Medicare program.  The data are sourced from the [CMS Chronic Conditions Data Warehouse (CCW)](https://www2.ccwdata.org/web/guest/home/), a database with 100% of Medicare enrollment and claims data.",
