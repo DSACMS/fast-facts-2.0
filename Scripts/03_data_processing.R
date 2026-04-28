@@ -231,7 +231,13 @@ df_medicaid_exp <- df_ff |>
     is_latest
   ) |>
   select(metric, category, sub_category, data_year, value) |>
-  mutate(value_fmt = label_number(1, scale_cut = cut_short_scale())(value))
+  mutate(
+    sub_category = str_replace(sub_category, "Laboratory", "Lab"),
+    sub_category = str_replace(sub_category, "and", "&"),
+    value_fmt = label_number(1, prefix = "$", scale_cut = cut_short_scale())(
+      value
+    )
+  )
 
 #medicare utilization
 df_medicare_util <- df_ff |>
@@ -272,6 +278,12 @@ df_medicare_util <- df_medicare_util |>
     lab_pos = ifelse(metric == "persons_served", -1, 1.5)
   )
 
+df_medicare_util <- df_medicare_util |>
+  select(category, sub_category, metric, value) |>
+  pivot_wider(
+    names_from = metric
+  )
+
 
 #extract numbers for BAN in tab
 df_benes <- df_ff |>
@@ -307,48 +319,82 @@ benes_years <- df_benes |>
 df_medicare_trend <- df_ff |>
   filter(
     topic == "Enrollment",
-    sub_category %in% c("Original Medicare Enrollment", "MA Enrollment")
+    sub_category %in% c("Original Medicare Enrollment", "MA Enrollment"),
+    data_year >= 2020
   ) |>
   select(sub_category, metric, data_year, value) |>
-  mutate(sub_category = str_remove(sub_category, " Enrollment")) |>
+  mutate(
+    sub_category = sub_category |>
+      str_remove(" Enrollment") |>
+      str_replace("Original Medicare", "orig") |>
+      tolower()
+  ) |>
+  group_by(sub_category) |>
+  mutate(
+    delta = (value / lag(value, order_by = data_year)) - 1
+    # delta_lab = label_percent(1, style_positive = "plus")(delta)
+  ) |>
+  ungroup() |>
   pivot_wider(
     names_from = sub_category,
-    values_from = value
+    values_from = c(value, delta)
   ) |>
-  clean_names() |>
   mutate(
-    lab_og = case_when(
+    lab_orig = case_when(
       data_year == min(data_year) | data_year == max(data_year) ~ label_number(
         .1,
         scale_cut = cut_short_scale()
-      )(original_medicare)
+      )(value_orig)
     ),
     lab_ma = case_when(
       data_year == min(data_year) | data_year == max(data_year) ~ label_number(
         .1,
         scale_cut = cut_short_scale()
-      )(ma)
+      )(value_ma)
     ),
-    lab_og_cat = case_when(data_year == 2022 ~ "Original Medicare"),
+    lab_orig = ifelse(
+      data_year == max(data_year),
+      str_glue(
+        "{lab_orig} ({label_percent(1, style_positive = 'plus')(delta_orig)} prior)"
+      ),
+      lab_orig
+    ),
+    lab_ma = ifelse(
+      data_year == max(data_year),
+      str_glue(
+        "{lab_ma} ({label_percent(1, style_positive = 'plus')(delta_ma)} prior)"
+      ),
+      lab_ma
+    ),
+    lab_orig_cat = case_when(data_year == 2022 ~ "Original Medicare"),
     lab_ma_cat = case_when(data_year == 2022 ~ "Medicare Advantage")
   )
 
 
-df_medicaid_trend <- df_ff |>
+#diaggregate trends
+df_disagg_trend <- df_ff |>
   filter(
     topic == "Enrollment",
-    area == "Medicaid & CHIP",
-    sub_category %in%
-      c("Children", "Medicaid Expansion Adults", "Dual Eligible"),
+    (area == "Medicaid & CHIP" &
+      sub_category %in%
+        c("Children", "Medicaid Expansion Adults", "Dual Eligible")) |
+      (area == "Medicare" & sub_category %in% c("Aged", "Disabled")),
     data_year >= 2020
   ) |>
-  select(metric, sub_category, period_type, data_year, value) |>
+  select(area, metric, sub_category, period_type, data_year, value) |>
   mutate(
+    sub_category = ifelse(
+      sub_category == "Medicaid Expansion Adults",
+      "ME Adults",
+      sub_category
+    ),
     fill_color = recode_values(
       sub_category,
       "Children" ~ ff_colors$base[["plum"]],
       "Dual Eligible" ~ ff_colors$scales$teal[["200"]],
-      "Medicaid Expansion Adults" ~ ff_colors$scales$teal[["900"]],
+      "ME Adults" ~ ff_colors$scales$teal[["900"]],
+      "Aged" ~ ff_colors$scales$cobolt[["900"]],
+      "Disabled" ~ ff_colors$scales$cobolt[["200"]]
     )
   ) |>
   group_by(sub_category) |>
@@ -394,7 +440,7 @@ beneficiaries <- list(
   df_medicare_util = df_medicare_util,
   df_medicaid_exp = df_medicaid_exp,
   df_medicare_trend = df_medicare_trend,
-  df_medicaid_trend = df_medicaid_trend,
+  df_disagg_trend = df_disagg_trend,
   footnote = v_benes_footnote
 )
 
@@ -450,7 +496,7 @@ df_cs_trend <- df_cs_trend |>
       c("Premiums", "Coinsurance (Part A)", "Deductibles", "Other (Part D)")
     ),
     sub_category = case_when(
-      !is.na(bound) ~ str_glue("{sub_category} (upper/lower bounds)"),
+      !is.na(bound) ~ str_glue("{sub_category} ({bound} bound)"),
       metric == "deductible" &
         category == "Part A" ~ "Part A (Inpatient Hospital)",
       metric == "deductible" & category == "Part D" ~ "Part D (Maximum)",
@@ -459,6 +505,22 @@ df_cs_trend <- df_cs_trend |>
     )
   )
 
+df_cs_trend <- df_cs_trend |>
+  mutate(
+    val_curr = case_when(
+      period == max(period) ~ label_comma(1, prefix = "$")(value)
+    )
+  ) |>
+  group_by(category, sub_category, metric) |>
+  fill(val_curr, .direction = "updown") |>
+  ungroup() |>
+  mutate(
+    sub_category = ifelse(
+      str_detect(sub_category, "upper"),
+      str_glue("{sub_category} [{max(df_cs_trend$period)} = {val_curr}]"),
+      str_glue("{sub_category} [{val_curr}]")
+    )
+  )
 
 #gather sources for footnote
 v_costsharing_sources <- df_ff |>
