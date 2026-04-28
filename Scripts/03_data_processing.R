@@ -201,7 +201,8 @@ v_context_sources <- df_ff |>
   paste0(collapse = ", ")
 
 v_context_footnote <- str_glue(
-  "CMS Fast Facts {format(max(df_ff$release_date), '%B %Y')} Release &bull; Data sources: {v_context_sources}"
+  "CMS Fast Facts {format(max(df_ff$release_date), '%B %Y')} Release ",
+  "&bull; Data sources: {v_context_sources}"
 )
 
 
@@ -266,13 +267,14 @@ df_medicare_util <- df_medicare_util |>
     lab_exp = case_when(
       metric == "payments" ~ label_number(
         1,
-        prefix = '$',
+        prefix = "$",
         scale_cut = cut_short_scale()
       )(value)
     ),
     lab_ben = case_when(
       metric == "persons_served" ~ str_glue(
-        "{sub_category} {label_number(1, scale_cut =  cut_short_scale())(value)}"
+        "{sub_category} ",
+        "{label_number(1, scale_cut =  cut_short_scale())(value)}"
       )
     ),
     lab_pos = ifelse(metric == "persons_served", -1, 1.5)
@@ -311,7 +313,11 @@ benes_bans <- df_benes |>
 benes_years <- df_benes |>
   filter(is_latest) |>
   distinct(area, period_type, data_year) |>
-  mutate(area = str_extract(area, "Medic(are|aid)") |> tolower()) |>
+  mutate(
+    area = area |>
+      str_extract("Medic(are|aid)") |>
+      tolower()
+  ) |>
   unite(period, c(period_type, data_year), sep = " ") |>
   deframe()
 
@@ -355,7 +361,8 @@ df_medicare_trend <- df_ff |>
     lab_orig = ifelse(
       data_year == max(data_year),
       str_glue(
-        "{lab_orig} ({label_percent(1, style_positive = 'plus')(delta_orig)} prior)"
+        "{lab_orig} ",
+        "({label_percent(1, style_positive = 'plus')(delta_orig)} prior)"
       ),
       lab_orig
     ),
@@ -371,14 +378,16 @@ df_medicare_trend <- df_ff |>
   )
 
 
+#disagg groups
+disagg_medicare <- c("Aged", "Disabled")
+disaggs_medicaid <- c("Children", "Medicaid Expansion Adults", "Dual Eligible")
+
 #diaggregate trends
 df_disagg_trend <- df_ff |>
   filter(
     topic == "Enrollment",
-    (area == "Medicaid & CHIP" &
-      sub_category %in%
-        c("Children", "Medicaid Expansion Adults", "Dual Eligible")) |
-      (area == "Medicare" & sub_category %in% c("Aged", "Disabled")),
+    (area == "Medicaid & CHIP" & sub_category %in% disaggs_medicaid) |
+      (area == "Medicare" & sub_category %in% disagg_medicare),
     data_year >= 2020
   ) |>
   select(area, metric, sub_category, period_type, data_year, value) |>
@@ -429,7 +438,8 @@ v_benes_sources <- df_ff |>
   paste0(collapse = ", ")
 
 v_benes_footnote <- str_glue(
-  "CMS Fast Facts {format(max(df_ff$release_date), '%B %Y')} Release &bull; Data sources: {v_benes_sources}"
+  "CMS Fast Facts {format(max(df_ff$release_date), '%B %Y')} Release ",
+  "&bull; Data sources: {v_benes_sources}"
 )
 
 
@@ -534,7 +544,8 @@ v_costsharing_sources <- df_ff |>
   paste0(collapse = ", ")
 
 v_costsharing_footnote <- str_glue(
-  "CMS Fast Facts {format(max(df_ff$release_date), '%B %Y')} Release &bull; Data sources: {v_costsharing_sources}"
+  "CMS Fast Facts {format(max(df_ff$release_date), '%B %Y')} Release ",
+  "&bull; Data sources: {v_costsharing_sources}"
 )
 
 
@@ -690,7 +701,8 @@ v_providers_sources <- df_ff |>
   paste0(collapse = ", ")
 
 v_providers_footnote <- str_glue(
-  "CMS Fast Facts {format(max(df_ff$release_date), '%B %Y')} Release &bull; Data sources: {v_providers_sources}"
+  "CMS Fast Facts {format(max(df_ff$release_date), '%B %Y')} Release ",
+  "&bull; Data sources: {v_providers_sources}"
 )
 
 #bundle tab data points/frames
