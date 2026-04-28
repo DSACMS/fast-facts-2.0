@@ -92,39 +92,40 @@ National Health Expenditures (NHE)
 #| fig-height: 4
 
 
-context[["df_nhe_gdp_share"]] |> 
+context[["df_nhe_gdp_share"]] |>
   ggplot() +
-    geom_rect(
-      aes(
-        xmin = 0,
-        xmax = 12,
-        ymin = 0,
-        ymax = 100 / 12
-      ),
-      color =  "#A6A6A6",
-      fill = "white", 
-      linewidth = 1.1
-    ) +
-    geom_rect(
-      aes(
-        xmin = 0,
-        xmax = value_sqrt,
-        ymin = 0,
-        ymax = value_sqrt
-      ),
-      fill = ff_colors$base[["green"]]
-    ) +
-    labs(title = context[["df_nhe_gdp_share"]]$value_fmt) +
-    coord_equal() +
-    theme_void() +
-    theme(
-      plot.title = element_text(
-        size = 30, hjust = .5, 
+  geom_rect(
+    aes(
+      xmin = 0,
+      xmax = 12,
+      ymin = 0,
+      ymax = 100 / 12
+    ),
+    color =  "#A6A6A6",
+    fill = "white",
+    linewidth = 1.1
+  ) +
+  geom_rect(
+    aes(
+      xmin = 0,
+      xmax = value_sqrt,
+      ymin = 0,
+      ymax = value_sqrt
+    ),
+    fill = ff_colors$base[["green"]]
+  ) +
+  labs(title = context[["df_nhe_gdp_share"]]$value_fmt) +
+  coord_equal() +
+  theme_void() +
+  theme(
+    plot.title =
+      element_text(
+        size = 30, hjust = .5,
         family = "Source Sans 3", face = "bold",
         color = ff_colors$scales$steel["900"]
-        ),
-      plot.margin = margin(0, 0, 0, 0)
-      )
+      ),
+    plot.margin = margin(0, 0, 0, 0)
+  )
 
 
 ```
@@ -146,7 +147,7 @@ icons <- tibble(
   y     = 0
 )
 
-icons |> 
+icons |>
   ggplot(aes(x = x, y = y)) +
   geom_text(
     label  = "\uf0d6",              # Font Awesome "person" / user icon
@@ -192,15 +193,20 @@ Health Insurance
 #| out.height: "100%"   # Tells the output to fill the container
 #| fig-width: 6
 
-context[["df_insurance"]] |> 
+context[["df_insurance"]] |>
   ggplot(aes(value, fct_reorder(sub_category, value), fill = fill_color)) +
   geom_blank(aes(value * 1.3)) +
   geom_col() +
   geom_text(
     aes(label = value_fmt),
-    hjust = -.2, size = 6, family = "Source Sans 3", color = ff_colors$elements[["annotation"]]
-    ) + 
-  facet_wrap(~fct_reorder(sub_category, value, .desc = TRUE), ncol = 1, scales = "free_y") +
+    hjust = -.2, size = 6,
+    family = "Source Sans 3",
+    color = ff_colors$elements[["annotation"]]
+  ) +
+  facet_wrap(
+    ~fct_reorder(sub_category, value, .desc = TRUE),
+    ncol = 1, scales = "free_y"
+  ) +
   scale_x_continuous(expand = c(.005, .005)) +
   scale_fill_identity() +
   coord_cartesian(clip = "off") +
@@ -208,10 +214,12 @@ context[["df_insurance"]] |>
   theme_minimal() +
   theme(
     axis.text = element_blank(),
-    strip.text = element_text(
-      family = "Source Sans 3",
-      color = ff_colors$elements[["annotation"]],
-      size = 20, hjust = 0),
+    strip.text =
+      element_text(
+        family = "Source Sans 3",
+        color = ff_colors$elements[["annotation"]],
+        size = 20, hjust = 0
+      ),
     panel.spacing = unit(0, "lines"),
     panel.grid = element_blank()
   )
@@ -239,8 +247,8 @@ CMS Federal Program Spending
 #| label: fed_spend_pictogram
 #| title: "CMS Spending by Category"
 
-context[["df_spend"]] |> 
-  filter(category == "Federal Program Spending") |> 
+context[["df_spend"]] |>
+  filter(category == "Federal Program Spending") |>
   ggplot(aes(values = squares, fill = fill_color)) +
   geom_waffle(
     n_rows  = 10,
@@ -268,15 +276,15 @@ context[["df_spend"]] |>
 ```{r}
 #| label: spend_table
 
-context[["df_spend"]] |> 
-  select(fill_color, category, sub_category, value_fmt) |> 
-  gt(groupname_col =  "category") |> 
+context[["df_spend"]] |>
+  select(fill_color, category, sub_category, value_fmt) |>
+  gt(groupname_col =  "category") |>
   cols_label(
     fill_color = "",
     sub_category = "",
     value_fmt = "Gross Outlays"
-  ) |> 
- text_transform(
+  ) |>
+  text_transform(
     locations = cells_body(columns = fill_color),
     fn = function(x) {
       glue::glue(
@@ -288,11 +296,11 @@ context[["df_spend"]] |>
   cols_align(align = "center", columns = fill_color) |>
   cols_align(align = "right", columns = value_fmt) |>
   cols_width(fill_color ~ px(24)) |>
-  opt_row_striping(row_striping = FALSE) |> 
+  opt_row_striping(row_striping = FALSE) |>
   tab_style(
     style = cell_fill(color = "transparent"),  # or "transparent"
     locations = cells_body(rows = everything())
-  ) |> 
+  ) |>
   tab_options(
     table.border.top.style            = "none",
     table.border.bottom.style         = "none",
@@ -323,7 +331,7 @@ icons <- tibble(
   y     = 0
 )
 
-icons |> 
+icons |>
   ggplot(aes(x = x, y = y)) +
   geom_text(
     label  = "\uf007",              # Font Awesome "person" / user icon
@@ -415,7 +423,8 @@ beneficiaries[["df_medicare_util"]] |>
   ) +
   geom_point(shape = 21, color = "white", size = 7) +
   geom_point(
-    data = beneficiaries[["df_medicare_util"]] |> filter(sub_category == "Total"),
+    data =
+      beneficiaries[["df_medicare_util"]] |> filter(sub_category == "Total"),
     shape = 23, color = "white", size = 8
   ) +
   geom_text_repel(
@@ -436,16 +445,20 @@ beneficiaries[["df_medicare_util"]] |>
     )
   ) +
   scale_x_continuous(labels = label_number(scale_cut = cut_short_scale())) +
-  scale_y_continuous(labels = label_number(prefix = "$", scale_cut = cut_short_scale())) +
+  scale_y_continuous(
+    labels = label_number(prefix = "$", scale_cut = cut_short_scale())
+  ) +
   labs(x = "Persons Served", y = "Program Payments", color = "", shape = "") +
   theme_minimal(base_size = 22, base_family = "Source Sans 3") +
   theme(
     panel.spacing = unit(2, "lines"),
     legend.position = "none",
-    strip.text = element_text(      
-      color = ff_colors$elements[["title"]],
-      face = "bold", 
-      size = 18),
+    strip.text =
+      element_text(
+        color = ff_colors$elements[["title"]],
+        face = "bold",
+        size = 18
+      ),
     axis.title = element_text(face = "bold"),
   )
 ```
@@ -455,7 +468,9 @@ beneficiaries[["df_medicare_util"]] |>
 #### Row
 ```{r}
 #| label: df_medicare_trend
-#| title: "Medicare Advantage Beneficiaries Now Exceeds Original Medicare Beneficiaries"
+#| title: >-
+#|   Medicare Advantage Beneficiaries Now Exceeds
+#|    Original Medicare Beneficiaries
 #| out-width: 100%
 #| out-height: 100%
 #| fig-width: 14
@@ -474,66 +489,87 @@ beneficiaries[["df_medicare_trend"]] |>
     alpha = 0.3
   ) +
   geom_line(aes(y = value_orig, color = "Original Medicare"), linewidth = 2) +
-  geom_line(aes(y = value_ma, color = "Medicare Advantage"), linewidth = 2) + 
+  geom_line(aes(y = value_ma, color = "Medicare Advantage"), linewidth = 2) +
   geom_point(
-    data = filter(beneficiaries[["df_medicare_trend"]], data_year %in% range(beneficiaries[["df_medicare_trend"]]$data_year)),
+    data =
+      beneficiaries[["df_medicare_trend"]] |>
+      filter(
+        data_year %in% range(beneficiaries[["df_medicare_trend"]]$data_year)
+      ),
     aes(y = value_orig, color = "Original Medicare")
-    ) +
+  ) +
   geom_point(
-    data = filter(beneficiaries[["df_medicare_trend"]], data_year %in% range(beneficiaries[["df_medicare_trend"]]$data_year)), 
-    aes(y = value_ma, color = "Medicare Advantage")) +
+    data =
+      beneficiaries[["df_medicare_trend"]] |>
+      filter(
+        data_year %in% range(beneficiaries[["df_medicare_trend"]]$data_year)
+      ),
+    aes(y = value_ma, color = "Medicare Advantage")
+  ) +
   geom_label(
-    data = filter(beneficiaries[["df_medicare_trend"]], data_year == min(data_year)),
-    aes(y = value_orig, label = lab_orig, color = "Original Medicare"), 
+    data =
+      beneficiaries[["df_medicare_trend"]] |>
+      filter(data_year == min(data_year)),
+    aes(y = value_orig, label = lab_orig, color = "Original Medicare"),
     family = "Source Sans 3", linewidth = NA,
     vjust = -.5, hjust = .6, na.rm = TRUE
-    ) +
+  ) +
   geom_label(
-    data = filter(beneficiaries[["df_medicare_trend"]], data_year == min(data_year)),
-    aes(y = value_ma, label = lab_ma, color = "Medicare Advantage"), 
+    data =
+      beneficiaries[["df_medicare_trend"]] |>
+      filter(data_year == min(data_year)),
+    aes(y = value_ma, label = lab_ma, color = "Medicare Advantage"),
     family = "Source Sans 3", linewidth = NA,
     vjust = 1.1, na.rm = TRUE
-    ) +
+  ) +
   geom_label(
-    data = filter(beneficiaries[["df_medicare_trend"]], data_year == max(data_year)),
-    aes(y = value_orig, label = lab_orig, color = "Original Medicare"), 
+    data =
+      beneficiaries[["df_medicare_trend"]] |>
+      filter(data_year == max(data_year)),
+    aes(y = value_orig, label = lab_orig, color = "Original Medicare"),
     family = "Source Sans 3", linewidth = NA,
     vjust = 1, hjust = 0, na.rm = TRUE
-    ) +
+  ) +
   geom_label(
-    data = filter(beneficiaries[["df_medicare_trend"]], data_year == max(data_year)),
-    aes(y = value_ma, label = lab_ma, color = "Medicare Advantage"), 
-    family = "Source Sans 3", linewidth = NA, 
+    data =
+      beneficiaries[["df_medicare_trend"]] |>
+      filter(data_year == max(data_year)),
+    aes(y = value_ma, label = lab_ma, color = "Medicare Advantage"),
+    family = "Source Sans 3", linewidth = NA,
     vjust = -.4, hjust = 0, na.rm = TRUE
-    ) +
+  ) +
   geom_label(
-    aes(y = value_orig, label = lab_orig_cat, color = "Original Medicare"), 
+    aes(y = value_orig, label = lab_orig_cat, color = "Original Medicare"),
     family = "Source Sans 3", linewidth = NA,
     vjust = -1.5, hjust = 0, na.rm = TRUE
-    ) +
+  ) +
   geom_label(
-    aes(y = value_ma, label = lab_ma_cat, color = "Medicare Advantage"), 
+    aes(y = value_ma, label = lab_ma_cat, color = "Medicare Advantage"),
     family = "Source Sans 3", linewidth = NA,
     vjust = 1.5, hjust = 0, na.rm = TRUE
-    ) +
+  ) +
   scale_color_manual(
-    values = c(
-      "Original Medicare" = ff_colors$scales$cobolt[["900"]],
-      "Medicare Advantage" = ff_colors$scales$cobolt[["200"]]
+    values =
+      c(
+        "Original Medicare" = ff_colors$scales$cobolt[["900"]],
+        "Medicare Advantage" = ff_colors$scales$cobolt[["200"]]
       )
-      ) +
-  scale_y_continuous(labels = label_number(scale_cut = cut_short_scale()), limits = c(0, NA)) +
+  ) +
+  scale_y_continuous(
+    labels = label_number(scale_cut = cut_short_scale()),
+    limits = c(0, NA)
+  ) +
   scale_x_continuous(
     limits = c(
-      min(beneficiaries[["df_medicare_trend"]]$data_year), 
+      min(beneficiaries[["df_medicare_trend"]]$data_year),
       max(beneficiaries[["df_medicare_trend"]]$data_year) + 4
-      ),
+    ),
     breaks = seq(
-      from = min(beneficiaries[["df_medicare_trend"]]$data_year), 
+      from = min(beneficiaries[["df_medicare_trend"]]$data_year),
       to = max(beneficiaries[["df_medicare_trend"]]$data_year),
       by = 5
     )
-    ) +
+  ) +
   labs(x = NULL, y = NULL) +
   coord_cartesian(clip = "off") +
   theme_minimal(base_size = 50) +
@@ -543,7 +579,6 @@ beneficiaries[["df_medicare_trend"]] |>
     panel.grid.minor = element_blank(),
     panel.grid.major.x = element_blank()
   )
-  
 ```
 
 
@@ -555,30 +590,41 @@ beneficiaries[["df_medicare_trend"]] |>
 #| fig-width: 14
 #| fig-height: 8
 
-medicaid_exp_tot <- sum(beneficiaries[['df_medicaid_exp']]$value)
+medicaid_exp_tot <- sum(beneficiaries[["df_medicaid_exp"]]$value)
 
-beneficiaries[['df_medicaid_exp']] |> 
+medicaid_exp_tot <-
+  label_comma(
+    1,
+    prefix = "$",
+    scale_cut = cut_short_scale()
+  )(medicaid_exp_tot)
+
+beneficiaries[["df_medicaid_exp"]] |>
   ggplot(aes(value, fct_reorder(sub_category, value))) +
-  geom_blank(aes(x = value *1.3)) +
+  geom_blank(aes(x = value * 1.3)) +
   geom_col(fill = ff_colors$base[["teal"]]) +
   geom_text(
     aes(label = value_fmt),
-      hjust = -.1, family = "Source Sans 3", 
-      color = ff_colors$elements[["annotation"]],
-      size = 12
+    hjust = -.1, family = "Source Sans 3",
+    color = ff_colors$elements[["annotation"]],
+    size = 12
   ) +
   coord_cartesian(clip = "off") +
   scale_x_continuous(expand = c(.005, .005)) +
   labs(
     x = NULL, y = NULL,
-    title = str_glue('All Services ({label_comma(1, prefix = "$", scale_cut = cut_short_scale())(medicaid_exp_tot)})')   
+    title = str_glue("All Services ({medicaid_exp_tot})")
   ) +
   theme_minimal(base_size = 35) +
   theme(
     axis.text.x = element_blank(),
     panel.grid.major.y = element_blank(),
     panel.grid.minor = element_blank(),
-    plot.title = element_text(face = "bold", color = ff_colors$elements[["title"]])
+    plot.title =
+      element_text(
+        face = "bold",
+        color = ff_colors$elements[["title"]]
+      )
   )
 ```
 
@@ -590,20 +636,32 @@ beneficiaries[['df_medicaid_exp']] |>
 #| fig-width: 14
 #| fig-height: 4
 
-beneficiaries[["df_disagg_trend"]] |> 
-  ggplot(aes(data_year, value, group = sub_category, fill = fill_color, color = fill_color)) +
+beneficiaries[["df_disagg_trend"]] |>
+  ggplot(
+    aes(
+      data_year, value,
+      group = sub_category,
+      fill = fill_color, color = fill_color
+    )
+  ) +
   geom_hline(yintercept = 0, color = ff_colors$elements[["axis"]]) +
   geom_area(alpha = .4) +
   geom_line() +
   geom_point(aes(y = val_pt), na.rm = TRUE) +
   geom_text(
-    aes(label = lab_val), 
-    vjust = -1, na.rm = TRUE, 
+    aes(label = lab_val),
+    vjust = -1, na.rm = TRUE,
     family = "Source Sans 3", size = 7,
     color = ff_colors$elements[["annotation"]]
-    ) +
+  ) +
   facet_grid(~fct_rev(area) + fct_reorder2(sub_category, data_year, value)) +
-  scale_x_continuous(breaks = range(unique(beneficiaries[["df_disagg_trend"]]$data_year), na.rm = TRUE)) +
+  scale_x_continuous(
+    breaks =
+      range(
+        unique(beneficiaries[["df_disagg_trend"]]$data_year),
+        na.rm = TRUE
+      )
+  ) +
   scale_color_identity() +
   scale_fill_identity() +
   coord_cartesian(clip = "off") +
@@ -611,9 +669,10 @@ beneficiaries[["df_disagg_trend"]] |>
   theme_minimal(base_size = 22) +
   theme(
     legend.position = "none",
-    strip.text = element_text(
-      color = ff_colors$elements[["title"]],
-      face = "bold"
+    strip.text =
+      element_text(
+        color = ff_colors$elements[["title"]],
+        face = "bold"
       ),
     axis.text.y = element_blank(),
     panel.grid = element_blank(),
@@ -638,21 +697,28 @@ beneficiaries[["df_disagg_trend"]] |>
 #| label: dumbell_charts
 #| title: "Medicare Deductibles, Coinsurance, Premiums"
 
-cost_sharing[["df_cs_trend"]]  |> 
-  ggplot(aes(value, fct_reorder(sub_category, order, .fun = max, .na_rm = TRUE), group = ln_group)) +
+cost_sharing[["df_cs_trend"]]  |>
+  ggplot(
+    aes(
+      value, fct_reorder(sub_category, order, .fun = max, .na_rm = TRUE),
+      group = ln_group
+    )
+  ) +
   geom_path(color = ff_colors$scales$cobolt[["200"]], na.rm = TRUE) +
   geom_point(
     color = "white",
-    stroke = 1.1, 
+    stroke = 1.1,
     size = 4,
     na.rm = TRUE
   ) +
   geom_point(
-    aes(fill = fill_color), na.rm = TRUE,
-    shape = 21, 
-    color = ff_colors$base[["azure"]], 
-    stroke = 1.1, 
-    size = 4, alpha = .4) +
+    aes(fill = fill_color),
+    na.rm = TRUE,
+    shape = 21,
+    color = ff_colors$base[["azure"]],
+    stroke = 1.1,
+    size = 4, alpha = .4
+  ) +
   geom_text(
     aes(x = mid_pt, label = delta_lab),
     na.rm = TRUE,
@@ -669,12 +735,21 @@ cost_sharing[["df_cs_trend"]]  |>
   ) +
   coord_cartesian(clip = "off") +
   labs(x = NULL, y = NULL, fill = NULL) +
-  scale_x_continuous(label = label_number(prefix = "$", scale_cut = cut_short_scale()), limits = c(0, NA), position = "top") +
+  scale_x_continuous(
+    label =
+      label_number(prefix = "$", scale_cut = cut_short_scale()),
+    limits = c(0, NA),
+    position = "top"
+  ) +
   theme_minimal() +
   theme(
     panel.grid.major.y = element_blank(),
     text = element_text(family = "Source Sans 3"),
-    strip.text = element_text(family = "Source Sans 3", face = "bold", size = 12, hjust = 0),
+    strip.text =
+      element_text(
+        family = "Source Sans 3", face = "bold",
+        size = 12, hjust = 0
+      ),
     strip.placement = "outside",
     legend.position = "top"
   )
@@ -711,23 +786,26 @@ Institutional Providers
 #| label: institutional_providers
 #| title: "Institutional Providers"
 
-providers[["df_provider_inst"]] |> 
-  # ggplot(aes(value, fct_reorder(category, value))) + 
-  ggplot(aes(value, category)) + 
+providers[["df_provider_inst"]] |>
+  ggplot(aes(value, category)) +
   geom_blank(aes(value * 1.1)) +
   geom_col(fill = ff_colors$scales$steel[["700"]]) +
   geom_text(
     aes(label = value_fmt),
     hjust = -.1,
-    family = "Source Sans 3", color = ff_colors$elements[['annotation']],
-    ) +
+    family = "Source Sans 3", color = ff_colors$elements[["annotation"]],
+  ) +
   scale_x_continuous(expand = c(.005, .005)) +
   labs(x = NULL, y = NULL) +
   theme_minimal(base_size = 22) +
   theme(
     panel.grid.minor = element_blank(),
     panel.grid.major.y = element_blank(),
-    axis.text.y = element_text(family = "Source Sans 3", color = ff_colors$elements[["axis"]]),
+    axis.text.y =
+      element_text(
+        family = "Source Sans 3",
+        color = ff_colors$elements[["axis"]]
+      ),
     axis.text.x = element_blank()
   )
 ```
@@ -739,7 +817,7 @@ providers[["df_provider_inst"]] |>
 #| label: hopsital_type
 #| title: "Hospital Subset"
 
-providers[["df_hospital_subset"]]  |> 
+providers[["df_hospital_subset"]]  |>
   ggplot(aes(fill = fill_color, values = squares)) +
   geom_waffle(
     n_rows  = 10,
@@ -766,26 +844,26 @@ providers[["df_hospital_subset"]]  |>
 #| label: hopsital_table
 #| title: "Hospital Table"
 
-providers[["df_hospital_subset"]]  |> 
-  relocate(fill_color, .before = 1) |> 
-  arrange(desc(value)) |> 
-  select(-squares) |> 
-  gt() |> 
+providers[["df_hospital_subset"]]  |>
+  relocate(fill_color, .before = 1) |>
+  arrange(desc(value)) |>
+  select(-squares) |>
+  gt() |>
   cols_label(
-      fill_color = "",
-      sub_category = "",
-      value = "Count",
-      share = "Share"
-    ) |> 
+    fill_color = "",
+    sub_category = "",
+    value = "Count",
+    share = "Share"
+  ) |>
   fmt_number(
     columns = value,
     decimals = 0,
-    suffixing = FALSE 
-    ) |> 
+    suffixing = FALSE
+  ) |>
   fmt_percent(
     columns = share,
     decimals = 0
-  ) |> 
+  ) |>
   text_transform(
     locations = cells_body(columns = fill_color),
     fn = function(x) {
@@ -796,9 +874,9 @@ providers[["df_hospital_subset"]]  |>
     }
   ) |>
   cols_align(align = "center", columns = fill_color) |>
-   cols_align(align = "left", columns = sub_category) |>
+  cols_align(align = "left", columns = sub_category) |>
   cols_width(fill_color ~ px(24)) |>
-  opt_row_striping(row_striping = FALSE) |> 
+  opt_row_striping(row_striping = FALSE) |>
   tab_options(
     table.border.top.style            = "none",
     table.border.bottom.style         = "none",
@@ -826,23 +904,26 @@ Non-Institutional Providers
 #| label: noninstitutional_providers
 #| title: "Non-Institutional Providers"
 
-providers[["df_provider_noninst"]] |> 
-  # ggplot(aes(value, fct_reorder(category, value) |> fct_relevel("All Other Providers"))) +
+providers[["df_provider_noninst"]] |>
   ggplot(aes(value, category)) +
   geom_blank(aes(value * 1.1)) +
   geom_col(fill = ff_colors$scales$steel[["500"]]) +
   geom_text(
     aes(label = value_fmt),
     hjust = -.1,
-    family = "Source Sans 3", color = ff_colors$elements[['annotation']],
-    ) +
+    family = "Source Sans 3", color = ff_colors$elements[["annotation"]],
+  ) +
   scale_x_continuous(expand = c(.005, .005)) +
   labs(x = NULL, y = NULL) +
   theme_minimal(base_size = 22) +
   theme(
     panel.grid.minor = element_blank(),
     panel.grid.major.y = element_blank(),
-    axis.text.y = element_text(family = "Source Sans 3", color = ff_colors$elements[["axis"]]),
+    axis.text.y =
+      element_text(
+        family = "Source Sans 3",
+        color = ff_colors$elements[["axis"]]
+      ),
     axis.text.x = element_blank()
   )
 ```
@@ -866,11 +947,16 @@ DMEPOS
 #| label: dmepos_viz
 #| title: DMEPOS Provider Share
 
-providers[["df_providers_dmepos"]]|> 
+providers[["df_providers_dmepos"]] |>
   ggplot(aes(share, provider_type, fill = category)) +
   geom_col() +
-  scale_fill_manual(values = c(ff_colors$scales$charcoal[["200"]], unname(ff_colors$scales$green[1:4]))) +
-  # scale_fill_identity() +
+  scale_fill_manual(
+    values =
+      c(
+        ff_colors$scales$charcoal[["200"]],
+        unname(ff_colors$scales$green[1:4])
+      )
+  ) +
   theme_void() +
   theme(legend.position = "none")
 
@@ -882,17 +968,17 @@ providers[["df_providers_dmepos"]]|>
 #| title: DMEPOS Provider Table
 
 providers[["df_providers_dmepos_tbl"]] |>
-  gt() |> 
+  gt() |>
   cols_label(
-      fill_color = "",
-      category = "",
-      value = "Count"
-    ) |> 
+    fill_color = "",
+    category = "",
+    value = "Count"
+  ) |>
   fmt_number(
     columns = value,
     decimals = 0,
-    suffixing = TRUE 
-    ) |> 
+    suffixing = TRUE
+  ) |>
   text_transform(
     locations = cells_body(columns = fill_color),
     fn = function(x) {
@@ -903,9 +989,9 @@ providers[["df_providers_dmepos_tbl"]] |>
     }
   ) |>
   cols_align(align = "center", columns = fill_color) |>
-   cols_align(align = "left", columns = category) |>
+  cols_align(align = "left", columns = category) |>
   cols_width(fill_color ~ px(24)) |>
-  opt_row_striping(row_striping = FALSE) |> 
+  opt_row_striping(row_striping = FALSE) |>
   tab_options(
     table.border.top.style            = "none",
     table.border.bottom.style         = "none",
@@ -913,7 +999,6 @@ providers[["df_providers_dmepos_tbl"]] |>
     column_labels.border.bottom.style = "none",
     data_row.padding                  = px(5)
   )
-  
 ```
 
 ## Row {.no-title height="5%"}
