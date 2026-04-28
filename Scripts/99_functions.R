@@ -39,6 +39,35 @@ files <- tibble(files = files) |>
   pull(files)
 
 
+# nolint start: object_usage_linter, return_linter.
+
+# Character Dictionary Sampling ------------------------------------------
+
+# Function to build the character variable summary list
+build_char_dict <- function(df, sample_n = 8) {
+  df |>
+    select(where(is.character)) |>
+    map(function(col) {
+      levels <- col |> na.omit(col) |> unique() |> sort()
+      n_distinct <- length(levels)
+
+      if (n_distinct > sample_n) {
+        options_str <- paste0(
+          paste(sample(levels, sample_n), collapse = " | "),
+          ", ..."
+        )
+      } else {
+        options_str <- paste(levels, collapse = " | ")
+      }
+
+      list(
+        n_distinct = n_distinct,
+        options = options_str
+      )
+    })
+}
+
+
 # Remove Footnotes -------------------------------------------------------
 
 rm_notes <- function(df) {
@@ -64,7 +93,8 @@ gen_release_dt <- function(df) {
     mutate(
       release_date = source |>
         str_extract("[A-Za-z]{3}\\d{4}") |>
-        str_replace("cts202(.)", "Apr202\\1") |> # 2025 + 2056 files had no month in release so adding it manually
+        # 2025/26 files had no month in release so adding month manually
+        str_replace("cts202(.)", "Apr202\\1") |>
         str_replace("cts", "Jan") |>
         my()
     )
@@ -927,3 +957,5 @@ import_fast_facts <- function(path) {
 
   return(df_ff)
 }
+
+# nolint end: object_usage_linter, return_linter.

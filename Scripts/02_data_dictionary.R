@@ -14,6 +14,7 @@ library(pointblank)
 library(pagedown)
 library(htmltools)
 
+source("Scripts/99_functions.R")
 
 # GLOBAL VARIABLES --------------------------------------------------------
 
@@ -30,42 +31,17 @@ dir_out <- "Dataout"
 df_ff <- read_parquet(path)
 
 
-# FUNCTIONS --------------------------------------------------------------
-
-# Function to build the character variable summary list
-build_char_dict <- function(df, sample_n = 8) {
-  df %>%
-    select(where(is.character)) %>%
-    map(function(col) {
-      levels <- col |> na.omit(col) |> unique() |> sort()
-      n_distinct <- length(levels)
-
-      if (n_distinct > sample_n) {
-        options_str <- paste0(
-          paste(sample(levels, sample_n), collapse = " | "),
-          ", ..."
-        )
-      } else {
-        options_str <- paste(levels, collapse = " | ")
-      }
-
-      list(
-        n_distinct = n_distinct,
-        options = options_str
-      )
-    })
-}
-
-
 # MUNGE -------------------------------------------------------------------
 
 char_dict <- build_char_dict(df_ff)
 
-# categorical_levels <- df_ff %>%
-#   select(where(is.character)) %>%
-#   map(~ .x %>% na.omit() %>% unique() %>% sort())
+# categorical_levels <- df_ff |>
+#   select(where(is.character)) |>
+#   map(~ .x |> na.omit() |> unique() |> sort())
 
 # CREATE DICTIONARY ------------------------------------------------------
+
+# nolint start: line_length_linter, quotes_linter.
 
 informant <- create_informant(
   tbl = df_ff,
@@ -259,6 +235,8 @@ report <-
   )
 
 report
+
+# nolint end: line_length_linter, quotes_linter.
 
 # EXPORT -----------------------------------------------------------------
 

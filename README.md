@@ -50,7 +50,7 @@ Below is the folder structure for this repository, run with `r fs::dir_tree(recu
 ├── COMMUNITY.md
 ├── CONTRIBUTING.md
 ├── Data
-│   ├── CMSFastFacts2025_508.xlsx
+│   ├── CMSFastFacts2026.xlsx
 │   ├── Historic
 ├── Dataout
 │   ├── CMSFastFacts_SD_2026-04.csv
@@ -61,9 +61,7 @@ Below is the folder structure for this repository, run with `r fs::dir_tree(recu
 │   └── providers.rds
 ├── Documents
 │   ├── CMS Fast Facts_2026.pdf
-│   ├── CMSFastFacts2025_508.pdf
-│   ├── CMSFastFacts_data-dictionary.pdf
-│   └── FastFacts-Mockup.pdf
+│   └── CMSFastFacts_data-dictionary.pdf
 ├── LICENSE
 ├── README.md
 ├── SECURITY.md
@@ -74,7 +72,7 @@ Below is the folder structure for this repository, run with `r fs::dir_tree(recu
 │   ├── 98_color_system.R
 │   └── 99_functions.R
 ├── assets
-│   ├── CMS_logo.jpeg
+│   ├── CMS_logo_reverse.png
 │   └── ff_format.scss
 ├── fast-facts.qmd
 ├── renv
@@ -136,9 +134,23 @@ This project is a monorepo with several apps. Please see the [api](./api/README.
 
 ## Coding Style and Linters
 
-<!-- TODO - Add the repo's linting and code style guidelines -->
+## Coding Style and Linters
 
-Each application has its own linting and testing guidelines. Lint and code tests are run on each commit, so linters and tests should be run locally before committing.
+This project follows the [tidyverse style guide](https://style.tidyverse.org/) for R code. Style and lint checks are enforced via [`lintr`](https://lintr.r-lib.org/) and run automatically on each push or pull request to `main` via GitHub Actions.
+
+Lint checks are configured in `.lintr` at the project root. Findings are reported as warnings and will not block merges, but contributors are expected to resolve lint issues before submitting a pull request.
+
+To run linting locally before committing:
+
+```r
+# Lint a single file
+lintr::lint("Scripts/my_script.R")
+
+# Lint the full project
+lintr::lint_dir()
+```
+
+Note: Some files (e.g. `Scripts/02_data_dictionary.R`) include inline `# nolint` annotations where long lines are intentional and unavoidable.
 
 <!--
 ## Branching Model
