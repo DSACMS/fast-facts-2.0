@@ -4,7 +4,7 @@ Reimagining CMS Fast Facts communication of summary information
 
 ## About the Project
 
-CMS makes a number of different data sources available to the public on [data.cms.gov](data.cms.gov). One of those sources is the annual [CMS Fast Facts](https://data.cms.gov/fact-sheet/cms-fast-facts) which is a "quick reference statistical summary on annual CMS program and financial data." The 2025 release contains 13 pages worth of largely tabular data. This project aims to condense the data views while making the infomation more digestible and actionable.
+CMS makes a number of different data sources available to the public on [data.cms.gov](data.cms.gov). One of those sources is the annual [CMS Fast Facts](https://data.cms.gov/fact-sheet/cms-fast-facts) which is a "quick reference statistical summary on annual CMS program and financial data." This annual report contains 13 pages worth of largely tabular data. This project aims to condense the data views while making the infomation more digestible and actionable.
 
 ### Project Vision
 
