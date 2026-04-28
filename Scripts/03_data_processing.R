@@ -232,6 +232,8 @@ df_medicaid_exp <- df_ff |>
   ) |>
   select(metric, category, sub_category, data_year, value) |>
   mutate(
+    sub_category = str_replace(sub_category, "Laboratory", "Lab"),
+    sub_category = str_replace(sub_category, "and", "&"),
     value_fmt = label_number(1, prefix = "$", scale_cut = cut_short_scale())(
       value
     )
@@ -353,14 +355,14 @@ df_medicare_trend <- df_ff |>
     lab_orig = ifelse(
       data_year == max(data_year),
       str_glue(
-        "{lab_orig} ({label_percent(1, style_positive = 'plus')(delta_orig)} prior year)"
+        "{lab_orig} ({label_percent(1, style_positive = 'plus')(delta_orig)} prior)"
       ),
       lab_orig
     ),
     lab_ma = ifelse(
       data_year == max(data_year),
       str_glue(
-        "{lab_ma} ({label_percent(1, style_positive = 'plus')(delta_ma)} prior year)"
+        "{lab_ma} ({label_percent(1, style_positive = 'plus')(delta_ma)} prior)"
       ),
       lab_ma
     ),
@@ -494,7 +496,7 @@ df_cs_trend <- df_cs_trend |>
       c("Premiums", "Coinsurance (Part A)", "Deductibles", "Other (Part D)")
     ),
     sub_category = case_when(
-      !is.na(bound) ~ str_glue("{sub_category} (upper/lower bounds)"),
+      !is.na(bound) ~ str_glue("{sub_category} ({bound} bound)"),
       metric == "deductible" &
         category == "Part A" ~ "Part A (Inpatient Hospital)",
       metric == "deductible" & category == "Part D" ~ "Part D (Maximum)",
@@ -503,6 +505,22 @@ df_cs_trend <- df_cs_trend |>
     )
   )
 
+df_cs_trend <- df_cs_trend |>
+  mutate(
+    val_curr = case_when(
+      period == max(period) ~ label_comma(1, prefix = "$")(value)
+    )
+  ) |>
+  group_by(category, sub_category, metric) |>
+  fill(val_curr, .direction = "updown") |>
+  ungroup() |>
+  mutate(
+    sub_category = ifelse(
+      str_detect(sub_category, "upper"),
+      str_glue("{sub_category} [{max(df_cs_trend$period)} = {val_curr}]"),
+      str_glue("{sub_category} [{val_curr}]")
+    )
+  )
 
 #gather sources for footnote
 v_costsharing_sources <- df_ff |>
