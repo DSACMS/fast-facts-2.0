@@ -50,7 +50,7 @@ Below is the folder structure for this repository, run with `r fs::dir_tree(recu
 ├── COMMUNITY.md
 ├── CONTRIBUTING.md
 ├── Data
-│   ├── CMSFastFacts2025_508.xlsx
+│   ├── CMSFastFacts2026.xlsx
 │   ├── Historic
 ├── Dataout
 │   ├── CMSFastFacts_SD_2026-04.csv
@@ -61,9 +61,7 @@ Below is the folder structure for this repository, run with `r fs::dir_tree(recu
 │   └── providers.rds
 ├── Documents
 │   ├── CMS Fast Facts_2026.pdf
-│   ├── CMSFastFacts2025_508.pdf
-│   ├── CMSFastFacts_data-dictionary.pdf
-│   └── FastFacts-Mockup.pdf
+│   └── CMSFastFacts_data-dictionary.pdf
 ├── LICENSE
 ├── README.md
 ├── SECURITY.md
@@ -74,7 +72,7 @@ Below is the folder structure for this repository, run with `r fs::dir_tree(recu
 │   ├── 98_color_system.R
 │   └── 99_functions.R
 ├── assets
-│   ├── CMS_logo.jpeg
+│   ├── CMS_logo_reverse.png
 │   └── ff_format.scss
 ├── fast-facts.qmd
 ├── renv
