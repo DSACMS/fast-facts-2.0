@@ -33,6 +33,7 @@ execute:
 library(tidyverse)
 library(scales, warn.conflicts = FALSE)
 library(systemfonts, warn.conflicts = FALSE)
+library(patchwork)
 library(ggrepel)
 library(waffle)
 library(gt, warn.conflicts = FALSE)
@@ -764,14 +765,10 @@ cost_sharing[["df_cs_trend"]]  |>
 
 # Providers
 
-## Row {height="95%"}
-
-### Column
-
-#### Row {height="25%"}
+## Row {height="25%"}
 
 :::{.valuebox .text-white label = "ban_inst" icon="hospital" color="#015390"}
-Institutional Providers
+Medicare Institutional Providers
 
 `r providers$bans[["Institutional"]]`
 
@@ -779,119 +776,8 @@ Institutional Providers
 
 :::
 
-
-#### Row
-
-```{r}
-#| label: institutional_providers
-#| title: "Institutional Providers"
-
-providers[["df_provider_inst"]] |>
-  ggplot(aes(value, category)) +
-  geom_blank(aes(value * 1.1)) +
-  geom_col(fill = ff_colors$scales$steel[["700"]]) +
-  geom_text(
-    aes(label = value_fmt),
-    hjust = -.1,
-    family = "Source Sans 3", color = ff_colors$elements[["annotation"]],
-  ) +
-  scale_x_continuous(expand = c(.005, .005)) +
-  labs(x = NULL, y = NULL) +
-  theme_minimal(base_size = 22) +
-  theme(
-    panel.grid.minor = element_blank(),
-    panel.grid.major.y = element_blank(),
-    axis.text.y =
-      element_text(
-        family = "Source Sans 3",
-        color = ff_colors$elements[["axis"]]
-      ),
-    axis.text.x = element_blank()
-  )
-```
-
-#### Row 
-
-##### Column
-```{r}
-#| label: hopsital_type
-#| title: "Hospital Subset"
-
-providers[["df_hospital_subset"]]  |>
-  ggplot(aes(fill = fill_color, values = squares)) +
-  geom_waffle(
-    n_rows  = 10,
-    size    = 1.5,
-    colour  = "white",
-    flip    = FALSE
-  ) +
-  scale_fill_identity() +
-  labs(
-    subtitle = "Each square represents ~1% of total",
-    fill     = NULL
-  ) +
-  coord_fixed() +
-  theme_void() +
-  theme(
-    plot.title    = element_text(face = "bold", size = 30, hjust = 0.5),
-    plot.subtitle = element_text(size = 25, hjust = 0.5, color = "gray40"),
-    legend.position = "none"
-  )
-```
-
-##### Column
-```{r}
-#| label: hopsital_table
-#| title: "Hospital Table"
-
-providers[["df_hospital_subset"]]  |>
-  relocate(fill_color, .before = 1) |>
-  arrange(desc(value)) |>
-  select(-squares) |>
-  gt() |>
-  cols_label(
-    fill_color = "",
-    sub_category = "",
-    value = "Count",
-    share = "Share"
-  ) |>
-  fmt_number(
-    columns = value,
-    decimals = 0,
-    suffixing = FALSE
-  ) |>
-  fmt_percent(
-    columns = share,
-    decimals = 0
-  ) |>
-  text_transform(
-    locations = cells_body(columns = fill_color),
-    fn = function(x) {
-      glue::glue(
-        "<span style='display:inline-block; width:14px; height:14px;
-         border-radius:3px; background-color:{x};'></span>"
-      )
-    }
-  ) |>
-  cols_align(align = "center", columns = fill_color) |>
-  cols_align(align = "left", columns = sub_category) |>
-  cols_width(fill_color ~ px(24)) |>
-  opt_row_striping(row_striping = FALSE) |>
-  tab_options(
-    table.border.top.style            = "none",
-    table.border.bottom.style         = "none",
-    column_labels.border.top.style    = "none",
-    column_labels.border.bottom.style = "none",
-    data_row.padding                  = px(5)
-  )
-```
-
-### Column
-
-#### Row {height="25%"}
-
 :::{.valuebox .text-white label = "ban_non_inst" icon="clipboard2-pulse-fill" color="#015390"}
-Non-Institutional Providers
+Medicare Non-Institutional Providers
 
 `r providers$bans[["Non-Institutional"]]`
 
@@ -899,42 +785,8 @@ Non-Institutional Providers
 
 :::
 
-
-```{r}
-#| label: noninstitutional_providers
-#| title: "Non-Institutional Providers"
-
-providers[["df_provider_noninst"]] |>
-  ggplot(aes(value, category)) +
-  geom_blank(aes(value * 1.1)) +
-  geom_col(fill = ff_colors$scales$steel[["500"]]) +
-  geom_text(
-    aes(label = value_fmt),
-    hjust = -.1,
-    family = "Source Sans 3", color = ff_colors$elements[["annotation"]],
-  ) +
-  scale_x_continuous(expand = c(.005, .005)) +
-  labs(x = NULL, y = NULL) +
-  theme_minimal(base_size = 22) +
-  theme(
-    panel.grid.minor = element_blank(),
-    panel.grid.major.y = element_blank(),
-    axis.text.y =
-      element_text(
-        family = "Source Sans 3",
-        color = ff_colors$elements[["axis"]]
-      ),
-    axis.text.x = element_blank()
-  )
-```
-
-
-### Column
-
-#### Row {height=25%} 
-
 :::{.valuebox .text-white label = "ban_DMEPOS" icon="people-fill" color="#015390"}
-DMEPOS
+Medicare DMEPOS Providers
 
 `r providers$bans[["DMEPOS"]]`
 
@@ -942,63 +794,275 @@ DMEPOS
 
 :::
 
+## Row
+
+### Column
 
 ```{r}
-#| label: dmepos_viz
-#| title: DMEPOS Provider Share
+#| label: noninstitutional_providers
+#| title: Non-Institutional Provider Types (Counts & Share of Total)
+#| out-width: 100%
+#| out-height: 100%
+#| fig-width: 20
+#| fig-height: 20
 
-providers[["df_providers_dmepos"]] |>
-  ggplot(aes(share, provider_type, fill = category)) +
-  geom_col() +
-  scale_fill_manual(
-    values =
-      c(
-        ff_colors$scales$charcoal[["200"]],
-        unname(ff_colors$scales$green[1:4])
-      )
+v_noninst_1 <- providers[["df_provider_noninst"]] |>
+  ggplot(aes(value, category, fill = fill_color)) +
+  geom_blank(aes(value * 1.1)) +
+  geom_col(width = .8) +
+  geom_text(
+    aes(label = value_fmt),
+    family = "Source Sans 3",
+    color = ff_colors$elements[["annotation"]],
+    hjust = -.1
   ) +
-  theme_void() +
-  theme(legend.position = "none")
+  scale_x_continuous(expand = c(.005, .005)) +
+  scale_fill_identity() +
+  coord_cartesian(clip = "off") +
+  labs(x = NULL, y = NULL) +
+  theme_minimal(
+    base_size = 35,
+    base_family = "Source Sans 3",
+  ) +
+  theme(
+    panel.grid.minor = element_blank(),
+    panel.grid.major.y = element_blank(),
+    axis.text.x = element_blank(),
+    axis.text.y =
+      element_text(
+        # color = ff_colors$elements[["axis"]],
+        size = 40
+      ),
+  )
+
+v_noninst_2 <- providers[["df_provider_noninst"]] |>
+  ggplot(aes(share, category, fill = fill_color)) +
+  geom_col(aes(x = 1), width = .5, alpha = .2) +
+  geom_col(width = .5) +
+  geom_text(
+    aes(label = share_fmt),
+    family = "Source Sans 3",
+    color = ff_colors$elements[["annotation"]],
+    hjust = -.1
+  ) +
+  scale_x_continuous(
+    limits = c(0, 1),
+    expand = c(.005, .005)
+  ) +
+  scale_fill_identity() +
+  coord_cartesian(clip = "off") +
+  labs(x = NULL, y = NULL) +
+  theme_minimal(
+    base_size = 35,
+    base_family = "Source Sans 3",
+  ) +
+  theme(
+    panel.grid = element_blank(),
+    axis.text = element_blank()
+  )
+
+v_noninst_1 + v_noninst_2 +
+  plot_layout(widths = c(5, 1))
 
 ```
 
 
-```{r}
-#| label: dmepos_table
-#| title: DMEPOS Provider Table
+### Column
 
-providers[["df_providers_dmepos_tbl"]] |>
-  gt() |>
-  cols_label(
-    fill_color = "",
-    category = "",
-    value = "Count"
-  ) |>
-  fmt_number(
-    columns = value,
-    decimals = 0,
-    suffixing = TRUE
-  ) |>
-  text_transform(
-    locations = cells_body(columns = fill_color),
-    fn = function(x) {
-      glue::glue(
-        "<span style='display:inline-block; width:14px; height:14px;
-         border-radius:3px; background-color:{x};'></span>"
-      )
-    }
-  ) |>
-  cols_align(align = "center", columns = fill_color) |>
-  cols_align(align = "left", columns = category) |>
-  cols_width(fill_color ~ px(24)) |>
-  opt_row_striping(row_striping = FALSE) |>
-  tab_options(
-    table.border.top.style            = "none",
-    table.border.bottom.style         = "none",
-    column_labels.border.top.style    = "none",
-    column_labels.border.bottom.style = "none",
-    data_row.padding                  = px(5)
+#### Row {height="60%"}
+```{r}
+#| label: institutional_providers
+#| title: Institutional Provider Types (Counts & Share of Total)
+#| out-width: 100%
+#| out-height: 100%
+#| fig-width: 24
+#| fig-height: 10
+
+v_inst_1 <- providers[["df_provider_inst"]] |>
+  ggplot(aes(value, category, fill = fill_color)) +
+  geom_blank(aes(value * 1.1)) +
+  geom_col(width = .8) +
+  geom_text(
+    aes(label = value_fmt),
+    family = "Source Sans 3",
+    color = ff_colors$elements[["annotation"]],
+    hjust = -.1
+  ) +
+  scale_x_continuous(expand = c(.005, .005)) +
+  scale_fill_identity() +
+  coord_cartesian(clip = "off") +
+  labs(x = NULL, y = NULL) +
+  theme_minimal(
+    base_size = 35,
+    base_family = "Source Sans 3",
+  ) +
+  theme(
+    panel.grid.minor = element_blank(),
+    panel.grid.major.y = element_blank(),
+    axis.text.x = element_blank(),
+    axis.text.y = element_text(size = 45),
   )
+
+v_inst_2 <- providers[["df_provider_inst"]] |>
+  ggplot(aes(share, category, fill = fill_color)) +
+  geom_col(aes(x = 1), width = .5, alpha = .2) +
+  geom_col(width = .5) +
+  geom_text(
+    aes(label = share_fmt),
+    family = "Source Sans 3",
+    color = ff_colors$elements[["annotation"]],
+    hjust = -.1
+  ) +
+  scale_fill_identity() +
+  scale_x_continuous(
+    limits = c(0, 1),
+    expand = c(.005, .005)
+  ) +
+  coord_cartesian(clip = "off") +
+  labs(x = NULL, y = NULL) +
+  theme_minimal(
+    base_size = 35,
+    base_family = "Source Sans 3",
+  ) +
+  theme(
+    panel.grid = element_blank(),
+    axis.text = element_blank()
+  )
+
+v_inst_1 + v_inst_2 +
+  plot_layout(widths = c(6, 1))
+```
+
+
+#### Row {height="40%"}
+
+```{r}
+#| label: hopsital_type
+#| title: "Hospital Provider Subset (Counts & Share of Total)"
+#| out-width: 100%
+#| out-height: 100%
+#| fig-width: 24
+#| fig-height: 6
+
+v_hosp_1 <- providers[["df_hospital_subset"]] |>
+  ggplot(aes(value, fct_reorder(sub_category, value), fill = fill_color)) +
+  geom_blank(aes(value * 1.1)) +
+  geom_col(width = .8) +
+  geom_text(
+    aes(label = value_fmt),
+    family = "Source Sans 3",
+    color = ff_colors$elements[["annotation"]],
+    hjust = -.1
+  ) +
+  scale_x_continuous(expand = c(.005, .005)) +
+  scale_fill_identity() +
+  coord_cartesian(clip = "off") +
+  labs(x = NULL, y = NULL) +
+  theme_minimal(
+    base_size = 35,
+    base_family = "Source Sans 3",
+  ) +
+  theme(
+    panel.grid.minor = element_blank(),
+    panel.grid.major.y = element_blank(),
+    axis.text.x = element_blank(),
+    axis.text.y = element_text(size = 45),
+  )
+
+v_hosp_2 <- providers[["df_hospital_subset"]] |>
+  ggplot(aes(share, fct_reorder(sub_category, value), fill = fill_color)) +
+  geom_col(aes(x = 1), width = .5, alpha = .2) +
+  geom_col(width = .5) +
+  geom_text(
+    aes(label = share_fmt),
+    family = "Source Sans 3",
+    color = ff_colors$elements[["annotation"]],
+    hjust = -.1
+  ) +
+  scale_fill_identity() +
+  scale_x_continuous(
+    limits = c(0, 1),
+    expand = c(.005, .005)
+  ) +
+  coord_cartesian(clip = "off") +
+  labs(x = NULL, y = NULL) +
+  theme_minimal(
+    base_size = 35,
+    base_family = "Source Sans 3",
+  ) +
+  theme(
+    panel.grid = element_blank(),
+    axis.text = element_blank()
+  )
+
+v_hosp_1 + v_hosp_2 +
+  plot_layout(widths = c(7, 1))
+```
+
+
+### Column
+
+```{r}
+#| label: dmepos_viz
+#| title: DMEPOS Provider Types (Counts & Share of Total)
+#| out-width: 100%
+#| out-height: 100%
+#| fig-width: 20
+#| fig-height: 20
+
+v_dmepos_1 <- providers[["df_providers_dmepos"]] |>
+  ggplot(aes(value, category, fill = fill_color)) +
+  geom_blank(aes(value * 1.1)) +
+  geom_col(width = .8) +
+  geom_text(
+    aes(label = value_fmt),
+    family = "Source Sans 3",
+    color = ff_colors$elements[["annotation"]],
+    hjust = -.3
+  ) +
+  scale_x_continuous(expand = c(.005, .005)) +
+  scale_fill_identity() +
+  coord_cartesian(clip = "off") +
+  labs(x = NULL, y = NULL) +
+  theme_minimal(
+    base_size = 35,
+    base_family = "Source Sans 3",
+  ) +
+  theme(
+    panel.grid.minor = element_blank(),
+    panel.grid.major.y = element_blank(),
+    axis.text.x = element_blank(),
+    axis.text.y = element_text(size = 40)
+  )
+
+v_dmepos_2 <- providers[["df_providers_dmepos"]] |>
+  ggplot(aes(share, category, fill = fill_color)) +
+  geom_col(aes(x = 1), width = .5, alpha = .2) +
+  geom_col(width = .5) +
+  geom_text(
+    aes(label = value_fmt),
+    family = "Source Sans 3",
+    color = ff_colors$elements[["annotation"]],
+    hjust = -.1
+  ) +
+  scale_x_continuous(
+    limits = c(0, 1),
+    expand = c(.005, .005)
+  ) +
+  scale_fill_identity() +
+  coord_cartesian(clip = "off") +
+  labs(x = NULL, y = NULL) +
+  theme_minimal(
+    base_size = 35,
+    base_family = "Source Sans 3",
+  ) +
+  theme(
+    panel.grid = element_blank(),
+    axis.text = element_blank()
+  )
+
+v_dmepos_1 + v_dmepos_2 +
+  plot_layout(widths = c(5, 1))
 ```
 
 ## Row {.no-title height="5%"}
