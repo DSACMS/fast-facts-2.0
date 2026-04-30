@@ -134,8 +134,6 @@ This project is a monorepo with several apps. Please see the [api](./api/README.
 
 ## Coding Style and Linters
 
-## Coding Style and Linters
-
 This project follows the [tidyverse style guide](https://style.tidyverse.org/) for R code. Style and lint checks are enforced via [`lintr`](https://lintr.r-lib.org/) and run automatically on each push or pull request to `main` via GitHub Actions.
 
 Lint checks are configured in `.lintr` at the project root. Findings are reported as warnings and will not block merges, but contributors are expected to resolve lint issues before submitting a pull request.
