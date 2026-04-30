@@ -997,7 +997,7 @@ v_dmepos_2 <- providers[["df_providers_dmepos"]] |>
   geom_col(aes(x = 1), width = .5, alpha = .2) +
   geom_col(width = .5) +
   geom_text(
-    aes(label = value_fmt),
+    aes(label = share_fmt),
     family = "Source Sans 3",
     color = ff_colors$elements[["annotation"]],
     hjust = -.1
