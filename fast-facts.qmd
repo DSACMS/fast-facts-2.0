@@ -71,11 +71,8 @@ walk(
 
 # Context
 
-## Row {height="95%"}
+## Row {height="25%"}
 
-### Column
-
-#### Row {height="25%"}
 :::{.valuebox .text-white  label = "ban_nhe" icon="heart-pulse-fill" color="#4A8C6F"}
 National Health Expenditures (NHE)
 
@@ -85,13 +82,34 @@ National Health Expenditures (NHE)
 
 :::
 
-#### Row {height="50%"}
+:::{.valuebox .text-white label = "ban_health-insurance" icon="shield-plus" color="#6E6E6E"}
+National Health Insurance Expenditures
+
+`r context$bans[["health_insurance"]]`
+
+`r context$years[["nhe_yr"]]`
+
+:::
+
+:::{.valuebox .text-white label = "ban_fed_spend" icon="bank" color="#015390"}
+CMS Federal Program Spending
+
+`r context$bans[["fed_spend"]]`
+
+`r context$years[["fed_spend_yr"]]`
+
+:::
+
+## Row
+
+### Column
+
+#### Row {height="60%"}
 ```{r}
 #| label: share-gdp
 #| title: "NHE share of GDP"
 #| out-width: 100%
 #| fig-height: 4
-
 
 context[["df_nhe_gdp_share"]] |>
   ggplot() +
@@ -131,7 +149,7 @@ context[["df_nhe_gdp_share"]] |>
 
 ```
 
-#### Row {height="25%"}
+#### Row {height="40%"}
 ```{r}
 #| label: per_capita
 #| title: "NHE per capita"
@@ -179,19 +197,6 @@ icons |>
 
 ### Column
 
-### Row {height="25%"}
-
-:::{.valuebox .text-white label = "ban_health-insurance" icon="shield-plus" color="#6E6E6E"}
-National Health Insurance Expenditures
-
-`r context$bans[["health_insurance"]]`
-
-`r context$years[["nhe_yr"]]`
-
-:::
-
-#### Row {height="75%"}
-
 ```{r}
 #| label: insurance_bar
 #| title: "National Health Insurance Expenditures by Payer"
@@ -229,26 +234,11 @@ context[["df_insurance"]] |>
     panel.spacing = unit(0, "lines"),
     panel.grid = element_blank()
   )
-
-
 ```
 
 ### Column
 
-### Row {height="25%"}
-
-:::{.valuebox .text-white label = "ban_fed_spend" icon="bank" color="#015390"}
-CMS Federal Program Spending
-
-`r context$bans[["fed_spend"]]`
-
-`r context$years[["fed_spend_yr"]]`
-
-:::
-
-#### Row {height="50%"}
-
-##### Row
+#### Row {height="60%"}
 ```{r}
 #| label: fed_spend_pictogram
 #| title: "CMS Spending by Category"
@@ -277,52 +267,8 @@ context[["df_spend"]] |>
   )
 ```
 
-##### Row
 
-```{r}
-#| label: spend_table
-
-context[["df_spend"]] |>
-  select(fill_color, category, sub_category, value_fmt) |>
-  gt(groupname_col =  "category") |>
-  cols_label(
-    fill_color = "",
-    sub_category = "",
-    value_fmt = "Gross Outlays"
-  ) |>
-  text_transform(
-    locations = cells_body(columns = fill_color),
-    fn = function(x) {
-      glue::glue(
-        "<span style='display:inline-block; width:14px; height:14px;
-         border-radius:3px; background-color:{x};'></span>"
-      )
-    }
-  ) |>
-  cols_align(align = "center", columns = fill_color) |>
-  cols_align(align = "right", columns = value_fmt) |>
-  cols_width(fill_color ~ px(24)) |>
-  opt_row_striping(row_striping = FALSE) |>
-  tab_style(
-    style = cell_fill(color = "transparent"),  # or "transparent"
-    locations = cells_body(rows = everything())
-  ) |>
-  tab_options(
-    table.border.top.style            = "none",
-    table.border.bottom.style         = "none",
-    column_labels.border.top.style    = "none",
-    column_labels.border.bottom.style = "none",
-    data_row.padding                  = px(4),
-    container.width = pct(100),
-    table.width = pct(100),
-    container.height = pct(100),
-    container.overflow.y = "hidden"
-
-  )
-```
-
-
-#### Row {height="25%"}
+#### Row {height="40%"}
 ```{r}
 #| label: fte
 #| title: "CMS Full-Time Equivalents (FTEs)"
