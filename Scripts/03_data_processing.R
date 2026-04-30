@@ -133,22 +133,30 @@ df_spend <- df_ff |>
     is_latest == TRUE,
   ) |>
   group_by(category) |>
+  mutate(share = value / sum(value)) |>
+  ungroup() |>
   mutate(
-    share = value / sum(value),
-    squares = round(share * 100),
-    value_fmt = label_number(.1, prefix = "$", scale_cut = cut_short_scale())(
-      value
-    ),
+    category = fct_reorder(category, value, sum),
+    sub_category = fct_reorder(sub_category, value, sum),
+    value_fmt = label_number(
+      # .1, scale_cut = cut_short_scale(),
+      1,
+      scale = 1e-6,
+      suffix = "M",
+      big.mark = ",", #desire to show units in millions of USD
+      prefix = "$",
+    )(value),
+    share_fmt = label_percent(1)(share),
     fill_color = recode_values(
       sub_category,
       "Medicare Benefits" ~ ff_colors$base[["azure"]],
       "Total Medicaid" ~ ff_colors$base[["teal"]],
       "CHIP" ~ ff_colors$base[["plum"]],
-      "Other Spending" ~ ff_colors$scales$charcoal[["200"]]
+      "Other Spending" ~ ff_colors$scales$charcoal[["200"]],
+      default = "#015390"
     )
   ) |>
-  ungroup() |>
-  select(category, sub_category, value, value_fmt, share, squares, fill_color)
+  select(category, sub_category, value, share, value_fmt, share_fmt, fill_color)
 
 # FTEs
 fte <- df_ff |>
