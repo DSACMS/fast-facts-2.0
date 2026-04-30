@@ -373,7 +373,7 @@ icons |>
 ## Row {height="25%"}
 
 
-:::{.valuebox .text-white label = "ban_medicare_ab" icon="heart-fill" color="#015390"}
+:::{.valuebox .text-white label = "ban_medicare_ab" icon="heart-fill" color="#0071BC"}
 Medicare Parts A/B Beneficiaries
 
 `r beneficiaries$bans[["medicare_ab"]]`
@@ -383,7 +383,7 @@ Medicare Parts A/B Beneficiaries
 :::
 
 
-:::{.valuebox .text-white label = "ban_medicare_d" icon="capsule-pill" color="#015390"}
+:::{.valuebox .text-white label = "ban_medicare_d" icon="capsule-pill" color="#00538C"}
 Medicare Part D Beneficiaries
 
 `r beneficiaries$bans[["medicare_d"]]`
@@ -392,7 +392,7 @@ Medicare Part D Beneficiaries
 
 :::
 
-:::{.valuebox .text-white label = "ban_medicaid" icon="people-fill" color="#015390"}
+:::{.valuebox .text-white label = "ban_medicaid" icon="people-fill" color="#00A99D"}
 Medicaid & CHIP Beneficiaries
  
 `r beneficiaries$bans[["medicaid"]]`
@@ -770,7 +770,7 @@ cost_sharing[["df_cs_trend"]]  |>
 
 ## Row {height="25%"}
 
-:::{.valuebox .text-white label = "ban_inst" icon="hospital" color="#015390"}
+:::{.valuebox .text-white label = "ban_inst" icon="hospital" color="#00538C"}
 Medicare Institutional Providers
 
 `r providers$bans[["Institutional"]]`
@@ -779,7 +779,7 @@ Medicare Institutional Providers
 
 :::
 
-:::{.valuebox .text-white label = "ban_non_inst" icon="clipboard2-pulse-fill" color="#015390"}
+:::{.valuebox .text-white label = "ban_non_inst" icon="clipboard2-pulse-fill" color="#0071BC"}
 Medicare Non-Institutional Providers
 
 `r providers$bans[["Non-Institutional"]]`
@@ -788,7 +788,7 @@ Medicare Non-Institutional Providers
 
 :::
 
-:::{.valuebox .text-white label = "ban_DMEPOS" icon="people-fill" color="#015390"}
+:::{.valuebox .text-white label = "ban_DMEPOS" icon="people-fill" color="#59A8DC"}
 Medicare DMEPOS Providers
 
 `r providers$bans[["DMEPOS"]]`
