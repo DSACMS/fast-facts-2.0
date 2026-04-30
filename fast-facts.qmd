@@ -342,7 +342,7 @@ icons |>
   geom_text(
     label  = "\uf007",              # Font Awesome "person" / user icon
     family = "FontAwesome7Solid",
-    size   = 40,
+    size   = 50,
     color  = ff_colors$scales$steel["900"]
   ) +
   scale_x_continuous(expand = expansion(add = 0.5)) +
@@ -351,10 +351,16 @@ icons |>
     title    = context$fte[["value_fmt"]],
     subtitle = "Each icon represents ~1,000 FTEs"
   ) +
-  theme_void() +
+  theme_void(base_family = "Source Sans 3") +
   theme(
-    plot.title    = element_text(face = "bold", size = 60, hjust = 0.5),
-    plot.subtitle = element_text(size = 25, hjust = 0.5, color = "gray40"),
+    plot.title =
+      element_text(
+        size = 80, 
+        hjust = .5,
+        face = "bold",
+        color = ff_colors$scales$steel["900"]
+      ),
+    plot.subtitle = element_text(size = 30, hjust = 0.5, color = "gray40"),
     plot.caption  = element_text(size = 9, hjust = 0.5, color = "gray60"),
     plot.margin   = margin(10, 10, 10, 10)
   )
