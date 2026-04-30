@@ -193,7 +193,7 @@ icons |>
 ```{r}
 #| label: insurance_bar
 #| title: "National Health Insurance Expenditures by Payer"
-#| fig-height: 8        
+#| fig-height: 8
 #| out.height: "100%"
 #| fig-width: 6
 
@@ -251,7 +251,10 @@ v_spend_1 <- context[["df_spend"]] |>
     color = ff_colors$elements[["annotation"]],
     hjust = -.1
   ) +
-  facet_wrap(~fct_rev(category), ncol = 1, scales = "free_y", space = "free_y") +
+  facet_wrap(
+    ~fct_rev(category), ncol = 1,
+    scales = "free_y", space = "free_y"
+  ) +
   scale_x_continuous(expand = c(.005, .005)) +
   scale_fill_identity() +
   coord_cartesian(clip = "off") +
@@ -265,7 +268,7 @@ v_spend_1 <- context[["df_spend"]] |>
     panel.grid.major.y = element_blank(),
     axis.text.x = element_blank(),
     axis.text.y = element_text(size = 45),
-    strip.text = 
+    strip.text =
       element_text(
         family = "Source Sans 3 SemiBold",
         color = ff_colors$scales$steel[["900"]],
@@ -284,7 +287,11 @@ v_spend_2 <- context[["df_spend"]] |>
     color = ff_colors$elements[["annotation"]],
     hjust = -.1
   ) +
-  facet_wrap(~fct_rev(category), ncol = 1, scales = "free_y", space = "free_y") +
+  facet_wrap(
+    ~fct_rev(category),
+    ncol = 1,
+    scales = "free_y", space = "free_y"
+  ) +
   scale_x_continuous(
     limits = c(0, 1),
     expand = c(.005, .005)
@@ -340,7 +347,7 @@ icons |>
   theme(
     plot.title =
       element_text(
-        size = 80, 
+        size = 80,
         hjust = .5,
         face = "bold",
         color = ff_colors$scales$steel["900"]
@@ -1060,6 +1067,71 @@ v_dmepos_2 <- providers[["df_providers_dmepos"]] |>
 v_dmepos_1 + v_dmepos_2 +
   plot_layout(widths = c(5, 1))
 ```
+
+## Row {.no-title height="5%"}
+
+::: {.footer-source}
+`r providers[["footnote"]]`
+:::
+
+# Notes
+
+## Row 
+
+### Column
+
+::: {.card}
+
+# Context 
+
+  - Total Medicaid Amount reported as total gross outlays including the Vaccines for Children Program.
+
+# Beneficaries
+
+  - Populations may not add due to rounding
+  - Medicaid & CHIP 
+      - Data points are preliminary and subject to change
+      - Total count represent the number of Medicaid and CHIP beneficiaries with comprehensive coverage.  The categories are sourced from data that include beneficiaries with non-comprehensive coverage and do not sum to the total counts.
+      - Dual Eligible includes Aged, Disabled & ESRD 
+      - 2025 data not yet available for Dual Eligible and Medicaid Expansion Adults
+  - Medicaid & CHIP payments
+      - Payments for All Services includes payments for additional services not broken out separately.
+      - Fee-for-service payments = (a) Inpatient Services, (b) Long-Term Care, (c) Physician, Laboratory, and Other Services, and (d) Prescription Drugs
+      - Expenditures by service category do not sum to the total expenditures.  Total expenditures also include Medicare payments for some beneficiaries and adjustments to prior year payments.  Managed care expenditures cover the same services that are delivered via fee-for-service.  Data do not permit allocation of managed care expenditures to the different service categories.  These expenditures are from all Medicaid beneficiaries, regardless of eligibility. 
+  - The Medicaid & CHIP population and expenditure data are from the [Medicaid & CHIP scorecard](https://www.medicaid.gov/state-overviews/scorecard/who-enrolls-medicaid-chip/index.html)
+
+Abbreviations
+
+  - CHIP - Children's Health Insurance Program
+  - DME - Durable Medical Equipment
+  - MA - Medicare Advantage
+  - MAPD - Medicare Advantage Prescription Drug Plan
+  - PDP - Prescription Drug Plan
+:::
+
+### Column
+
+::: {.card}
+# Cost Sharing
+
+  - The inpatient hospital deductible applies per benefit period.  
+  - For Part D, the initial coverage limit was eliminated in 2025. More information can be found [here](https://www.cms.gov/files/document/final-cy-2025-part-d-redesign-program-instructions.pdf)
+
+Abbreviations
+  
+  - LTR - Life Time Reserve
+  - SNF - Skilled Nursing Facility
+
+# Providers
+
+  - Non-Institutional Proviers - Providers utilized by Original Medicare beneficiaries for all Part B non-institutional/DMEPOS provider services.  Providers may be counted in more than one specialty classification but are reported as a single provider in the "Total Providers" count.
+
+Abbreviations
+
+  - DMEPOS - Medicare Durable Medical Equipment, Prosthetics, Orthotics and Supplies
+  - PT - Physical Therapy
+
+:::
 
 ## Row {.no-title height="5%"}
 
