@@ -69,6 +69,7 @@ Below is the folder structure for this repository, run with `r fs::dir_tree(recu
 │   ├── 01_setup_working_dataset.R
 │   ├── 02_data_dictionary.R
 │   ├── 03_data_processing.R
+│   ├── 04_render_views.R
 │   ├── 98_color_system.R
 │   └── 99_functions.R
 ├── assets

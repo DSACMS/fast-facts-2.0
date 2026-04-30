@@ -8,6 +8,7 @@ format:
     theme:
       - cosmo
       - assets/ff_format.scss
+    css: assets/print.css
     nav-buttons:
       - icon: github
         href: "#"
