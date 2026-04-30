@@ -108,41 +108,34 @@ CMS Federal Program Spending
 ```{r}
 #| label: share-gdp
 #| title: "NHE share of GDP"
-#| out-width: 100%
-#| fig-height: 4
+
+v_nhe_share <- context[["df_nhe_gdp_share"]] |>
+  filter(category == "National Health Expenditures") |>
+  pull(value_fmt)
 
 context[["df_nhe_gdp_share"]] |>
-  ggplot() +
-  geom_rect(
-    aes(
-      xmin = 0,
-      xmax = 12,
-      ymin = 0,
-      ymax = 100 / 12
-    ),
-    color =  "#A6A6A6",
-    fill = "white",
-    linewidth = 1.1
+  ggplot(aes(fill = fill_color, values = value * 100)) +
+  geom_waffle(
+    n_rows  = 10,       # 10x10 grid = 100 squares
+    size    = 1,      # border between squares
+    colour  = "white",  # border colour
+    flip    = TRUE      # fill column-by-column (bottom to top)
   ) +
-  geom_rect(
-    aes(
-      xmin = 0,
-      xmax = value_sqrt,
-      ymin = 0,
-      ymax = value_sqrt
-    ),
-    fill = ff_colors$base[["green"]]
+  scale_fill_identity() +
+  labs(
+    title = v_nhe_share,
+    subtitle = "Each square = 1% of GDP",
   ) +
-  labs(title = context[["df_nhe_gdp_share"]]$value_fmt) +
   coord_equal() +
-  theme_void() +
+  theme_void(base_family = "Source Sans 3", base_size = 13) +
   theme(
     plot.title =
       element_text(
-        size = 40, hjust = .5,
+        size = 60, hjust = .5,
         family = "Source Sans 3", face = "bold",
         color = ff_colors$scales$steel["900"]
       ),
+    plot.subtitle = element_text(size = 24, hjust = 0.5, color = "gray40"),
     plot.margin = margin(0, 0, 0, 0)
   )
 

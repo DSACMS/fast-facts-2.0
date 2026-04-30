@@ -58,9 +58,21 @@ df_nhe_gdp_share <- df_ff |>
   ) |>
   mutate(
     value_fmt = label_percent(1)(value),
-    value_sqrt = sqrt(value * 100)
+    fill_color = ff_colors$base[["green"]]
   ) |>
-  select(category, sub_category, data_year, value, value_fmt, value_sqrt)
+  select(category, sub_category, data_year, value, value_fmt, fill_color)
+
+df_nhe_gdp_share <- df_nhe_gdp_share |>
+  bind_rows(
+    df_nhe_gdp_share |>
+      mutate(
+        category = "Other",
+        value = 1 - value,
+        value_fmt = label_percent(1)(value),
+        fill_color = ff_colors$scales$warmgray[["100"]]
+      )
+  )
+
 
 #extract NHE per capita
 df_nhe_pc <- df_ff |>
@@ -136,6 +148,12 @@ df_spend <- df_ff |>
   mutate(share = value / sum(value)) |>
   ungroup() |>
   mutate(
+    sub_category = ifelse(category == "Fraud", "Total Funding", sub_category),
+    category = ifelse(
+      category == "Fraud",
+      "Health Care Fraud & Abuse Control",
+      category
+    ),
     category = fct_reorder(category, value, sum),
     sub_category = fct_reorder(sub_category, value, sum),
     value_fmt = label_number(
@@ -146,6 +164,7 @@ df_spend <- df_ff |>
       big.mark = ",", #desire to show units in millions of USD
       prefix = "$",
     )(value),
+    share = ifelse(category == "Health Care Fraud & Abuse Control", NA, share),
     share_fmt = label_percent(1)(share),
     fill_color = recode_values(
       sub_category,
