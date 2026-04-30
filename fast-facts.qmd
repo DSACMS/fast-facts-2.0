@@ -76,7 +76,7 @@ walk(
 ### Column
 
 #### Row {height="25%"}
-:::{.valuebox .text-white  label = "ban_nhe" icon="heart-pulse-fill" color="#015390"}
+:::{.valuebox .text-white  label = "ban_nhe" icon="heart-pulse-fill" color="#4A8C6F"}
 National Health Expenditures (NHE)
 
 `r context$bans[["nhe_total"]]`
@@ -181,7 +181,7 @@ icons |>
 
 ### Row {height="25%"}
 
-:::{.valuebox .text-white label = "ban_health-insurance" icon="shield-plus" color="#015390"}
+:::{.valuebox .text-white label = "ban_health-insurance" icon="shield-plus" color="#6E6E6E"}
 National Health Insurance Expenditures
 
 `r context$bans[["health_insurance"]]`
@@ -194,7 +194,7 @@ National Health Insurance Expenditures
 
 ```{r}
 #| label: insurance_bar
-#| title: "Health Expenditures by Payer"
+#| title: "National Health Insurance Expenditures by Payer"
 #| fig-height: 8        
 #| out.height: "100%"
 #| fig-width: 6
@@ -222,8 +222,8 @@ context[["df_insurance"]] |>
     axis.text = element_blank(),
     strip.text =
       element_text(
-        family = "Source Sans 3",
-        color = ff_colors$elements[["annotation"]],
+        family = "Source Sans 3 SemiBold",
+        color = ff_colors$scales$steel[["900"]],
         size = 20, hjust = 0
       ),
     panel.spacing = unit(0, "lines"),
@@ -343,7 +343,7 @@ icons |>
     label  = "\uf007",              # Font Awesome "person" / user icon
     family = "FontAwesome7Solid",
     size   = 50,
-    color  = ff_colors$scales$steel["900"]
+    color  = "#015390" #ff_colors$scales$steel["900"]
   ) +
   scale_x_continuous(expand = expansion(add = 0.5)) +
   scale_y_continuous(expand = expansion(add = 0.5)) +

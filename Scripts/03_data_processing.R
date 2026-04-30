@@ -103,7 +103,7 @@ df_insurance <- df_ff |>
       str_detect(sub_category, "Medicare") ~ ff_colors$base[["azure"]],
       str_detect(sub_category, "Medicaid") ~ ff_colors$base[["teal"]],
       str_detect(sub_category, "CHIP") ~ ff_colors$base[["plum"]],
-      TRUE ~ "#A6A6A6"
+      TRUE ~ ff_colors$scales$warmgray[["500"]]
     )
   )
 
