@@ -127,8 +127,8 @@ Medicare,Cost Sharing,Part D,Maximum Deductible,,deductible,CY,2021,445,,CMSFast
 Medicare,Cost Sharing,Part D,Maximum Deductible,,deductible,CY,2022,480,,CMSFastFactsAug2022.xlsx,"Deductibles, Coins, Premiums",CMS/Office of the Actuary,2022-08-01,FALSE
 Medicare,Cost Sharing,Part D,Initial Coverage Limit,,coverage_limit,CY,2021,4130,,CMSFastFactsAug2022.xlsx,"Deductibles, Coins, Premiums",CMS/Office of the Actuary,2022-08-01,FALSE
 Medicare,Cost Sharing,Part D,Initial Coverage Limit,,coverage_limit,CY,2022,4430,,CMSFastFactsAug2022.xlsx,"Deductibles, Coins, Premiums",CMS/Office of the Actuary,2022-08-01,FALSE
-Medicare,Cost Sharing,Part D,Out-of-Pocket Threshold,,premium,CY,2021,6550,,CMSFastFactsAug2022.xlsx,"Deductibles, Coins, Premiums",CMS/Office of the Actuary,2022-08-01,FALSE
-Medicare,Cost Sharing,Part D,Out-of-Pocket Threshold,,premium,CY,2022,7050,,CMSFastFactsAug2022.xlsx,"Deductibles, Coins, Premiums",CMS/Office of the Actuary,2022-08-01,FALSE
+Medicare,Cost Sharing,Part D,Out-of-Pocket Threshold,,out_of_pocket,CY,2021,6550,,CMSFastFactsAug2022.xlsx,"Deductibles, Coins, Premiums",CMS/Office of the Actuary,2022-08-01,FALSE
+Medicare,Cost Sharing,Part D,Out-of-Pocket Threshold,,out_of_pocket,CY,2022,7050,,CMSFastFactsAug2022.xlsx,"Deductibles, Coins, Premiums",CMS/Office of the Actuary,2022-08-01,FALSE
 Medicare,Cost Sharing,Premiums,Part A,,premium,CY,2021,471,,CMSFastFactsAug2022.xlsx,"Deductibles, Coins, Premiums",CMS/Office of the Actuary,2022-08-01,FALSE
 Medicare,Cost Sharing,Premiums,Part A,,premium,CY,2022,499,,CMSFastFactsAug2022.xlsx,"Deductibles, Coins, Premiums",CMS/Office of the Actuary,2022-08-01,FALSE
 Medicare,Cost Sharing,Premiums,Part B,,premium,CY,2021,148.5,lower,CMSFastFactsAug2022.xlsx,"Deductibles, Coins, Premiums",CMS/Office of the Actuary,2022-08-01,FALSE
@@ -298,7 +298,7 @@ Medicare,Cost Sharing,Part A,Coinsurance/SNF Day (Days 21-100),,coinsurance,CY,2
 Medicare,Cost Sharing,Part B,Deductible,,deductible,CY,2023,226,,CMSFastFactsMar2024_508.xlsx,"Deductibles, Coins, Premiums",CMS/Office of the Actuary,2024-03-01,FALSE
 Medicare,Cost Sharing,Part D,Maximum Deductible,,deductible,CY,2023,505,,CMSFastFactsMar2024_508.xlsx,"Deductibles, Coins, Premiums",CMS/Office of the Actuary,2024-03-01,FALSE
 Medicare,Cost Sharing,Part D,Initial Coverage Limit,,coverage_limit,CY,2023,4660,,CMSFastFactsMar2024_508.xlsx,"Deductibles, Coins, Premiums",CMS/Office of the Actuary,2024-03-01,FALSE
-Medicare,Cost Sharing,Part D,Out-of-Pocket Threshold,,premium,CY,2023,7400,,CMSFastFactsMar2024_508.xlsx,"Deductibles, Coins, Premiums",CMS/Office of the Actuary,2024-03-01,FALSE
+Medicare,Cost Sharing,Part D,Out-of-Pocket Threshold,,out_of_pocket,CY,2023,7400,,CMSFastFactsMar2024_508.xlsx,"Deductibles, Coins, Premiums",CMS/Office of the Actuary,2024-03-01,FALSE
 Medicare,Cost Sharing,Premiums,Part A (Reduced),,premium,CY,2023,278,,CMSFastFactsMar2024_508.xlsx,"Deductibles, Coins, Premiums",CMS/Office of the Actuary,2024-03-01,FALSE
 Medicare,Cost Sharing,Premiums,Part A (Full),,premium,CY,2023,506,,CMSFastFactsMar2024_508.xlsx,"Deductibles, Coins, Premiums",CMS/Office of the Actuary,2024-03-01,FALSE
 Medicare,Cost Sharing,Premiums,Part B,,premium,CY,2023,164.9,lower,CMSFastFactsMar2024_508.xlsx,"Deductibles, Coins, Premiums",CMS/Office of the Actuary,2024-03-01,FALSE
@@ -413,8 +413,7 @@ Medicare,Cost Sharing,Part A,Coinsurance/SNF Day (Days 21-100),,coinsurance,CY,2
 Medicare,Cost Sharing,Part B,Deductible,,deductible,CY,2024,240,,CMSFastFacts2025_508.xlsx,"Deductibles, Coins, Premiums",https://www.medicare.gov,2025-04-01,FALSE
 Medicare,Cost Sharing,Part D,Maximum Deductible,,deductible,CY,2024,545,,CMSFastFacts2025_508.xlsx,"Deductibles, Coins, Premiums",https://www.medicare.gov,2025-04-01,FALSE
 Medicare,Cost Sharing,Part D,Initial Coverage Limit,,coverage_limit,CY,2024,5030,,CMSFastFacts2025_508.xlsx,"Deductibles, Coins, Premiums",https://www.medicare.gov,2025-04-01,FALSE
-Medicare,Cost Sharing,Part D,Out-of-Pocket Threshold,,premium,CY,2024,8000,,CMSFastFacts2025_508.xlsx,"Deductibles, Coins, Premiums",https://www.medicare.gov,2025-04-01,FALSE
-Medicare,Cost Sharing,Part D,Out-of-Pocket Threshold,,premium,CY,2025,2000,,CMSFastFacts2025_508.xlsx,"Deductibles, Coins, Premiums",https://www.medicare.gov,2025-04-01,FALSE
+Medicare,Cost Sharing,Part D,Out-of-Pocket Threshold,,out_of_pocket,CY,2024,8000,,CMSFastFacts2025_508.xlsx,"Deductibles, Coins, Premiums",https://www.medicare.gov,2025-04-01,FALSE
 Medicare,Cost Sharing,Premiums,Part A (Reduced),,premium,CY,2024,278,,CMSFastFacts2025_508.xlsx,"Deductibles, Coins, Premiums",https://www.medicare.gov,2025-04-01,FALSE
 Medicare,Cost Sharing,Premiums,Part A (Full),,premium,CY,2024,505,,CMSFastFacts2025_508.xlsx,"Deductibles, Coins, Premiums",https://www.medicare.gov,2025-04-01,FALSE
 Medicare,Cost Sharing,Premiums,Part B,,premium,CY,2024,174.7,lower,CMSFastFacts2025_508.xlsx,"Deductibles, Coins, Premiums",https://www.medicare.gov,2025-04-01,FALSE
@@ -554,8 +553,8 @@ Medicare,Cost Sharing,Part B,Deductible,,deductible,CY,2025,257,,CMSFastFacts202
 Medicare,Cost Sharing,Part B,Deductible,,deductible,CY,2026,283,,CMSFastFacts2026.xlsx,"Deductibles, Coins, Premiums",https://www.medicare.gov,2026-04-01,TRUE
 Medicare,Cost Sharing,Part D,Maximum Deductible,,deductible,CY,2025,590,,CMSFastFacts2026.xlsx,"Deductibles, Coins, Premiums",https://www.medicare.gov,2026-04-01,FALSE
 Medicare,Cost Sharing,Part D,Maximum Deductible,,deductible,CY,2026,615,,CMSFastFacts2026.xlsx,"Deductibles, Coins, Premiums",https://www.medicare.gov,2026-04-01,TRUE
-Medicare,Cost Sharing,Initial Coverage Limit,Out-of-Pocket Threshold,,premium,CY,2025,2000,,CMSFastFacts2026.xlsx,"Deductibles, Coins, Premiums",https://www.medicare.gov,2026-04-01,FALSE
-Medicare,Cost Sharing,Initial Coverage Limit,Out-of-Pocket Threshold,,premium,CY,2026,2100,,CMSFastFacts2026.xlsx,"Deductibles, Coins, Premiums",https://www.medicare.gov,2026-04-01,TRUE
+Medicare,Cost Sharing,Part D,Out-of-Pocket Threshold,,out_of_pocket,CY,2025,2000,,CMSFastFacts2026.xlsx,"Deductibles, Coins, Premiums",https://www.medicare.gov,2026-04-01,FALSE
+Medicare,Cost Sharing,Part D,Out-of-Pocket Threshold,,out_of_pocket,CY,2026,2100,,CMSFastFacts2026.xlsx,"Deductibles, Coins, Premiums",https://www.medicare.gov,2026-04-01,TRUE
 Medicare,Cost Sharing,Premiums,Part A (Reduced),,premium,CY,2025,285,,CMSFastFacts2026.xlsx,"Deductibles, Coins, Premiums",https://www.medicare.gov,2026-04-01,FALSE
 Medicare,Cost Sharing,Premiums,Part A (Reduced),,premium,CY,2026,311,,CMSFastFacts2026.xlsx,"Deductibles, Coins, Premiums",https://www.medicare.gov,2026-04-01,TRUE
 Medicare,Cost Sharing,Premiums,Part A (Full),,premium,CY,2025,518,,CMSFastFacts2026.xlsx,"Deductibles, Coins, Premiums",https://www.medicare.gov,2026-04-01,FALSE

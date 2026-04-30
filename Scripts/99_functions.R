@@ -346,6 +346,9 @@ read_costsharing <- function(path) {
     filter_out(sub_category == "Inpatient Hospital") |>
     mutate(
       category = case_when(is.na(pick(2)[[1]]) ~ sub_category),
+      category = case_when(
+        str_detect(category, "(^Part |Premiums)") ~ category
+      ),
       .before = 1
     ) |>
     fill(category)
@@ -390,6 +393,7 @@ read_costsharing <- function(path) {
         ) |>
           tolower(),
         sub_category == "Initial Coverage Limit" ~ "coverage_limit",
+        sub_category == "Out-of-Pocket Threshold" ~ "out_of_pocket",
         TRUE ~ "premium"
       )
     )
