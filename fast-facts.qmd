@@ -771,21 +771,21 @@ cost_sharing[["df_cs_trend"]]  |>
 
 ## Row {height="25%"}
 
-:::{.valuebox .text-white label = "ban_inst" icon="hospital" color="#00538C"}
-Medicare Institutional Providers
-
-`r providers$bans[["Institutional"]]`
-
-`r providers$years["Institutional"]`
-
-:::
-
-:::{.valuebox .text-white label = "ban_non_inst" icon="clipboard2-pulse-fill" color="#0071BC"}
+:::{.valuebox .text-white label = "ban_non_inst" icon="clipboard2-pulse-fill" color="#00538C"}
 Medicare Non-Institutional Providers
 
 `r providers$bans[["Non-Institutional"]]`
 
 `r providers$years["Non-Institutional"]`
+
+:::
+
+:::{.valuebox .text-white label = "ban_inst" icon="hospital" color="#0071BC"}
+Medicare Institutional Providers
+
+`r providers$bans[["Institutional"]]`
+
+`r providers$years["Institutional"]`
 
 :::
 
