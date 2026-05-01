@@ -20,13 +20,16 @@
   "repositoryHost": "github.com/DSACMS",
   "repositoryVisibility": "public",
   "homepageURL": "",
+  "downloadURL": "",
+  "disclaimerURL": "",
+  "disclaimerText": "",
   "vcs": "git",
-  "laborHours": 4679,
+  "laborHours": 4817,
   "reuseFrequency": {
     "forks": 0,
     "clones": 0
   },
-   "platforms": [
+  "platforms": [
     "windows",
     "mac",
     "linux"
@@ -43,10 +46,13 @@
   "maintenance": "internal",
   "contractNumber": [],
   "SBOM": "https://github.com/DSACMS/fast-facts-2.0/network/dependencies",
+  "relatedCode": [],
+  "reusedCode": [],
+  "partners": [],
   "date": {
     "created": "2026-03-17T15:36:33Z",
-    "lastModified": "2026-04-21T18:15:11Z",
-    "metadataLastUpdated": "2026-04-22T12:57:40.164Z"
+    "lastModified": "2026-04-30T20:50:18Z",
+    "metadataLastUpdated": "2026-05-01T02:55:26.501Z"
   },
   "tags": [
     "dsacms-tier2"
@@ -65,6 +71,7 @@
   "projects": [
     "OEDA"
   ],
+  "systems": [],
   "subsetInHealthcare": [
     "operational",
     "medicare",
