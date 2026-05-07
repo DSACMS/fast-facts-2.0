@@ -38,7 +38,24 @@ Additional utilities can be found in the scripts with prefixes that start with 9
 - `98_color_system.R` - unified color system, base colors, scales, and plot elements
 - `99_functions.R` - utility functions used throughout processing
 
-With the scripts run, you can render the Quarto dashbaord file sitting in the base folder of the directory. Run `quarto render` to build.
+With the scripts run, you can render the Quarto dashbaord file sitting in the base folder of the directory. Run `quarto render fast-facts.qmd` to build. This produces a self-contained fast-facts.html file.
+
+Unlike other Quarto outputs, the dashboard structure that this product utilizes is not able to render a PDF. The `04_render_views.R` is the initial attempt to create screenshots of it to turn into a PDF, but is still in its infancy and requires manual caputring through your internet browser, which is detailed below.
+
+#### Capturing screenshots
+
+  1. With the dashboard open in Chrome, open DevTools (`⌘ + Option + I`) and enable the device toolbar (`⌘ + Shift + M`).
+  2. Set Width to `1920`, then via the ⋮ menu add a Device Pixel Ratio of `3`.
+  3. Reload the page (`⌘ + R`) so the layout recalculates at the new dimensions.
+  4. For each tab or view you want to capture, open the Command Palette (`⌘ + Shift + P`), type `screenshot`, and select "Capture full size screenshot". Chrome saves a PNG to your Downloads folder automatically.
+  5. Rename each file something descriptive as you go (i.e. utilize the tab names) so they're easy to order later.
+
+#### Compiling to PDF in Acrobat
+Compiling to PDF in Acrobat
+
+  1. Open Acrobat and go to **File → Create → Combine Files into a Single PDF**.
+  2. Add your PNGs in the order you want them to appear and click **Combine**.
+  3. Save the PDF (e.g. `CMS_FastFacts_April2026.pdf`).
 
 ## Repository Structure
 
