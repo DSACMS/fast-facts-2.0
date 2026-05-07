@@ -1,0 +1,39 @@
+@media print {
+
+  /* Hide the navbar entirely */
+  #quarto-dashboard-header {
+    display: none !important;
+  }
+
+  /* The outer page container needs to flow normally */
+  .quarto-dashboard-content {
+    display    : block !important;
+    overflow   : visible !important;
+    height     : auto !important;
+  }
+
+  /* Each dashboard page gets its own PDF page */
+  .dashboard-page {
+    display        : block !important;
+    visibility     : visible !important;
+    opacity        : 1 !important;
+    height         : 100vh !important;
+    width          : 100vw !important;
+    overflow       : visible !important;
+    position       : relative !important;
+    page-break-before : always;
+    break-before      : page;
+  }
+
+  /* No break before the very first page */
+  .dashboard-page:first-of-type {
+    page-break-before : avoid;
+    break-before      : avoid;
+  }
+
+  /* Prevent cards from splitting across pages */
+  .bslib-card, .card {
+    break-inside : avoid;
+    overflow     : visible !important;
+  }
+}
