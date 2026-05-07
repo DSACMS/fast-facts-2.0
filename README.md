@@ -30,7 +30,8 @@ The script to render the final output can be found in the `Scripts/` folder.
 
 - `01_setup_working_dataset.R` - Reads in each of the Excel tabs from all Fast Fast files in the `Data` folder to produce structured dataset to work from
 - `02_data_dictionary.R` - Renders a data dictionary that updates with any inputs to the setup script.
-- `03_data_processing.R` - Munges the data in a way that is needed for the creating visuals
+- `03_data_processing.R` - Munges the data in a way that is needed for the creating visuals to minimal work needs to be done in the Quarto file.
+- `04_render_views.R` - Script that can run prior script before rendering the Quarto views.
 
 Additional utilities can be found in the scripts with prefixes that start with 90.
 
@@ -60,7 +61,6 @@ Below is the folder structure for this repository, run with `r fs::dir_tree(recu
 │   ├── cost_sharing.rds
 │   └── providers.rds
 ├── Documents
-│   ├── CMS Fast Facts_2026.pdf
 │   └── CMSFastFacts_data-dictionary.pdf
 ├── LICENSE
 ├── README.md
