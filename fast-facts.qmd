@@ -123,10 +123,7 @@ context[["df_nhe_gdp_share"]] |>
     flip    = TRUE      # fill column-by-column (bottom to top)
   ) +
   scale_fill_identity() +
-  labs(
-    title = v_nhe_share,
-    subtitle = "Each square = 1% of GDP",
-  ) +
+  labs(title = v_nhe_share) +
   coord_equal() +
   theme_void(base_family = "Source Sans 3", base_size = 13) +
   theme(
@@ -170,10 +167,7 @@ icons |>
   ) +
   scale_x_continuous(expand = expansion(add = 0.5)) +
   scale_y_continuous(expand = expansion(add = 0.5)) +
-  labs(
-    title    = context$df_nhe_pc[["value_fmt"]],
-    subtitle = "Each icon represents ~$1,000"
-  ) +
+  labs(title = context$df_nhe_pc[["value_fmt"]]) +
   theme_void(base_family = "Source Sans 3") +
   theme(
     plot.title    =
@@ -340,10 +334,7 @@ icons |>
   ) +
   scale_x_continuous(expand = expansion(add = 0.5)) +
   scale_y_continuous(expand = expansion(add = 0.5)) +
-  labs(
-    title    = context$fte[["value_fmt"]],
-    subtitle = "Each icon represents ~1,000 FTEs"
-  ) +
+  labs(title    = context$fte[["value_fmt"]]) +
   theme_void(base_family = "Source Sans 3") +
   theme(
     plot.title =
