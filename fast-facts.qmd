@@ -333,7 +333,7 @@ Medicare Parts A/B Beneficiaries
 :::
 
 
-:::{.valuebox .text-white label = "ban_medicare_d" icon="capsule-pill" color="#00538C"}
+:::{.valuebox .text-white label = "ban_medicare_d" icon="prescription2" color="#00538C"}
 Medicare Part D Beneficiaries
 
 `r beneficiaries$bans[["medicare_d"]]`
