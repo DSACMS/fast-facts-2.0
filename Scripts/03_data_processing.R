@@ -257,73 +257,10 @@ context <- list(
 write_rds(context, "Dataout/context.rds")
 
 
-# BENEFICIARIES TAB ------------------------------------------------------
-
-#Medicaid & CHIP expenditures
-df_medicaid_exp <- df_ff |>
-  filter(
-    topic == "Expenditures",
-    category == "Payments (by Selected Type of Service)",
-    is_latest
-  ) |>
-  select(metric, category, sub_category, data_year, value) |>
-  mutate(
-    sub_category = str_replace(sub_category, "Laboratory", "Lab"),
-    sub_category = str_replace(sub_category, "and", "&"),
-    value_fmt = label_number(1, prefix = "$", scale_cut = cut_short_scale())(
-      value
-    )
-  )
-
-#medicare utilization
-df_medicare_util <- df_ff |>
-  filter(
-    topic == "Utilization",
-    is_latest == TRUE,
-    metric %in% c("persons_served", "payments")
-  ) |>
-  filter_out(
-    category == "Total (A and/or B)" |
-      sub_category %in% c("Benefit Payments", "Administrative Expenses")
-  ) #|>
-# filter_out(
-#   category %in% c("Part A", "Part B") & sub_category == "Total"
-# )
-
-#create z-score for plotting
-df_medicare_util <- df_medicare_util |>
-  group_by(metric) |>
-  mutate(zscore = (value - mean(value)) / sd(value)) |>
-  ungroup()
-
-
-df_medicare_util <- df_medicare_util |>
-  mutate(
-    lab_exp = case_when(
-      metric == "payments" ~ label_number(
-        1,
-        prefix = "$",
-        scale_cut = cut_short_scale()
-      )(value)
-    ),
-    lab_ben = case_when(
-      metric == "persons_served" ~ str_glue(
-        "{sub_category} ",
-        "{label_number(1, scale_cut =  cut_short_scale())(value)}"
-      )
-    ),
-    lab_pos = ifelse(metric == "persons_served", -1, 1.5)
-  )
-
-df_medicare_util <- df_medicare_util |>
-  select(category, sub_category, metric, value) |>
-  pivot_wider(
-    names_from = metric
-  )
-
+# ENROLLMENT TAB ---------------------------------------------------------
 
 #extract numbers for BAN in tab
-df_benes <- df_ff |>
+df_enrollment <- df_ff |>
   filter(
     topic == "Enrollment",
     category %in% c("Parts A and/or B", "Part D", "Medicaid & CHIP"),
@@ -339,13 +276,13 @@ df_benes <- df_ff |>
     value_fmt = label_number(1, scale_cut = cut_short_scale())(value)
   )
 
-benes_bans <- df_benes |>
+enrollment_bans <- df_enrollment |>
   select(name, value_fmt) |>
   deframe()
 
 
-#combine years
-benes_years <- df_benes |>
+#ban years
+enrollment_years <- df_enrollment |>
   filter(is_latest) |>
   distinct(area, period_type, data_year) |>
   mutate(
@@ -360,7 +297,8 @@ benes_years <- df_benes |>
 df_medicare_trend <- df_ff |>
   filter(
     topic == "Enrollment",
-    sub_category %in% c("Original Medicare Enrollment", "MA Enrollment"),
+    sub_category %in%
+      c("Original Medicare Enrollment", "MA & Other Health Plan Enrollment"),
     data_year >= 2020
   ) |>
   select(sub_category, metric, data_year, value) |>
@@ -456,9 +394,9 @@ df_disagg_trend <- df_ff |>
   ungroup()
 
 #gather sources for footnote
-v_benes_sources <- df_ff |>
+v_enrollment_sources <- df_ff |>
   filter(
-    topic %in% c("Expenditures", "Utilization", "Enrollment"),
+    topic %in% c("Enrollment"),
     is_latest == TRUE
   ) |>
   distinct(source_origin) |>
@@ -472,26 +410,180 @@ v_benes_sources <- df_ff |>
   sort() |>
   paste0(collapse = ", ")
 
-v_benes_footnote <- str_glue(
+v_enrollment_footnote <- str_glue(
   "CMS Fast Facts {format(max(df_ff$release_date), '%B %Y')} Release ",
-  "&bull; Data sources: {v_benes_sources}"
+  "&bull; Data sources: {v_enrollment_sources}"
 )
 
 
 #bundle tab data points/frames
-beneficiaries <- list(
-  bans = benes_bans,
-  years = benes_years,
-  df_medicare_util = df_medicare_util,
-  df_medicaid_exp = df_medicaid_exp,
+enrollment <- list(
+  bans = enrollment_bans,
+  years = enrollment_years,
+  # df_medicare_util = df_medicare_util,
+  # df_medicaid_exp = df_medicaid_exp,
   df_medicare_trend = df_medicare_trend,
   df_disagg_trend = df_disagg_trend,
-  footnote = v_benes_footnote
+  footnote = v_enrollment_footnote
 )
 
 # export
-write_rds(beneficiaries, "Dataout/beneficiaries.rds")
+write_rds(enrollment, "Dataout/enrollment.rds")
 
+
+# UTILIZATION TAB --------------------------------------------------------
+
+#extract numbers for BAN in tab
+df_utilization_bans <- df_ff |>
+  filter(
+    topic == "Utilization",
+    category %in% c("Total (A and/or B)", "Part D"),
+    sub_category == "Total",
+    is_latest == TRUE,
+    metric %in% c("persons_served", "payments")
+  ) |>
+  mutate(
+    category = ifelse(
+      category == "Total (A and/or B)",
+      "Medicare Total",
+      category
+    )
+  ) |>
+  unite(period, c(period_type, data_year), sep = " ") |>
+  select(category, metric, period, value) |>
+  mutate(value = label_number(1, scale_cut = cut_short_scale())(value)) |>
+  pivot_wider(names_from = metric) |>
+  mutate(
+    value = str_glue("${payments} / {persons_served}") |> as.character()
+  ) |>
+  select(-c(persons_served, payments))
+
+df_medicaid_exp_ban <- df_ff |>
+  filter(
+    topic == "Expenditures",
+    category == "Payments (by Selected Type of Service)",
+    is_latest
+  ) |>
+  unite(period, c(period_type, data_year), sep = " ") |>
+  count(area, period, wt = value, name = "value") |>
+  rename(category = area) |>
+  mutate(
+    value = label_number(1, prefix = "$", scale_cut = cut_short_scale())(value)
+  )
+
+
+df_utilization_bans <- df_utilization_bans |>
+  bind_rows(df_medicaid_exp_ban) |>
+  mutate(
+    category = category |>
+      str_replace_all(" ", "_") |>
+      str_remove("&_") |>
+      tolower()
+  )
+
+utilization_bans <- df_utilization_bans |>
+  select(-period) |>
+  deframe()
+
+utilization_years <- df_utilization_bans |>
+  select(-value) |>
+  deframe()
+
+
+#medicare utilization
+df_medicare_util <- df_ff |>
+  filter(
+    topic == "Utilization",
+    is_latest == TRUE,
+    metric %in% c("persons_served", "payments")
+  ) |>
+  filter_out(
+    category == "Total (A and/or B)" |
+      sub_category %in% c("Benefit Payments", "Administrative Expenses")
+  ) |>
+  filter_out(sub_category == "Total")
+
+#create z-score for plotting
+df_medicare_util <- df_medicare_util |>
+  group_by(metric) |>
+  mutate(zscore = (value - mean(value)) / sd(value)) |>
+  ungroup()
+
+
+df_medicare_util <- df_medicare_util |>
+  mutate(
+    lab_exp = case_when(
+      metric == "payments" ~ label_number(
+        1,
+        prefix = "$",
+        scale_cut = cut_short_scale()
+      )(value)
+    ),
+    lab_ben = case_when(
+      metric == "persons_served" ~ str_glue(
+        "{sub_category} ",
+        "{label_number(1, scale_cut =  cut_short_scale())(value)}"
+      )
+    ),
+    lab_pos = ifelse(metric == "persons_served", -1, 1.5)
+  )
+
+df_medicare_util <- df_medicare_util |>
+  select(category, sub_category, metric, value) |>
+  pivot_wider(
+    names_from = metric
+  )
+
+#Medicaid & CHIP expenditures
+df_medicaid_exp <- df_ff |>
+  filter(
+    topic == "Expenditures",
+    category == "Payments (by Selected Type of Service)",
+    is_latest
+  ) |>
+  select(metric, category, sub_category, data_year, value) |>
+  mutate(
+    sub_category = str_replace(sub_category, "Laboratory", "Lab"),
+    sub_category = str_replace(sub_category, "and", "&"),
+    value_fmt = label_number(1, prefix = "$", scale_cut = cut_short_scale())(
+      value
+    )
+  )
+
+#gather sources for footnote
+v_utilization_sources <- df_ff |>
+  filter(
+    topic %in% c("Expenditures", "Utilization"),
+    is_latest == TRUE
+  ) |>
+  distinct(source_origin) |>
+  mutate(
+    source_origin = str_remove(
+      source_origin,
+      "Office of Enterprise Data & Analytics/"
+    )
+  ) |>
+  pull() |>
+  sort() |>
+  paste0(collapse = ", ")
+
+v_enrollment_footnote <- str_glue(
+  "CMS Fast Facts {format(max(df_ff$release_date), '%B %Y')} Release ",
+  "&bull; Data sources: {v_utilization_sources}"
+)
+
+
+#bundle tab data points/frames
+utilization <- list(
+  bans = utilization_bans,
+  years = utilization_years,
+  df_medicare_util = df_medicare_util,
+  df_medicaid_exp = df_medicaid_exp,
+  footnote = v_enrollment_footnote
+)
+
+# export
+write_rds(utilization, "Dataout/utilization.rds")
 
 # COST SHARING TAB -------------------------------------------------------
 
