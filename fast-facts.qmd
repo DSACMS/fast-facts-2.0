@@ -50,12 +50,6 @@ register_font(
   plain = "/Users/c0xu/Library/Fonts/Font Awesome 7 Free-Solid-900.otf"
 )
 
-# register_variant(
-#   "Source Sans 3 Black",
-#   family = "Source Sans 3",
-#   weight = "heavy"
-# )
-
 ```
 
 ```{r}
