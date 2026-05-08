@@ -138,6 +138,9 @@ bans_nhe <- c(
   fed_spend = fed_spend
 )
 
+#formater
+fmt_units <- label_number(.1, prefix = "$", scale_cut = cut_short_scale())
+
 # financial data for plot
 df_spend <- df_ff |>
   filter(
@@ -152,9 +155,7 @@ df_spend <- df_ff |>
       "Health Care Fraud & Abuse Control",
       category
     ),
-    category = str_glue(
-      "{category} ({label_number(.1, prefix = '$', scale_cut = cut_short_scale())(sum(value))})"
-    )
+    category = str_glue("{category} ({fmt_units(sum(value))})")
   ) |>
   ungroup() |>
   mutate(
@@ -165,11 +166,7 @@ df_spend <- df_ff |>
     ),
     category = fct_reorder(category, value, sum),
     sub_category = fct_reorder(sub_category, value, sum),
-    value_fmt = label_number(
-      .1,
-      scale_cut = cut_short_scale(),
-      prefix = "$",
-    )(value),
+    value_fmt = fmt_units(value),
     share = ifelse(category == "Health Care Fraud & Abuse Control", NA, share),
     share_fmt = label_percent(1)(share),
     fill_color = recode_values(
