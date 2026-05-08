@@ -157,11 +157,8 @@ df_spend <- df_ff |>
     category = fct_reorder(category, value, sum),
     sub_category = fct_reorder(sub_category, value, sum),
     value_fmt = label_number(
-      # .1, scale_cut = cut_short_scale(),
-      1,
-      scale = 1e-6,
-      suffix = "M",
-      big.mark = ",", #desire to show units in millions of USD
+      .1,
+      scale_cut = cut_short_scale(),
       prefix = "$",
     )(value),
     share = ifelse(category == "Health Care Fraud & Abuse Control", NA, share),
