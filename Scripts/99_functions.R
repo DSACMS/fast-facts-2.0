@@ -4,7 +4,7 @@
 # REF ID:   73eeb778772f
 # LICENSE:  MIT
 # DATE:     2026-03-27
-# UPDATED:  2026-04-27
+# UPDATED:  2026-05-08
 
 # DEPENDENCIES ------------------------------------------------------------
 
@@ -20,7 +20,7 @@ source("Scripts/98_color_system.R")
 
 ref_id <- "73eeb778772f" #a reference to be placed in viz captions
 
-path <- "Data/CMSFastFacts2025_508.xlsx"
+path <- "Data/CMSFastFacts2026.xlsx"
 
 ## muli-year pull for sparklines
 files <- list.files(dirname(path), recursive = TRUE, full.names = TRUE)
@@ -474,15 +474,19 @@ read_provider_tab <- function(path, tab) {
       .after = 1
     )
 
-  #add total to initutional providers which is missing
+  #add total to institutional providers which is missing (subtract labs)
   if (tab == "Institutional Providers") {
     df_tab <- tibble(
       category = "Total Providers",
       sub_category = NA,
-      value = sum(df_tab$value)
+      value = sum(df_tab$value) - df_tab[df_tab$category == "Labs", ]$value
     ) |>
       bind_rows(df_tab)
   }
+
+  #relabel Total/Other DMEPOS to match other provider totals
+  df_tab <- df_tab |>
+    mutate(category = str_remove(category, " DMEPOS"))
 
   period_info <- extract_sheet_year(path, tab)
 
@@ -500,6 +504,13 @@ read_provider_tab <- function(path, tab) {
       metric = "count",
       data_year = period_info$data_year,
       period_type = period_info$period_type
+    )
+
+  #lab adjustments
+  df_tab <- df_tab |>
+    mutate(
+      provider_type = ifelse(category == "Labs", "Lab", provider_type),
+      category = ifelse(category == "Labs", "Total Providers", category)
     )
 
   #reoder

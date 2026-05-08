@@ -4,7 +4,7 @@
 # REF ID:   4b4e2514
 # LICENSE:  MIT
 # DATE:     2026-03-20
-# UPDATED:  2026-04-30
+# UPDATED:  2026-05-08
 
 # DEPENDENCIES ------------------------------------------------------------
 
@@ -653,8 +653,8 @@ df_provider <- df_ff |>
     fill_color = recode_values(
       provider_type,
       "Non-Institutional" ~ ff_colors$scales$cobolt[["700"]],
-      "Institutional" ~ ff_colors$scales$cobolt[["500"]],
-      "DMEPOS" ~ ff_colors$scales$cobolt[["200"]]
+      "Institutional" ~ ff_colors$scales$cobolt[["200"]],
+      "DMEPOS" ~ ff_colors$scales$cobolt[["500"]]
     ),
     fill_color = ifelse(
       category == "Hospitals",
@@ -663,7 +663,7 @@ df_provider <- df_ff |>
     ),
     category = category |>
       fct_reorder(value) |>
-      fct_relevel("All Other Providers", "All Other DMEPOS Providers")
+      fct_relevel("All Other Providers")
   )
 
 #instutional providers
