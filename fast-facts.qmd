@@ -964,51 +964,50 @@ providers[["df_hospital_subset"]] |>
 
   - Total Medicaid Amount reported as total gross outlays including the Vaccines for Children Program.
 
-# Beneficaries
+# Enrollment
 
   - Populations may not add due to rounding
+  - Medicare Advantage (MA) total includes both MA and other health plan enrollment
+  - Medicare CY2025 and Medicaid & CHIP  data points are preliminary and subject to change 
   - Medicaid & CHIP 
-      - Data points are preliminary and subject to change
       - Total count represent the number of Medicaid and CHIP beneficiaries with comprehensive coverage.  The categories are sourced from data that include beneficiaries with non-comprehensive coverage and do not sum to the total counts.
-      - Dual Eligible includes Aged, Disabled & ESRD 
+      - Dual Eligible includes Aged, Disabled & ESRD; Counts represent full-benefit eligible individuals.
       - 2025 data not yet available for Dual Eligible and Medicaid Expansion Adults
-  - Medicaid & CHIP payments
+
+
+# Utilization
+
+  - Medicaid & CHIP 
       - Payments for All Services includes payments for additional services not broken out separately.
       - Fee-for-service payments = (a) Inpatient Services, (b) Long-Term Care, (c) Physician, Laboratory, and Other Services, and (d) Prescription Drugs
       - Expenditures by service category do not sum to the total expenditures.  Total expenditures also include Medicare payments for some beneficiaries and adjustments to prior year payments.  Managed care expenditures cover the same services that are delivered via fee-for-service.  Data do not permit allocation of managed care expenditures to the different service categories.  These expenditures are from all Medicaid beneficiaries, regardless of eligibility. 
   - The Medicaid & CHIP population and expenditure data are from the [Medicaid & CHIP scorecard](https://www.medicaid.gov/state-overviews/scorecard/who-enrolls-medicaid-chip/index.html)
-
-Abbreviations
-
-  - CHIP - Children's Health Insurance Program
-  - DME - Durable Medical Equipment
-  - MA - Medicare Advantage
-  - MAPD - Medicare Advantage Prescription Drug Plan
-  - PDP - Prescription Drug Plan
 :::
 
 ### Column
 
 ::: {.card}
+
 # Cost Sharing
 
   - The inpatient hospital deductible applies per benefit period.  
   - For Part D, the initial coverage limit was eliminated in 2025. More information can be found [here](https://www.cms.gov/files/document/final-cy-2025-part-d-redesign-program-instructions.pdf)
-
-Abbreviations
   
-  - LTR - Life Time Reserve
-  - SNF - Skilled Nursing Facility
-
 # Providers
 
   - In historic Fast Facts files, Labs are categorized as Institutional Providers, but can in fact call under any category. As such, they have been seperated out here so as not to add into the total for Institutional Providers.
   - Non-Institutional Proviers - Providers utilized by Original Medicare beneficiaries for all Part B non-institutional/DMEPOS provider services.  Providers may be counted in more than one specialty classification but are reported as a single provider in the "Total Providers" count.
 
-Abbreviations
+# Abbreviations
 
+  - CHIP - Children's Health Insurance Program
   - DMEPOS - Medicare Durable Medical Equipment, Prosthetics, Orthotics and Supplies
+  - LTR - Life Time Reserve
+  - MA - Medicare Advantage
+  - MAPD - Medicare Advantage Prescription Drug Plan
+  - PDP - Prescription Drug Plan
   - PT - Physical Therapy
+  - SNF - Skilled Nursing Facility
 
 :::
 

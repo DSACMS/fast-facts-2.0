@@ -297,7 +297,8 @@ enrollment_years <- df_enrollment |>
 df_medicare_trend <- df_ff |>
   filter(
     topic == "Enrollment",
-    sub_category %in% c("Original Medicare Enrollment", "MA Enrollment"),
+    sub_category %in%
+      c("Original Medicare Enrollment", "MA & Other Health Plan Enrollment"),
     data_year >= 2020
   ) |>
   select(sub_category, metric, data_year, value) |>
