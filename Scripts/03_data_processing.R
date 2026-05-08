@@ -434,6 +434,61 @@ write_rds(enrollment, "Dataout/enrollment.rds")
 # UTILIZATION TAB --------------------------------------------------------
 
 #extract numbers for BAN in tab
+df_utilization_bans <- df_ff |>
+  filter(
+    topic == "Utilization",
+    category %in% c("Total (A and/or B)", "Part D"),
+    sub_category == "Total",
+    is_latest == TRUE,
+    metric %in% c("persons_served", "payments")
+  ) |>
+  mutate(
+    category = ifelse(
+      category == "Total (A and/or B)",
+      "Medicare Total",
+      category
+    )
+  ) |>
+  unite(period, c(period_type, data_year), sep = " ") |>
+  select(category, metric, period, value) |>
+  mutate(value = label_number(1, scale_cut = cut_short_scale())(value)) |>
+  pivot_wider(names_from = metric) |>
+  mutate(
+    value = str_glue("${payments} / {persons_served}") |> as.character()
+  ) |>
+  select(-c(persons_served, payments))
+
+df_medicaid_exp_ban <- df_ff |>
+  filter(
+    topic == "Expenditures",
+    category == "Payments (by Selected Type of Service)",
+    is_latest
+  ) |>
+  unite(period, c(period_type, data_year), sep = " ") |>
+  count(area, period, wt = value, name = "value") |>
+  rename(category = area) |>
+  mutate(
+    value = label_number(1, prefix = "$", scale_cut = cut_short_scale())(value)
+  )
+
+
+df_utilization_bans <- df_utilization_bans |>
+  bind_rows(df_medicaid_exp_ban) |>
+  mutate(
+    category = category |>
+      str_replace_all(" ", "_") |>
+      str_remove("&_") |>
+      tolower()
+  )
+
+utilization_bans <- df_utilization_bans |>
+  select(-period) |>
+  deframe()
+
+utilization_years <- df_utilization_bans |>
+  select(-value) |>
+  deframe()
+
 
 #medicare utilization
 df_medicare_util <- df_ff |>
@@ -520,8 +575,8 @@ v_enrollment_footnote <- str_glue(
 
 #bundle tab data points/frames
 utilization <- list(
-  # bans = utilization_bans,
-  # years = utilization_years,
+  bans = utilization_bans,
+  years = utilization_years,
   df_medicare_util = df_medicare_util,
   df_medicaid_exp = df_medicaid_exp,
   footnote = v_enrollment_footnote

@@ -536,10 +536,12 @@ enrollment[["df_disagg_trend"]] |>
 
 ## Row {height="25%"}
 
-
 :::{.valuebox .text-white label = "ban_medicare_util" icon="heart-fill" color="#0071BC"}
 Medicare Program Payments/Persons Served
 
+`r utilization$bans[["medicare_total"]]`
+
+`r utilization$year[["medicare_total"]]`
 
 :::
 
@@ -547,12 +549,19 @@ Medicare Program Payments/Persons Served
 :::{.valuebox .text-white label = "ban_medicare_d_util" icon="prescription2" color="#00538C"}
 Medicare Part D Program Payments/Persons Served
 
+`r utilization$bans[["part_d"]]`
+
+`r utilization$year[["part_d"]]`
 
 :::
 
 :::{.valuebox .text-white label = "ban_medicaid_exp" icon="people-fill" color="#00A99D"}
 Medicaid Expenditures
- 
+
+`r utilization$bans[["medicaid_chip"]]`
+
+`r utilization$year[["medicaid_chip"]]`
+
 
 :::
 
@@ -632,15 +641,6 @@ utilization[["df_medicare_util"]] |>
 #| fig-width: 14
 #| fig-height: 8
 
-medicaid_exp_tot <- sum(utilization[["df_medicaid_exp"]]$value)
-
-medicaid_exp_tot <-
-  label_comma(
-    1,
-    prefix = "$",
-    scale_cut = cut_short_scale()
-  )(medicaid_exp_tot)
-
 utilization[["df_medicaid_exp"]] |>
   ggplot(aes(value, fct_reorder(sub_category, value))) +
   geom_blank(aes(x = value * 1.3)) +
@@ -654,8 +654,7 @@ utilization[["df_medicaid_exp"]] |>
   coord_cartesian(clip = "off") +
   scale_x_continuous(expand = c(.005, .005)) +
   labs(
-    x = NULL, y = NULL,
-    title = str_glue("All Services ({medicaid_exp_tot})")
+    x = NULL, y = NULL
   ) +
   theme_minimal(base_size = 35) +
   theme(
