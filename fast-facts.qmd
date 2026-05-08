@@ -347,7 +347,7 @@ Medicaid & CHIP Beneficiaries
  
 `r beneficiaries$bans[["medicaid"]]`
 
-`r beneficiaries$years[["medicaid"]]`
+`r beneficiaries$years[["medicaid"]] |> str_sub(start = -4)`
 
 :::
 
