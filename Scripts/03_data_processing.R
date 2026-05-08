@@ -159,13 +159,12 @@ df_spend <- df_ff |>
   ) |>
   ungroup() |>
   mutate(
+    category = fct_reorder(category, value, sum),
     sub_category = ifelse(
       str_detect(category, "Fraud"),
       "Total Funding",
       sub_category
     ),
-    category = fct_reorder(category, value, sum),
-    sub_category = fct_reorder(sub_category, value, sum),
     value_fmt = fmt_units(value),
     share = ifelse(category == "Health Care Fraud & Abuse Control", NA, share),
     share_fmt = label_percent(1)(share),
@@ -176,7 +175,13 @@ df_spend <- df_ff |>
       "CHIP" ~ ff_colors$base[["plum"]],
       "Other Spending" ~ ff_colors$scales$charcoal[["200"]],
       default = "#015390"
-    )
+    ),
+    sub_category = ifelse(
+      str_detect(category, "Federal Program"),
+      str_glue("{sub_category} ({share_fmt})"),
+      sub_category
+    ),
+    sub_category = fct_reorder(sub_category, value, sum)
   ) |>
   select(category, sub_category, value, share, value_fmt, share_fmt, fill_color)
 
