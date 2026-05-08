@@ -324,7 +324,7 @@ icons |>
 
 
 :::{.valuebox .text-white label = "ban_medicare_ab" icon="heart-fill" color="#0071BC"}
-Medicare Parts A/B Beneficiaries
+Total Medicare Beneficiaries
 
 `r beneficiaries$bans[["medicare_ab"]]`
 
