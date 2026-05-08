@@ -484,6 +484,16 @@ read_provider_tab <- function(path, tab) {
       bind_rows(df_tab)
   }
 
+  #relabel Total DMEPOS to match other provider totals
+  df_tab <- df_tab |>
+    mutate(
+      category = ifelse(
+        category == "Total DMEPOS Providers",
+        "Total Providers",
+        category
+      )
+    )
+
   period_info <- extract_sheet_year(path, tab)
 
   #add meta data
