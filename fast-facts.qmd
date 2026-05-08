@@ -729,7 +729,25 @@ Medicare Non-Institutional Providers
 
 :::
 
-:::{.valuebox .text-white label = "ban_inst" icon="hospital" color="#0071BC"}
+:::{.valuebox .text-white label = "ban_Labs" icon="flask" color="#858585"}
+Medicare Lab Providers
+
+`r providers$bans[["Lab"]]`
+
+`r providers$years["Lab"]`
+
+:::
+
+:::{.valuebox .text-white label = "ban_DMEPOS" icon="people-fill" color="#0071BC"}
+Medicare DMEPOS Providers
+
+`r providers$bans[["DMEPOS"]]`
+
+`r providers$years["DMEPOS"]`
+
+:::
+
+:::{.valuebox .text-white label = "ban_inst" icon="hospital" color="#59A8DC"}
 Medicare Institutional Providers
 
 `r providers$bans[["Institutional"]]`
@@ -738,14 +756,6 @@ Medicare Institutional Providers
 
 :::
 
-:::{.valuebox .text-white label = "ban_DMEPOS" icon="people-fill" color="#59A8DC"}
-Medicare DMEPOS Providers
-
-`r providers$bans[["DMEPOS"]]`
-
-`r providers$years["DMEPOS"]`
-
-:::
 
 ## Row
 
@@ -790,6 +800,41 @@ providers[["df_provider_noninst"]] |>
 
 ```
 
+### Column
+
+```{r}
+#| label: dmepos_viz
+#| title: DMEPOS Provider Types
+#| out-width: 100%
+#| out-height: 100%
+#| fig-width: 20
+#| fig-height: 20
+
+providers[["df_providers_dmepos"]] |>
+  ggplot(aes(value, category, fill = fill_color)) +
+  geom_blank(aes(value * 1.1)) +
+  geom_col(width = .8) +
+  geom_text(
+    aes(label = value_fmt),
+    family = "Source Sans 3",
+    color = ff_colors$elements[["annotation"]],
+    hjust = -.3
+  ) +
+  scale_x_continuous(expand = c(.005, .005)) +
+  scale_fill_identity() +
+  coord_cartesian(clip = "off") +
+  labs(x = NULL, y = NULL) +
+  theme_minimal(
+    base_size = 35,
+    base_family = "Source Sans 3",
+  ) +
+  theme(
+    panel.grid.minor = element_blank(),
+    panel.grid.major.y = element_blank(),
+    axis.text.x = element_blank(),
+    axis.text.y = element_text(size = 40)
+  )
+```
 
 ### Column
 
@@ -867,42 +912,6 @@ providers[["df_hospital_subset"]] |>
 ```
 
 
-### Column
-
-```{r}
-#| label: dmepos_viz
-#| title: DMEPOS Provider Types
-#| out-width: 100%
-#| out-height: 100%
-#| fig-width: 20
-#| fig-height: 20
-
-providers[["df_providers_dmepos"]] |>
-  ggplot(aes(value, category, fill = fill_color)) +
-  geom_blank(aes(value * 1.1)) +
-  geom_col(width = .8) +
-  geom_text(
-    aes(label = value_fmt),
-    family = "Source Sans 3",
-    color = ff_colors$elements[["annotation"]],
-    hjust = -.3
-  ) +
-  scale_x_continuous(expand = c(.005, .005)) +
-  scale_fill_identity() +
-  coord_cartesian(clip = "off") +
-  labs(x = NULL, y = NULL) +
-  theme_minimal(
-    base_size = 35,
-    base_family = "Source Sans 3",
-  ) +
-  theme(
-    panel.grid.minor = element_blank(),
-    panel.grid.major.y = element_blank(),
-    axis.text.x = element_blank(),
-    axis.text.y = element_text(size = 40)
-  )
-```
-
 ## Row {.no-title height="5%"}
 
 ::: {.footer-source}
@@ -959,6 +968,7 @@ Abbreviations
 
 # Providers
 
+  - In historic Fast Facts files, Labs are categorized as Institutional Providers, but can in fact call under any category. As such, they have been seperated out here so as not to add into the total for Institutional Providers.
   - Non-Institutional Proviers - Providers utilized by Original Medicare beneficiaries for all Part B non-institutional/DMEPOS provider services.  Providers may be counted in more than one specialty classification but are reported as a single provider in the "Total Providers" count.
 
 Abbreviations
