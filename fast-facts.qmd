@@ -633,6 +633,16 @@ utilization[["df_medicare_util"]] |>
 
 ### Column
 
+#### Row {height="20%"}
+
+::: {.card title="Part D"}
+
+`r utilization$df_part_d`
+
+:::
+
+#### Row
+
 ```{r}
 #| label: medicaid_exp
 #| title: Medicaid Expenditures
