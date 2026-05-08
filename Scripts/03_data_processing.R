@@ -145,14 +145,23 @@ df_spend <- df_ff |>
     is_latest == TRUE,
   ) |>
   group_by(category) |>
-  mutate(share = value / sum(value)) |>
-  ungroup() |>
   mutate(
-    sub_category = ifelse(category == "Fraud", "Total Funding", sub_category),
+    share = value / sum(value),
     category = ifelse(
       category == "Fraud",
       "Health Care Fraud & Abuse Control",
       category
+    ),
+    category = str_glue(
+      "{category} ({label_number(.1, prefix = '$', scale_cut = cut_short_scale())(sum(value))})"
+    )
+  ) |>
+  ungroup() |>
+  mutate(
+    sub_category = ifelse(
+      str_detect(category, "Fraud"),
+      "Total Funding",
+      sub_category
     ),
     category = fct_reorder(category, value, sum),
     sub_category = fct_reorder(sub_category, value, sum),
