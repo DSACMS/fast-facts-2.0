@@ -538,7 +538,7 @@ df_cs_trend <- df_cs_trend |>
     ),
     metric_lab = factor(
       metric_lab,
-      c("Premiums", "Coinsurance (Part A)", "Deductibles", "Other (Part D)")
+      c("Premiums", "Deductibles", "Coinsurance (Part A)", "Other (Part D)")
     ),
     sub_category = case_when(
       !is.na(bound) ~ str_glue("{sub_category} ({bound} bound)"),
