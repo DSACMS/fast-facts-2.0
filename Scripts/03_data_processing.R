@@ -550,6 +550,36 @@ df_medicaid_exp <- df_ff |>
     )
   )
 
+#part D
+
+df_part_d <- df_ff |>
+  filter(
+    topic == "Utilization",
+    category == "Part D",
+    is_latest
+  ) |>
+  filter_out(
+    sub_category == "Total",
+    metric %in% c("persons_served", "payments")
+  ) |>
+  mutate(
+    sub_category = ifelse(
+      sub_category == "Total",
+      "Prescription Drug Events",
+      sub_category
+    ),
+    value = ifelse(
+      sub_category == "Prescription Drug Events",
+      label_number(.1, scale_cut = cut_short_scale())(value),
+      label_number(1, prefix = "$", scale_cut = cut_short_scale())(value)
+    )
+  ) |>
+  select(sub_category, value) |>
+  unite(combo, c(sub_category, value), sep = " ") |>
+  pull() |>
+  paste(collapse = " | ")
+
+
 #gather sources for footnote
 v_utilization_sources <- df_ff |>
   filter(
@@ -579,6 +609,7 @@ utilization <- list(
   years = utilization_years,
   df_medicare_util = df_medicare_util,
   df_medicaid_exp = df_medicaid_exp,
+  df_part_d = df_part_d,
   footnote = v_enrollment_footnote
 )
 
