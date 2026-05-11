@@ -1090,7 +1090,7 @@ read_cms_prog_stats <- function(zip_file) {
     mutate(is_latest = FALSE)
 
   #remove excel files
-  list.files(folder_temp, "xlsx", full.names = TRUE) |> unlink()
+  list.files(dirname(zip_file), "xlsx", full.names = TRUE) |> unlink()
 
   return(df)
 }
