@@ -973,4 +973,179 @@ import_fast_facts <- function(path) {
   return(df_ff)
 }
 
+
+# IMPORT 2008-2012 MEDICARE POPULATION DATA ------------------------------
+
+read_cms_prog_stats <- function(zip_file) {
+  #unzip year file
+  unzip(zip_file, exdir = dirname(zip_file), junkpaths = TRUE)
+
+  #gather path to necessary pop data
+  path <- list.files(
+    dirname(zip_file),
+    "(AB( |_)(3|9|15)|202.).xlsx",
+    full.names = TRUE
+  )
+
+  #identify the right sheet to read in
+  tab <- excel_sheets(path) |> str_subset("AB (3|9|15)")
+
+  #identify type
+  type <- case_when(
+    str_detect(tab, "3") ~ "Total Medicare",
+    str_detect(tab, "9") ~ "Orig Medicare",
+    str_detect(tab, "15") ~ "MA and Other"
+  )
+
+  n_skip <- recode_values(
+    type,
+    "Total Medicare" ~ 2,
+    "Orig Medicare" ~ 3,
+    "MA and Other" ~ 3
+  )
+
+  #read in tab
+  df <- read_excel(
+    path,
+    sheet = tab,
+    skip = n_skip
+  )
+
+  #remove excess information & reshape
+  df <- df |>
+    filter(str_detect(Year, "[0-9]{4}")) |>
+    rename(data_year = Year) |>
+    pivot_longer(
+      -data_year,
+      names_to = "sub_category"
+    )
+
+  #add meta data
+  df <- df |>
+    mutate(
+      topic = "Enrollment",
+      area = "Medicare",
+      category = str_extract(
+        sub_category,
+        "Part A and/or Part B|Part A and Part B|Part A|Part B"
+      ),
+      sub_category = str_remove(
+        sub_category,
+        "(Part A and/or Part B|Part A and Part B|Part A|Part B) "
+      ),
+      metric = "enrollment",
+      period_type = "CY",
+      .before = 1
+    )
+
+  #add source information
+  df <- df |>
+    mutate(
+      source = basename(path),
+      source_tab = tab,
+      source_origin = extract_source(path, tab)
+    )
+
+  #add release year
+  df <- df |>
+    mutate(
+      release_date = case_when(
+        str_detect(
+          basename(zip_file),
+          "CPS MDCR TOTAL ENROLL AB"
+        ) ~ "2018-01-01",
+        str_detect(basename(zip_file), "CPS_MDCR_ENROLL_AB") ~ "2019-01-01",
+        TRUE ~ str_glue("{str_extract(basename(zip_file), '[0-9]{4}')}-01-01")
+      ) |>
+        as.Date()
+    )
+
+  #subset to total overall and remove 2013 data (on data.cms.gov)
+  df <- df |>
+    filter(category == "Part A and/or Part B") |>
+    filter_out(daa_year == 2013)
+
+  #subset
+  if (type == "Total Medicare") {
+    df <- df |>
+      filter(sub_category %in% c("Aged", "Disabled"))
+  } else {
+    df <- df |>
+      filter(sub_category == "Total") |>
+      mutate(
+        sub_category = recode_values(
+          type,
+          "Orig Medicare" ~ "Original Medicare Enrollment",
+          "MA and Other" ~ "MA & Other Health Plan Enrollment"
+        )
+      )
+  }
+
+  #reorder
+  df <- df |>
+    relocate(sub_category, .after = category)
+
+  #add is_latest to match FF dataset
+  df <- df |>
+    mutate(is_latest = FALSE)
+
+  #remove excel files
+  list.files(folder_temp, "xlsx", full.names = TRUE) |> unlink()
+
+  return(df)
+}
+
+
+# Import 2013-202* Medicare Population Data ------------------------------
+
+read_cms_gov_pop <- function(path) {
+  #import file
+  suppressMessages(
+    df <- read_csv(
+      path,
+      name_repair = make_clean_names
+    )
+  )
+
+  #subset columns, reshape long, and align labeling with Fast Facts
+  df <- df |>
+    select(
+      data_year = year,
+      orgnl_mdcr_benes,
+      ma_and_oth_benes,
+      aged_tot_benes,
+      dsbld_tot_benes
+    ) |>
+    pivot_longer(
+      -data_year,
+      names_to = "sub_category"
+    ) |>
+    mutate(
+      category = "Parts A and/or B",
+      sub_category = sub_category |>
+        recode_values(
+          "orgnl_mdcr_benes" ~ "Original Medicare Enrollment",
+          "ma_and_oth_benes" ~ "MA & Other Health Plan Enrollment",
+          "aged_tot_benes" ~ "Aged",
+          "dsbld_tot_benes" ~ "Disabled"
+        )
+    )
+
+  #add meta data
+  df <- df |>
+    mutate(
+      area = "Medicare",
+      topic = "Enrollment",
+      metric = "enrollment",
+      period_type = "CY",
+      source = basename(path),
+      source_origin = "data.cms.gov",
+      release_date = basename(path) |>
+        str_extract("[A-Za-z]{3}_[0-9]{4}") |>
+        my()
+    )
+
+  return(df)
+}
+
 # nolint end: object_usage_linter, return_linter.
