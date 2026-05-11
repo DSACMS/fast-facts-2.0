@@ -379,31 +379,32 @@ df_medicare_trend <- df_medicare_trend |>
 
 
 #disagg groups
-disagg_medicare <- c("Aged", "Disabled")
 disaggs_medicaid <- c("Children", "Medicaid Expansion Adults", "Dual Eligible")
 
 #diaggregate trends
 df_disagg_trend <- df_ff |>
   filter(
     topic == "Enrollment",
-    (area == "Medicaid & CHIP" & sub_category %in% disaggs_medicaid) |
-      (area == "Medicare" & sub_category %in% disagg_medicare),
-    data_year >= 2020
+    area == "Medicaid & CHIP",
+    sub_category != "Total"
+    # sub_category %in% disaggs_medicaid,
+    # data_year >= 2020
+  ) |>
+  bind_rows(
+    df_benes_excel |>
+      bind_rows(df_benes_dwnld) |>
+      filter(sub_category %in% c("Aged", "Disabled"))
   ) |>
   select(area, metric, sub_category, period_type, data_year, value) |>
   mutate(
-    sub_category = ifelse(
-      sub_category == "Medicaid Expansion Adults",
-      "ME Adults",
-      sub_category
-    ),
     fill_color = recode_values(
       sub_category,
       "Children" ~ ff_colors$base[["plum"]],
       "Dual Eligible" ~ ff_colors$scales$teal[["200"]],
       "ME Adults" ~ ff_colors$scales$teal[["900"]],
       "Aged" ~ ff_colors$scales$cobolt[["900"]],
-      "Disabled" ~ ff_colors$scales$cobolt[["200"]]
+      "Disabled" ~ ff_colors$scales$cobolt[["200"]],
+      default = ff_colors$scales$charcoal[['200']]
     )
   ) |>
   group_by(sub_category) |>
