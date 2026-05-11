@@ -1035,6 +1035,7 @@ read_cms_prog_stats <- function(zip_file) {
       ),
       metric = "enrollment",
       period_type = "CY",
+      data_year = as.numeric(data_year),
       .before = 1
     )
 
