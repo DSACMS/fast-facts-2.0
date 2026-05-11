@@ -330,8 +330,9 @@ df_medicare_trend <- df_medicare_trend |>
   select(sub_category, metric, data_year, value) |>
   mutate(
     sub_category = sub_category |>
-      str_remove(" Enrollment") |>
-      str_replace("Original Medicare", "orig") |>
+      str_extract("MA|Orig") |>
+      # str_remove(" Enrollment") |>
+      # str_replace("Original Medicare", "orig") |>
       tolower()
   ) |>
   group_by(sub_category) |>
