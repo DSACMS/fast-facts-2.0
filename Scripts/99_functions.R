@@ -1063,7 +1063,7 @@ read_cms_prog_stats <- function(zip_file) {
   #subset to total overall and remove 2013 data (on data.cms.gov)
   df <- df |>
     filter(category == "Part A and/or Part B") |>
-    filter_out(daa_year == 2013)
+    filter_out(data_year == 2013)
 
   #subset
   if (type == "Total Medicare") {
