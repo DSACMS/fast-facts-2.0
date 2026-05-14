@@ -764,65 +764,206 @@ utilization[["df_medicaid_exp"]] |>
 
 
 ## Row {height="95%"}
-```{r}
-#| label: dumbell_charts
-#| title: "Medicare Deductibles, Coinsurance, Premiums"
 
-cost_sharing[["df_cs_trend"]]  |>
-  ggplot(
-    aes(
-      value, fct_reorder(sub_category, order, .fun = max, .na_rm = TRUE),
-      group = ln_group
-    )
-  ) +
-  geom_path(color = ff_colors$scales$cobolt[["200"]], na.rm = TRUE) +
-  geom_point(
-    color = "white",
-    stroke = 1.1,
-    size = 4,
-    na.rm = TRUE
-  ) +
-  geom_point(
-    aes(fill = fill_color),
-    na.rm = TRUE,
-    shape = 21,
-    color = ff_colors$base[["azure"]],
-    stroke = 1.1,
-    size = 4, alpha = .4
-  ) +
+### Column
+
+
+```{r}
+#| label: premiums
+#| title: "Premiums"
+#| out-width: 100%
+#| out-height: 100%
+#| fig-width: 14
+#| fig-height: 6
+
+cost_sharing[["df_cs_trend"]] |> 
+  filter(metric_lab == "Premiums") |> 
+  ggplot(aes(data_year, value, group = ln_group, fill = fill_color, color = fill_color)) +
+  geom_blank(aes(y = value * 1.1)) +
+  geom_hline(yintercept = 0, color = ff_colors$elements[["axis"]]) +
+  geom_area(alpha = .2) +
+  geom_line() +
+  geom_point(aes(y = val_pt), na.rm = TRUE) +
   geom_text(
-    aes(x = mid_pt, label = delta_lab),
-    na.rm = TRUE,
-    family = "Source Sans 3",
-    color = ff_colors$elements[["annotation"]],
-    size = 2.9,
-    vjust = -1.1
+    aes(label = lab_val),
+    vjust = -1, na.rm = TRUE,
+    family = "Source Sans 3", size = 7,
+    color = ff_colors$elements[["annotation"]]
   ) +
-  facet_wrap(~metric_lab, scales = "free", space = "free_y") +
-  scale_fill_identity(
-    guide = "legend",
-    breaks = c("white", ff_colors$scales$cobolt["200"]),
-    labels = unique(cost_sharing[["df_cs_trend"]]$period) |> sort()
-  ) +
-  coord_cartesian(clip = "off") +
-  labs(x = NULL, y = NULL, fill = NULL) +
+  facet_grid(~fct_reorder2(sub_category, data_year, value)) +
   scale_x_continuous(
-    label =
-      label_number(prefix = "$", scale_cut = cut_short_scale()),
-    limits = c(0, NA),
-    position = "top"
+    breaks =
+      range(
+        unique(cost_sharing[["df_cs_trend"]]$data_year),
+        na.rm = TRUE
+      )
   ) +
-  theme_minimal() +
+  scale_fill_identity() + 
+  scale_color_identity() + 
+  coord_cartesian(clip = "off") +
+  labs(x = NULL, y = NULL) +
+  theme_minimal(base_family = "Source Sans 3", base_size = 22) +
   theme(
-    panel.grid.major.y = element_blank(),
-    text = element_text(family = "Source Sans 3"),
+    legend.position = "none",
     strip.text =
       element_text(
-        family = "Source Sans 3", face = "bold",
-        size = 12, hjust = 0
+        color = ff_colors$elements[["title"]],
+        face = "bold"
       ),
-    strip.placement = "outside",
-    legend.position = "top"
+    axis.text.y = element_blank(),
+    panel.grid = element_blank(),
+    panel.spacing = unit(2.5, "lines")
+  )
+
+```
+
+
+```{r}
+#| label: deductibles
+#| title: "Deductibles"
+#| out-width: 100%
+#| out-height: 100%
+#| fig-width: 14
+#| fig-height: 6
+
+cost_sharing[["df_cs_trend"]] |> 
+  filter(metric_lab == "Deductibles") |> 
+  ggplot(aes(data_year, value, group = ln_group, fill = fill_color, color = fill_color)) +
+  geom_blank(aes(y = value * 1.1)) +
+  geom_hline(yintercept = 0, color = ff_colors$elements[["axis"]]) +
+  geom_area(alpha = .2) +
+  geom_line() +
+  geom_point(aes(y = val_pt), na.rm = TRUE) +
+  geom_text(
+    aes(label = lab_val),
+    vjust = -1, na.rm = TRUE,
+    family = "Source Sans 3", size = 7,
+    color = ff_colors$elements[["annotation"]]
+  ) +
+  facet_grid(~fct_reorder2(sub_category, data_year, value)) +
+  scale_x_continuous(
+    breaks =
+      range(
+        unique(cost_sharing[["df_cs_trend"]]$data_year),
+        na.rm = TRUE
+      )
+  ) +
+  scale_fill_identity() + 
+  scale_color_identity() + 
+  coord_cartesian(clip = "off") +
+  labs(x = NULL, y = NULL) +
+  theme_minimal(base_family = "Source Sans 3", base_size = 22) +
+  theme(
+    legend.position = "none",
+    strip.text =
+      element_text(
+        color = ff_colors$elements[["title"]],
+        face = "bold"
+      ),
+    axis.text.y = element_blank(),
+    panel.grid = element_blank(),
+    panel.spacing = unit(2.5, "lines")
+  )
+
+```
+
+### Column
+
+
+```{r}
+#| label: coinsurance
+#| title: "Coinsurance (Part A)"
+#| out-width: 100%
+#| out-height: 100%
+#| fig-width: 14
+#| fig-height: 6
+
+cost_sharing[["df_cs_trend"]] |> 
+  filter(metric_lab == "Coinsurance (Part A)") |> 
+  ggplot(aes(data_year, value, group = ln_group, fill = fill_color, color = fill_color)) +
+  geom_blank(aes(y = value * 1.1)) +
+  geom_hline(yintercept = 0, color = ff_colors$elements[["axis"]]) +
+  geom_area(alpha = .2) +
+  geom_line() +
+  geom_point(aes(y = val_pt), na.rm = TRUE) +
+  geom_text(
+    aes(label = lab_val),
+    vjust = -1, na.rm = TRUE,
+    family = "Source Sans 3", size = 7,
+    color = ff_colors$elements[["annotation"]]
+  ) +
+  facet_grid(~fct_reorder2(sub_category, data_year, value)) +
+  scale_x_continuous(
+    breaks =
+      range(
+        unique(cost_sharing[["df_cs_trend"]]$data_year),
+        na.rm = TRUE
+      )
+  ) +
+  scale_fill_identity() + 
+  scale_color_identity() + 
+  coord_cartesian(clip = "off") +
+  labs(x = NULL, y = NULL) +
+  theme_minimal(base_family = "Source Sans 3", base_size = 22) +
+  theme(
+    legend.position = "none",
+    strip.text =
+      element_text(
+        color = ff_colors$elements[["title"]],
+        face = "bold"
+      ),
+    axis.text.y = element_blank(),
+    panel.grid = element_blank(),
+    panel.spacing = unit(2.5, "lines")
+  )
+
+```
+
+```{r}
+#| label: other_part_d
+#| title: "Other (Part D)"
+#| out-width: 100%
+#| out-height: 100%
+#| fig-width: 14
+#| fig-height: 6
+
+cost_sharing[["df_cs_trend"]] |> 
+  filter(metric_lab == "Other (Part D)") |> 
+  ggplot(aes(data_year, value, group = ln_group, fill = fill_color, color = fill_color)) +
+  geom_blank(aes(y = value * 1.1)) +
+  geom_hline(yintercept = 0, color = ff_colors$elements[["axis"]]) +
+  geom_area(alpha = .2) +
+  geom_line() +
+  geom_point(aes(y = val_pt), na.rm = TRUE) +
+  geom_text(
+    aes(label = lab_val),
+    vjust = -1, na.rm = TRUE,
+    family = "Source Sans 3", size = 7,
+    color = ff_colors$elements[["annotation"]]
+  ) +
+  facet_grid(~fct_reorder2(sub_category, data_year, value)) +
+  scale_x_continuous(
+    breaks =
+      range(
+        unique(cost_sharing[["df_cs_trend"]]$data_year),
+        na.rm = TRUE
+      )
+  ) +
+  scale_fill_identity() + 
+  scale_color_identity() + 
+  coord_cartesian(clip = "off") +
+  labs(x = NULL, y = NULL) +
+  theme_minimal(base_family = "Source Sans 3", base_size = 22) +
+  theme(
+    legend.position = "none",
+    strip.text =
+      element_text(
+        color = ff_colors$elements[["title"]],
+        face = "bold"
+      ),
+    axis.text.y = element_blank(),
+    panel.grid = element_blank(),
+    panel.spacing = unit(2.5, "lines")
   )
 
 ```
