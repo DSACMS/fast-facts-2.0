@@ -654,9 +654,7 @@ write_rds(utilization, "Dataout/utilization.rds")
 #subset data for cost sharing data
 df_cs_trend <- df_ff |>
   filter(topic == "Cost Sharing") |>
-  filter(data_year >= max(data_year) - 1) |>
-  unite(period, c(period_type, data_year), sep = " ") |>
-  select(topic, category, sub_category, metric, period, value, bound)
+  select(topic, category, sub_category, metric, data_year, value, bound)
 
 #create necessary fields for viz
 df_cs_trend <- df_cs_trend |>
@@ -666,20 +664,8 @@ df_cs_trend <- df_cs_trend |>
       str_glue("{category} {sub_category} {bound}"),
       str_glue("{category} {sub_category}")
     ),
-    fill_color = ifelse(
-      period == max(period),
-      ff_colors$scales$cobolt["200"],
-      "white"
-    ),
-    order = ifelse(period == max(period), value, 0)
-  ) |>
-  group_by(ln_group) |>
-  mutate(
-    mid_pt = mean(value, na.rm = TRUE),
-    delta = value / lag(value) - 1,
-    delta_lab = label_percent(1, style_positive = "plus")(delta)
-  ) |>
-  ungroup()
+    order = ifelse(data_year == max(data_year), value, 0)
+  )
 
 df_cs_trend <- df_cs_trend |>
   mutate(
@@ -707,21 +693,32 @@ df_cs_trend <- df_cs_trend |>
   )
 
 df_cs_trend <- df_cs_trend |>
+  group_by(ln_group) |>
   mutate(
     val_curr = case_when(
-      period == max(period) ~ label_comma(1, prefix = "$")(value)
-    )
+      data_year == max(data_year) ~ label_comma(1, prefix = "$")(value),
+    ),
+    val_pt = case_when(data_year %in% range(data_year) ~ value),
+    lab_val = case_when(
+      data_year %in% range(data_year) ~ label_number(
+        1,
+        prefix = "$",
+        scale_cut = cut_short_scale()
+      )(value)
+    ),
+    fill_color = ff_colors$scales$cobolt["200"]
   ) |>
+  ungroup() |>
   group_by(category, sub_category, metric) |>
   fill(val_curr, .direction = "updown") |>
-  ungroup() |>
-  mutate(
-    sub_category = ifelse(
-      str_detect(sub_category, "upper"),
-      str_glue("{sub_category} [{max(df_cs_trend$period)} = {val_curr}]"),
-      str_glue("{sub_category} [{val_curr}]")
-    )
-  )
+  ungroup()
+
+df_recent <- df_cs_trend |>
+  filter(data_year >= max(data_year) - 1) |>
+  distinct(category, sub_category)
+
+df_cs_trend <- df_cs_trend |>
+  inner_join(df_recent)
 
 #gather sources for footnote
 v_costsharing_sources <- df_ff |>
