@@ -461,7 +461,7 @@ enrollment[["df_medicare_trend"]] |>
   ) +
   labs(x = NULL, y = NULL) +
   coord_cartesian(clip = "off") +
-  theme_minimal(base_size = 50) +
+  theme_minimal(base_size = 22) +
   theme(
     legend.position = "none",
     # axis.text.y = element_blank(),
@@ -477,8 +477,9 @@ enrollment[["df_medicare_trend"]] |>
 #| label: df_disagg_trend
 #| title: "Sub-Populations Trends"
 #| out-width: 100%
+#| out-height: 100%
 #| fig-width: 14
-#| fig-height: 4
+#| fig-height: 8
 
 enrollment[["df_disagg_trend"]] |>
   ggplot(
@@ -498,7 +499,7 @@ enrollment[["df_disagg_trend"]] |>
     family = "Source Sans 3", size = 7,
     color = ff_colors$elements[["annotation"]]
   ) +
-  facet_grid(~fct_rev(area) + fct_reorder2(sub_category, data_year, value)) +
+  facet_wrap(~fct_rev(area) + fct_reorder2(sub_category, data_year, value)) +
   scale_x_continuous(
     breaks =
       range(
