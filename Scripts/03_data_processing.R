@@ -24,13 +24,36 @@ source("Scripts/99_functions.R")
 #data output directory
 dir_out <- "Dataout"
 
+#temp dir for unzipping
+dir_temp <- tempdir()
+
 #path to data file
 (path <- list.files(dir_out, ".parquet", full.names = TRUE))
+
+#unzip historic file
+map(
+  .x = list.files("Data", "CMS Program", full.names = TRUE),
+  .f = ~ unzip(.x, exdir = dir_temp, junkpaths = TRUE)
+)
+
+#store paths for sub-zipped Excel files from data.cms.gov
+path_zip <- list.files(dir_temp, "zip", full.names = TRUE)
+
+#path data.cms.gov download
+path_cms_benes <- "Data/Medicare_Monthly_Enrollment_Jan_2026.zip"
 
 # IMPORT DATA ------------------------------------------------------------
 
 #read in Fast Facts structured dataset
 df_ff <- read_parquet(path)
+
+#read in historic pop data
+df_benes_excel <- path_zip |>
+  map(read_cms_prog_stats) |>
+  list_rbind()
+
+#read in other historic pop data
+df_benes_dwnld <- read_cms_gov_pop(path_cms_benes)
 
 
 # CONTEXT TAB ------------------------------------------------------------
@@ -293,19 +316,23 @@ enrollment_years <- df_enrollment |>
   unite(period, c(period_type, data_year), sep = " ") |>
   deframe()
 
-#Orig v MA trend
-df_medicare_trend <- df_ff |>
+#combine historic data
+df_medicare_trend <- df_benes_excel |>
+  bind_rows(df_benes_dwnld) |>
   filter(
     topic == "Enrollment",
     sub_category %in%
-      c("Original Medicare Enrollment", "MA & Other Health Plan Enrollment"),
-    data_year >= 2020
-  ) |>
+      c("Original Medicare Enrollment", "MA & Other Health Plan Enrollment")
+  )
+
+#Orig v MA trend
+df_medicare_trend <- df_medicare_trend |>
   select(sub_category, metric, data_year, value) |>
   mutate(
     sub_category = sub_category |>
-      str_remove(" Enrollment") |>
-      str_replace("Original Medicare", "orig") |>
+      str_extract("MA|Orig") |>
+      # str_remove(" Enrollment") |>
+      # str_replace("Original Medicare", "orig") |>
       tolower()
   ) |>
   group_by(sub_category) |>
@@ -352,34 +379,40 @@ df_medicare_trend <- df_ff |>
 
 
 #disagg groups
-disagg_medicare <- c("Aged", "Disabled")
 disaggs_medicaid <- c("Children", "Medicaid Expansion Adults", "Dual Eligible")
 
 #diaggregate trends
 df_disagg_trend <- df_ff |>
   filter(
     topic == "Enrollment",
-    (area == "Medicaid & CHIP" & sub_category %in% disaggs_medicaid) |
-      (area == "Medicare" & sub_category %in% disagg_medicare),
-    data_year >= 2020
+    area == "Medicaid & CHIP",
+    sub_category != "Total"
+    # sub_category %in% disaggs_medicaid,
+    # data_year >= 2020
+  ) |>
+  bind_rows(
+    df_benes_excel |>
+      bind_rows(df_benes_dwnld) |>
+      filter(sub_category %in% c("Aged", "Disabled"))
   ) |>
   select(area, metric, sub_category, period_type, data_year, value) |>
   mutate(
-    sub_category = ifelse(
-      sub_category == "Medicaid Expansion Adults",
-      "ME Adults",
-      sub_category
-    ),
     fill_color = recode_values(
       sub_category,
       "Children" ~ ff_colors$base[["plum"]],
       "Dual Eligible" ~ ff_colors$scales$teal[["200"]],
-      "ME Adults" ~ ff_colors$scales$teal[["900"]],
+      "Medicaid Expansion Adults" ~ ff_colors$scales$teal[["900"]],
       "Aged" ~ ff_colors$scales$cobolt[["900"]],
-      "Disabled" ~ ff_colors$scales$cobolt[["200"]]
+      "Disabled" ~ ff_colors$scales$cobolt[["200"]],
+      default = ff_colors$scales$charcoal[['200']]
+    ),
+    fill_color = ifelse(
+      area == "Medicaid & CHIP" & sub_category == "Aged",
+      ff_colors$scales$charcoal[['200']],
+      fill_color
     )
   ) |>
-  group_by(sub_category) |>
+  group_by(area, sub_category) |>
   mutate(
     val_pt = case_when(
       data_year == min(data_year) | data_year == max(data_year) ~ value
@@ -717,7 +750,7 @@ cost_sharing <- list(
 write_rds(cost_sharing, "Dataout/cost_sharing.rds")
 
 
-# PROVIDERS --------------------------------------------------------------
+# PROVIDERS TAB ----------------------------------------------------------
 
 ban_providers <- df_ff |>
   filter(
