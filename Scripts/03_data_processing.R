@@ -401,13 +401,18 @@ df_disagg_trend <- df_ff |>
       sub_category,
       "Children" ~ ff_colors$base[["plum"]],
       "Dual Eligible" ~ ff_colors$scales$teal[["200"]],
-      "ME Adults" ~ ff_colors$scales$teal[["900"]],
+      "Medicaid Expansion Adults" ~ ff_colors$scales$teal[["900"]],
       "Aged" ~ ff_colors$scales$cobolt[["900"]],
       "Disabled" ~ ff_colors$scales$cobolt[["200"]],
       default = ff_colors$scales$charcoal[['200']]
+    ),
+    fill_color = ifelse(
+      area == "Medicaid & CHIP" & sub_category == "Aged",
+      ff_colors$scales$charcoal[['200']],
+      fill_color
     )
   ) |>
-  group_by(sub_category) |>
+  group_by(area, sub_category) |>
   mutate(
     val_pt = case_when(
       data_year == min(data_year) | data_year == max(data_year) ~ value
