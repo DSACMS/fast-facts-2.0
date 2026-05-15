@@ -109,6 +109,42 @@ $badge-font-weight:   600;
 
 /*-- scss:rules --*/
 
+// ── Navbar ───────────────────────────────────────────────────
+#quarto-dashboard-header {
+  min-height: unset !important;
+}
+
+#quarto-dashboard-header .navbar-brand-container {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+#quarto-dashboard-header .navbar-logo {
+  max-height: 44px !important;
+}
+
+#quarto-dashboard-header .navbar-title {
+  font-size: 1.1rem !important;
+  line-height: 1.6 !important;
+}
+
+#quarto-dashboard-header .navbar-title-text a {
+  font-size: 1.4rem !important;
+  font-weight: 700 !important;
+  color: $color-text-light !important;
+}
+
+#quarto-dashboard-header .navbar-subtitle {
+  font-size: 0.85rem !important;
+  line-height: 1.6 !important;
+}
+
+#quarto-dashboard-header .nav-link {
+  padding-top: 0.75rem !important;
+  padding-bottom: 0.75rem !important;
+  line-height: 1.6 !important;
+}
+
 // ── Font propagation ─────────────────────────────────────────
 *,
 body,
