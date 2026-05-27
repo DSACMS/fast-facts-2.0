@@ -66,7 +66,7 @@ walk(
 
 # Context
 
-## Row {height="25%"}
+## Row {height="15%"}
 
 :::{.valuebox .text-white  label = "ban_nhe" icon="heart-pulse-fill" color="#4A8C6F"}
 National Health Expenditures (NHE)
