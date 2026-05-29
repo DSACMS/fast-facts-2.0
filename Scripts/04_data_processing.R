@@ -341,19 +341,19 @@ df_medicare_trend <- df_ff |>
       data_year == max(data_year),
       str_glue(
         "{lab_orig} ",
-        "({label_percent(1, style_positive = 'plus')(delta_orig)} prior)"
+        "({label_percent(1, style_positive = 'plus')(delta_orig)} prior year)"
       ),
       lab_orig
     ),
     lab_ma = ifelse(
       data_year == max(data_year),
       str_glue(
-        "{lab_ma} ({label_percent(1, style_positive = 'plus')(delta_ma)} prior)"
+        "{lab_ma} ({label_percent(1, style_positive = 'plus')(delta_ma)} prior year)"
       ),
       lab_ma
     ),
-    lab_orig_cat = case_when(data_year == 2022 ~ "Original Medicare"),
-    lab_ma_cat = case_when(data_year == 2022 ~ "Medicare Advantage")
+    lab_orig_cat = case_when(data_year == 2016 ~ "Original Medicare"),
+    lab_ma_cat = case_when(data_year == 2016 ~ "Medicare Advantage")
   )
 
 
