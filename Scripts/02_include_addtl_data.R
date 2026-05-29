@@ -19,7 +19,7 @@ source("Scripts/99_functions.R")
 dir_out <- "Dataout"
 
 #path to main FF data file
-(path <- list.files(dir_out, ".parquet", full.names = TRUE))
+path <- list.files(dir_out, ".parquet", full.names = TRUE)
 
 #temp dir for unzipping Medicare historic files
 dir_temp <- tempdir()
@@ -110,7 +110,8 @@ df_benes_addtl <-
 df_benes_addtl <- df_benes_addtl |>
   anti_join(
     df_ff |>
-      distinct(area, sub_category, data_year)
+      distinct(area, sub_category, data_year),
+    by = join_by(area, sub_category, data_year)
   )
 
 #bind additional data onto current FF file
