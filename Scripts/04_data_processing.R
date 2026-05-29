@@ -4,7 +4,7 @@
 # REF ID:   4b4e2514
 # LICENSE:  MIT
 # DATE:     2026-03-20
-# UPDATED:  2026-05-08
+# UPDATED:  2026-05-29
 
 # DEPENDENCIES ------------------------------------------------------------
 
@@ -23,6 +23,9 @@ source("Scripts/99_functions.R")
 
 #data output directory
 dir_out <- "Dataout"
+
+#path to main FF data file
+path <- list.files(dir_out, ".parquet", full.names = TRUE)
 
 # IMPORT DATA ------------------------------------------------------------
 
@@ -349,7 +352,7 @@ df_medicare_trend <- df_ff |>
 
 
 #disagg groups
-subpop_medicare <- filter(sub_category %in% c("Aged", "Disabled"))
+subpop_medicare <- c("Aged", "Disabled")
 subpop_medicaid <- c("Children", "Medicaid Expansion Adults", "Dual Eligible")
 
 #diaggregate trends
