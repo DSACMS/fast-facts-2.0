@@ -377,24 +377,6 @@ enrollment[["df_medicare_trend"]] |>
     fill = ff_colors$base["warmgray"], #"lightgray",
     alpha = 0.3
   ) +
-  geom_line(aes(y = value_orig, color = "Original Medicare"), linewidth = 2) +
-  geom_line(aes(y = value_ma, color = "Medicare Advantage"), linewidth = 2) +
-  geom_point(
-    data =
-      enrollment[["df_medicare_trend"]] |>
-      filter(
-        data_year %in% range(enrollment[["df_medicare_trend"]]$data_year)
-      ),
-    aes(y = value_orig, color = "Original Medicare")
-  ) +
-  geom_point(
-    data =
-      enrollment[["df_medicare_trend"]] |>
-      filter(
-        data_year %in% range(enrollment[["df_medicare_trend"]]$data_year)
-      ),
-    aes(y = value_ma, color = "Medicare Advantage")
-  ) +
   geom_label(
     data =
       enrollment[["df_medicare_trend"]] |>
@@ -426,6 +408,24 @@ enrollment[["df_medicare_trend"]] |>
     aes(y = value_ma, label = lab_ma, color = "Medicare Advantage"),
     family = "Source Sans 3", linewidth = NA,
     vjust = -.4, hjust = 0, na.rm = TRUE
+  ) +
+  geom_line(aes(y = value_orig, color = "Original Medicare"), linewidth = 2) +
+  geom_line(aes(y = value_ma, color = "Medicare Advantage"), linewidth = 2) +
+  geom_point(
+    data =
+      enrollment[["df_medicare_trend"]] |>
+      filter(
+        data_year %in% range(enrollment[["df_medicare_trend"]]$data_year)
+      ),
+    aes(y = value_orig, color = "Original Medicare")
+  ) +
+  geom_point(
+    data =
+      enrollment[["df_medicare_trend"]] |>
+      filter(
+        data_year %in% range(enrollment[["df_medicare_trend"]]$data_year)
+      ),
+    aes(y = value_ma, color = "Medicare Advantage")
   ) +
   geom_label(
     aes(y = value_orig, label = lab_orig_cat, color = "Original Medicare"),
@@ -481,7 +481,8 @@ enrollment[["df_medicare_trend"]] |>
 #| fig-width: 14
 #| fig-height: 8
 
-enrollment[["df_disagg_trend"]] |>
+v_medicare_subpop <- enrollment[["df_disagg_trend"]] |>
+  filter(area == "Medicare") |> 
   ggplot(
     aes(
       data_year, value,
@@ -499,13 +500,11 @@ enrollment[["df_disagg_trend"]] |>
     family = "Source Sans 3", size = 7,
     color = ff_colors$elements[["annotation"]]
   ) +
-  facet_wrap(~fct_rev(area) + fct_reorder2(sub_category, data_year, value)) +
+  facet_grid(area ~ fct_reorder2(sub_category, data_year, value), switch = "y") +
+  # facet_wrap(~fct_rev(area) + fct_reorder2(sub_category, data_year, value)) +
   scale_x_continuous(
-    breaks =
-      range(
-        unique(enrollment[["df_disagg_trend"]]$data_year),
-        na.rm = TRUE
-      )
+    breaks = range(enrollment[["df_disagg_trend"]]$data_year),
+    limits = range(enrollment[["df_disagg_trend"]]$data_year)
   ) +
   scale_color_identity() +
   scale_fill_identity() +
@@ -519,10 +518,57 @@ enrollment[["df_disagg_trend"]] |>
         color = ff_colors$elements[["title"]],
         face = "bold"
       ),
+    strip.placement = "outside",
     axis.text.y = element_blank(),
     panel.grid = element_blank(),
     panel.spacing = unit(2.5, "lines")
   )
+
+v_mediaid_subpop <- enrollment[["df_disagg_trend"]] |>
+  filter(area == "Medicaid & CHIP") |> 
+  ggplot(
+    aes(
+      data_year, value,
+      group = sub_category,
+      fill = fill_color, color = fill_color
+    )
+  ) +
+  geom_hline(yintercept = 0, color = ff_colors$elements[["axis"]]) +
+  geom_area(alpha = .4) +
+  geom_line() +
+  geom_point(aes(y = val_pt), na.rm = TRUE) +
+  geom_text(
+    aes(label = lab_val),
+    vjust = -1, na.rm = TRUE,
+    family = "Source Sans 3", size = 7,
+    color = ff_colors$elements[["annotation"]]
+  ) +
+  facet_grid(area ~ fct_reorder2(sub_category, data_year, value), switch = "y") +
+  # facet_wrap(~fct_rev(area) + fct_reorder2(sub_category, data_year, value)) +
+  scale_x_continuous(
+    breaks = sort(c(2017, range(enrollment[["df_disagg_trend"]]$data_year))),
+    limits = range(enrollment[["df_disagg_trend"]]$data_year)
+  ) +
+  scale_color_identity() +
+  scale_fill_identity() +
+  coord_cartesian(clip = "off") +
+  labs(x = NULL, y = NULL) +
+  theme_minimal(base_size = 22) +
+  theme(
+    legend.position = "none",
+    strip.text =
+      element_text(
+        color = ff_colors$elements[["title"]],
+        face = "bold"
+      ),
+    strip.placement = "outside",
+    axis.text.y = element_blank(),
+    panel.grid = element_blank(),
+    panel.spacing = unit(2.5, "lines")
+  )
+
+((v_medicare_subpop | plot_spacer()) +
+  plot_layout(widths = c(2, 1)) ) / v_mediaid_subpop 
 ```
 
 
