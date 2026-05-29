@@ -4,7 +4,7 @@
 # REF ID:   61fccb95aa0b
 # LICENSE:  MIT
 # DATE:     2026-04-03
-# UPDATED:  2026-04-27
+# UPDATED:  2026-05-29
 
 # DEPENDENCIES ------------------------------------------------------------
 
@@ -185,17 +185,18 @@ informant <- informant |>
     "Source Reference Information & Methodology (Apr 2026 Release)" = c(
       "**Populations**",
       "_Medicare Enrollment_",
-      "The data reported in the Medicare Populations table come from CMS administrative enrollment data for beneficiaries enrolled in the Medicare program.  The data are sourced from the [CMS Chronic Conditions Data Warehouse (CCW)](https://www2.ccwdata.org/web/guest/home/), a database with 100% of Medicare enrollment and claims data.",
+      "The data reported in the Medicare Populations table come from CMS administrative enrollment data for beneficiaries enrolled in the Medicare program.  The data are sourced from the [CMS Chronic Conditions Data Warehouse (CCW)](https://www2.ccwdata.org/web/guest/home/), a database with 100% of Medicare enrollment and claims data. Additional historic data were sourced from [CMS Program Statistics](https://data.cms.gov/collection/cms-program-statistics) and [Medicare Monthly Enrollment Data](https://data.cms.gov/summary-statistics-on-beneficiary-enrollment/medicare-and-medicaid-reports/medicare-monthly-enrollment) on Data.CMS.gov.",
       "The Medicare enrollment counts are determined using a person-year methodology. For each calendar year, total person-year counts are determined by summing the total number of months that each beneficiary is enrolled in Parts A and/or B during the year and dividing by 12. Using this methodology, a beneficiary’s partial-year enrollment may be counted in more than 1 category (i.e., entitlement type and health care delivery), where appropriate.",
       "_Medicaid & CHIP Enrollment_",
-      "The Medicaid and Children’s Health Insurance Program (CHIP) enrollment counts come from the Medicaid & CHIP Scorecard.
-    -  The total and children counts are sourced from the [State Medicaid and CHIP Applications Eligibility Determinations, and Enrollment Data](https://data.medicaid.gov/dataset/6165f45b-ca93-5bb5-9d06-db29c692a360/data?conditions%5B0%5D%5Bproperty%5D=report_date&conditions%5B0%5D%5Bvalue%5D=2021-04-01&conditions%5B0%5D%5Boperator%5D=%3D&conditions%5B1%5D%5Bproperty%5D=preliminary_updated&conditions%5B1%5D%5Bvalue%5D=U&conditions%5B1%5D%5Boperator%5D=%3D).
-    -  The dual-eligible enrollment count are sourced from the MMCO Statistical & Analytic Reports: [Enrollment Snapshots of dual-eligible beneficiaries](https://www.cms.gov/Medicare-Medicaid-Coordination/Medicare-and-Medicaid-Coordination/Medicare-Medicaid-Coordination-Office/Analytics).
-    -  The adult expansion count are sourced from the Medicaid Budget and Expenditure System’s [Medicaid Enrollment – New Adult Group data](https://data.medicaid.gov/dataset/6c114b2c-cb83-559b-832f-4d8b06d6c1b9/data?conditions%5b0%5d%5bresource%5d=t&conditions%5b0%5d%5bproperty%5d=enrollment_month&conditions%5b0%5d%5bvalue%5d%5b0%5d=10&conditions%5b0%5d%5bvalue%5d%5b1%5d=11&conditions%5b0%5d%5bvalue%5d%5b2%5d=12&conditions%5b0%5d%5boperator%5d=in&conditions%5b1%5d%5bresource%5d=t&conditions%5b1%5d%5bproperty%5d=enrollment_year&conditions%5b1%5d%5bvalue%5d=2020&conditions%5b1%5d%5boperator%5d==).",
+      "The Medicaid and Children’s Health Insurance Program (CHIP) enrollment counts come from the Medicaid & CHIP Scorecard.",
+      "-   The total and children counts are sourced from the [State Medicaid and CHIP Applications Eligibility Determinations, and Enrollment Data](https://data.medicaid.gov/dataset/6165f45b-ca93-5bb5-9d06-db29c692a360/data?conditions%5B0%5D%5Bproperty%5D=report_date&conditions%5B0%5D%5Bvalue%5D=2021-04-01&conditions%5B0%5D%5Boperator%5D=%3D&conditions%5B1%5D%5Bproperty%5D=preliminary_updated&conditions%5B1%5D%5Bvalue%5D=U&conditions%5B1%5D%5Boperator%5D=%3D).",
+      "-   The dual-eligible enrollment count are sourced from the MMCO Statistical & Analytic Reports: [Enrollment Snapshots of dual-eligible beneficiaries](https://www.cms.gov/Medicare-Medicaid-Coordination/Medicare-and-Medicaid-Coordination/Medicare-Medicaid-Coordination-Office/Analytics).",
+      "-   The adult expansion count are sourced from the Medicaid Budget and Expenditure System’s [Medicaid Enrollment – New Adult Group data](https://data.medicaid.gov/dataset/6c114b2c-cb83-559b-832f-4d8b06d6c1b9/data?conditions%5b0%5d%5bresource%5d=t&conditions%5b0%5d%5bproperty%5d=enrollment_month&conditions%5b0%5d%5bvalue%5d%5b0%5d=10&conditions%5b0%5d%5bvalue%5d%5b1%5d=11&conditions%5b0%5d%5bvalue%5d%5b2%5d=12&conditions%5b0%5d%5boperator%5d=in&conditions%5b1%5d%5bresource%5d=t&conditions%5b1%5d%5bproperty%5d=enrollment_year&conditions%5b1%5d%5bvalue%5d=2020&conditions%5b1%5d%5boperator%5d==).",
+      "-   Additional historic sub-population trend data sourced from the [Medicaid & CHIP Scorecard](https://www.medicaid.gov/state-overviews/scorecard/welcome)",
       "",
       "**Medicare Deductibles, Coinsurance & Premiums**",
       "The Medicare deductible, coinsurance and premiums information reported in this table are sourced from the following:
-    -   [Medicare Part A and Part B Costs])(https://www.medicare.gov/basics/costs/medicare-costs)
+    -   [Medicare Part A and Part B Costs](https://www.medicare.gov/basics/costs/medicare-costs)
     -   [Medicare Part D Costs](https://www.medicare.gov/drug-coverage-part-d/costs-for-medicare-drug-coverage/)",
       "",
       "**Medicare Utilization and Payments by Type of Service**",
