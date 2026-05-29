@@ -27,7 +27,6 @@ dir_out <- "Dataout"
 #path to main FF data file
 path <- list.files(dir_out, ".parquet", full.names = TRUE)
 
-
 # IMPORT DATA ------------------------------------------------------------
 
 #read in Fast Facts structured dataset
