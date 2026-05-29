@@ -1149,4 +1149,96 @@ read_cms_gov_pop <- function(path) {
   return(df)
 }
 
+
+# IMPORT MEDICAID TREND DATA ---------------------------------------------
+
+read_medicaid_scorecard <- function(path) {
+  #import data, skipping metdata
+  df <- read_csv(path, skip = 7, show_col_types = FALSE)
+
+  #pivot wide to match structure where metrics are in one column
+  df <- df |>
+    pivot_longer(
+      -str_subset(names(df), "Month|Enrollment Category"),
+      names_to = "sub_category",
+    )
+
+  #adjust naming for file with total + children (diff structure)
+  if ("Enrollment Category" %in% names(df)) {
+    df <- df |>
+      mutate(sub_category = `Enrollment Category`) |>
+      select(-`Enrollment Category`)
+  }
+
+  #take CY latest reported
+  df <- df |>
+    mutate(
+      Month = my(Month),
+      release_date = max(Month)
+    ) |>
+    group_by(data_year = year(Month)) |>
+    filter(Month == max(Month)) |>
+    ungroup() |>
+    select(sub_category, data_year, release_date, value)
+
+  #adjust naming for subcategories to match Fast Facts
+  df <- df |>
+    mutate(
+      value = as.integer(value),
+      data_year = as.integer(data_year),
+      sub_category = recode_values(
+        sub_category,
+        "Total Medicaid and CHIP Enrollment" ~ "Total",
+        "Number of Full-Benefit Dually Eligible Individuals" ~ "Dual Eligible",
+        "Medicaid Child and CHIP Enrollment" ~ "Children",
+        "Number of Medicaid Expansion Adult Enrollees" ~ "Medicaid Expansion Adults"
+      )
+    )
+
+  #grab the source origin found in meta data in file header
+  file_source <- read_csv(
+    path,
+    skip = 4,
+    n_max = 1,
+    show_col_types = FALSE
+  ) |>
+    pull()
+
+  #add consistent metadata
+  df <- df |>
+    mutate(
+      area = "Medicaid & CHIP",
+      topic = "Enrollment",
+      category = "Medicaid & CHIP",
+      metric = "enrollment",
+      period_type = "CY",
+      source = "medicare.gov",
+      source_origin = file_source
+    )
+
+  #flag the latest year
+  df <- df |>
+    group_by(sub_category) |>
+    mutate(is_latest = data_year == max(data_year)) |>
+    ungroup()
+
+  #reorder to match Fast Facts
+  df <- df |>
+    relocate(
+      area,
+      topic,
+      category,
+      sub_category,
+      metric,
+      period_type,
+      data_year,
+      value,
+      source,
+      source_origin,
+      release_date
+    )
+
+  return(df)
+}
+
 # nolint end: object_usage_linter, return_linter.
