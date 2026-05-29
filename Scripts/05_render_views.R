@@ -4,14 +4,15 @@
 # REF ID:   9c1b01c03846
 # LICENSE:  MIT
 # DATE:     2026-04-30
-# UPDATED:
+# UPDATED:  2026-05-29
 
 # RUN THROUGH SCRIPTS ----------------------------------------------------
 
 #run scripts as needed
 source("Scripts/01_setup_working_dataset.R")
-source("Scripts/02_data_dictionary.R")
-source("Scripts/03_data_processing.R")
+source("Scripts/02_include_addtl_data.R")
+source("Scripts/03_data_dictionary.R")
+source("Scripts/04_data_processing.R")
 
 
 # RENDER QUARTO ----------------------------------------------------------
