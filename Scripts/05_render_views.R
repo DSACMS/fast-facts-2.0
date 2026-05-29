@@ -9,10 +9,10 @@
 # RUN THROUGH SCRIPTS ----------------------------------------------------
 
 #run scripts as needed
-source("Scripts/01_setup_working_dataset.R")
-source("Scripts/02_include_addtl_data.R")
-source("Scripts/03_data_dictionary.R")
-source("Scripts/04_data_processing.R")
+callr::rscript("Scripts/01_setup_working_dataset.R")
+callr::rscript("Scripts/02_include_addtl_data.R")
+callr::rscript("Scripts/03_data_dictionary.R")
+callr::rscript("Scripts/04_data_processing.R")
 
 
 # RENDER QUARTO ----------------------------------------------------------
