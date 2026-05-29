@@ -33,7 +33,7 @@ path <- list.files(dir_out, ".parquet", full.names = TRUE)
 df_ff <- read_parquet(path)
 
 
-# CONTEXT TAB ------------------------------------------------------------
+# HEALTH SPENDING TAB ----------------------------------------------------
 
 #extract NHE total
 nhe_total <- df_ff |>
@@ -139,7 +139,13 @@ bans_nhe <- c(
 )
 
 #formater
-fmt_units <- label_number(.1, prefix = "$", scale_cut = cut_short_scale())
+fmt_units <- label_number(
+  .1,
+  prefix = "$",
+  scale = 1e-9,
+  suffix = "B",
+  big.mark = ","
+)
 
 # financial data for plot
 df_spend <- df_ff |>
