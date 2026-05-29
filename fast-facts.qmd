@@ -64,7 +64,7 @@ walk(
 )
 ```
 
-# Context
+# Health Spending
 
 ## Row {height="25%"}
 
@@ -1157,7 +1157,7 @@ providers[["df_hospital_subset"]] |>
 
 ::: {.card}
 
-# Context 
+# Health Spending 
 
   - Total Medicaid Amount reported as total gross outlays including the Vaccines for Children Program.
 
