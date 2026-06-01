@@ -927,7 +927,7 @@ cost_sharing[["df_cs_trend"]] |>
 #| fig-width: 14
 #| fig-height: 6
 
-cost_sharing[["df_cs_trend"]] |> 
+v_outofpocket <- cost_sharing[["df_cs_trend"]] |> 
   filter(metric_lab == "Part D Out-of-Pocket Threshold") |> 
   ggplot(aes(data_year, value, group = ln_group, fill = fill_color, color = fill_color)) +
   geom_blank(aes(y = value * 1.1)) +
@@ -965,6 +965,8 @@ cost_sharing[["df_cs_trend"]] |>
     panel.grid = element_blank(),
     panel.spacing = unit(2.5, "lines")
   )
+
+v_outofpocket + plot_spacer() + plot_spacer()
 
 ```
 
