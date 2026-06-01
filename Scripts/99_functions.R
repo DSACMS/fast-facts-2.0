@@ -358,7 +358,8 @@ read_costsharing <- function(path) {
       sub_category = recode_values(
         sub_category,
         "Coinsurance/Day" ~ "Coinsurance/Day (Days 61-90)",
-        "SNF Day" ~ "SNF Day (Days 21-100)"
+        "Coinsurance/SNF Day" ~ "Coinsurance/SNF Day (Days 21-100)",
+        default = sub_category
       )
     )
 
