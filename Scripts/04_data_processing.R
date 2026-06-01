@@ -681,10 +681,11 @@ df_cs_trend <- df_cs_trend |>
     ),
     val_pt = case_when(data_year %in% range(data_year) ~ value),
     lab_val = case_when(
-      data_year %in% range(data_year) ~ label_number(
-        1,
-        prefix = "$",
-        scale_cut = cut_short_scale()
+      data_year %in% range(data_year) ~ label_currency(
+        # data_year %in% range(data_year) ~ label_number(
+        #   1,
+        #   prefix = "$",
+        #   scale_cut = cut_short_scale()
       )(value)
     ),
     fill_color = ff_colors$scales$cobolt["200"]
@@ -700,6 +701,23 @@ df_recent <- df_cs_trend |>
 
 df_cs_trend <- df_cs_trend |>
   inner_join(df_recent)
+
+v_cs_cats <- c(
+  "Part A (Reduced)",
+  "Part A (Full)",
+  "Part B (Standard)",
+  "Part B (Maximum)",
+  "Part A (Inpatient Hospital)",
+  "Part B",
+  "Part D (Maximum)",
+  "Day (Days 61-90)",
+  "LTR Day",
+  "SNF Day (Days 21-100)",
+  "Out-of-Pocket Threshold"
+)
+
+df_cs_trend <- df_cs_trend |>
+  mutate(sub_category = factor(sub_category, v_cs_cats))
 
 #gather sources for footnote
 v_costsharing_sources <- df_ff |>

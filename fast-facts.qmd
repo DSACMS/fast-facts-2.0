@@ -790,7 +790,7 @@ cost_sharing[["df_cs_trend"]] |>
     family = "Source Sans 3", size = 7,
     color = ff_colors$elements[["annotation"]]
   ) +
-  facet_grid(~fct_reorder2(sub_category, data_year, value)) +
+  facet_grid(~sub_category) +
   scale_x_continuous(
     breaks =
       range(
@@ -840,7 +840,7 @@ cost_sharing[["df_cs_trend"]] |>
     family = "Source Sans 3", size = 7,
     color = ff_colors$elements[["annotation"]]
   ) +
-  facet_grid(~fct_reorder2(sub_category, data_year, value)) +
+  facet_grid(~sub_category) +
   scale_x_continuous(
     breaks =
       range(
@@ -892,7 +892,7 @@ cost_sharing[["df_cs_trend"]] |>
     family = "Source Sans 3", size = 7,
     color = ff_colors$elements[["annotation"]]
   ) +
-  facet_grid(~fct_reorder2(sub_category, data_year, value)) +
+  facet_grid(~sub_category) +
   scale_x_continuous(
     breaks =
       range(
@@ -941,7 +941,7 @@ cost_sharing[["df_cs_trend"]] |>
     family = "Source Sans 3", size = 7,
     color = ff_colors$elements[["annotation"]]
   ) +
-  facet_grid(~fct_reorder2(sub_category, data_year, value)) +
+  facet_grid(~sub_category) +
   scale_x_continuous(
     breaks =
       range(
