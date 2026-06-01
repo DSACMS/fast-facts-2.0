@@ -651,7 +651,7 @@ df_cs_trend <- df_cs_trend |>
         c(
           "Out-of-Pocket Threshold",
           "Initial Coverage Limit"
-        ) ~ "Part D Out-of-Pocket Threshold (Part D)",
+        ) ~ "Part D Out-of-Pocket Threshold",
       TRUE ~ str_glue("{str_to_title(metric)}s")
     ),
     metric_lab = factor(
@@ -660,7 +660,7 @@ df_cs_trend <- df_cs_trend |>
         "Premiums",
         "Deductibles",
         "Coinsurance (Part A)",
-        "Part D Out-of-Pocket Threshold (Part D)"
+        "Part D Out-of-Pocket Threshold"
       )
     ),
     sub_category = case_when(
