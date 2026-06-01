@@ -57,6 +57,26 @@ df_benes_medicaid <- path_medicaid |>
   map(read_medicaid_scorecard) |>
   list_rbind()
 
+# ADD IN PREMIUM DATA ----------------------------------------------------
+
+#additional data for reduce Part A premiums not included in FF
+df_premium_a_reduced <-
+  tribble(
+    ~data_year , ~value ,
+    2021L      , 259L   ,
+    2022L      , 274L
+  ) |>
+  mutate(
+    area = "Medicare",
+    topic = "Cost Sharing",
+    category = "Premiums",
+    sub_category = "Part A (Reduced)",
+    metric = "premium",
+    period_type = "CY",
+    is_latest = FALSE
+  )
+
+
 # MUNGE -------------------------------------------------------------------
 
 #combine rows from additional data sources
@@ -64,7 +84,8 @@ df_benes_addtl <-
   bind_rows(
     df_medicare_prog_stats,
     df_medicare_monthly_enroll,
-    df_benes_medicaid
+    df_benes_medicaid,
+    df_premium_a_reduced
   )
 
 # CHECK ------------------------------------------------------------------
