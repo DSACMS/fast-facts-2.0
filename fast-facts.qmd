@@ -611,7 +611,7 @@ v_mediaid_subpop <- enrollment[["df_disagg_trend"]] |>
 ## Row {height="25%"}
 
 :::{.valuebox .text-white label = "ban_medicare_util" icon="heart-fill" color="#0071BC"}
-Medicare Program Payments/Persons Served
+Original Medicare Program Payments/Persons Served
 
 `r utilization$bans[["medicare_total"]]`
 
@@ -621,7 +621,7 @@ Medicare Program Payments/Persons Served
 
 
 :::{.valuebox .text-white label = "ban_medicare_d_util" icon="prescription2" color="#00538C"}
-Medicare Part D Program Payments/Persons Served
+Medicare Part D Expenditures/Utilizers
 
 `r utilization$bans[["part_d"]]`
 
@@ -709,7 +709,7 @@ utilization[["df_medicare_util"]] |>
 
 #### Row {height="20%"}
 
-::: {.card title="Part D"}
+::: {.card title="Part D Utilization & Expenditures"}
 
 `r utilization$df_part_d`
 
