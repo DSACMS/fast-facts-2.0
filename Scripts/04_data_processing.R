@@ -645,15 +645,20 @@ df_cs_trend <- df_cs_trend |>
         c(
           "Out-of-Pocket Threshold",
           "Initial Coverage Limit"
-        ) ~ "Other (Part D)",
+        ) ~ "Part D Out-of-Pocket Threshold (Part D)",
       TRUE ~ str_glue("{str_to_title(metric)}s")
     ),
     metric_lab = factor(
       metric_lab,
-      c("Premiums", "Deductibles", "Coinsurance (Part A)", "Other (Part D)")
+      c(
+        "Premiums",
+        "Deductibles",
+        "Coinsurance (Part A)",
+        "Part D Out-of-Pocket Threshold (Part D)"
+      )
     ),
     sub_category = case_when(
-      !is.na(bound) ~ str_glue("{sub_category} ({bound} bound)"),
+      !is.na(bound) ~ str_glue("{sub_category} ({str_to_title(bound)})"),
       metric == "deductible" &
         category == "Part A" ~ "Part A (Inpatient Hospital)",
       metric == "deductible" & category == "Part D" ~ "Part D (Maximum)",
