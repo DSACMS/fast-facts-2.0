@@ -24,7 +24,7 @@
   "disclaimerURL": "",
   "disclaimerText": "",
   "vcs": "git",
-  "laborHours": 4817,
+  "laborHours": 5115,
   "reuseFrequency": {
     "forks": 0,
     "clones": 0
@@ -41,7 +41,8 @@
   "softwareType": "standalone/other",
   "languages": [
     "R",
-    "SCSS"
+    "SCSS",
+    "CSS"
   ],
   "maintenance": "internal",
   "contractNumber": [],
@@ -51,8 +52,8 @@
   "partners": [],
   "date": {
     "created": "2026-03-17T15:36:33Z",
-    "lastModified": "2026-04-30T20:50:18Z",
-    "metadataLastUpdated": "2026-05-01T02:55:26.501Z"
+    "lastModified": "2026-05-29T19:46:56Z",
+    "metadataLastUpdated": "2026-06-01T03:56:42.538Z"
   },
   "tags": [
     "dsacms-tier2"
