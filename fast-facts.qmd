@@ -231,7 +231,7 @@ context[["df_insurance"]] |>
 
 context[["df_spend"]] |>
   ggplot(aes(value, sub_category, fill = fill_color)) +
-  geom_blank(aes(value * 1.1)) +
+  geom_blank(aes(value * 1.2)) +
   geom_col(width = .8) +
   geom_text(
     aes(label = value_fmt),

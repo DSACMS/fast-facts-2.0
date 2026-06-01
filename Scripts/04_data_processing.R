@@ -142,6 +142,12 @@ bans_nhe <- c(
 fmt_units <- label_number(
   .1,
   prefix = "$",
+  scale_cut = cut_short_scale()
+)
+
+fmt_units_b <- label_number(
+  .1,
+  prefix = "$",
   scale = 1e-9,
   suffix = "B",
   big.mark = ","
@@ -171,7 +177,7 @@ df_spend <- df_ff |>
       "Total Funding",
       sub_category
     ),
-    value_fmt = fmt_units(value),
+    value_fmt = fmt_units_b(value),
     share = ifelse(category == "Health Care Fraud & Abuse Control", NA, share),
     share_fmt = label_percent(1)(share),
     fill_color = recode_values(
