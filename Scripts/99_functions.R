@@ -355,10 +355,10 @@ read_costsharing <- function(path) {
 
   df_tab <- df_tab |>
     mutate(
-      sub_category = ifelse(
-        sub_category == "Coinsurance/Day",
-        "Coinsurance/Day (Days 61-90)",
-        sub_category
+      sub_category = recode_values(
+        sub_category,
+        "Coinsurance/Day" ~ "Coinsurance/Day (Days 61-90)",
+        "SNF Day" ~ "SNF Day (Days 21-100)"
       )
     )
 
