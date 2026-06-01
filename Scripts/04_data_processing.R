@@ -400,6 +400,7 @@ v_enrollment_sources <- df_ff |>
     topic %in% c("Enrollment"),
     is_latest == TRUE
   ) |>
+  add_row(source_origin = "CMS/Office of Enterprise Data & Analytics") |>
   distinct(source_origin) |>
   mutate(
     source_origin = str_remove(
@@ -588,6 +589,7 @@ v_utilization_sources <- df_ff |>
     is_latest == TRUE
   ) |>
   distinct(source_origin) |>
+  add_row(source_origin = "CMS/Office of Enterprise Data & Analytics") |>
   mutate(
     source_origin = str_remove(
       source_origin,
