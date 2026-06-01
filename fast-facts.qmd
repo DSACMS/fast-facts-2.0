@@ -921,14 +921,14 @@ cost_sharing[["df_cs_trend"]] |>
 
 ```{r}
 #| label: other_part_d
-#| title: "Other (Part D)"
+#| title: "Part D Out-of-Pocket Threshold"
 #| out-width: 100%
 #| out-height: 100%
 #| fig-width: 14
 #| fig-height: 6
 
 cost_sharing[["df_cs_trend"]] |> 
-  filter(metric_lab == "Other (Part D)") |> 
+  filter(metric_lab == "Part D Out-of-Pocket Threshold (Part D)") |> 
   ggplot(aes(data_year, value, group = ln_group, fill = fill_color, color = fill_color)) +
   geom_blank(aes(y = value * 1.1)) +
   geom_hline(yintercept = 0, color = ff_colors$elements[["axis"]]) +
