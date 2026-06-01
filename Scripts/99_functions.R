@@ -354,6 +354,15 @@ read_costsharing <- function(path) {
     fill(category)
 
   df_tab <- df_tab |>
+    mutate(
+      sub_category = ifelse(
+        sub_category == "Coinsurance/Day",
+        "Coinsurance/Day (Days 61-90)",
+        sub_category
+      )
+    )
+
+  df_tab <- df_tab |>
     pivot_longer(
       starts_with("cy_"),
       names_to = "data_year",
