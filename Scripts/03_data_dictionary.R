@@ -145,7 +145,7 @@ informant <- informant |>
   info_columns(
     columns = bound,
     info = str_glue(
-      'Relevant for only Part B Premiums (`topic == "Cost Sharing"`): specifies whether the value is the upper or lower bound of the range <br>Levels ({pluck(char_dict, "bound", "n_distinct")}): {pluck(char_dict, "bound", "options") |> paste(collapse = " | ")}'
+      'Relevant for only Part B Premiums (`topic == "Cost Sharing"`): specifies whether the value is the Standard or Maximum value <br>Levels ({pluck(char_dict, "bound", "n_distinct")}): {pluck(char_dict, "bound", "options") |> paste(collapse = " | ")}'
     )
   ) |>
   info_columns(

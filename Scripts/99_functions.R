@@ -368,9 +368,13 @@ read_costsharing <- function(path) {
       sub_category == "Part B"
     ) |>
     mutate(value = str_remove_all(value, "\\$")) |>
-    separate_wider_delim(value, delim = "-", names = c("lower", "upper")) |>
+    separate_wider_delim(
+      value,
+      delim = "-",
+      names = c("standard", "maximum")
+    ) |>
     pivot_longer(
-      c(lower, upper),
+      c(standard, maximum),
       names_to = "bound"
     )
 
