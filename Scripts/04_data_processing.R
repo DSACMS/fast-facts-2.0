@@ -703,8 +703,8 @@ df_cs_trend <- df_cs_trend |>
   inner_join(df_recent)
 
 v_cs_cats <- c(
-  "Part A (Reduced)",
   "Part A (Full)",
+  "Part A (Reduced)",
   "Part B (Standard)",
   "Part B (Maximum)",
   "Part A (Inpatient Hospital)",
