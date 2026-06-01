@@ -386,6 +386,15 @@ read_costsharing <- function(path) {
     bind_rows(df_tab_prem_b)
 
   df_tab <- df_tab |>
+    mutate(
+      sub_category = ifelse(
+        category == "Premiums" & sub_category == "Part A",
+        "Part A (Full)",
+        sub_category
+      )
+    )
+
+  df_tab <- df_tab |>
     mutate(value = as.numeric(value))
 
   df_tab <- df_tab |>
