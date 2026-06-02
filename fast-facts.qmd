@@ -35,6 +35,7 @@ library(tidyverse)
 library(scales, warn.conflicts = FALSE)
 library(systemfonts, warn.conflicts = FALSE)
 library(patchwork)
+library(ggtext)
 library(ggrepel)
 library(waffle)
 library(gt, warn.conflicts = FALSE)
@@ -802,11 +803,11 @@ cost_sharing[["df_cs_trend"]] |>
   scale_color_identity() + 
   coord_cartesian(clip = "off") +
   labs(x = NULL, y = NULL) +
-  theme_minimal(base_family = "Source Sans 3", base_size = 22) +
+  theme_minimal(base_family = "Source Sans 3", base_size = 28) +
   theme(
     legend.position = "none",
     strip.text =
-      element_text(
+      element_markdown(
         color = ff_colors$elements[["title"]],
         face = "bold"
       ),
@@ -852,11 +853,11 @@ cost_sharing[["df_cs_trend"]] |>
   scale_color_identity() + 
   coord_cartesian(clip = "off") +
   labs(x = NULL, y = NULL) +
-  theme_minimal(base_family = "Source Sans 3", base_size = 22) +
+  theme_minimal(base_family = "Source Sans 3", base_size = 28) +
   theme(
     legend.position = "none",
     strip.text =
-      element_text(
+      element_markdown(
         color = ff_colors$elements[["title"]],
         face = "bold"
       ),
@@ -879,7 +880,7 @@ cost_sharing[["df_cs_trend"]] |>
 #| fig-height: 6
 
 cost_sharing[["df_cs_trend"]] |> 
-  filter(metric_lab == "Coinsurance (Part A)") |> 
+  filter(metric_lab == "Part A Coinsurance") |> 
   ggplot(aes(data_year, value, group = ln_group, fill = fill_color, color = fill_color)) +
   geom_blank(aes(y = value * 1.1)) +
   geom_hline(yintercept = 0, color = ff_colors$elements[["axis"]]) +
@@ -904,11 +905,11 @@ cost_sharing[["df_cs_trend"]] |>
   scale_color_identity() + 
   coord_cartesian(clip = "off") +
   labs(x = NULL, y = NULL) +
-  theme_minimal(base_family = "Source Sans 3", base_size = 22) +
+  theme_minimal(base_family = "Source Sans 3", base_size = 28) +
   theme(
     legend.position = "none",
     strip.text =
-      element_text(
+      element_markdown(
         color = ff_colors$elements[["title"]],
         face = "bold"
       ),
@@ -953,11 +954,11 @@ v_outofpocket <- cost_sharing[["df_cs_trend"]] |>
   scale_color_identity() + 
   coord_cartesian(clip = "off") +
   labs(x = NULL, y = NULL) +
-  theme_minimal(base_family = "Source Sans 3", base_size = 22) +
+  theme_minimal(base_family = "Source Sans 3", base_size = 28) +
   theme(
     legend.position = "none",
     strip.text =
-      element_text(
+      element_markdown(
         color = ff_colors$elements[["title"]],
         face = "bold"
       ),

@@ -646,7 +646,7 @@ df_cs_trend <- df_cs_trend |>
 df_cs_trend <- df_cs_trend |>
   mutate(
     metric_lab = case_when(
-      metric == "coinsurance" ~ "Coinsurance (Part A)",
+      metric == "coinsurance" ~ "Part A Coinsurance", #"Coinsurance (Part A)"
       sub_category %in%
         c(
           "Out-of-Pocket Threshold",
@@ -659,17 +659,29 @@ df_cs_trend <- df_cs_trend |>
       c(
         "Premiums",
         "Deductibles",
-        "Coinsurance (Part A)",
+        "Part A Coinsurance", #"Coinsurance (Part A)"
         "Part D Out-of-Pocket Threshold"
       )
     ),
     sub_category = case_when(
-      !is.na(bound) ~ str_glue("{sub_category} ({str_to_title(bound)})"),
+      # !is.na(bound) ~ str_glue("{sub_category} ({str_to_title(bound)})"),
+      !is.na(bound) ~ str_glue("{sub_category}<br>*{str_to_title(bound)}*"),
       metric == "deductible" &
-        category == "Part A" ~ "Part A (Inpatient Hospital)",
-      metric == "deductible" & category == "Part D" ~ "Part D (Maximum)",
+        category == "Part A" ~ "Part A<br>*Inpatient Hospital*",
+      #"Part A (Inpatient Hospital)",
+      metric == "deductible" & category == "Part D" ~ "Part D<br>*Maximum*",
+      #"Part D (Maximum)",
       metric == "deductible" ~ category,
-      TRUE ~ str_remove(sub_category, "Coinsurance/")
+      TRUE ~ sub_category |>
+        str_remove("Coinsurance/") |>
+        str_replace(" \\(", "<br>*") |>
+        str_replace("\\)", "*")
+      # TRUE ~ str_remove(sub_category, "Coinsurance/")
+    ),
+    sub_category = ifelse(
+      str_detect(sub_category, "<br>", negate = TRUE),
+      str_glue("{sub_category}<br>"),
+      sub_category
     )
   )
 
@@ -709,17 +721,28 @@ df_cs_trend <- df_cs_trend |>
   inner_join(df_recent)
 
 v_cs_cats <- c(
-  "Part A (Full)",
-  "Part A (Reduced)",
-  "Part B (Standard)",
-  "Part B (Maximum)",
-  "Part A (Inpatient Hospital)",
-  "Part B",
-  "Part D (Maximum)",
-  "Day (Days 61-90)",
-  "LTR Day",
-  "SNF Day (Days 21-100)",
-  "Out-of-Pocket Threshold"
+  "Part A<br>*Full*",
+  "Part A<br>*Reduced*",
+  "Part B<br>*Standard*",
+  "Part B<br>*Maximum*",
+  "Part A<br>*Inpatient Hospital*",
+  "Part B<br>",
+  "Part D<br>*Maximum*",
+  "Day<br>*Days 61-90*",
+  "LTR Day<br>",
+  "SNF Day<br>*Days 21-100*",
+  "Out-of-Pocket Threshold<br>"
+  # "Part A (Full)",
+  # "Part A (Reduced)",
+  # "Part B (Standard)",
+  # "Part B (Maximum)",
+  # "Part A (Inpatient Hospital)",
+  # "Part B",
+  # "Part D (Maximum)",
+  # "Day (Days 61-90)",
+  # "LTR Day",
+  # "SNF Day (Days 21-100)",
+  # "Out-of-Pocket Threshold"
 )
 
 df_cs_trend <- df_cs_trend |>
