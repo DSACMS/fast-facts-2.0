@@ -87,6 +87,33 @@ df_nhe_pc <- df_ff |>
   ) |>
   select(category, sub_category, data_year, value, value_fmt, n_icons)
 
+#Hard coded values for other NHE subcategories
+df_nhe_sources <- tribble(
+  ~topic , ~category                               , ~sub_category                            , ~period_type , ~data_year , ~metric        , ~value   ,
+  "NHE"  , "National Health Expenditures Breakout" , "Out of Pocket"                          , "CY"         , 2024L      , "expenditures" , 5.57e+11 ,
+  "NHE"  , "National Health Expenditures Breakout" , "Other Third-Party Payers and Programs"  , "CY"         , 2024L      , "expenditures" , 4.33e+11 ,
+  "NHE"  , "National Health Expenditures Breakout" , "Government Public Health Activities"    , "CY"         , 2024L      , "expenditures" , 1.58e+11 ,
+  "NHE"  , "National Health Expenditures Breakout" , "Investments"                            , "CY"         , 2024L      , "expenditures" , 2.39e+11 ,
+  "NHE"  , "National Health Expenditures Breakout" , "National Health Insurance Expenditures" , "CY"         , 2024L      , "expenditures" , 3.9e+12
+)
+
+#format for plotting
+df_nhe_sources <- df_nhe_sources |>
+  mutate(
+    sub_category = recode_values(
+      sub_category,
+      "National Health Insurance Expenditures" ~ "National Health\nInsurance Expenditures",
+      "Other Third-Party Payers and Programs" ~ "Other Third-Party\nPayers and Programs",
+      "Government Public Health Activities" ~ "Government Public\nHealth Activities",
+      default = sub_category
+    ),
+    value_format = fmt_dynamic(value),
+    fill_color = case_when(
+      # sub_category == "National Health\nInsurance Expenditures" ~ "#6E6E6E",
+      TRUE ~ ff_colors$base[["green"]]
+    )
+  )
+
 #extact health insurnace total
 health_insurance <- df_ff |>
   filter(
@@ -242,6 +269,7 @@ context <- list(
   years = years,
   df_nhe_gdp_share = df_nhe_gdp_share,
   df_nhe_pc = df_nhe_pc,
+  df_nhe_sources = df_nhe_sources,
   df_insurance = df_insurance,
   df_spend = df_spend,
   fte = fte,
