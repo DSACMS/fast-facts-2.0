@@ -175,6 +175,69 @@ extract_source <- function(path, sheet) {
 }
 
 
+# FORMAT LARGE NUMBERS ---------------------------------------------------
+
+#' Vectorised dynamic number formatter for use in mutate()
+#'
+#' Returns a character vector of formatted numbers, applying one decimal place
+#' above or below a given threshold, and none on the other side.
+#'
+#' @param x         A numeric vector
+#' @param threshold Absolute value above/below which 1 decimal is applied (default 1e12)
+#' @param decimals_above Logical; if TRUE (default), 1 decimal applied above threshold,
+#'                       if FALSE, 1 decimal applied below threshold
+#' @return A character vector of formatted labels
+
+fmt_dynamic <- function(x, threshold = 1e12, decimals_above = TRUE) {
+  fmt_one <- label_number(
+    scale_cut = cut_short_scale(),
+    prefix = "$",
+    accuracy = 0.1
+  )
+  fmt_none <- label_number(
+    scale_cut = cut_short_scale(),
+    prefix = "$",
+    accuracy = 1
+  )
+
+  over_threshold <- !is.na(x) & abs(x) >= threshold
+
+  case_when(
+    is.na(x) ~ NA_character_,
+    decimals_above ~ if_else(over_threshold, fmt_one(x), fmt_none(x)),
+    !decimals_above ~ if_else(over_threshold, fmt_none(x), fmt_one(x))
+  )
+}
+
+
+#' Billions-fixed formatter with decimals only for values under 10B
+#'
+#' @param x A numeric vector
+#' @return A character vector of formatted labels
+
+fmt_billions <- function(x) {
+  fmt_one <- label_number(
+    accuracy = 0.1,
+    prefix = "$",
+    scale = 1e-9,
+    suffix = "B",
+    big.mark = ","
+  )
+  fmt_none <- label_number(
+    accuracy = 1,
+    prefix = "$",
+    scale = 1e-9,
+    suffix = "B",
+    big.mark = ","
+  )
+
+  case_when(
+    is.na(x) ~ NA_character_,
+    abs(x) < 10e9 ~ fmt_one(x),
+    TRUE ~ fmt_none(x)
+  )
+}
+
 # Import Populations Tab -------------------------------------------------
 
 read_benes <- function(path) {
@@ -354,6 +417,16 @@ read_costsharing <- function(path) {
     fill(category)
 
   df_tab <- df_tab |>
+    mutate(
+      sub_category = recode_values(
+        sub_category,
+        "Coinsurance/Day" ~ "Coinsurance/Day (Days 61-90)",
+        "Coinsurance/SNF Day" ~ "Coinsurance/SNF Day (Days 21-100)",
+        default = sub_category
+      )
+    )
+
+  df_tab <- df_tab |>
     pivot_longer(
       starts_with("cy_"),
       names_to = "data_year",
@@ -368,9 +441,13 @@ read_costsharing <- function(path) {
       sub_category == "Part B"
     ) |>
     mutate(value = str_remove_all(value, "\\$")) |>
-    separate_wider_delim(value, delim = "-", names = c("lower", "upper")) |>
+    separate_wider_delim(
+      value,
+      delim = "-",
+      names = c("standard", "maximum")
+    ) |>
     pivot_longer(
-      c(lower, upper),
+      c(standard, maximum),
       names_to = "bound"
     )
 
@@ -380,6 +457,15 @@ read_costsharing <- function(path) {
       sub_category == "Part B"
     ) |>
     bind_rows(df_tab_prem_b)
+
+  df_tab <- df_tab |>
+    mutate(
+      sub_category = ifelse(
+        category == "Premiums" & sub_category == "Part A",
+        "Part A (Full)",
+        sub_category
+      )
+    )
 
   df_tab <- df_tab |>
     mutate(value = as.numeric(value))

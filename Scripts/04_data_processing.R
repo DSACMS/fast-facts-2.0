@@ -33,7 +33,7 @@ path <- list.files(dir_out, ".parquet", full.names = TRUE)
 df_ff <- read_parquet(path)
 
 
-# CONTEXT TAB ------------------------------------------------------------
+# HEALTH SPENDING TAB ----------------------------------------------------
 
 #extract NHE total
 nhe_total <- df_ff |>
@@ -87,6 +87,33 @@ df_nhe_pc <- df_ff |>
   ) |>
   select(category, sub_category, data_year, value, value_fmt, n_icons)
 
+#Hard coded values for other NHE subcategories
+df_nhe_sources <- tribble(
+  ~topic , ~category                               , ~sub_category                            , ~period_type , ~data_year , ~metric        , ~value   ,
+  "NHE"  , "National Health Expenditures Breakout" , "Out of Pocket"                          , "CY"         , 2024L      , "expenditures" , 5.57e+11 ,
+  "NHE"  , "National Health Expenditures Breakout" , "Other Third-Party Payers and Programs"  , "CY"         , 2024L      , "expenditures" , 4.33e+11 ,
+  "NHE"  , "National Health Expenditures Breakout" , "Government Public Health Activities"    , "CY"         , 2024L      , "expenditures" , 1.58e+11 ,
+  "NHE"  , "National Health Expenditures Breakout" , "Investments"                            , "CY"         , 2024L      , "expenditures" , 2.39e+11 ,
+  "NHE"  , "National Health Expenditures Breakout" , "National Health Insurance Expenditures" , "CY"         , 2024L      , "expenditures" , 3.9e+12
+)
+
+#format for plotting
+df_nhe_sources <- df_nhe_sources |>
+  mutate(
+    sub_category = recode_values(
+      sub_category,
+      "National Health Insurance Expenditures" ~ "National Health\nInsurance Expenditures",
+      "Other Third-Party Payers and Programs" ~ "Other Third-Party\nPayers and Programs",
+      "Government Public Health Activities" ~ "Government Public\nHealth Activities",
+      default = sub_category
+    ),
+    value_format = fmt_dynamic(value),
+    fill_color = case_when(
+      # sub_category == "National Health\nInsurance Expenditures" ~ "#6E6E6E",
+      TRUE ~ ff_colors$base[["green"]]
+    )
+  )
+
 #extact health insurnace total
 health_insurance <- df_ff |>
   filter(
@@ -107,9 +134,7 @@ df_insurance <- df_ff |>
   ) |>
   select(category, sub_category, data_year, value) |>
   mutate(
-    value_fmt = label_number(.1, prefix = "$", scale_cut = cut_short_scale())(
-      value
-    ),
+    value_fmt = fmt_dynamic(value),
     share = value / sum(value),
     fill_color = case_when(
       str_detect(sub_category, "Medicare") ~ ff_colors$base[["azure"]],
@@ -138,9 +163,6 @@ bans_nhe <- c(
   fed_spend = fed_spend
 )
 
-#formater
-fmt_units <- label_number(.1, prefix = "$", scale_cut = cut_short_scale())
-
 # financial data for plot
 df_spend <- df_ff |>
   filter(
@@ -155,7 +177,7 @@ df_spend <- df_ff |>
       "Health Care Fraud & Abuse Control",
       category
     ),
-    category = str_glue("{category} ({fmt_units(sum(value))})")
+    category = str_glue("{category} ({fmt_dynamic(sum(value))})")
   ) |>
   ungroup() |>
   mutate(
@@ -165,7 +187,7 @@ df_spend <- df_ff |>
       "Total Funding",
       sub_category
     ),
-    value_fmt = fmt_units(value),
+    value_fmt = fmt_billions(value),
     share = ifelse(category == "Health Care Fraud & Abuse Control", NA, share),
     share_fmt = label_percent(1)(share),
     fill_color = recode_values(
@@ -247,6 +269,7 @@ context <- list(
   years = years,
   df_nhe_gdp_share = df_nhe_gdp_share,
   df_nhe_pc = df_nhe_pc,
+  df_nhe_sources = df_nhe_sources,
   df_insurance = df_insurance,
   df_spend = df_spend,
   fte = fte,
@@ -335,19 +358,19 @@ df_medicare_trend <- df_ff |>
       data_year == max(data_year),
       str_glue(
         "{lab_orig} ",
-        "({label_percent(1, style_positive = 'plus')(delta_orig)} prior)"
+        "({label_percent(1, style_positive = 'plus')(delta_orig)} prior year)"
       ),
       lab_orig
     ),
     lab_ma = ifelse(
       data_year == max(data_year),
       str_glue(
-        "{lab_ma} ({label_percent(1, style_positive = 'plus')(delta_ma)} prior)"
+        "{lab_ma} ({label_percent(1, style_positive = 'plus')(delta_ma)} prior year)"
       ),
       lab_ma
     ),
-    lab_orig_cat = case_when(data_year == 2022 ~ "Original Medicare"),
-    lab_ma_cat = case_when(data_year == 2022 ~ "Medicare Advantage")
+    lab_orig_cat = case_when(data_year == 2016 ~ "Original Medicare"),
+    lab_ma_cat = case_when(data_year == 2016 ~ "Medicare Advantage")
   )
 
 
@@ -394,6 +417,7 @@ v_enrollment_sources <- df_ff |>
     topic %in% c("Enrollment"),
     is_latest == TRUE
   ) |>
+  add_row(source_origin = "CMS/Office of Enterprise Data & Analytics") |>
   distinct(source_origin) |>
   mutate(
     source_origin = str_remove(
@@ -582,6 +606,7 @@ v_utilization_sources <- df_ff |>
     is_latest == TRUE
   ) |>
   distinct(source_origin) |>
+  add_row(source_origin = "CMS/Office of Enterprise Data & Analytics") |>
   mutate(
     source_origin = str_remove(
       source_origin,
@@ -616,9 +641,7 @@ write_rds(utilization, "Dataout/utilization.rds")
 #subset data for cost sharing data
 df_cs_trend <- df_ff |>
   filter(topic == "Cost Sharing") |>
-  filter(data_year >= max(data_year) - 1) |>
-  unite(period, c(period_type, data_year), sep = " ") |>
-  select(topic, category, sub_category, metric, period, value, bound)
+  select(topic, category, sub_category, metric, data_year, value, bound)
 
 #create necessary fields for viz
 df_cs_trend <- df_cs_trend |>
@@ -628,62 +651,113 @@ df_cs_trend <- df_cs_trend |>
       str_glue("{category} {sub_category} {bound}"),
       str_glue("{category} {sub_category}")
     ),
-    fill_color = ifelse(
-      period == max(period),
-      ff_colors$scales$cobolt["200"],
-      "white"
-    ),
-    order = ifelse(period == max(period), value, 0)
-  ) |>
-  group_by(ln_group) |>
-  mutate(
-    mid_pt = mean(value, na.rm = TRUE),
-    delta = value / lag(value) - 1,
-    delta_lab = label_percent(1, style_positive = "plus")(delta)
-  ) |>
-  ungroup()
+    order = ifelse(data_year == max(data_year), value, 0)
+  )
 
 df_cs_trend <- df_cs_trend |>
   mutate(
     metric_lab = case_when(
-      metric == "coinsurance" ~ "Coinsurance (Part A)",
+      metric == "coinsurance" ~ "Part A Coinsurance", #"Coinsurance (Part A)"
       sub_category %in%
         c(
           "Out-of-Pocket Threshold",
           "Initial Coverage Limit"
-        ) ~ "Other (Part D)",
+        ) ~ "Part D Out-of-Pocket Threshold",
       TRUE ~ str_glue("{str_to_title(metric)}s")
     ),
     metric_lab = factor(
       metric_lab,
-      c("Premiums", "Deductibles", "Coinsurance (Part A)", "Other (Part D)")
+      c(
+        "Premiums",
+        "Deductibles",
+        "Part A Coinsurance", #"Coinsurance (Part A)"
+        "Part D Out-of-Pocket Threshold"
+      )
     ),
     sub_category = case_when(
-      !is.na(bound) ~ str_glue("{sub_category} ({bound} bound)"),
+      # !is.na(bound) ~ str_glue("{sub_category} ({str_to_title(bound)})"),
+      !is.na(bound) ~ str_glue("{sub_category}<br>*{str_to_title(bound)}*"),
       metric == "deductible" &
-        category == "Part A" ~ "Part A (Inpatient Hospital)",
-      metric == "deductible" & category == "Part D" ~ "Part D (Maximum)",
+        category == "Part A" ~ "Part A<br>*Inpatient Hospital*",
+      #"Part A (Inpatient Hospital)",
+      metric == "deductible" & category == "Part D" ~ "Part D<br>*Maximum*",
+      #"Part D (Maximum)",
       metric == "deductible" ~ category,
-      TRUE ~ str_remove(sub_category, "Coinsurance/")
+      TRUE ~ sub_category |>
+        str_remove("Coinsurance/") |>
+        str_replace(" \\(", "<br>*") |>
+        str_replace("\\)", "*")
+      # TRUE ~ str_remove(sub_category, "Coinsurance/")
+    ),
+    sub_category = ifelse(
+      str_detect(sub_category, "<br>", negate = TRUE),
+      str_glue("{sub_category}<br>"),
+      sub_category
     )
   )
 
 df_cs_trend <- df_cs_trend |>
+  group_by(ln_group) |>
   mutate(
     val_curr = case_when(
-      period == max(period) ~ label_comma(1, prefix = "$")(value)
+      data_year == max(data_year) ~ label_comma(1, prefix = "$")(value),
+    ),
+    val_pt = case_when(data_year %in% range(data_year) ~ value),
+    lab_val = case_when(
+      data_year %in% range(data_year) ~ label_currency(
+        # data_year %in% range(data_year) ~ label_number(
+        #   1,
+        #   prefix = "$",
+        #   scale_cut = cut_short_scale()
+      )(value)
+    ),
+    fill_color = case_when(
+      category == "Part A" ~ ff_colors$scales$cobolt[["200"]],
+      category == "Part B" ~ ff_colors$scales$cobolt[["700"]],
+      category == "Part D" ~ ff_colors$scales$cobolt[["900"]],
+      str_detect(sub_category, "Part A") ~ ff_colors$scales$cobolt[["200"]],
+      str_detect(sub_category, "Part B") ~ ff_colors$scales$cobolt[["700"]],
     )
   ) |>
+  ungroup() |>
   group_by(category, sub_category, metric) |>
   fill(val_curr, .direction = "updown") |>
-  ungroup() |>
-  mutate(
-    sub_category = ifelse(
-      str_detect(sub_category, "upper"),
-      str_glue("{sub_category} [{max(df_cs_trend$period)} = {val_curr}]"),
-      str_glue("{sub_category} [{val_curr}]")
-    )
-  )
+  ungroup()
+
+df_recent <- df_cs_trend |>
+  filter(data_year >= max(data_year) - 1) |>
+  distinct(category, sub_category)
+
+df_cs_trend <- df_cs_trend |>
+  inner_join(df_recent)
+
+v_cs_cats <- c(
+  "Part A<br>*Full*",
+  "Part A<br>*Reduced*",
+  "Part B<br>*Standard*",
+  "Part B<br>*Maximum*",
+  "Part A<br>*Inpatient Hospital*",
+  "Part B<br>",
+  "Part D<br>*Maximum*",
+  "Day<br>*Days 61-90*",
+  "LTR Day<br>",
+  "SNF Day<br>*Days 21-100*",
+  "Out-of-Pocket Threshold<br>"
+  # "Part A (Full)",
+  # "Part A (Reduced)",
+  # "Part B (Standard)",
+  # "Part B (Maximum)",
+  # "Part A (Inpatient Hospital)",
+  # "Part B",
+  # "Part D (Maximum)",
+  # "Day (Days 61-90)",
+  # "LTR Day",
+  # "SNF Day (Days 21-100)",
+  # "Out-of-Pocket Threshold"
+)
+
+df_cs_trend <- df_cs_trend |>
+  mutate(sub_category = factor(sub_category, v_cs_cats))
 
 #gather sources for footnote
 v_costsharing_sources <- df_ff |>

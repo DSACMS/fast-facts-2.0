@@ -35,6 +35,7 @@ library(tidyverse)
 library(scales, warn.conflicts = FALSE)
 library(systemfonts, warn.conflicts = FALSE)
 library(patchwork)
+library(ggtext)
 library(ggrepel)
 library(waffle)
 library(gt, warn.conflicts = FALSE)
@@ -64,7 +65,7 @@ walk(
 )
 ```
 
-# Context
+# Health Spending
 
 ## Row {height="25%"}
 
@@ -99,7 +100,7 @@ CMS Federal Program Spending
 
 ### Column
 
-#### Row {height="60%"}
+#### Row {height="40%"}
 ```{r}
 #| label: share-gdp
 #| title: "NHE share of GDP"
@@ -123,7 +124,7 @@ context[["df_nhe_gdp_share"]] |>
   theme(
     plot.title =
       element_text(
-        size = 60, hjust = .5,
+        size = 70, hjust = .5,
         family = "Source Sans 3", face = "bold",
         color = ff_colors$scales$steel["900"]
       ),
@@ -134,12 +135,12 @@ context[["df_nhe_gdp_share"]] |>
 
 ```
 
-#### Row {height="40%"}
 ```{r}
 #| label: per_capita
 #| title: "NHE per capita"
 #| out-width: 100%
-#| fig-width: 14
+#| out-height: 100%
+#| fig-width: 8
 #| fig-height: 4
 
 # Value and scale
@@ -147,8 +148,8 @@ n_units <- context[["df_nhe_pc"]]$n_icons
 
 icons <- tibble(
   index = 1:(n_units),
-  x     = ((index - 1) %% 10) + 1,
-  y     = -((index - 1) %/% 10)
+  x     = ((index - 1) %% 5) + 1,
+  y     = -((index - 1) %/% 5)
 )
 
 icons |>
@@ -156,7 +157,7 @@ icons |>
   geom_text(
     label  = "\uf0d6",              # Font Awesome "person" / user icon
     family = "FontAwesome7Solid",
-    size   = 30,
+    size   = 22,
     color  = ff_colors$base[["green"]]
   ) +
   scale_x_continuous(expand = expansion(add = 0.5)) +
@@ -168,11 +169,56 @@ icons |>
       element_text(
         color = ff_colors$scales$steel["900"],
         face = "bold",
-        size = 80,
+        size = 60,
         hjust = 0.5
       ),
     plot.subtitle = element_text(size = 30, hjust = 0.5, color = "gray40"),
     plot.margin   = margin(10, 10, 10, 10)
+  )
+
+```
+
+#### Row
+
+```{r}
+#| label: nhe_sources
+#| title: "NHE by Source of Funds"
+#| out-width: 100%
+#| out-height: 100%
+#| fig-width: 24
+#| fig-height: 12
+
+context[["df_nhe_sources"]] |> 
+  ggplot(aes(value, fct_reorder(sub_category, value), fill = fill_color)) +
+  geom_blank(aes(value * 1.1)) +
+  geom_col() +
+  geom_text(
+    aes(label = value_format),
+    hjust = -.1,
+    family = "Source Sans 3",
+    size = 18,
+    color = ff_colors$elements[["annotation"]]
+  ) +
+  labs(x = NULL, y = NULL) +
+  scale_fill_identity() +
+  scale_x_continuous(expand = c(.001, .001)) +
+  coord_cartesian(clip = "off") +
+  theme_minimal(
+    base_size = 35,
+    base_family = "Source Sans 3",
+  ) +
+  theme(
+    panel.grid.minor = element_blank(),
+    panel.grid.major.y = element_blank(),
+    axis.text.x = element_blank(),
+    axis.text.y = element_text(size = 45),
+    strip.text =
+      element_text(
+        family = "Source Sans 3 SemiBold",
+        color = ff_colors$scales$steel[["900"]],
+        size = 50,
+        hjust = 0
+      )
   )
 
 ```
@@ -231,7 +277,7 @@ context[["df_insurance"]] |>
 
 context[["df_spend"]] |>
   ggplot(aes(value, sub_category, fill = fill_color)) +
-  geom_blank(aes(value * 1.1)) +
+  geom_blank(aes(value * 1.2)) +
   geom_col(width = .8) +
   geom_text(
     aes(label = value_fmt),
@@ -317,7 +363,7 @@ icons |>
 :::
 
 
-# Enrollment
+# Beneficiary Enrollment
 
 
 ## Row {height="25%"}
@@ -365,6 +411,15 @@ Medicaid & CHIP Beneficiaries
 #| fig-width: 14
 #| fig-height: 8
 
+plot_years <- min(enrollment[["df_medicare_trend"]]$data_year):max(enrollment[["df_medicare_trend"]]$data_year)
+
+years_labels <- case_when(
+  plot_years == 2008          ~ "2008",
+  plot_years == 2025          ~ "'25",
+  plot_years %% 2 == 0        ~ paste0("'", str_sub(plot_years, -2)),  
+  TRUE                   ~ ""                                 
+)
+
 enrollment[["df_medicare_trend"]] |>
   ggplot(aes(x = data_year)) +
   geom_blank(aes(y = value_ma * .9)) +
@@ -409,8 +464,24 @@ enrollment[["df_medicare_trend"]] |>
     family = "Source Sans 3", linewidth = NA,
     vjust = -.4, hjust = 0, na.rm = TRUE
   ) +
-  geom_line(aes(y = value_orig, color = "Original Medicare"), linewidth = 2) +
-  geom_line(aes(y = value_ma, color = "Medicare Advantage"), linewidth = 2) +
+  geom_line(
+    aes(y = value_orig, color = "Original Medicare"), 
+    linewidth = 1.5,
+    linetype = 'dotted'
+  ) +
+  geom_line(
+    aes(y = value_ma, color = "Medicare Advantage"), 
+    linewidth = 1.5,
+    linetype = 'dotted'
+  ) +
+  geom_line(
+    aes(y = value_orig, color = "Original Medicare"), linewidth = 2,
+    data = enrollment[["df_medicare_trend"]] |> filter(data_year != 2025)
+  ) +
+  geom_line(
+    aes(y = value_ma, color = "Medicare Advantage"), linewidth = 2,
+    data = enrollment[["df_medicare_trend"]] |> filter(data_year != 2025)
+    ) +
   geom_point(
     data =
       enrollment[["df_medicare_trend"]] |>
@@ -429,12 +500,12 @@ enrollment[["df_medicare_trend"]] |>
   ) +
   geom_label(
     aes(y = value_orig, label = lab_orig_cat, color = "Original Medicare"),
-    family = "Source Sans 3", linewidth = NA,
-    vjust = -1.5, hjust = 0, na.rm = TRUE
+    family = "Source Sans 3 SemiBold", linewidth = NA,
+    vjust = -.9, hjust = 0, na.rm = TRUE
   ) +
   geom_label(
     aes(y = value_ma, label = lab_ma_cat, color = "Medicare Advantage"),
-    family = "Source Sans 3", linewidth = NA,
+    family = "Source Sans 3 SemiBold", linewidth = NA,
     vjust = 1.5, hjust = 0, na.rm = TRUE
   ) +
   scale_color_manual(
@@ -456,15 +527,17 @@ enrollment[["df_medicare_trend"]] |>
     breaks = seq(
       from = min(enrollment[["df_medicare_trend"]]$data_year),
       to = max(enrollment[["df_medicare_trend"]]$data_year),
-      by = 5
-    )
+      by = 1
+    ),
+    labels = years_labels
   ) +
-  labs(x = NULL, y = NULL) +
+  labs(x = NULL, y = NULL, caption = "Note: CY 2025 values are preliminary") +
   coord_cartesian(clip = "off") +
   theme_minimal(base_size = 22) +
   theme(
     legend.position = "none",
     # axis.text.y = element_blank(),
+    plot.caption = element_text(size = 14, color = "#909090"),
     panel.grid.minor = element_blank(),
     panel.grid.major.x = element_blank()
   )
@@ -584,7 +657,7 @@ v_mediaid_subpop <- enrollment[["df_disagg_trend"]] |>
 ## Row {height="25%"}
 
 :::{.valuebox .text-white label = "ban_medicare_util" icon="heart-fill" color="#0071BC"}
-Medicare Program Payments/Persons Served
+Original Medicare Program Payments/Persons Served
 
 `r utilization$bans[["medicare_total"]]`
 
@@ -594,7 +667,7 @@ Medicare Program Payments/Persons Served
 
 
 :::{.valuebox .text-white label = "ban_medicare_d_util" icon="prescription2" color="#00538C"}
-Medicare Part D Program Payments/Persons Served
+Medicare Part D Expenditures/Utilizers
 
 `r utilization$bans[["part_d"]]`
 
@@ -628,14 +701,14 @@ df_background <- utilization[["df_medicare_util"]] |> select(-category)
 
 utilization[["df_medicare_util"]] |>
   ggplot(aes(persons_served, payments, fill = category)) +
-  geom_point(
-    data = df_background,
-    aes(persons_served, payments),
-    fill = "grey80", color = "white",
-    shape = 21,
-    size = 5,
-    inherit.aes = FALSE
-  ) +
+  # geom_point(
+  #   data = df_background,
+  #   aes(persons_served, payments),
+  #   fill = "grey80", color = "white",
+  #   shape = 21,
+  #   size = 5,
+  #   inherit.aes = FALSE
+  # ) +
   geom_point(shape = 21, color = "white", size = 7) +
   geom_point(
     data =
@@ -682,7 +755,7 @@ utilization[["df_medicare_util"]] |>
 
 #### Row {height="20%"}
 
-::: {.card title="Part D"}
+::: {.card title="Part D Utilization & Expenditures"}
 
 `r utilization$df_part_d`
 
@@ -737,66 +810,209 @@ utilization[["df_medicaid_exp"]] |>
 
 
 ## Row {height="95%"}
-```{r}
-#| label: dumbell_charts
-#| title: "Medicare Deductibles, Coinsurance, Premiums"
 
-cost_sharing[["df_cs_trend"]]  |>
-  ggplot(
-    aes(
-      value, fct_reorder(sub_category, order, .fun = max, .na_rm = TRUE),
-      group = ln_group
-    )
-  ) +
-  geom_path(color = ff_colors$scales$cobolt[["200"]], na.rm = TRUE) +
-  geom_point(
-    color = "white",
-    stroke = 1.1,
-    size = 4,
-    na.rm = TRUE
-  ) +
-  geom_point(
-    aes(fill = fill_color),
-    na.rm = TRUE,
-    shape = 21,
-    color = ff_colors$base[["azure"]],
-    stroke = 1.1,
-    size = 4, alpha = .4
-  ) +
+### Column
+
+
+```{r}
+#| label: premiums
+#| title: "Premiums"
+#| out-width: 100%
+#| out-height: 100%
+#| fig-width: 14
+#| fig-height: 6
+
+cost_sharing[["df_cs_trend"]] |> 
+  filter(metric_lab == "Premiums") |> 
+  ggplot(aes(data_year, value, group = ln_group, fill = fill_color, color = fill_color)) +
+  geom_blank(aes(y = value * 1.1)) +
+  geom_hline(yintercept = 0, color = ff_colors$elements[["axis"]]) +
+  geom_area(alpha = .2) +
+  geom_line() +
+  geom_point(aes(y = val_pt), na.rm = TRUE) +
   geom_text(
-    aes(x = mid_pt, label = delta_lab),
-    na.rm = TRUE,
-    family = "Source Sans 3",
-    color = ff_colors$elements[["annotation"]],
-    size = 2.9,
-    vjust = -1.1
+    aes(label = lab_val),
+    vjust = -1, na.rm = TRUE,
+    family = "Source Sans 3", size = 7,
+    color = ff_colors$elements[["annotation"]]
   ) +
-  facet_wrap(~metric_lab, scales = "free", space = "free_y") +
-  scale_fill_identity(
-    guide = "legend",
-    breaks = c("white", ff_colors$scales$cobolt["200"]),
-    labels = unique(cost_sharing[["df_cs_trend"]]$period) |> sort()
-  ) +
-  coord_cartesian(clip = "off") +
-  labs(x = NULL, y = NULL, fill = NULL) +
+  facet_grid(~sub_category) +
   scale_x_continuous(
-    label =
-      label_number(prefix = "$", scale_cut = cut_short_scale()),
-    limits = c(0, NA),
-    position = "top"
+    breaks =
+      range(
+        unique(cost_sharing[["df_cs_trend"]]$data_year),
+        na.rm = TRUE
+      )
   ) +
-  theme_minimal() +
+  scale_fill_identity() + 
+  scale_color_identity() + 
+  coord_cartesian(clip = "off") +
+  labs(x = NULL, y = NULL) +
+  theme_minimal(base_family = "Source Sans 3", base_size = 28) +
   theme(
-    panel.grid.major.y = element_blank(),
-    text = element_text(family = "Source Sans 3"),
+    legend.position = "none",
     strip.text =
-      element_text(
-        family = "Source Sans 3", face = "bold",
-        size = 12, hjust = 0
+      element_markdown(
+        color = ff_colors$elements[["title"]],
+        face = "bold"
       ),
-    strip.placement = "outside",
-    legend.position = "top"
+    axis.text.y = element_blank(),
+    panel.grid = element_blank(),
+    panel.spacing = unit(2.5, "lines")
   )
+
+```
+
+
+```{r}
+#| label: deductibles
+#| title: "Deductibles"
+#| out-width: 100%
+#| out-height: 100%
+#| fig-width: 14
+#| fig-height: 6
+
+cost_sharing[["df_cs_trend"]] |> 
+  filter(metric_lab == "Deductibles") |> 
+  ggplot(aes(data_year, value, group = ln_group, fill = fill_color, color = fill_color)) +
+  geom_blank(aes(y = value * 1.1)) +
+  geom_hline(yintercept = 0, color = ff_colors$elements[["axis"]]) +
+  geom_area(alpha = .2) +
+  geom_line() +
+  geom_point(aes(y = val_pt), na.rm = TRUE) +
+  geom_text(
+    aes(label = lab_val),
+    vjust = -1, na.rm = TRUE,
+    family = "Source Sans 3", size = 7,
+    color = ff_colors$elements[["annotation"]]
+  ) +
+  facet_grid(~sub_category) +
+  scale_x_continuous(
+    breaks =
+      range(
+        unique(cost_sharing[["df_cs_trend"]]$data_year),
+        na.rm = TRUE
+      )
+  ) +
+  scale_fill_identity() + 
+  scale_color_identity() + 
+  coord_cartesian(clip = "off") +
+  labs(x = NULL, y = NULL) +
+  theme_minimal(base_family = "Source Sans 3", base_size = 28) +
+  theme(
+    legend.position = "none",
+    strip.text =
+      element_markdown(
+        color = ff_colors$elements[["title"]],
+        face = "bold"
+      ),
+    axis.text.y = element_blank(),
+    panel.grid = element_blank(),
+    panel.spacing = unit(2.5, "lines")
+  )
+
+```
+
+### Column
+
+
+```{r}
+#| label: coinsurance
+#| title: "Coinsurance (Part A)"
+#| out-width: 100%
+#| out-height: 100%
+#| fig-width: 14
+#| fig-height: 6
+
+cost_sharing[["df_cs_trend"]] |> 
+  filter(metric_lab == "Part A Coinsurance") |> 
+  ggplot(aes(data_year, value, group = ln_group, fill = fill_color, color = fill_color)) +
+  geom_blank(aes(y = value * 1.1)) +
+  geom_hline(yintercept = 0, color = ff_colors$elements[["axis"]]) +
+  geom_area(alpha = .2) +
+  geom_line() +
+  geom_point(aes(y = val_pt), na.rm = TRUE) +
+  geom_text(
+    aes(label = lab_val),
+    vjust = -1, na.rm = TRUE,
+    family = "Source Sans 3", size = 7,
+    color = ff_colors$elements[["annotation"]]
+  ) +
+  facet_grid(~sub_category) +
+  scale_x_continuous(
+    breaks =
+      range(
+        unique(cost_sharing[["df_cs_trend"]]$data_year),
+        na.rm = TRUE
+      )
+  ) +
+  scale_fill_identity() + 
+  scale_color_identity() + 
+  coord_cartesian(clip = "off") +
+  labs(x = NULL, y = NULL) +
+  theme_minimal(base_family = "Source Sans 3", base_size = 28) +
+  theme(
+    legend.position = "none",
+    strip.text =
+      element_markdown(
+        color = ff_colors$elements[["title"]],
+        face = "bold"
+      ),
+    axis.text.y = element_blank(),
+    panel.grid = element_blank(),
+    panel.spacing = unit(2.5, "lines")
+  )
+
+```
+
+```{r}
+#| label: other_part_d
+#| title: "Part D Out-of-Pocket Threshold"
+#| out-width: 100%
+#| out-height: 100%
+#| fig-width: 14
+#| fig-height: 6
+
+v_outofpocket <- cost_sharing[["df_cs_trend"]] |> 
+  filter(metric_lab == "Part D Out-of-Pocket Threshold") |> 
+  ggplot(aes(data_year, value, group = ln_group, fill = fill_color, color = fill_color)) +
+  geom_blank(aes(y = value * 1.1)) +
+  geom_hline(yintercept = 0, color = ff_colors$elements[["axis"]]) +
+  geom_area(alpha = .2) +
+  geom_line() +
+  geom_point(aes(y = val_pt), na.rm = TRUE) +
+  geom_text(
+    aes(label = lab_val),
+    vjust = -1, na.rm = TRUE,
+    family = "Source Sans 3", size = 7,
+    color = ff_colors$elements[["annotation"]]
+  ) +
+  facet_grid(~sub_category) +
+  scale_x_continuous(
+    breaks =
+      range(
+        unique(cost_sharing[["df_cs_trend"]]$data_year),
+        na.rm = TRUE
+      )
+  ) +
+  scale_fill_identity() + 
+  scale_color_identity() + 
+  coord_cartesian(clip = "off") +
+  labs(x = NULL, y = NULL) +
+  theme_minimal(base_family = "Source Sans 3", base_size = 28) +
+  theme(
+    legend.position = "none",
+    strip.text =
+      element_markdown(
+        color = ff_colors$elements[["title"]],
+        face = "bold"
+      ),
+    axis.text.y = element_blank(),
+    panel.grid = element_blank(),
+    panel.spacing = unit(2.5, "lines")
+  )
+
+v_outofpocket + plot_spacer() + plot_spacer()
 
 ```
 
@@ -1016,7 +1232,7 @@ providers[["df_hospital_subset"]] |>
 
 ::: {.card}
 
-# Context 
+# Health Spending 
 
   - Total Medicaid Amount reported as total gross outlays including the Vaccines for Children Program.
 
