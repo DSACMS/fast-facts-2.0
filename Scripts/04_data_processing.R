@@ -107,9 +107,7 @@ df_insurance <- df_ff |>
   ) |>
   select(category, sub_category, data_year, value) |>
   mutate(
-    value_fmt = label_number(.1, prefix = "$", scale_cut = cut_short_scale())(
-      value
-    ),
+    value_fmt = fmt_dynamic(value),
     share = value / sum(value),
     fill_color = case_when(
       str_detect(sub_category, "Medicare") ~ ff_colors$base[["azure"]],
@@ -138,21 +136,6 @@ bans_nhe <- c(
   fed_spend = fed_spend
 )
 
-#formater
-fmt_units <- label_number(
-  .1,
-  prefix = "$",
-  scale_cut = cut_short_scale()
-)
-
-fmt_units_b <- label_number(
-  .1,
-  prefix = "$",
-  scale = 1e-9,
-  suffix = "B",
-  big.mark = ","
-)
-
 # financial data for plot
 df_spend <- df_ff |>
   filter(
@@ -167,7 +150,7 @@ df_spend <- df_ff |>
       "Health Care Fraud & Abuse Control",
       category
     ),
-    category = str_glue("{category} ({fmt_units(sum(value))})")
+    category = str_glue("{category} ({fmt_dynamic(sum(value))})")
   ) |>
   ungroup() |>
   mutate(
@@ -177,7 +160,7 @@ df_spend <- df_ff |>
       "Total Funding",
       sub_category
     ),
-    value_fmt = fmt_units_b(value),
+    value_fmt = fmt_billions(value),
     share = ifelse(category == "Health Care Fraud & Abuse Control", NA, share),
     share_fmt = label_percent(1)(share),
     fill_color = recode_values(
