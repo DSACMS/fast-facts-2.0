@@ -73,6 +73,7 @@ df_premium_a_reduced <-
     sub_category = "Part A (Reduced)",
     metric = "premium",
     period_type = "CY",
+    release_date = as.Date("2026-01-01"),
     is_latest = FALSE
   )
 

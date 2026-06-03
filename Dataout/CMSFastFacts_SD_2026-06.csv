@@ -708,5 +708,5 @@ Medicaid & CHIP,Enrollment,Medicaid & CHIP,Medicaid Expansion Adults,,enrollment
 Medicaid & CHIP,Enrollment,Medicaid & CHIP,Medicaid Expansion Adults,,enrollment,CY,2017,15690724,,medicare.gov,,Medicaid Budget and Expenditure System (MBES) Enrollment,2024-06-01,FALSE
 Medicaid & CHIP,Enrollment,Medicaid & CHIP,Medicaid Expansion Adults,,enrollment,CY,2018,15151153,,medicare.gov,,Medicaid Budget and Expenditure System (MBES) Enrollment,2024-06-01,FALSE
 Medicaid & CHIP,Enrollment,Medicaid & CHIP,Medicaid Expansion Adults,,enrollment,CY,2019,15398703,,medicare.gov,,Medicaid Budget and Expenditure System (MBES) Enrollment,2024-06-01,FALSE
-Medicare,Cost Sharing,Premiums,Part A (Reduced),,premium,CY,2021,259,,,,,,FALSE
-Medicare,Cost Sharing,Premiums,Part A (Reduced),,premium,CY,2022,274,,,,,,FALSE
+Medicare,Cost Sharing,Premiums,Part A (Reduced),,premium,CY,2021,259,,,,,2026-01-01,FALSE
+Medicare,Cost Sharing,Premiums,Part A (Reduced),,premium,CY,2022,274,,,,,2026-01-01,FALSE
