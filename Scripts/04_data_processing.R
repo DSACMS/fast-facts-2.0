@@ -692,20 +692,26 @@ df_cs_trend <- df_cs_trend |>
         "Part D Out-of-Pocket Threshold"
       )
     ),
+    sub_category = recode_values(
+      sub_category,
+      "Coinsurance/Day (Days 61-90)" ~
+        "Coinsurance/Inpatient Hospital Day (Days 61-90)",
+      "Coinsurance/SNF Day (Days 21-100)" ~
+        "Coinsurance/Skilled Nursing Facility Day (Days 21-100)",
+      "Coinsurance/LTR Day" ~
+        "Coinsurance/Long Term Reserve Day",
+      default = sub_category
+    ),
     sub_category = case_when(
-      # !is.na(bound) ~ str_glue("{sub_category} ({str_to_title(bound)})"),
       !is.na(bound) ~ str_glue("{sub_category}<br>*{str_to_title(bound)}*"),
       metric == "deductible" &
         category == "Part A" ~ "Part A<br>*Inpatient Hospital*",
-      #"Part A (Inpatient Hospital)",
       metric == "deductible" & category == "Part D" ~ "Part D<br>*Maximum*",
-      #"Part D (Maximum)",
       metric == "deductible" ~ category,
       TRUE ~ sub_category |>
         str_remove("Coinsurance/") |>
         str_replace(" \\(", "<br>*") |>
         str_replace("\\)", "*")
-      # TRUE ~ str_remove(sub_category, "Coinsurance/")
     ),
     sub_category = ifelse(
       str_detect(sub_category, "<br>", negate = TRUE),
@@ -757,9 +763,9 @@ v_cs_cats <- c(
   "Part A<br>*Inpatient Hospital*",
   "Part B<br>",
   "Part D<br>*Maximum*",
-  "Day<br>*Days 61-90*",
-  "LTR Day<br>",
-  "SNF Day<br>*Days 21-100*",
+  "Inpatient Hospital Day<br>*Days 61-90*",
+  "Long Term Reserve Day<br>",
+  "Skilled Nursing Facility Day<br>*Days 21-100*",
   "Out-of-Pocket Threshold<br>"
   # "Part A (Full)",
   # "Part A (Reduced)",
