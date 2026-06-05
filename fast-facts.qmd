@@ -753,13 +753,38 @@ utilization[["df_medicare_util"]] |>
 
 ### Column
 
-#### Row {height="20%"}
+#### Row
 
-::: {.card title="Part D Utilization & Expenditures"}
+```{r}
+#| label: part_d
+#| title: Part D Utilization & Expenditures
+#| out-width: 100%
+#| out-height: 100%
 
-`r utilization$df_part_d`
+utilization[["df_part_d"]] |>  
+  gt(groupname_col = "group", rowname_col = "sub_category") |> 
+  cols_align(align = "right", columns = "latest_value_lab") |> 
+  cols_align(align = "right", columns = "sub_category") |> 
+  cols_label(
+    latest_value_lab = utilization[['part_d_year']],
+    value = 
+      str_glue(
+        "Last {utilization[['part_d_duration']]} Years Trend"
+        )
+  ) |> 
+  gt_plt_sparkline(
+    value, 
+    palette = c(ff_colors$scales$cobolt["700"], rep("transparent", 4)),
+    same_limit = FALSE,
+    label = FALSE
+  ) |> 
+  opt_table_font(font = "Source Sans 3") |> 
+  tab_style(
+    style = cell_text(weight = "bold"),
+    locations = cells_row_groups()
+)
 
-:::
+```
 
 #### Row
 
