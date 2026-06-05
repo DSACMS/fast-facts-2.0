@@ -755,35 +755,104 @@ utilization[["df_medicare_util"]] |>
 
 #### Row
 
+##### Column
 ```{r}
-#| label: part_d
-#| title: Part D Utilization & Expenditures
+#| label: part_d_util
+#| title: Part D Utilization
 #| out-width: 100%
 #| out-height: 100%
+#| fig-width: 18
+#| fig-height: 8
 
 utilization[["df_part_d"]] |>  
-  gt(groupname_col = "group", rowname_col = "sub_category") |> 
-  cols_align(align = "right", columns = "latest_value_lab") |> 
-  cols_align(align = "right", columns = "sub_category") |> 
-  cols_label(
-    latest_value_lab = utilization[['part_d_year']],
-    value = 
-      str_glue(
-        "Last {utilization[['part_d_duration']]} Years Trend"
-        )
-  ) |> 
-  gt_plt_sparkline(
-    value, 
-    palette = c(ff_colors$scales$cobolt["700"], rep("transparent", 4)),
-    same_limit = FALSE,
-    label = FALSE
-  ) |> 
-  opt_table_font(font = "Source Sans 3") |> 
-  tab_style(
-    style = cell_text(weight = "bold"),
-    locations = cells_row_groups()
-)
+  filter(group == "Utilization") |> 
+  ggplot(aes(x = data_year, y = value, group = sub_category)) +
+  geom_line(color = ff_colors$scales$cobolt[["700"]], linewidth = 0.7) +
+  geom_point(
+    aes(y = end_point), na.rm = TRUE, 
+    color = ff_colors$scales$cobolt[["700"]], size = 3
+    ) +
+  geom_text(aes(label = point_value_lab, hjust = lab_offset), size = 16, na.rm = TRUE) + 
+  facet_grid(sub_category ~ .,  scales = "free_y", switch = "y") +
+  labs(
+    x    = NULL, 
+    y    = NULL,
+    # title = "Utilization"
+  ) +
+  scale_x_continuous(
+    limits = c(
+      min(utilization[["df_part_d"]]$data_year) - 1, 
+      max(utilization[["df_part_d"]]$data_year) + 1
+      ),
+    expand = c(0, 0),
+    breaks = range(utilization[["df_part_d"]]$data_year) #NULL
+  ) +
+  scale_y_continuous(breaks = NULL) +
+  theme_minimal(base_family = "Source Sans 3", base_size = 35) +
+  theme(
+    strip.text.y.left  = 
+      element_text(angle = 0, hjust = 1, vjust = 0.5, color = "grey20"),
+    strip.placement    = "outside",
+    # panel.spacing.y    = unit(0, "lines"),
+    panel.grid         = element_blank(),
+    panel.border       = element_blank(),
+    axis.text          = element_blank(),
+    axis.ticks         = element_blank(),
+    axis.title.x       = element_text(color = "grey40", hjust = 1),
+    plot.margin        = margin(12, 12, 12, 12),
+    plot.title.position = "plot",
+    plot.title = element_text(face = "bold")
+  )
+```
 
+##### Column
+```{r}
+#| label: part_d_exp
+#| title: Part D Expenditures
+#| out-width: 100%
+#| out-height: 100%
+#| fig-width: 18
+#| fig-height: 8
+
+utilization[["df_part_d"]] |>
+  filter(group == "Expenditures") |> 
+  ggplot(aes(x = data_year, y = value, group = sub_category)) +
+  geom_line(color = ff_colors$scales$cobolt[["700"]], linewidth = 0.7) +
+  geom_point(
+    aes(y = end_point), na.rm = TRUE, 
+    color = ff_colors$scales$cobolt[["700"]], size = 3
+    ) +
+  geom_text(aes(label = point_value_lab, hjust = lab_offset), size = 16, na.rm = TRUE) + 
+  facet_grid(sub_category ~ .,  scales = "free_y", switch = "y") +
+  labs(
+    x    = NULL, 
+    y    = NULL,
+    # title = "Expenditures"
+  ) +
+  scale_x_continuous(
+    limits = c(
+      min(utilization[["df_part_d"]]$data_year) - 1, 
+      max(utilization[["df_part_d"]]$data_year) + 1
+      ),
+    expand = c(0, 0),
+    breaks = range(utilization[["df_part_d"]]$data_year) #NULL
+  ) +
+  scale_y_continuous(breaks = NULL) +
+  theme_minimal(base_family = "Source Sans 3", base_size = 35) +
+  theme(
+    strip.text.y.left  = 
+      element_text(angle = 0, hjust = 1, vjust = 0.5, color = "grey20", size = 35),
+    strip.placement    = "outside",
+    # panel.spacing.y    = unit(0, "lines"),
+    panel.grid         = element_blank(),
+    panel.border       = element_blank(),
+    axis.text          = element_blank(),
+    axis.ticks         = element_blank(),
+    axis.title.x       = element_text(color = "grey40", hjust = 1),
+    plot.margin        = margin(12, 12, 12, 12),
+    plot.title.position = "plot",
+    plot.title = element_text(face = "bold")
+)
 ```
 
 #### Row
