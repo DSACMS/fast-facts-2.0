@@ -551,7 +551,8 @@ df_medicare_util <- df_medicare_util |>
   select(category, sub_category, metric, value) |>
   pivot_wider(
     names_from = metric
-  )
+  ) |>
+  mutate(fill_shape = ifelse(category == "Part A", 21L, 23L))
 
 #Medicaid & CHIP expenditures
 df_medicaid_exp <- df_ff |>
