@@ -551,7 +551,8 @@ df_medicare_util <- df_medicare_util |>
   select(category, sub_category, metric, value) |>
   pivot_wider(
     names_from = metric
-  )
+  ) |>
+  mutate(fill_shape = ifelse(category == "Part A", 21L, 23L))
 
 #Medicaid & CHIP expenditures
 df_medicaid_exp <- df_ff |>
@@ -570,33 +571,51 @@ df_medicaid_exp <- df_ff |>
   )
 
 #part D
-
 df_part_d <- df_ff |>
   filter(
     topic == "Utilization",
-    category == "Part D",
-    is_latest
+    category == "Part D"
   ) |>
   filter_out(
     sub_category == "Total",
-    metric %in% c("persons_served", "payments")
-  ) |>
+    metric %in% c("payments") #"persons_served"
+  )
+
+df_part_d <- df_part_d |>
   mutate(
-    sub_category = ifelse(
-      sub_category == "Total",
-      "Prescription Drug Events",
-      sub_category
+    sub_category = case_when(
+      sub_category == "Total" & metric == "payments" ~ "Total Expenditures",
+      metric == "persons_served" ~ "Utilizing Beneficiaries",
+      metric == "rx_events" ~ "Prescription Drug Events",
+      TRUE ~ sub_category
     ),
-    value = ifelse(
-      sub_category == "Prescription Drug Events",
-      label_number(.1, scale_cut = cut_short_scale())(value),
-      label_number(1, prefix = "$", scale_cut = cut_short_scale())(value)
-    )
+    group = ifelse(
+      str_detect(sub_category, "Exp|Pay"),
+      "Expenditures",
+      "Utilization"
+    ),
+    end_point = case_when(data_year %in% range(data_year) ~ value),
+    point_value_lab = case_when(
+      data_year %in% range(data_year) & group == "Utilization" ~
+        label_number(accuracy = .1, scale_cut = cut_short_scale())(value),
+      data_year %in% range(data_year) & group == "Expenditures" ~
+        label_number(
+          prefix = "$",
+          accuracy = .1,
+          scale_cut = cut_short_scale()
+        )(value)
+    ),
+    lab_offset = ifelse(data_year == max(data_year), -.2, 1.2)
   ) |>
-  select(sub_category, value) |>
-  unite(combo, c(sub_category, value), sep = " ") |>
-  pull() |>
-  paste(collapse = " | ")
+  select(
+    group,
+    sub_category,
+    data_year,
+    value,
+    end_point,
+    point_value_lab,
+    lab_offset
+  )
 
 
 #gather sources for footnote

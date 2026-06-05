@@ -697,24 +697,9 @@ Medicaid Expenditures
 #| fig-width: 14
 #| fig-height: 10
 
-df_background <- utilization[["df_medicare_util"]] |> select(-category)
-
 utilization[["df_medicare_util"]] |>
   ggplot(aes(persons_served, payments, fill = category)) +
-  # geom_point(
-  #   data = df_background,
-  #   aes(persons_served, payments),
-  #   fill = "grey80", color = "white",
-  #   shape = 21,
-  #   size = 5,
-  #   inherit.aes = FALSE
-  # ) +
-  geom_point(shape = 21, color = "white", size = 7) +
-  geom_point(
-    data =
-      utilization[["df_medicare_util"]] |> filter(sub_category == "Total"),
-    shape = 23, color = "white", size = 8
-  ) +
+  geom_point(aes(shape = category), color = "white", size = 7) +
   geom_text_repel(
     aes(label = sub_category),
     point.padding = 3,
@@ -724,7 +709,6 @@ utilization[["df_medicare_util"]] |>
     color = ff_colors$elements[["annotation"]],
     size = 8
   ) +
-  facet_wrap(~category) +
   scale_fill_manual(
     values = c(
       ff_colors$scales$cobolt[["200"]],
@@ -732,15 +716,16 @@ utilization[["df_medicare_util"]] |>
       ff_colors$scales$cobolt[["900"]]
     )
   ) +
+  scale_shape_manual(values = c(21, 23)) +
   scale_x_continuous(labels = label_number(scale_cut = cut_short_scale())) +
   scale_y_continuous(
     labels = label_number(prefix = "$", scale_cut = cut_short_scale())
   ) +
-  labs(x = "Persons Served", y = "Program Payments", color = "", shape = "") +
+  labs(x = "Persons Served", y = "Program Payments", fill = NULL, shape = NULL) +
   theme_minimal(base_size = 22, base_family = "Source Sans 3") +
   theme(
     panel.spacing = unit(2, "lines"),
-    legend.position = "none",
+    legend.position = "top",
     strip.text =
       element_text(
         color = ff_colors$elements[["title"]],
@@ -753,23 +738,118 @@ utilization[["df_medicare_util"]] |>
 
 ### Column
 
-#### Row {height="20%"}
+#### Row
 
-::: {.card title="Part D Utilization & Expenditures"}
+```{r}
+#| label: part_d_util
+#| title: Part D Utilization
+#| out-width: 100%
+#| out-height: 100%
+#| fig-width: 18
+#| fig-height: 8
 
-`r utilization$df_part_d`
-
-:::
+utilization[["df_part_d"]] |>
+  filter(group == "Utilization") |> 
+  ggplot(aes(x = data_year, y = value, group = sub_category)) +
+  geom_line(color = ff_colors$scales$cobolt[["700"]], linewidth = 1.5) +
+  geom_point(
+    aes(y = end_point), na.rm = TRUE, 
+    color = ff_colors$scales$cobolt[["700"]], size = 3
+    ) +
+  geom_text(aes(label = point_value_lab, hjust = lab_offset), size = 16, na.rm = TRUE) + 
+  facet_grid(sub_category ~ .,  scales = "free_y", switch = "y") +
+  labs(
+    x    = NULL, 
+    y    = NULL,
+    # title = "Utilization"
+  ) +
+  scale_x_continuous(
+    limits = c(
+      min(utilization[["df_part_d"]]$data_year) - 1, 
+      max(utilization[["df_part_d"]]$data_year) + 1
+      ),
+    expand = c(0, 0),
+    breaks = range(utilization[["df_part_d"]]$data_year) #NULL
+  ) +
+  scale_y_continuous(breaks = NULL) +
+  theme_minimal(base_family = "Source Sans 3", base_size = 35) +
+  theme(
+    strip.text.y.left  = 
+      element_text(angle = 0, hjust = 1, vjust = 0.5, color = "grey20", size = 40),
+    strip.placement    = "outside",
+    # panel.spacing.y    = unit(0, "lines"),
+    panel.grid         = element_blank(),
+    panel.border       = element_blank(),
+    axis.text.y        = element_blank(),
+    axis.ticks         = element_blank(),
+    axis.title.x       = element_text(color = "grey40", hjust = 1),
+    plot.margin        = margin(12, 12, 12, 12),
+    plot.title.position = "plot",
+    plot.title = element_text(face = "bold")
+  )
+```
 
 #### Row
+
+```{r}
+#| label: part_d_exp
+#| title: Part D Expenditures
+#| out-width: 100%
+#| out-height: 100%
+#| fig-width: 18
+#| fig-height: 8
+
+utilization[["df_part_d"]] |>
+  filter(group == "Expenditures") |> 
+  ggplot(aes(x = data_year, y = value, group = sub_category)) +
+  geom_line(color = ff_colors$scales$cobolt[["700"]], linewidth = 1.5) +
+  geom_point(
+    aes(y = end_point), na.rm = TRUE, 
+    color = ff_colors$scales$cobolt[["700"]], size = 3
+    ) +
+  geom_text(aes(label = point_value_lab, hjust = lab_offset), size = 16, na.rm = TRUE) + 
+  facet_grid(sub_category ~ .,  scales = "free_y", switch = "y") +
+  labs(
+    x    = NULL, 
+    y    = NULL,
+    # title = "Expenditures"
+  ) +
+  scale_x_continuous(
+    limits = c(
+      min(utilization[["df_part_d"]]$data_year) - 1, 
+      max(utilization[["df_part_d"]]$data_year) + 1
+      ),
+    expand = c(0, 0),
+    breaks = range(utilization[["df_part_d"]]$data_year) #NULL
+  ) +
+  scale_y_continuous(breaks = NULL) +
+  theme_minimal(base_family = "Source Sans 3") +
+  # theme_minimal(base_family = "Source Sans 3", base_size = 35) +
+  theme(
+    strip.text.y.left  = 
+      element_text(angle = 0, hjust = 1, vjust = 0.5, color = "grey20", size = 40),
+    strip.placement    = "outside",
+    # panel.spacing.y    = unit(0, "lines"),
+    panel.grid         = element_blank(),
+    panel.border       = element_blank(),
+    axis.text.y          = element_blank(),
+    axis.ticks         = element_blank(),
+    axis.title.x       = element_text(color = "grey40", hjust = 1),
+    plot.margin        = margin(12, 12, 12, 12),
+    plot.title.position = "plot",
+    plot.title = element_text(face = "bold")
+  )
+```
+
+### Column
 
 ```{r}
 #| label: medicaid_exp
 #| title: Medicaid Expenditures
 #| out-width: 100%
 #| out-height: 100%
-#| fig-width: 14
-#| fig-height: 8
+#| fig-width: 18
+#| fig-height: 15
 
 utilization[["df_medicaid_exp"]] |>
   ggplot(aes(value, fct_reorder(sub_category, value))) +
