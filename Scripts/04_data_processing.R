@@ -570,7 +570,7 @@ df_medicaid_exp <- df_ff |>
   )
 
 #part D
-df_ff_partd <- df_ff |>
+df_part_d <- df_ff |>
   filter(
     topic == "Utilization",
     category == "Part D"
@@ -580,54 +580,41 @@ df_ff_partd <- df_ff |>
     metric %in% c("payments") #"persons_served"
   )
 
-df_part_d <- df_ff_partd |>
+df_part_d <- df_part_d |>
   mutate(
     sub_category = case_when(
       sub_category == "Total" & metric == "payments" ~ "Total Expenditures",
-      metric == "persons_served" ~ "Utilizing Benefeciaries",
+      metric == "persons_served" ~ "Utilizing Beneficiaries",
       metric == "rx_events" ~ "Prescription Drug Events",
       TRUE ~ sub_category
     ),
-    latest_value = case_when(is_latest ~ value)
-  ) |>
-  group_by(sub_category) |>
-  summarise(
-    latest_value = max(latest_value, na.rm = TRUE),
-    value = list(value),
-    .groups = "drop"
-  ) |>
-  mutate(
     group = ifelse(
       str_detect(sub_category, "Exp|Pay"),
       "Expenditures",
       "Utilization"
     ),
-    latest_value_lab = ifelse(
-      group == "Utilization",
-      label_number(.1, scale_cut = cut_short_scale())(latest_value),
-      label_number(prefix = "$", scale_cut = cut_short_scale())(latest_value)
-    )
+    end_point = case_when(data_year %in% range(data_year) ~ value),
+    point_value_lab = case_when(
+      data_year %in% range(data_year) & group == "Utilization" ~
+        label_number(accuracy = .1, scale_cut = cut_short_scale())(value),
+      data_year %in% range(data_year) & group == "Expenditures" ~
+        label_number(
+          prefix = "$",
+          accuracy = .1,
+          scale_cut = cut_short_scale()
+        )(value)
+    ),
+    lab_offset = ifelse(data_year == max(data_year), -.2, 1.2)
   ) |>
-  arrange(desc(group), desc(latest_value)) |>
-  mutate(sub_category = fct_inorder(sub_category)) |>
-  select(group, sub_category, latest_value_lab, value)
-
-#latest year (for dynamically labeling column title in table)
-part_d_year <- df_ff_partd |>
-  filter(
-    topic == "Utilization",
-    category == "Part D",
-    is_latest
-  ) |>
-  distinct(period_type, data_year) |>
-  unite(period, c(period_type, data_year), sep = " ") |>
-  pull()
-
-#number of years covered by sparkline
-part_d_duration <- df_ff_partd |>
-  filter(topic == "Utilization", category == "Part D") |>
-  summarise(n_years = diff(range(data_year)) + 1) |>
-  pull(n_years)
+  select(
+    group,
+    sub_category,
+    data_year,
+    value,
+    end_point,
+    point_value_lab,
+    lab_offset
+  )
 
 
 #gather sources for footnote
@@ -661,8 +648,6 @@ utilization <- list(
   df_medicare_util = df_medicare_util,
   df_medicaid_exp = df_medicaid_exp,
   df_part_d = df_part_d,
-  part_d_year = part_d_year,
-  part_d_duration = part_d_duration,
   footnote = v_enrollment_footnote
 )
 
