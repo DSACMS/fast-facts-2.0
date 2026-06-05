@@ -625,7 +625,6 @@ v_utilization_sources <- df_ff |>
     is_latest == TRUE
   ) |>
   distinct(source_origin) |>
-  add_row(source_origin = "CMS/Office of Enterprise Data & Analytics") |>
   mutate(
     source_origin = str_remove(
       source_origin,

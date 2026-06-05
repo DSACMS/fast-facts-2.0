@@ -882,7 +882,7 @@ utilization[["df_medicaid_exp"]] |>
 ## Row {.no-title height="5%"}
 
 ::: {.footer-source}
-`r enrollment[["footnote"]]`
+`r utilization[["footnote"]]`
 :::
 
 
