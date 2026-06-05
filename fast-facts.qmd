@@ -27,7 +27,7 @@ execute:
 ---
 
 ```{r}
-#| label: dependencies
+#| label: load
 #| include: false
 
 #dependencies
@@ -42,20 +42,25 @@ library(gt, warn.conflicts = FALSE)
 library(gtExtras)
 
 #add colors
-
 source("Scripts/98_color_system.R")
 
 # Register the OTF font used for pictograms
+fa_path <- "assets/FontAwesome7Free-Solid-900.otf"
+
+#if it doesn't exist, download it
+if (!file.exists(fa_path)) {
+  dir.create(dirname(fa_path), recursive = TRUE, showWarnings = FALSE)
+  download.file(
+    url      = "https://github.com/FortAwesome/Font-Awesome/raw/6.x/otfs/Font%20Awesome%206%20Free-Solid-900.otf",
+    destfile = fa_path,
+    mode     = "wb"
+  )
+}
+
 register_font(
   name  = "FontAwesome7Solid",
-  plain = "/Users/c0xu/Library/Fonts/Font Awesome 7 Free-Solid-900.otf"
+  plain = fa_path
 )
-
-```
-
-```{r}
-#| label: load_data
-#| include: false
 
 #load each dataset needed for each tab, stored in a list element
 files <- list.files("Dataout", ".rds") |> str_remove(".rds")
