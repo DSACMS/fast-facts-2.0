@@ -36,6 +36,9 @@ path_medicare_prog_stats <- list.files(dir_temp, "zip", full.names = TRUE)
 #path data.cms.gov download
 path_medicare_monthly_enroll <- "Data/Medicare_Monthly_Enrollment_Jan_2026.zip"
 
+#path to historic part a reduce premiums
+path_addtl_premiums <- "Data/cms_newsroom_fact-sheets_premiums.csv"
+
 #path for Medicaid historic data
 path_medicaid <- list.files("Data", "mac", full.names = TRUE)
 
@@ -60,22 +63,8 @@ df_benes_medicaid <- path_medicaid |>
 # ADD IN PREMIUM DATA ----------------------------------------------------
 
 #additional data for reduce Part A premiums not included in FF
-df_premium_a_reduced <-
-  tribble(
-    ~data_year , ~value ,
-    2021L      , 259L   ,
-    2022L      , 274L
-  ) |>
-  mutate(
-    area = "Medicare",
-    topic = "Cost Sharing",
-    category = "Premiums",
-    sub_category = "Part A (Reduced)",
-    metric = "premium",
-    period_type = "CY",
-    release_date = as.Date("2026-01-01"),
-    is_latest = FALSE
-  )
+df_premium_a_reduced <- read_csv(path_addtl_premiums) |>
+  mutate(data_year = as.integer(data_year))
 
 
 # MUNGE -------------------------------------------------------------------

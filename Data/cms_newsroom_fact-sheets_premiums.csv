@@ -1,0 +1,3 @@
+﻿area,topic,category,sub_category,metric,period_type,data_year,value,source,source_origin,release_date,is_latest
+Medicare,Cost Sharing,Premiums,Part A (Reduced),premium,CY,2021,259,CMS Newsroom Fact Sheets,CMS/Centers for Medicare & Medicaid Services,2020-11-06,FALSE
+Medicare,Cost Sharing,Premiums,Part A (Reduced),premium,CY,2022,274,CMS Newsroom Fact Sheets,CMS/Centers for Medicare & Medicaid Services,2021-11-12,FALSE
