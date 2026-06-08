@@ -4,7 +4,7 @@
 # REF ID:   42ad981d
 # LICENSE:  MIT
 # DATE:     2026-05-29
-# UPDATED:
+# UPDATED:  2026-06-08
 
 # DEPENDENCIES ------------------------------------------------------------
 
@@ -128,24 +128,24 @@ df_benes_addtl <-
 
 # JOIN -------------------------------------------------------------------
 
-#subset additional data to only years (for each sub pop) not already in FF
-df_benes_addtl <- df_benes_addtl |>
-  anti_join(
-    df_ff |>
-      distinct(area, sub_category, data_year),
-    by = join_by(area, sub_category, data_year)
-  )
-
-#bind additional data onto current FF file
-df_ff <- bind_rows(df_ff, df_benes_addtl)
-
-# #alt - could drop subpop data from FF and use all new
-# df_ff <- df_ff |>
+# #subset additional data to only years (for each sub pop) not already in FF
+# df_benes_addtl <- df_benes_addtl |>
 #   anti_join(
-#     df_benes_addtl |>
-#       distinct(area, sub_category, data_year)
-#   ) |>
-#   bind_rows(df_benes_addtl)
+#     df_ff |>
+#       distinct(area, sub_category, data_year),
+#     by = join_by(area, sub_category, data_year)
+#   )
+
+# #bind additional data onto current FF file
+# df_ff <- bind_rows(df_ff, df_benes_addtl)
+
+# drop subpop data from FF and use additional data points instead
+df_ff <- df_ff |>
+  anti_join(
+    df_benes_addtl |>
+      distinct(area, sub_category, data_year)
+  ) |>
+  bind_rows(df_benes_addtl)
 
 # EXPORT -----------------------------------------------------------------
 

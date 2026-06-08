@@ -1,18 +1,11 @@
 area,topic,category,sub_category,provider_type,metric,period_type,data_year,value,bound,source,source_tab,source_origin,release_date,is_latest
 Medicare,Enrollment,Parts A and/or B,Total,,enrollment,CY,2019,61500000,,CMSFastFactsNov2021.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Office of the Actuary,2021-11-01,FALSE
-Medicare,Enrollment,Parts A and/or B,Aged,,enrollment,CY,2019,53000000,,CMSFastFactsNov2021.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Office of the Actuary,2021-11-01,FALSE
-Medicare,Enrollment,Parts A and/or B,Disabled,,enrollment,CY,2019,8500000,,CMSFastFactsNov2021.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Office of the Actuary,2021-11-01,FALSE
-Medicare,Enrollment,Parts A and/or B,Original Medicare Enrollment,,enrollment,CY,2019,38600000,,CMSFastFactsNov2021.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Office of the Actuary,2021-11-01,FALSE
-Medicare,Enrollment,Parts A and/or B,MA & Other Health Plan Enrollment,,enrollment,CY,2019,22900000,,CMSFastFactsNov2021.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Office of the Actuary,2021-11-01,FALSE
 Medicare,Enrollment,Parts A and/or B,MA Enrollment,,enrollment,CY,2019,22200000,,CMSFastFactsNov2021.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Office of the Actuary,2021-11-01,FALSE
 Medicare,Enrollment,Part D,Total,,enrollment,CY,2019,45800000,,CMSFastFactsNov2021.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Office of the Actuary,2021-11-01,FALSE
-Medicaid & CHIP,Enrollment,Medicaid & CHIP,Total,,enrollment,FY,2018,73900000,,CMSFastFactsNov2021.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Office of the Actuary,2021-11-01,FALSE
 Medicaid & CHIP,Enrollment,Medicaid & CHIP,Aged,,enrollment,FY,2018,6000000,,CMSFastFactsNov2021.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Office of the Actuary,2021-11-01,FALSE
 Medicaid & CHIP,Enrollment,Medicaid & CHIP,Blind/Disabled,,enrollment,FY,2018,10700000,,CMSFastFactsNov2021.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Office of the Actuary,2021-11-01,FALSE
-Medicaid & CHIP,Enrollment,Medicaid & CHIP,Children,,enrollment,FY,2018,28100000,,CMSFastFactsNov2021.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Office of the Actuary,2021-11-01,FALSE
 Medicaid & CHIP,Enrollment,Medicaid & CHIP,Adults,,enrollment,FY,2018,15600000,,CMSFastFactsNov2021.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Office of the Actuary,2021-11-01,FALSE
 Medicaid & CHIP,Enrollment,Medicaid & CHIP,Expansion Adult,,enrollment,FY,2018,12200000,,CMSFastFactsNov2021.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Office of the Actuary,2021-11-01,FALSE
-Medicaid & CHIP,Enrollment,Medicaid & CHIP,Total,,enrollment,FY,2018,7000000,,CMSFastFactsNov2021.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Office of the Actuary,2021-11-01,FALSE
 Medicare,Utilization,Total (A and/or B),Total,,persons_served,CY,2019,34300000,,CMSFastFactsNov2021.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2021-11-01,FALSE
 Medicare,Utilization,Total (A and/or B),Total,,payments,CY,2019,400200000000,,CMSFastFactsNov2021.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2021-11-01,FALSE
 Medicare,Utilization,Part A,Total,,persons_served,CY,2019,7500000,,CMSFastFactsNov2021.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2021-11-01,FALSE
@@ -98,21 +91,18 @@ CMS,Financial,Program Management,Total Appropriation,,expenditures,FY,2020,41747
 CMS,Financial,Program Management,Other Sources,,expenditures,FY,2020,1872100000,,CMSFastFactsNov2021.xlsx,CMS Financial Data,CMS/Office of Financial Management,2021-11-01,FALSE
 CMS,Financial,Fraud,Total Health Care Fraud & Abuse Control Funding,,expenditures,FY,2020,2226900000,,CMSFastFactsNov2021.xlsx,CMS Financial Data,CMS/Office of Financial Management,2021-11-01,FALSE
 CMS,Staffing,FTE Employment,,,count,FY,2020,6206,,CMSFastFactsNov2021.xlsx,CMS Financial Data,CMS/Office of Financial Management,2021-11-01,FALSE
-Medicaid & CHIP,Enrollment,Medicaid & CHIP,Total,,enrollment,FY,2019,73900000,,CMSFastFactsAug2022.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Office of the Actuary,2022-08-01,FALSE
 Medicaid & CHIP,Enrollment,Medicaid & CHIP,Aged,,enrollment,FY,2019,6100000,,CMSFastFactsAug2022.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Office of the Actuary,2022-08-01,FALSE
 Medicaid & CHIP,Enrollment,Medicaid & CHIP,Aged,,enrollment,FY,2020,6300000,,CMSFastFactsAug2022.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Office of the Actuary,2022-08-01,FALSE
 Medicaid & CHIP,Enrollment,Medicaid & CHIP,Aged,,enrollment,FY,2021,6500000,,CMSFastFactsAug2022.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Office of the Actuary,2022-08-01,FALSE
 Medicaid & CHIP,Enrollment,Medicaid & CHIP,Blind/Disabled,,enrollment,FY,2019,10200000,,CMSFastFactsAug2022.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Office of the Actuary,2022-08-01,FALSE
 Medicaid & CHIP,Enrollment,Medicaid & CHIP,Blind/Disabled,,enrollment,FY,2020,10100000,,CMSFastFactsAug2022.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Office of the Actuary,2022-08-01,FALSE
 Medicaid & CHIP,Enrollment,Medicaid & CHIP,Blind/Disabled,,enrollment,FY,2021,10200000,,CMSFastFactsAug2022.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Office of the Actuary,2022-08-01,FALSE
-Medicaid & CHIP,Enrollment,Medicaid & CHIP,Children,,enrollment,FY,2019,28900000,,CMSFastFactsAug2022.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Office of the Actuary,2022-08-01,FALSE
 Medicaid & CHIP,Enrollment,Medicaid & CHIP,Adults,,enrollment,FY,2019,15200000,,CMSFastFactsAug2022.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Office of the Actuary,2022-08-01,FALSE
 Medicaid & CHIP,Enrollment,Medicaid & CHIP,Adults,,enrollment,FY,2020,15400000,,CMSFastFactsAug2022.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Office of the Actuary,2022-08-01,FALSE
 Medicaid & CHIP,Enrollment,Medicaid & CHIP,Adults,,enrollment,FY,2021,17000000,,CMSFastFactsAug2022.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Office of the Actuary,2022-08-01,FALSE
 Medicaid & CHIP,Enrollment,Medicaid & CHIP,Expansion Adult,,enrollment,FY,2019,12100000,,CMSFastFactsAug2022.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Office of the Actuary,2022-08-01,FALSE
 Medicaid & CHIP,Enrollment,Medicaid & CHIP,Expansion Adult,,enrollment,FY,2020,12800000,,CMSFastFactsAug2022.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Office of the Actuary,2022-08-01,FALSE
 Medicaid & CHIP,Enrollment,Medicaid & CHIP,Expansion Adult,,enrollment,FY,2021,15000000,,CMSFastFactsAug2022.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Office of the Actuary,2022-08-01,FALSE
-Medicaid & CHIP,Enrollment,Medicaid & CHIP,Total,,enrollment,FY,2019,7200000,,CMSFastFactsAug2022.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Office of the Actuary,2022-08-01,FALSE
 Medicare,Cost Sharing,Part A,Deductible,,deductible,CY,2021,1484,,CMSFastFactsAug2022.xlsx,"Deductibles, Coins, Premiums",CMS/Office of the Actuary,2022-08-01,FALSE
 Medicare,Cost Sharing,Part A,Deductible,,deductible,CY,2022,1556,,CMSFastFactsAug2022.xlsx,"Deductibles, Coins, Premiums",CMS/Office of the Actuary,2022-08-01,FALSE
 Medicare,Cost Sharing,Part A,Coinsurance/Day (Days 61-90),,coinsurance,CY,2021,371,,CMSFastFactsAug2022.xlsx,"Deductibles, Coins, Premiums",CMS/Office of the Actuary,2022-08-01,FALSE
@@ -178,16 +168,8 @@ CMS,Financial,Program Management,Other Sources,,expenditures,FY,2021,2537000000,
 CMS,Financial,Fraud,Total Health Care Fraud & Abuse Control Funding,,expenditures,FY,2021,2222400000,,CMSFastFactsAug2022.xlsx,CMS Financial Data,CMS/Office of Financial Management,2022-08-01,FALSE
 CMS,Staffing,FTE Employment,,,count,FY,2021,6287,,CMSFastFactsAug2022.xlsx,CMS Financial Data,CMS/Office of Financial Management,2022-08-01,FALSE
 Medicare,Enrollment,Parts A and/or B,Total,,enrollment,CY,2020,62800000,,CMSFastFactsOct2023_508.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Centers for Medicaid and CHIP Services,2023-10-01,FALSE
-Medicare,Enrollment,Parts A and/or B,Aged,,enrollment,CY,2020,54500000,,CMSFastFactsOct2023_508.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Centers for Medicaid and CHIP Services,2023-10-01,FALSE
-Medicare,Enrollment,Parts A and/or B,Disabled,,enrollment,CY,2020,8300000.000000001,,CMSFastFactsOct2023_508.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Centers for Medicaid and CHIP Services,2023-10-01,FALSE
-Medicare,Enrollment,Parts A and/or B,Original Medicare Enrollment,,enrollment,CY,2020,37800000,,CMSFastFactsOct2023_508.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Centers for Medicaid and CHIP Services,2023-10-01,FALSE
-Medicare,Enrollment,Parts A and/or B,MA & Other Health Plan Enrollment,,enrollment,CY,2020,25100000,,CMSFastFactsOct2023_508.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Centers for Medicaid and CHIP Services,2023-10-01,FALSE
 Medicare,Enrollment,Parts A and/or B,MA Enrollment,,enrollment,CY,2020,24400000,,CMSFastFactsOct2023_508.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Centers for Medicaid and CHIP Services,2023-10-01,FALSE
 Medicare,Enrollment,Part D,Total,,enrollment,CY,2020,47400000,,CMSFastFactsOct2023_508.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Centers for Medicaid and CHIP Services,2023-10-01,FALSE
-Medicaid & CHIP,Enrollment,Medicaid & CHIP,Total,,enrollment,FY,2020,72700000,,CMSFastFactsOct2023_508.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Centers for Medicaid and CHIP Services,2023-10-01,FALSE
-Medicaid & CHIP,Enrollment,Medicaid & CHIP,Dual Eligible,,enrollment,FY,2020,8000000,,CMSFastFactsOct2023_508.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Centers for Medicaid and CHIP Services,2023-10-01,FALSE
-Medicaid & CHIP,Enrollment,Medicaid & CHIP,Children,,enrollment,FY,2020,35700000,,CMSFastFactsOct2023_508.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Centers for Medicaid and CHIP Services,2023-10-01,FALSE
-Medicaid & CHIP,Enrollment,Medicaid & CHIP,Medicaid Expansion Adults,,enrollment,FY,2020,18700000,,CMSFastFactsOct2023_508.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Centers for Medicaid and CHIP Services,2023-10-01,FALSE
 Medicare,Utilization,Total (A and/or B),Total,,persons_served,CY,2021,33299999.999999996,,CMSFastFactsOct2023_508.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2023-10-01,FALSE
 Medicare,Utilization,Total (A and/or B),Total,,payments,CY,2021,396100000000,,CMSFastFactsOct2023_508.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2023-10-01,FALSE
 Medicare,Utilization,Part A,Total,,persons_served,CY,2021,6700000,,CMSFastFactsOct2023_508.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2023-10-01,FALSE
@@ -281,16 +263,8 @@ Medicaid & CHIP,Expenditures,Payments (by Selected Type of Service),Managed Care
 Medicaid & CHIP,Expenditures,Payments (by Selected Type of Service),Administrative,,expenditure,FY,2019,30000000000,,CMSFastFactsOct2023_508.xlsx,Medicaid & CHIP Expenditures,CMS/Center for Medicaid and CHIP Services,2023-10-01,FALSE
 Medicaid & CHIP,Expenditures,Payments (by Selected Type of Service),Other Services,,expenditure,FY,2019,9700000000,,CMSFastFactsOct2023_508.xlsx,Medicaid & CHIP Expenditures,CMS/Center for Medicaid and CHIP Services,2023-10-01,FALSE
 Medicare,Enrollment,Parts A and/or B,Total,,enrollment,CY,2021,63900000,,CMSFastFactsMar2024_508.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Centers for Medicaid and CHIP Services,2024-03-01,FALSE
-Medicare,Enrollment,Parts A and/or B,Aged,,enrollment,CY,2021,55900000,,CMSFastFactsMar2024_508.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Centers for Medicaid and CHIP Services,2024-03-01,FALSE
-Medicare,Enrollment,Parts A and/or B,Disabled,,enrollment,CY,2021,8000000,,CMSFastFactsMar2024_508.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Centers for Medicaid and CHIP Services,2024-03-01,FALSE
-Medicare,Enrollment,Parts A and/or B,Original Medicare Enrollment,,enrollment,CY,2021,36400000,,CMSFastFactsMar2024_508.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Centers for Medicaid and CHIP Services,2024-03-01,FALSE
-Medicare,Enrollment,Parts A and/or B,MA & Other Health Plan Enrollment,,enrollment,CY,2021,27500000,,CMSFastFactsMar2024_508.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Centers for Medicaid and CHIP Services,2024-03-01,FALSE
 Medicare,Enrollment,Parts A and/or B,MA Enrollment,,enrollment,CY,2021,26900000,,CMSFastFactsMar2024_508.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Centers for Medicaid and CHIP Services,2024-03-01,FALSE
 Medicare,Enrollment,Part D,Total,,enrollment,CY,2021,48800000,,CMSFastFactsMar2024_508.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Centers for Medicaid and CHIP Services,2024-03-01,FALSE
-Medicaid & CHIP,Enrollment,Medicaid & CHIP,Total,,enrollment,FY,2021,86700000,,CMSFastFactsMar2024_508.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Centers for Medicaid and CHIP Services,2024-03-01,FALSE
-Medicaid & CHIP,Enrollment,Medicaid & CHIP,Dual Eligible,,enrollment,FY,2021,8600000,,CMSFastFactsMar2024_508.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Centers for Medicaid and CHIP Services,2024-03-01,FALSE
-Medicaid & CHIP,Enrollment,Medicaid & CHIP,Children,,enrollment,FY,2021,40100000,,CMSFastFactsMar2024_508.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Centers for Medicaid and CHIP Services,2024-03-01,FALSE
-Medicaid & CHIP,Enrollment,Medicaid & CHIP,Medicaid Expansion Adults,,enrollment,FY,2021,21800000,,CMSFastFactsMar2024_508.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Centers for Medicaid and CHIP Services,2024-03-01,FALSE
 Medicare,Cost Sharing,Part A,Deductible,,deductible,CY,2023,1600,,CMSFastFactsMar2024_508.xlsx,"Deductibles, Coins, Premiums",CMS/Office of the Actuary,2024-03-01,FALSE
 Medicare,Cost Sharing,Part A,Coinsurance/Day (Days 61-90),,coinsurance,CY,2023,400,,CMSFastFactsMar2024_508.xlsx,"Deductibles, Coins, Premiums",CMS/Office of the Actuary,2024-03-01,FALSE
 Medicare,Cost Sharing,Part A,Coinsurance/LTR Day,,coinsurance,CY,2023,800,,CMSFastFactsMar2024_508.xlsx,"Deductibles, Coins, Premiums",CMS/Office of the Actuary,2024-03-01,FALSE
@@ -396,16 +370,8 @@ Medicaid & CHIP,Expenditures,Payments (by Selected Type of Service),Managed Care
 Medicaid & CHIP,Expenditures,Payments (by Selected Type of Service),Administrative,,expenditure,FY,2022,32500000000,,CMSFastFactsMar2024_508.xlsx,Medicaid & CHIP Expenditures,CMS/Center for Medicaid and CHIP Services,2024-03-01,FALSE
 Medicaid & CHIP,Expenditures,Payments (by Selected Type of Service),Other Services,,expenditure,FY,2022,8900000000,,CMSFastFactsMar2024_508.xlsx,Medicaid & CHIP Expenditures,CMS/Center for Medicaid and CHIP Services,2024-03-01,FALSE
 Medicare,Enrollment,Parts A and/or B,Total,,enrollment,CY,2022,65099999.99999999,,CMSFastFacts2025_508.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Centers for Medicaid and CHIP Services,2025-04-01,FALSE
-Medicare,Enrollment,Parts A and/or B,Aged,,enrollment,CY,2022,57400000,,CMSFastFacts2025_508.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Centers for Medicaid and CHIP Services,2025-04-01,FALSE
-Medicare,Enrollment,Parts A and/or B,Disabled,,enrollment,CY,2022,7800000,,CMSFastFacts2025_508.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Centers for Medicaid and CHIP Services,2025-04-01,FALSE
-Medicare,Enrollment,Parts A and/or B,Original Medicare Enrollment,,enrollment,CY,2022,35300000,,CMSFastFacts2025_508.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Centers for Medicaid and CHIP Services,2025-04-01,FALSE
-Medicare,Enrollment,Parts A and/or B,MA & Other Health Plan Enrollment,,enrollment,CY,2022,29800000,,CMSFastFacts2025_508.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Centers for Medicaid and CHIP Services,2025-04-01,FALSE
 Medicare,Enrollment,Parts A and/or B,MA Enrollment,,enrollment,CY,2022,29100000,,CMSFastFacts2025_508.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Centers for Medicaid and CHIP Services,2025-04-01,FALSE
 Medicare,Enrollment,Part D,Total,,enrollment,CY,2022,50300000,,CMSFastFacts2025_508.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Centers for Medicaid and CHIP Services,2025-04-01,FALSE
-Medicaid & CHIP,Enrollment,Medicaid & CHIP,Total,,enrollment,FY,2022,92600000,,CMSFastFacts2025_508.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Centers for Medicaid and CHIP Services,2025-04-01,FALSE
-Medicaid & CHIP,Enrollment,Medicaid & CHIP,Dual Eligible,,enrollment,FY,2022,9200000,,CMSFastFacts2025_508.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Centers for Medicaid and CHIP Services,2025-04-01,FALSE
-Medicaid & CHIP,Enrollment,Medicaid & CHIP,Children,,enrollment,FY,2022,41700000,,CMSFastFacts2025_508.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Centers for Medicaid and CHIP Services,2025-04-01,FALSE
-Medicaid & CHIP,Enrollment,Medicaid & CHIP,Medicaid Expansion Adults,,enrollment,FY,2022,24100000,,CMSFastFacts2025_508.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Centers for Medicaid and CHIP Services,2025-04-01,FALSE
 Medicare,Cost Sharing,Part A,Deductible,,deductible,CY,2024,1632,,CMSFastFacts2025_508.xlsx,"Deductibles, Coins, Premiums",https://www.medicare.gov,2025-04-01,FALSE
 Medicare,Cost Sharing,Part A,Coinsurance/Day (Days 61-90),,coinsurance,CY,2024,408,,CMSFastFacts2025_508.xlsx,"Deductibles, Coins, Premiums",https://www.medicare.gov,2025-04-01,FALSE
 Medicare,Cost Sharing,Part A,Coinsurance/LTR Day,,coinsurance,CY,2024,816,,CMSFastFacts2025_508.xlsx,"Deductibles, Coins, Premiums",https://www.medicare.gov,2025-04-01,FALSE
@@ -513,34 +479,12 @@ Medicaid & CHIP,Expenditures,Payments (by Selected Type of Service),Other Servic
 Medicare,Enrollment,Parts A and/or B,Total,,enrollment,CY,2023,66500000,,CMSFastFacts2026.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Centers for Medicaid and CHIP Services,2026-04-01,FALSE
 Medicare,Enrollment,Parts A and/or B,Total,,enrollment,CY,2024,68000000,,CMSFastFacts2026.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Centers for Medicaid and CHIP Services,2026-04-01,FALSE
 Medicare,Enrollment,Parts A and/or B,Total,,enrollment,CY,2025,69400000,,CMSFastFacts2026.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Centers for Medicaid and CHIP Services,2026-04-01,TRUE
-Medicare,Enrollment,Parts A and/or B,Aged,,enrollment,CY,2023,59000000,,CMSFastFacts2026.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Centers for Medicaid and CHIP Services,2026-04-01,FALSE
-Medicare,Enrollment,Parts A and/or B,Aged,,enrollment,CY,2024,60800000,,CMSFastFacts2026.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Centers for Medicaid and CHIP Services,2026-04-01,FALSE
-Medicare,Enrollment,Parts A and/or B,Aged,,enrollment,CY,2025,62400000,,CMSFastFacts2026.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Centers for Medicaid and CHIP Services,2026-04-01,TRUE
-Medicare,Enrollment,Parts A and/or B,Disabled,,enrollment,CY,2023,7500000,,CMSFastFacts2026.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Centers for Medicaid and CHIP Services,2026-04-01,FALSE
-Medicare,Enrollment,Parts A and/or B,Disabled,,enrollment,CY,2024,7200000,,CMSFastFacts2026.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Centers for Medicaid and CHIP Services,2026-04-01,FALSE
-Medicare,Enrollment,Parts A and/or B,Disabled,,enrollment,CY,2025,6900000,,CMSFastFacts2026.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Centers for Medicaid and CHIP Services,2026-04-01,TRUE
-Medicare,Enrollment,Parts A and/or B,Original Medicare Enrollment,,enrollment,CY,2023,34400000,,CMSFastFacts2026.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Centers for Medicaid and CHIP Services,2026-04-01,FALSE
-Medicare,Enrollment,Parts A and/or B,Original Medicare Enrollment,,enrollment,CY,2024,33900000,,CMSFastFacts2026.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Centers for Medicaid and CHIP Services,2026-04-01,FALSE
-Medicare,Enrollment,Parts A and/or B,Original Medicare Enrollment,,enrollment,CY,2025,34000000,,CMSFastFacts2026.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Centers for Medicaid and CHIP Services,2026-04-01,TRUE
-Medicare,Enrollment,Parts A and/or B,MA & Other Health Plan Enrollment,,enrollment,CY,2023,32100000,,CMSFastFacts2026.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Centers for Medicaid and CHIP Services,2026-04-01,FALSE
-Medicare,Enrollment,Parts A and/or B,MA & Other Health Plan Enrollment,,enrollment,CY,2024,34100000,,CMSFastFacts2026.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Centers for Medicaid and CHIP Services,2026-04-01,FALSE
-Medicare,Enrollment,Parts A and/or B,MA & Other Health Plan Enrollment,,enrollment,CY,2025,35300000,,CMSFastFacts2026.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Centers for Medicaid and CHIP Services,2026-04-01,TRUE
 Medicare,Enrollment,Parts A and/or B,MA Enrollment,,enrollment,CY,2023,31600000,,CMSFastFacts2026.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Centers for Medicaid and CHIP Services,2026-04-01,FALSE
 Medicare,Enrollment,Parts A and/or B,MA Enrollment,,enrollment,CY,2024,33600000,,CMSFastFacts2026.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Centers for Medicaid and CHIP Services,2026-04-01,FALSE
 Medicare,Enrollment,Parts A and/or B,MA Enrollment,,enrollment,CY,2025,34900000,,CMSFastFacts2026.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Centers for Medicaid and CHIP Services,2026-04-01,TRUE
 Medicare,Enrollment,Part D,Total,,enrollment,CY,2023,51900000,,CMSFastFacts2026.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Centers for Medicaid and CHIP Services,2026-04-01,FALSE
 Medicare,Enrollment,Part D,Total,,enrollment,CY,2024,54400000,,CMSFastFacts2026.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Centers for Medicaid and CHIP Services,2026-04-01,FALSE
 Medicare,Enrollment,Part D,Total,,enrollment,CY,2025,56000000,,CMSFastFacts2026.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Centers for Medicaid and CHIP Services,2026-04-01,TRUE
-Medicaid & CHIP,Enrollment,Medicaid & CHIP,Total,,enrollment,FY,2023,85700000,,CMSFastFacts2026.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Centers for Medicaid and CHIP Services,2026-04-01,FALSE
-Medicaid & CHIP,Enrollment,Medicaid & CHIP,Total,,enrollment,FY,2024,79100000,,CMSFastFacts2026.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Centers for Medicaid and CHIP Services,2026-04-01,FALSE
-Medicaid & CHIP,Enrollment,Medicaid & CHIP,Total,,enrollment,FY,2025,78800000,,CMSFastFacts2026.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Centers for Medicaid and CHIP Services,2026-04-01,TRUE
-Medicaid & CHIP,Enrollment,Medicaid & CHIP,Dual Eligible,,enrollment,FY,2023,9100000,,CMSFastFacts2026.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Centers for Medicaid and CHIP Services,2026-04-01,FALSE
-Medicaid & CHIP,Enrollment,Medicaid & CHIP,Dual Eligible,,enrollment,FY,2024,8700000,,CMSFastFacts2026.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Centers for Medicaid and CHIP Services,2026-04-01,FALSE
-Medicaid & CHIP,Enrollment,Medicaid & CHIP,Children,,enrollment,FY,2023,38600000,,CMSFastFacts2026.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Centers for Medicaid and CHIP Services,2026-04-01,FALSE
-Medicaid & CHIP,Enrollment,Medicaid & CHIP,Children,,enrollment,FY,2024,37600000,,CMSFastFacts2026.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Centers for Medicaid and CHIP Services,2026-04-01,FALSE
-Medicaid & CHIP,Enrollment,Medicaid & CHIP,Children,,enrollment,FY,2025,37500000,,CMSFastFacts2026.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Centers for Medicaid and CHIP Services,2026-04-01,TRUE
-Medicaid & CHIP,Enrollment,Medicaid & CHIP,Medicaid Expansion Adults,,enrollment,FY,2023,22700000,,CMSFastFacts2026.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Centers for Medicaid and CHIP Services,2026-04-01,FALSE
-Medicaid & CHIP,Enrollment,Medicaid & CHIP,Medicaid Expansion Adults,,enrollment,FY,2024,20900000,,CMSFastFacts2026.xlsx,Populations,CMS/Office of Enterprise Data & Analytics/Centers for Medicaid and CHIP Services,2026-04-01,FALSE
 Medicare,Cost Sharing,Part A,Deductible,,deductible,CY,2025,1676,,CMSFastFacts2026.xlsx,"Deductibles, Coins, Premiums",https://www.medicare.gov,2026-04-01,FALSE
 Medicare,Cost Sharing,Part A,Deductible,,deductible,CY,2026,1736,,CMSFastFacts2026.xlsx,"Deductibles, Coins, Premiums",https://www.medicare.gov,2026-04-01,TRUE
 Medicare,Cost Sharing,Part A,Coinsurance/Day (Days 61-90),,coinsurance,CY,2025,419,,CMSFastFacts2026.xlsx,"Deductibles, Coins, Premiums",https://www.medicare.gov,2026-04-01,FALSE
@@ -699,14 +643,68 @@ Medicare,Enrollment,Parts A and/or B,Original Medicare Enrollment,,enrollment,CY
 Medicare,Enrollment,Parts A and/or B,MA & Other Health Plan Enrollment,,enrollment,CY,2018,21324800,,Medicare_Monthly_Enrollment_Jan_2026.zip,,data.cms.gov,2026-01-01,
 Medicare,Enrollment,Parts A and/or B,Aged,,enrollment,CY,2018,51303346,,Medicare_Monthly_Enrollment_Jan_2026.zip,,data.cms.gov,2026-01-01,
 Medicare,Enrollment,Parts A and/or B,Disabled,,enrollment,CY,2018,8685906,,Medicare_Monthly_Enrollment_Jan_2026.zip,,data.cms.gov,2026-01-01,
+Medicare,Enrollment,Parts A and/or B,Original Medicare Enrollment,,enrollment,CY,2019,38576339,,Medicare_Monthly_Enrollment_Jan_2026.zip,,data.cms.gov,2026-01-01,
+Medicare,Enrollment,Parts A and/or B,MA & Other Health Plan Enrollment,,enrollment,CY,2019,22937498,,Medicare_Monthly_Enrollment_Jan_2026.zip,,data.cms.gov,2026-01-01,
+Medicare,Enrollment,Parts A and/or B,Aged,,enrollment,CY,2019,52990852,,Medicare_Monthly_Enrollment_Jan_2026.zip,,data.cms.gov,2026-01-01,
+Medicare,Enrollment,Parts A and/or B,Disabled,,enrollment,CY,2019,8522984,,Medicare_Monthly_Enrollment_Jan_2026.zip,,data.cms.gov,2026-01-01,
+Medicare,Enrollment,Parts A and/or B,Original Medicare Enrollment,,enrollment,CY,2020,37775358,,Medicare_Monthly_Enrollment_Jan_2026.zip,,data.cms.gov,2026-01-01,
+Medicare,Enrollment,Parts A and/or B,MA & Other Health Plan Enrollment,,enrollment,CY,2020,25063922,,Medicare_Monthly_Enrollment_Jan_2026.zip,,data.cms.gov,2026-01-01,
+Medicare,Enrollment,Parts A and/or B,Aged,,enrollment,CY,2020,54531005,,Medicare_Monthly_Enrollment_Jan_2026.zip,,data.cms.gov,2026-01-01,
+Medicare,Enrollment,Parts A and/or B,Disabled,,enrollment,CY,2020,8308276,,Medicare_Monthly_Enrollment_Jan_2026.zip,,data.cms.gov,2026-01-01,
+Medicare,Enrollment,Parts A and/or B,Original Medicare Enrollment,,enrollment,CY,2021,36355437,,Medicare_Monthly_Enrollment_Jan_2026.zip,,data.cms.gov,2026-01-01,
+Medicare,Enrollment,Parts A and/or B,MA & Other Health Plan Enrollment,,enrollment,CY,2021,27536246,,Medicare_Monthly_Enrollment_Jan_2026.zip,,data.cms.gov,2026-01-01,
+Medicare,Enrollment,Parts A and/or B,Aged,,enrollment,CY,2021,55850449,,Medicare_Monthly_Enrollment_Jan_2026.zip,,data.cms.gov,2026-01-01,
+Medicare,Enrollment,Parts A and/or B,Disabled,,enrollment,CY,2021,8041234,,Medicare_Monthly_Enrollment_Jan_2026.zip,,data.cms.gov,2026-01-01,
+Medicare,Enrollment,Parts A and/or B,Original Medicare Enrollment,,enrollment,CY,2022,35270914,,Medicare_Monthly_Enrollment_Jan_2026.zip,,data.cms.gov,2026-01-01,
+Medicare,Enrollment,Parts A and/or B,MA & Other Health Plan Enrollment,,enrollment,CY,2022,29829632,,Medicare_Monthly_Enrollment_Jan_2026.zip,,data.cms.gov,2026-01-01,
+Medicare,Enrollment,Parts A and/or B,Aged,,enrollment,CY,2022,57355997,,Medicare_Monthly_Enrollment_Jan_2026.zip,,data.cms.gov,2026-01-01,
+Medicare,Enrollment,Parts A and/or B,Disabled,,enrollment,CY,2022,7744549,,Medicare_Monthly_Enrollment_Jan_2026.zip,,data.cms.gov,2026-01-01,
+Medicare,Enrollment,Parts A and/or B,Original Medicare Enrollment,,enrollment,CY,2023,34367703,,Medicare_Monthly_Enrollment_Jan_2026.zip,,data.cms.gov,2026-01-01,
+Medicare,Enrollment,Parts A and/or B,MA & Other Health Plan Enrollment,,enrollment,CY,2023,32142166,,Medicare_Monthly_Enrollment_Jan_2026.zip,,data.cms.gov,2026-01-01,
+Medicare,Enrollment,Parts A and/or B,Aged,,enrollment,CY,2023,59034938,,Medicare_Monthly_Enrollment_Jan_2026.zip,,data.cms.gov,2026-01-01,
+Medicare,Enrollment,Parts A and/or B,Disabled,,enrollment,CY,2023,7474931,,Medicare_Monthly_Enrollment_Jan_2026.zip,,data.cms.gov,2026-01-01,
+Medicare,Enrollment,Parts A and/or B,Original Medicare Enrollment,,enrollment,CY,2024,33913847,,Medicare_Monthly_Enrollment_Jan_2026.zip,,data.cms.gov,2026-01-01,
+Medicare,Enrollment,Parts A and/or B,MA & Other Health Plan Enrollment,,enrollment,CY,2024,34081269,,Medicare_Monthly_Enrollment_Jan_2026.zip,,data.cms.gov,2026-01-01,
+Medicare,Enrollment,Parts A and/or B,Aged,,enrollment,CY,2024,60780044,,Medicare_Monthly_Enrollment_Jan_2026.zip,,data.cms.gov,2026-01-01,
+Medicare,Enrollment,Parts A and/or B,Disabled,,enrollment,CY,2024,7215073,,Medicare_Monthly_Enrollment_Jan_2026.zip,,data.cms.gov,2026-01-01,
+Medicare,Enrollment,Parts A and/or B,Original Medicare Enrollment,,enrollment,CY,2025,34044760,,Medicare_Monthly_Enrollment_Jan_2026.zip,,data.cms.gov,2026-01-01,
+Medicare,Enrollment,Parts A and/or B,MA & Other Health Plan Enrollment,,enrollment,CY,2025,35347025,,Medicare_Monthly_Enrollment_Jan_2026.zip,,data.cms.gov,2026-01-01,
+Medicare,Enrollment,Parts A and/or B,Aged,,enrollment,CY,2025,62444769,,Medicare_Monthly_Enrollment_Jan_2026.zip,,data.cms.gov,2026-01-01,
+Medicare,Enrollment,Parts A and/or B,Disabled,,enrollment,CY,2025,6947017,,Medicare_Monthly_Enrollment_Jan_2026.zip,,data.cms.gov,2026-01-01,
 Medicaid & CHIP,Enrollment,Medicaid & CHIP,Dual Eligible,,enrollment,CY,2017,7634322,,medicare.gov,,Quarterly Enrollment Snapshots,2024-06-01,FALSE
 Medicaid & CHIP,Enrollment,Medicaid & CHIP,Dual Eligible,,enrollment,CY,2018,7716557,,medicare.gov,,Quarterly Enrollment Snapshots,2024-06-01,FALSE
 Medicaid & CHIP,Enrollment,Medicaid & CHIP,Dual Eligible,,enrollment,CY,2019,7814352,,medicare.gov,,Quarterly Enrollment Snapshots,2024-06-01,FALSE
+Medicaid & CHIP,Enrollment,Medicaid & CHIP,Dual Eligible,,enrollment,CY,2020,8175250,,medicare.gov,,Quarterly Enrollment Snapshots,2024-06-01,FALSE
+Medicaid & CHIP,Enrollment,Medicaid & CHIP,Dual Eligible,,enrollment,CY,2021,8641158,,medicare.gov,,Quarterly Enrollment Snapshots,2024-06-01,FALSE
+Medicaid & CHIP,Enrollment,Medicaid & CHIP,Dual Eligible,,enrollment,CY,2022,9173827,,medicare.gov,,Quarterly Enrollment Snapshots,2024-06-01,FALSE
+Medicaid & CHIP,Enrollment,Medicaid & CHIP,Dual Eligible,,enrollment,CY,2023,9097237,,medicare.gov,,Quarterly Enrollment Snapshots,2024-06-01,FALSE
+Medicaid & CHIP,Enrollment,Medicaid & CHIP,Dual Eligible,,enrollment,CY,2024,8673747,,medicare.gov,,Quarterly Enrollment Snapshots,2024-06-01,TRUE
 Medicaid & CHIP,Enrollment,Medicaid & CHIP,Total,,enrollment,CY,2017,73669903,,medicare.gov,,Medicaid and CHIP Performance Indicators,2025-04-01,FALSE
+Medicaid & CHIP,Enrollment,Medicaid & CHIP,Total,,enrollment,CY,2018,72074751,,medicare.gov,,Medicaid and CHIP Performance Indicators,2025-04-01,FALSE
+Medicaid & CHIP,Enrollment,Medicaid & CHIP,Total,,enrollment,CY,2019,71395619,,medicare.gov,,Medicaid and CHIP Performance Indicators,2025-04-01,FALSE
+Medicaid & CHIP,Enrollment,Medicaid & CHIP,Total,,enrollment,CY,2020,80227007,,medicare.gov,,Medicaid and CHIP Performance Indicators,2025-04-01,FALSE
+Medicaid & CHIP,Enrollment,Medicaid & CHIP,Total,,enrollment,CY,2021,86746301,,medicare.gov,,Medicaid and CHIP Performance Indicators,2025-04-01,FALSE
+Medicaid & CHIP,Enrollment,Medicaid & CHIP,Total,,enrollment,CY,2022,92808776,,medicare.gov,,Medicaid and CHIP Performance Indicators,2025-04-01,FALSE
+Medicaid & CHIP,Enrollment,Medicaid & CHIP,Total,,enrollment,CY,2023,85739534,,medicare.gov,,Medicaid and CHIP Performance Indicators,2025-04-01,FALSE
+Medicaid & CHIP,Enrollment,Medicaid & CHIP,Total,,enrollment,CY,2024,79146955,,medicare.gov,,Medicaid and CHIP Performance Indicators,2025-04-01,FALSE
+Medicaid & CHIP,Enrollment,Medicaid & CHIP,Total,,enrollment,CY,2025,78846684,,medicare.gov,,Medicaid and CHIP Performance Indicators,2025-04-01,TRUE
 Medicaid & CHIP,Enrollment,Medicaid & CHIP,Children,,enrollment,CY,2017,35746621,,medicare.gov,,Medicaid and CHIP Performance Indicators,2025-04-01,FALSE
+Medicaid & CHIP,Enrollment,Medicaid & CHIP,Children,,enrollment,CY,2018,35071968,,medicare.gov,,Medicaid and CHIP Performance Indicators,2025-04-01,FALSE
+Medicaid & CHIP,Enrollment,Medicaid & CHIP,Children,,enrollment,CY,2019,35342757,,medicare.gov,,Medicaid and CHIP Performance Indicators,2025-04-01,FALSE
+Medicaid & CHIP,Enrollment,Medicaid & CHIP,Children,,enrollment,CY,2020,38244845,,medicare.gov,,Medicaid and CHIP Performance Indicators,2025-04-01,FALSE
+Medicaid & CHIP,Enrollment,Medicaid & CHIP,Children,,enrollment,CY,2021,40091538,,medicare.gov,,Medicaid and CHIP Performance Indicators,2025-04-01,FALSE
+Medicaid & CHIP,Enrollment,Medicaid & CHIP,Children,,enrollment,CY,2022,41852002,,medicare.gov,,Medicaid and CHIP Performance Indicators,2025-04-01,FALSE
+Medicaid & CHIP,Enrollment,Medicaid & CHIP,Children,,enrollment,CY,2023,38631714,,medicare.gov,,Medicaid and CHIP Performance Indicators,2025-04-01,FALSE
+Medicaid & CHIP,Enrollment,Medicaid & CHIP,Children,,enrollment,CY,2024,37577192,,medicare.gov,,Medicaid and CHIP Performance Indicators,2025-04-01,FALSE
+Medicaid & CHIP,Enrollment,Medicaid & CHIP,Children,,enrollment,CY,2025,37473635,,medicare.gov,,Medicaid and CHIP Performance Indicators,2025-04-01,TRUE
 Medicaid & CHIP,Enrollment,Medicaid & CHIP,Medicaid Expansion Adults,,enrollment,CY,2016,15442029,,medicare.gov,,Medicaid Budget and Expenditure System (MBES) Enrollment,2024-06-01,FALSE
 Medicaid & CHIP,Enrollment,Medicaid & CHIP,Medicaid Expansion Adults,,enrollment,CY,2017,15690724,,medicare.gov,,Medicaid Budget and Expenditure System (MBES) Enrollment,2024-06-01,FALSE
 Medicaid & CHIP,Enrollment,Medicaid & CHIP,Medicaid Expansion Adults,,enrollment,CY,2018,15151153,,medicare.gov,,Medicaid Budget and Expenditure System (MBES) Enrollment,2024-06-01,FALSE
 Medicaid & CHIP,Enrollment,Medicaid & CHIP,Medicaid Expansion Adults,,enrollment,CY,2019,15398703,,medicare.gov,,Medicaid Budget and Expenditure System (MBES) Enrollment,2024-06-01,FALSE
+Medicaid & CHIP,Enrollment,Medicaid & CHIP,Medicaid Expansion Adults,,enrollment,CY,2020,18905493,,medicare.gov,,Medicaid Budget and Expenditure System (MBES) Enrollment,2024-06-01,FALSE
+Medicaid & CHIP,Enrollment,Medicaid & CHIP,Medicaid Expansion Adults,,enrollment,CY,2021,21763490,,medicare.gov,,Medicaid Budget and Expenditure System (MBES) Enrollment,2024-06-01,FALSE
+Medicaid & CHIP,Enrollment,Medicaid & CHIP,Medicaid Expansion Adults,,enrollment,CY,2022,24052258,,medicare.gov,,Medicaid Budget and Expenditure System (MBES) Enrollment,2024-06-01,FALSE
+Medicaid & CHIP,Enrollment,Medicaid & CHIP,Medicaid Expansion Adults,,enrollment,CY,2023,22731066,,medicare.gov,,Medicaid Budget and Expenditure System (MBES) Enrollment,2024-06-01,FALSE
+Medicaid & CHIP,Enrollment,Medicaid & CHIP,Medicaid Expansion Adults,,enrollment,CY,2024,20918697,,medicare.gov,,Medicaid Budget and Expenditure System (MBES) Enrollment,2024-06-01,TRUE
 Medicare,Cost Sharing,Premiums,Part A (Reduced),,premium,CY,2021,259,,,,,2026-01-01,FALSE
 Medicare,Cost Sharing,Premiums,Part A (Reduced),,premium,CY,2022,274,,,,,2026-01-01,FALSE
