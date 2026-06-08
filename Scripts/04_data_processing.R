@@ -87,15 +87,14 @@ df_nhe_pc <- df_ff |>
   ) |>
   select(category, sub_category, data_year, value, value_fmt, n_icons)
 
-#Hard coded values for other NHE subcategories
-df_nhe_sources <- tribble(
-  ~topic , ~category                               , ~sub_category                            , ~period_type , ~data_year , ~metric        , ~value   ,
-  "NHE"  , "National Health Expenditures Breakout" , "Out of Pocket"                          , "CY"         , 2024L      , "expenditures" , 5.57e+11 ,
-  "NHE"  , "National Health Expenditures Breakout" , "Other Third-Party Payers and Programs"  , "CY"         , 2024L      , "expenditures" , 4.33e+11 ,
-  "NHE"  , "National Health Expenditures Breakout" , "Government Public Health Activities"    , "CY"         , 2024L      , "expenditures" , 1.58e+11 ,
-  "NHE"  , "National Health Expenditures Breakout" , "Investments"                            , "CY"         , 2024L      , "expenditures" , 2.39e+11 ,
-  "NHE"  , "National Health Expenditures Breakout" , "National Health Insurance Expenditures" , "CY"         , 2024L      , "expenditures" , 3.9e+12
-)
+#other NHE subcategories
+df_nhe_sources <- df_ff |>
+  filter(
+    is_latest == TRUE,
+    category == "National Health Expenditures",
+    sub_category != "Total",
+    metric == "expenditures"
+  )
 
 #format for plotting
 df_nhe_sources <- df_nhe_sources |>

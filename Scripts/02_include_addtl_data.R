@@ -31,7 +31,11 @@ map(
 )
 
 #store paths for sub-zipped Excel files from data.cms.gov
-path_medicare_prog_stats <- list.files(dir_temp, "zip", full.names = TRUE)
+path_medicare_prog_stats <- list.files(
+  dir_temp,
+  "Enroll.*.zip",
+  full.names = TRUE
+)
 
 #path data.cms.gov download
 path_medicare_monthly_enroll <- "Data/Medicare_Monthly_Enrollment_Jan_2026.zip"
@@ -42,10 +46,19 @@ path_addtl_premiums <- "Data/cms_newsroom_fact-sheets_premiums.csv"
 #path for Medicaid historic data
 path_medicaid <- list.files("Data", "mac", full.names = TRUE)
 
+#unzip NHE by Type data
+list.files("Data", "nhe.*tables.zip", full.names = TRUE) |>
+  unzip(exdir = dir_temp, junkpaths = TRUE)
+
+path_nhe_type <- list.files(dir_temp, "Table 19", full.names = TRUE)
+
 # IMPORT ------------------------------------------------------------------
 
 #read in Fast Facts structured dataset
 df_ff <- read_parquet(path)
+
+#read in NHE data
+df_nhe_type <- read_nhe_types(path_nhe_type)
 
 #read in historic Medicare pop data
 df_medicare_prog_stats <- path_medicare_prog_stats |>
@@ -75,7 +88,8 @@ df_benes_addtl <-
     df_medicare_prog_stats,
     df_medicare_monthly_enroll,
     df_benes_medicaid,
-    df_premium_a_reduced
+    df_premium_a_reduced,
+    df_nhe_type
   )
 
 # CHECK ------------------------------------------------------------------

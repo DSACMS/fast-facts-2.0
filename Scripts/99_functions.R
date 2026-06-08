@@ -1327,4 +1327,77 @@ read_medicaid_scorecard <- function(path) {
   return(df)
 }
 
+
+# Import NHE by Type -----------------------------------------------------
+
+read_nhe_types <- function(path) {
+  tab <- "Table 19"
+
+  v_nhe_type <-
+    c(
+      "Out of pocket",
+      "Health Insurance",
+      "Other Third Party Payers and Programs",
+      "Government Public Health Activities",
+      "Investment"
+    )
+
+  df_nhe_type <- read_xlsx(
+    path,
+    skip = 6
+  )
+
+  df_nhe_type <- df_nhe_type |>
+    mutate(
+      sub_category = coalesce(
+        ...1,
+        `Levels in Millions`,
+        ...3,
+        ...4,
+        ...5,
+        ...6
+      ),
+      .before = 1
+    ) |>
+    select(sub_category, value = `Total National Health Expenditures`) |>
+    filter(sub_category %in% v_nhe_type)
+
+  #covert to millions
+  df_nhe_type <- df_nhe_type |>
+    mutate(value = value * 1e6)
+
+  v_year <- extract_sheet_year(path, tab, n_rows = 1)
+
+  df_nhe_type <- df_nhe_type |>
+    mutate(
+      area = "Medicare",
+      topic = "Cost Sharing",
+      category = "National Health Expenditures",
+      metric = "expenditures",
+      period_type = v_year$period_type,
+      data_year = v_year$data_year,
+      source = basename(path),
+      source_tab = tab,
+      source_origin = extract_source(path, "Table 19"),
+      is_lastest = TRUE
+    )
+
+  #reoder
+  df_nhe_type <- df_nhe_type |>
+    relocate(
+      area,
+      topic,
+      category,
+      sub_category,
+      metric,
+      period_type,
+      data_year,
+      value,
+      source,
+      source_tab
+    )
+
+  return(df_nhe_type)
+}
+
 # nolint end: object_usage_linter, return_linter.
