@@ -1392,7 +1392,7 @@ read_nhe_types <- function(path) {
       source = basename(path_xl),
       source_tab = tab,
       source_origin = extract_source(path_xl, "Table 19"),
-      is_lastest = TRUE
+      is_latest = TRUE
     )
 
   #reoder
