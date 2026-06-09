@@ -47,10 +47,7 @@ path_addtl_premiums <- "Data/cms_newsroom_fact-sheets_premiums.csv"
 path_medicaid <- list.files("Data", "mac", full.names = TRUE)
 
 #unzip NHE by Type data
-list.files("Data", "nhe.*tables.zip", full.names = TRUE) |>
-  unzip(exdir = dir_temp, junkpaths = TRUE)
-
-path_nhe_type <- list.files(dir_temp, "Table 19", full.names = TRUE)
+path_nhe_type <- list.files("Data", "nhe.*tables.zip", full.names = TRUE)
 
 # IMPORT ------------------------------------------------------------------
 
@@ -72,8 +69,6 @@ df_medicare_monthly_enroll <- read_cms_gov_pop(path_medicare_monthly_enroll)
 df_benes_medicaid <- path_medicaid |>
   map(read_medicaid_scorecard) |>
   list_rbind()
-
-# ADD IN PREMIUM DATA ----------------------------------------------------
 
 #additional data for reduce Part A premiums not included in FF
 df_premium_a_reduced <- read_csv(path_addtl_premiums) |>

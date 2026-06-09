@@ -1331,8 +1331,24 @@ read_medicaid_scorecard <- function(path) {
 # Import NHE by Type -----------------------------------------------------
 
 read_nhe_types <- function(path) {
+  #store temp directory
+  dir_temp <- tempdir()
+
+  #unzip zip file of NHE tables
+  unzip(path, exdir = dir_temp, junkpaths = TRUE)
+
+  #table/sheet of interest
   tab <- "Table 19"
 
+  #identify table xlsx path
+  path_xl <- list.files(dir_temp, tab, full.names = TRUE)
+
+  #read in file
+  df_nhe_type <- suppressMessages(
+    read_xlsx(path_xl, skip = 6)
+  )
+
+  #sub categories needed
   v_nhe_type <-
     c(
       "Out of pocket",
@@ -1342,11 +1358,7 @@ read_nhe_types <- function(path) {
       "Investment"
     )
 
-  df_nhe_type <- read_xlsx(
-    path,
-    skip = 6
-  )
-
+  #coalesce first 6 cols to get the subcategory & filter to those rows
   df_nhe_type <- df_nhe_type |>
     mutate(
       sub_category = coalesce(
@@ -1366,7 +1378,8 @@ read_nhe_types <- function(path) {
   df_nhe_type <- df_nhe_type |>
     mutate(value = value * 1e6)
 
-  v_year <- extract_sheet_year(path, tab, n_rows = 1)
+  #extract year information for populating meta data
+  v_year <- extract_sheet_year(path_xl, tab, n_rows = 1)
 
   df_nhe_type <- df_nhe_type |>
     mutate(
@@ -1376,9 +1389,9 @@ read_nhe_types <- function(path) {
       metric = "expenditures",
       period_type = v_year$period_type,
       data_year = v_year$data_year,
-      source = basename(path),
+      source = basename(path_xl),
       source_tab = tab,
-      source_origin = extract_source(path, "Table 19"),
+      source_origin = extract_source(path_xl, "Table 19"),
       is_lastest = TRUE
     )
 
@@ -1396,6 +1409,9 @@ read_nhe_types <- function(path) {
       source,
       source_tab
     )
+
+  #remove excel files
+  list.files(dir_temp, "Table.*xlsx", full.names = TRUE) |> unlink()
 
   return(df_nhe_type)
 }
