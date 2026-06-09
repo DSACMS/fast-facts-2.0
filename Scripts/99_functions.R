@@ -1327,4 +1327,93 @@ read_medicaid_scorecard <- function(path) {
   return(df)
 }
 
+
+# Import NHE by Type -----------------------------------------------------
+
+read_nhe_types <- function(path) {
+  #store temp directory
+  dir_temp <- tempdir()
+
+  #unzip zip file of NHE tables
+  unzip(path, exdir = dir_temp, junkpaths = TRUE)
+
+  #table/sheet of interest
+  tab <- "Table 19"
+
+  #identify table xlsx path
+  path_xl <- list.files(dir_temp, tab, full.names = TRUE)
+
+  #read in file
+  df_nhe_type <- suppressMessages(
+    read_xlsx(path_xl, skip = 6)
+  )
+
+  #sub categories needed
+  v_nhe_type <-
+    c(
+      "Out of pocket",
+      "Health Insurance",
+      "Other Third Party Payers and Programs",
+      "Government Public Health Activities",
+      "Investment"
+    )
+
+  #coalesce first 6 cols to get the subcategory & filter to those rows
+  df_nhe_type <- df_nhe_type |>
+    mutate(
+      sub_category = coalesce(
+        ...1,
+        `Levels in Millions`,
+        ...3,
+        ...4,
+        ...5,
+        ...6
+      ),
+      .before = 1
+    ) |>
+    select(sub_category, value = `Total National Health Expenditures`) |>
+    filter(sub_category %in% v_nhe_type)
+
+  #covert to millions
+  df_nhe_type <- df_nhe_type |>
+    mutate(value = value * 1e6)
+
+  #extract year information for populating meta data
+  v_year <- extract_sheet_year(path_xl, tab, n_rows = 1)
+
+  df_nhe_type <- df_nhe_type |>
+    mutate(
+      area = "Medicare",
+      topic = "Cost Sharing",
+      category = "National Health Expenditures",
+      metric = "expenditures",
+      period_type = v_year$period_type,
+      data_year = v_year$data_year,
+      source = basename(path_xl),
+      source_tab = tab,
+      source_origin = extract_source(path_xl, "Table 19"),
+      is_latest = TRUE
+    )
+
+  #reoder
+  df_nhe_type <- df_nhe_type |>
+    relocate(
+      area,
+      topic,
+      category,
+      sub_category,
+      metric,
+      period_type,
+      data_year,
+      value,
+      source,
+      source_tab
+    )
+
+  #remove excel files
+  list.files(dir_temp, "Table.*xlsx", full.names = TRUE) |> unlink()
+
+  return(df_nhe_type)
+}
+
 # nolint end: object_usage_linter, return_linter.
