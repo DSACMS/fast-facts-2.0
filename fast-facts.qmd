@@ -4,6 +4,7 @@ subtitle: "April 2026 Release"
 logo: assets/CMS_logo_reverse.png
 format: 
   dashboard:
+    embed-resources: true
     fig-format: png
     theme:
       - cosmo
