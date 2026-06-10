@@ -18,7 +18,7 @@ A list of core team members responsible for the code and documentation in this r
 
 ### Dependencies
 
-This product relies on using R and Quarto to extract, munging, and export the visualizations. In addition to having these tools, a variety of R libraries were used in the process. This product leverages a through git/GitHub, but also through creating a reproducible envionment using the [`renv` package](https://rstudio.github.io/renv/index.html), "[making] it easier to share ... code in such a way that everyone gets exactly the same package versions". Loading this R project will allow "renv will automatically bootstrap itself, downloading and installing the appropriate version of renv" and "ask them if they want to download and install all the packages it needs by running `renv::restore()`." As more packages are added, run "`renv::snapshot()` to record the latest package versions in your lockfile." 
+This product relies on using R and [Quarto](https://quarto.org/docs/dashboards/) to extract, munging, and export the visualizations. In addition to having these tools, a variety of R libraries were used in the process. This product leverages a through git/GitHub, but also through creating a reproducible envionment using the [`renv` package](https://rstudio.github.io/renv/index.html), "[making] it easier to share ... code in such a way that everyone gets exactly the same package versions". Loading this R project will allow "renv will automatically bootstrap itself, downloading and installing the appropriate version of renv" and "ask them if they want to download and install all the packages it needs by running `renv::restore()`." As more packages are added, run "`renv::snapshot()` to record the latest package versions in your lockfile." 
 
 - R >= 4.0
 - Quarto >= 1.3
@@ -28,19 +28,20 @@ This product relies on using R and Quarto to extract, munging, and export the vi
 
 The script to render the final output can be found in the `Scripts/` folder. 
 
-- `01_setup_working_dataset.R` - Reads in each of the Excel tabs from all Fast Fast files in the `Data` folder to produce structured dataset to work from
-- `02_data_dictionary.R` - Renders a data dictionary that updates with any inputs to the setup script.
-- `03_data_processing.R` - Munges the data in a way that is needed for the creating visuals to minimal work needs to be done in the Quarto file.
-- `04_render_views.R` - Script that can run prior script before rendering the Quarto views.
+- `01_setup_working_dataset.R` - Reads in each of the Excel tabs from all Fast Fast files in the `Data` folder to produce structured dataset to work from.
+- `02_include_addtl_data.R` - Imports additional CMS data useful for filling in gaps of data that are not available within the Fast Facts resource.
+- `03_data_dictionary.R` - Renders a data dictionary that updates with any inputs to the setup script.
+- `04_data_processing.R` - Munges the data in a way that is needed for the creating visuals to minimal work needs to be done in the Quarto file.
+- `05_render_views.R` - Script that can run prior script before rendering the Quarto views.
 
-Additional utilities can be found in the scripts with prefixes that start with 90.
+Additional utilities can be found in the scripts with prefixes that start with 9*.
 
 - `98_color_system.R` - unified color system, base colors, scales, and plot elements
 - `99_functions.R` - utility functions used throughout processing
 
 With the scripts run, you can render the Quarto dashbaord file sitting in the base folder of the directory. Run `quarto render fast-facts.qmd` to build. This produces a self-contained fast-facts.html file.
 
-Unlike other Quarto outputs, the dashboard structure that this product utilizes is not able to render a PDF. The `04_render_views.R` is the initial attempt to create screenshots of it to turn into a PDF, but is still in its infancy and requires manual caputring through your internet browser, which is detailed below.
+Unlike other Quarto outputs, the dashboard structure that this product utilizes is not able to render a PDF. The `05_render_views.R` is the initial attempt to create screenshots of it to turn into a PDF, but is still in its infancy and requires manual caputring through your internet browser, which is detailed below.
 
 #### Capturing screenshots
 
@@ -59,8 +60,11 @@ Compiling to PDF in Acrobat
 
 ## Repository Structure
 
-Below is the folder structure for this repository, run with `r fs::dir_tree(recurse = 0)`.
+Below is the folder structure for this repository.
 
+<!--
+run with `r fs::dir_tree(recurse = 2)
+-->
 ```
 .
 ├── CODEOWNERS.md
@@ -68,35 +72,38 @@ Below is the folder structure for this repository, run with `r fs::dir_tree(recu
 ├── COMMUNITY.md
 ├── CONTRIBUTING.md
 ├── Data
-│   ├── CMSFastFacts2026.xlsx
-│   ├── Historic
+│   ├── README.md
+│   ├── cms_gov
+│   ├── data_cms_gov
+│   ├── fast_facts
+│   └── medicaid_scorecard
 ├── Dataout
-│   ├── CMSFastFacts_SD_2026-04.csv
-│   ├── CMSFastFacts_SD_2026-04.parquet
-│   ├── beneficiaries.rds
-│   ├── context.rds
-│   ├── cost_sharing.rds
-│   └── providers.rds
+│   ├── CMSFastFactsPlus_SD_2026-06.parquet
+│   └── CMSFastFacts_SD_2026-06.parquet
 ├── Documents
 │   └── CMSFastFacts_data-dictionary.pdf
 ├── LICENSE
+├── README.html
 ├── README.md
 ├── SECURITY.md
 ├── Scripts
 │   ├── 01_setup_working_dataset.R
-│   ├── 02_data_dictionary.R
-│   ├── 03_data_processing.R
-│   ├── 04_render_views.R
+│   ├── 02_include_addtl_data.R
+│   ├── 03_data_dictionary.R
+│   ├── 04_data_processing.R
+│   ├── 05_render_views.R
 │   ├── 98_color_system.R
 │   └── 99_functions.R
 ├── assets
+│   ├── CMS_logo.jpeg
 │   ├── CMS_logo_reverse.png
-│   └── ff_format.scss
+│   ├── FontAwesome7Free-Solid-900.otf
+│   ├── ff_format.scss
+│   └── print.css
+├── code.json
+├── fast-facts.html
 ├── fast-facts.qmd
 ├── renv
-│   ├── activate.R
-│   ├── library
-│   └── settings.json
 ├── renv.lock
 └── repolinter.json
 ```
@@ -166,7 +173,7 @@ lintr::lint("Scripts/my_script.R")
 lintr::lint_dir()
 ```
 
-Note: Some files (e.g. `Scripts/02_data_dictionary.R`) include inline `# nolint` annotations where long lines are intentional and unavoidable.
+Note: Some files (e.g. `Scripts/03_data_dictionary.R`) include inline `# nolint` annotations where long lines are intentional and unavoidable.
 
 <!--
 ## Branching Model
