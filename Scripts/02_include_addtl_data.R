@@ -26,7 +26,7 @@ dir_temp <- tempdir()
 
 #unzip Medicare historic files (also zipped)
 map(
-  .x = list.files("Data", "CMS Program", full.names = TRUE),
+  .x = list.files("Data", "CMS Program.*Enrollment", full.names = TRUE),
   .f = ~ unzip(.x, exdir = dir_temp, junkpaths = TRUE)
 )
 
