@@ -74,7 +74,7 @@ df_benes_medicaid <- path_medicaid |>
   list_rbind()
 
 #additional data for reduce Part A premiums not included in FF
-df_premium_a_reduced <- read_csv(path_addtl_premiums) |>
+df_premium_a_reduced <- read_csv(path_addtl_premiums, show_col_types = FALSE) |>
   mutate(data_year = as.integer(data_year))
 
 #deduplicted HHA data
@@ -148,7 +148,8 @@ df_benes_addtl <-
 df_ff <- df_ff |>
   anti_join(
     df_benes_addtl |>
-      distinct(area, sub_category, data_year)
+      distinct(area, sub_category, data_year),
+    by = join_by(area, sub_category, data_year)
   ) |>
   bind_rows(df_benes_addtl)
 
