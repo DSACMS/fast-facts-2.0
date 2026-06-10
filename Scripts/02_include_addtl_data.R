@@ -49,6 +49,9 @@ path_medicaid <- list.files("Data", "mac", full.names = TRUE)
 #unzip NHE by Type data
 path_nhe_type <- list.files("Data", "nhe.*tables.zip", full.names = TRUE)
 
+#path for deduplicated Home Health Agency values
+path_hha <- "Data/CMS Program Statistics - Medicare Home Health Agency.zip"
+
 # IMPORT ------------------------------------------------------------------
 
 #read in Fast Facts structured dataset
@@ -74,6 +77,9 @@ df_benes_medicaid <- path_medicaid |>
 df_premium_a_reduced <- read_csv(path_addtl_premiums) |>
   mutate(data_year = as.integer(data_year))
 
+#deduplicted HHA data
+df_hha <- read_hha(path_hha)
+
 
 # MUNGE -------------------------------------------------------------------
 
@@ -84,7 +90,8 @@ df_benes_addtl <-
     df_medicare_monthly_enroll,
     df_benes_medicaid,
     df_premium_a_reduced,
-    df_nhe_type
+    df_nhe_type,
+    df_hha
   )
 
 # CHECK ------------------------------------------------------------------
