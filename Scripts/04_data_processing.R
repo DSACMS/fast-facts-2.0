@@ -752,7 +752,10 @@ df_recent <- df_cs_trend |>
   distinct(category, sub_category)
 
 df_cs_trend <- df_cs_trend |>
-  inner_join(df_recent)
+  inner_join(
+    df_recent,
+    by = join_by(category, sub_category)
+  )
 
 v_cs_cats <- c(
   "Part A<br>*Full*",
