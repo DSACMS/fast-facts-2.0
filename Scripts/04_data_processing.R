@@ -512,22 +512,19 @@ utilization_years <- df_utilization_bans |>
 df_medicare_util <- df_ff |>
   filter(
     topic == "Utilization",
-    is_latest == TRUE,
-    metric %in% c("persons_served", "payments")
-  ) |>
-  filter_out(
-    category == "Total (A and/or B)" |
-      sub_category %in% c("Benefit Payments", "Administrative Expenses")
-  ) |>
-  filter_out(sub_category == "Total")
+    category != "Part D",
+    sub_category != "Total",
+    is_latest == TRUE
+  )
 
-#create z-score for plotting
+#use deduplicated HHA values (instead of Part A and B shown in FF)
 df_medicare_util <- df_medicare_util |>
-  group_by(metric) |>
-  mutate(zscore = (value - mean(value)) / sd(value)) |>
-  ungroup()
+  filter_out(
+    category %in% c("Part A", "Part B"),
+    sub_category == "Home Health Agency"
+  )
 
-
+#setup formatting for viz
 df_medicare_util <- df_medicare_util |>
   mutate(
     lab_exp = case_when(
@@ -551,7 +548,14 @@ df_medicare_util <- df_medicare_util |>
   pivot_wider(
     names_from = metric
   ) |>
-  mutate(fill_shape = ifelse(category == "Part A", 21L, 23L))
+  mutate(
+    fill_shape = recode_values(
+      category,
+      "Part A" ~ 21L,
+      "Part B" ~ 23L,
+      default = 22L,
+    )
+  )
 
 #Medicaid & CHIP expenditures
 df_medicaid_exp <- df_ff |>
