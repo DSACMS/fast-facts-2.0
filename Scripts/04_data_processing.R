@@ -4,7 +4,7 @@
 # REF ID:   4b4e2514
 # LICENSE:  MIT
 # DATE:     2026-03-20
-# UPDATED:  2026-05-29
+# UPDATED:  2026-06-10
 
 # DEPENDENCIES ------------------------------------------------------------
 
@@ -25,7 +25,7 @@ source("Scripts/99_functions.R")
 dir_out <- "Dataout"
 
 #path to main FF data file
-path <- list.files(dir_out, ".parquet", full.names = TRUE)
+path <- list.files(dir_out, "FastFactsPlus.*.parquet", full.names = TRUE)
 
 # IMPORT DATA ------------------------------------------------------------
 

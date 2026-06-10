@@ -71,7 +71,7 @@ target/
 fast-facts_files/
 test_files/
 Images/
-Data/Historic/
+Data/fast_facts/historic
 README_files/
 assets/test/
 Graphics/
