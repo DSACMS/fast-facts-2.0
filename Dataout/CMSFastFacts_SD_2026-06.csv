@@ -14,8 +14,6 @@ Medicare,Utilization,Part A,Inpatient Hospital,,persons_served,CY,2019,6300000,,
 Medicare,Utilization,Part A,Inpatient Hospital,,payments,CY,2019,138500000000,,CMSFastFactsNov2021.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2021-11-01,FALSE
 Medicare,Utilization,Part A,Skilled Nursing Facility,,persons_served,CY,2019,1600000,,CMSFastFactsNov2021.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2021-11-01,FALSE
 Medicare,Utilization,Part A,Skilled Nursing Facility,,payments,CY,2019,27100000000,,CMSFastFactsNov2021.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2021-11-01,FALSE
-Medicare,Utilization,Part A,Home Health Agency,,persons_served,CY,2019,1500000,,CMSFastFactsNov2021.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2021-11-01,FALSE
-Medicare,Utilization,Part A,Home Health Agency,,payments,CY,2019,6700000000,,CMSFastFactsNov2021.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2021-11-01,FALSE
 Medicare,Utilization,Part A,Hospice,,persons_served,CY,2019,1600000,,CMSFastFactsNov2021.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2021-11-01,FALSE
 Medicare,Utilization,Part A,Hospice,,payments,CY,2019,20900000000,,CMSFastFactsNov2021.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2021-11-01,FALSE
 Medicare,Utilization,Part B,Total,,persons_served,CY,2019,33700000,,CMSFastFactsNov2021.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2021-11-01,FALSE
@@ -24,8 +22,6 @@ Medicare,Utilization,Part B,Physician/DME,,persons_served,CY,2019,33200000.00000
 Medicare,Utilization,Part B,Physician/DME,,payments,CY,2019,114800000000,,CMSFastFactsNov2021.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2021-11-01,FALSE
 Medicare,Utilization,Part B,Outpatient,,persons_served,CY,2019,25400000,,CMSFastFactsNov2021.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2021-11-01,FALSE
 Medicare,Utilization,Part B,Outpatient,,payments,CY,2019,81000000000,,CMSFastFactsNov2021.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2021-11-01,FALSE
-Medicare,Utilization,Part B,Home Health Agency,,persons_served,CY,2019,1900000,,CMSFastFactsNov2021.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2021-11-01,FALSE
-Medicare,Utilization,Part B,Home Health Agency,,payments,CY,2019,11200000000,,CMSFastFactsNov2021.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2021-11-01,FALSE
 Medicare,Utilization,Part D,Total,,persons_served,CY,2019,45100000,,CMSFastFactsNov2021.xlsx,Medicare Part D,CMS/Office of Enterprise Data & Analytics/Office of the Actuary,2021-11-01,FALSE
 Medicare,Utilization,Part D,Total,,rx_events,CY,2019,1500000000,,CMSFastFactsNov2021.xlsx,Medicare Part D,CMS/Office of Enterprise Data & Analytics/Office of the Actuary,2021-11-01,FALSE
 Medicare,Utilization,Part D,Total,,payments,CY,2019,97600000000,,CMSFastFactsNov2021.xlsx,Medicare Part D,CMS/Office of Enterprise Data & Analytics/Office of the Actuary,2021-11-01,FALSE
@@ -133,8 +129,6 @@ Medicare,Utilization,Part A,Inpatient Hospital,,persons_served,CY,2020,5400000,,
 Medicare,Utilization,Part A,Inpatient Hospital,,payments,CY,2020,130199999999.99998,,CMSFastFactsAug2022.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2022-08-01,FALSE
 Medicare,Utilization,Part A,Skilled Nursing Facility,,persons_served,CY,2020,1500000,,CMSFastFactsAug2022.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2022-08-01,FALSE
 Medicare,Utilization,Part A,Skilled Nursing Facility,,payments,CY,2020,28600000000,,CMSFastFactsAug2022.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2022-08-01,FALSE
-Medicare,Utilization,Part A,Home Health Agency,,persons_served,CY,2020,1400000,,CMSFastFactsAug2022.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2022-08-01,FALSE
-Medicare,Utilization,Part A,Home Health Agency,,payments,CY,2020,6300000000,,CMSFastFactsAug2022.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2022-08-01,FALSE
 Medicare,Utilization,Part A,Hospice,,persons_served,CY,2020,1700000,,CMSFastFactsAug2022.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2022-08-01,FALSE
 Medicare,Utilization,Part A,Hospice,,payments,CY,2020,22400000000,,CMSFastFactsAug2022.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2022-08-01,FALSE
 Medicare,Utilization,Part B,Total,,persons_served,CY,2020,32700000.000000004,,CMSFastFactsAug2022.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2022-08-01,FALSE
@@ -143,8 +137,6 @@ Medicare,Utilization,Part B,Physician/DME,,persons_served,CY,2020,32200000.00000
 Medicare,Utilization,Part B,Physician/DME,,payments,CY,2020,106500000000,,CMSFastFactsAug2022.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2022-08-01,FALSE
 Medicare,Utilization,Part B,Outpatient,,persons_served,CY,2020,23300000,,CMSFastFactsAug2022.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2022-08-01,FALSE
 Medicare,Utilization,Part B,Outpatient,,payments,CY,2020,74800000000,,CMSFastFactsAug2022.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2022-08-01,FALSE
-Medicare,Utilization,Part B,Home Health Agency,,persons_served,CY,2020,1800000,,CMSFastFactsAug2022.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2022-08-01,FALSE
-Medicare,Utilization,Part B,Home Health Agency,,payments,CY,2020,10800000000,,CMSFastFactsAug2022.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2022-08-01,FALSE
 Medicare,Utilization,Part D,Total,,persons_served,CY,2020,46200000,,CMSFastFactsAug2022.xlsx,Medicare Part D,CMS/Office of Enterprise Data & Analytics/Office of the Actuary,2022-08-01,FALSE
 Medicare,Utilization,Part D,Total,,rx_events,CY,2020,1500000000,,CMSFastFactsAug2022.xlsx,Medicare Part D,CMS/Office of Enterprise Data & Analytics/Office of the Actuary,2022-08-01,FALSE
 Medicare,Utilization,Part D,Total,,payments,CY,2020,105800000000,,CMSFastFactsAug2022.xlsx,Medicare Part D,CMS/Office of Enterprise Data & Analytics/Office of the Actuary,2022-08-01,FALSE
@@ -178,8 +170,6 @@ Medicare,Utilization,Part A,Inpatient Hospital,,persons_served,CY,2021,5100000,,
 Medicare,Utilization,Part A,Inpatient Hospital,,payments,CY,2021,131300000000.00002,,CMSFastFactsOct2023_508.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2023-10-01,FALSE
 Medicare,Utilization,Part A,Skilled Nursing Facility,,persons_served,CY,2021,1400000,,CMSFastFactsOct2023_508.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2023-10-01,FALSE
 Medicare,Utilization,Part A,Skilled Nursing Facility,,payments,CY,2021,27200000000,,CMSFastFactsOct2023_508.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2023-10-01,FALSE
-Medicare,Utilization,Part A,Home Health Agency,,persons_served,CY,2021,1300000,,CMSFastFactsOct2023_508.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2023-10-01,FALSE
-Medicare,Utilization,Part A,Home Health Agency,,payments,CY,2021,6100000000,,CMSFastFactsOct2023_508.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2023-10-01,FALSE
 Medicare,Utilization,Part A,Hospice,,persons_served,CY,2021,1700000,,CMSFastFactsOct2023_508.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2023-10-01,FALSE
 Medicare,Utilization,Part A,Hospice,,payments,CY,2021,23100000000,,CMSFastFactsOct2023_508.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2023-10-01,FALSE
 Medicare,Utilization,Part B,Total,,persons_served,CY,2021,32700000.000000004,,CMSFastFactsOct2023_508.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2023-10-01,FALSE
@@ -188,8 +178,6 @@ Medicare,Utilization,Part B,Physician/DME,,persons_served,CY,2021,32100000,,CMSF
 Medicare,Utilization,Part B,Physician/DME,,payments,CY,2021,117400000000,,CMSFastFactsOct2023_508.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2023-10-01,FALSE
 Medicare,Utilization,Part B,Outpatient,,persons_served,CY,2021,23900000,,CMSFastFactsOct2023_508.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2023-10-01,FALSE
 Medicare,Utilization,Part B,Outpatient,,payments,CY,2021,80300000000,,CMSFastFactsOct2023_508.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2023-10-01,FALSE
-Medicare,Utilization,Part B,Home Health Agency,,persons_served,CY,2021,1800000,,CMSFastFactsOct2023_508.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2023-10-01,FALSE
-Medicare,Utilization,Part B,Home Health Agency,,payments,CY,2021,10800000000,,CMSFastFactsOct2023_508.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2023-10-01,FALSE
 Medicare,Utilization,Part D,Total,,persons_served,CY,2021,47600000,,CMSFastFactsOct2023_508.xlsx,Medicare Part D,CMS/Office of Enterprise Data & Analytics/Office of the Actuary,2023-10-01,FALSE
 Medicare,Utilization,Part D,Total,,rx_events,CY,2021,1500000000,,CMSFastFactsOct2023_508.xlsx,Medicare Part D,CMS/Office of Enterprise Data & Analytics/Office of the Actuary,2023-10-01,FALSE
 Medicare,Utilization,Part D,Total,,payments,CY,2021,104900000000,,CMSFastFactsOct2023_508.xlsx,Medicare Part D,CMS/Office of Enterprise Data & Analytics/Office of the Actuary,2023-10-01,FALSE
@@ -285,8 +273,6 @@ Medicare,Utilization,Part A,Inpatient Hospital,,persons_served,CY,2022,4900000,,
 Medicare,Utilization,Part A,Inpatient Hospital,,payments,CY,2022,127700000000,,CMSFastFactsMar2024_508.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2024-03-01,FALSE
 Medicare,Utilization,Part A,Skilled Nursing Facility,,persons_served,CY,2022,1400000,,CMSFastFactsMar2024_508.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2024-03-01,FALSE
 Medicare,Utilization,Part A,Skilled Nursing Facility,,payments,CY,2022,29000000000,,CMSFastFactsMar2024_508.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2024-03-01,FALSE
-Medicare,Utilization,Part A,Home Health Agency,,persons_served,CY,2022,1200000,,CMSFastFactsMar2024_508.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2024-03-01,FALSE
-Medicare,Utilization,Part A,Home Health Agency,,payments,CY,2022,5900000000,,CMSFastFactsMar2024_508.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2024-03-01,FALSE
 Medicare,Utilization,Part A,Hospice,,persons_served,CY,2022,1800000,,CMSFastFactsMar2024_508.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2024-03-01,FALSE
 Medicare,Utilization,Part A,Hospice,,payments,CY,2022,23700000000,,CMSFastFactsMar2024_508.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2024-03-01,FALSE
 Medicare,Utilization,Part B,Total,,persons_served,CY,2022,33800000,,CMSFastFactsMar2024_508.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2024-03-01,FALSE
@@ -295,8 +281,6 @@ Medicare,Utilization,Part B,Physician/DME,,persons_served,CY,2022,33299999.99999
 Medicare,Utilization,Part B,Physician/DME,,payments,CY,2022,116400000000,,CMSFastFactsMar2024_508.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2024-03-01,FALSE
 Medicare,Utilization,Part B,Outpatient,,persons_served,CY,2022,22600000,,CMSFastFactsMar2024_508.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2024-03-01,FALSE
 Medicare,Utilization,Part B,Outpatient,,payments,CY,2022,82000000000,,CMSFastFactsMar2024_508.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2024-03-01,FALSE
-Medicare,Utilization,Part B,Home Health Agency,,persons_served,CY,2022,1700000,,CMSFastFactsMar2024_508.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2024-03-01,FALSE
-Medicare,Utilization,Part B,Home Health Agency,,payments,CY,2022,10200000000,,CMSFastFactsMar2024_508.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2024-03-01,FALSE
 Medicare,Utilization,Part D,Total,,persons_served,CY,2022,49200000,,CMSFastFactsMar2024_508.xlsx,Medicare Part D,CMS/Office of Enterprise Data & Analytics/Office of the Actuary,2024-03-01,FALSE
 Medicare,Utilization,Part D,Total,,rx_events,CY,2022,1500000000,,CMSFastFactsMar2024_508.xlsx,Medicare Part D,CMS/Office of Enterprise Data & Analytics/Office of the Actuary,2024-03-01,FALSE
 Medicare,Utilization,Part D,Total,,payments,CY,2022,125700000000,,CMSFastFactsMar2024_508.xlsx,Medicare Part D,CMS/Office of Enterprise Data & Analytics/Office of the Actuary,2024-03-01,FALSE
@@ -392,8 +376,6 @@ Medicare,Utilization,Part A,Inpatient Hospital,,persons_served,CY,2023,4800000,,
 Medicare,Utilization,Part A,Inpatient Hospital,,payments,CY,2023,126300000000,,CMSFastFacts2025_508.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2025-04-01,FALSE
 Medicare,Utilization,Part A,Skilled Nursing Facility,,persons_served,CY,2023,1300000,,CMSFastFacts2025_508.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2025-04-01,FALSE
 Medicare,Utilization,Part A,Skilled Nursing Facility,,payments,CY,2023,27100000000,,CMSFastFacts2025_508.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2025-04-01,FALSE
-Medicare,Utilization,Part A,Home Health Agency,,persons_served,CY,2023,1200000,,CMSFastFacts2025_508.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2025-04-01,FALSE
-Medicare,Utilization,Part A,Home Health Agency,,payments,CY,2023,5900000000,,CMSFastFacts2025_508.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2025-04-01,FALSE
 Medicare,Utilization,Part A,Hospice,,persons_served,CY,2023,1800000,,CMSFastFacts2025_508.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2025-04-01,FALSE
 Medicare,Utilization,Part A,Hospice,,payments,CY,2023,25600000000,,CMSFastFacts2025_508.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2025-04-01,FALSE
 Medicare,Utilization,Part B,Total,,persons_served,CY,2023,32900000,,CMSFastFacts2025_508.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2025-04-01,FALSE
@@ -402,8 +384,6 @@ Medicare,Utilization,Part B,Physician/DME,,persons_served,CY,2023,32400000,,CMSF
 Medicare,Utilization,Part B,Physician/DME,,payments,CY,2023,125400000000,,CMSFastFacts2025_508.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2025-04-01,FALSE
 Medicare,Utilization,Part B,Outpatient,,persons_served,CY,2023,21900000,,CMSFastFacts2025_508.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2025-04-01,FALSE
 Medicare,Utilization,Part B,Outpatient,,payments,CY,2023,83300000000,,CMSFastFacts2025_508.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2025-04-01,FALSE
-Medicare,Utilization,Part B,Home Health Agency,,persons_served,CY,2023,1600000,,CMSFastFacts2025_508.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2025-04-01,FALSE
-Medicare,Utilization,Part B,Home Health Agency,,payments,CY,2023,10000000000,,CMSFastFacts2025_508.xlsx,Medicare Utilization,CMS/Office of Enterprise Data & Analytics,2025-04-01,FALSE
 Medicare,Utilization,Part D,Total,,persons_served,CY,2023,50800000,,CMSFastFacts2025_508.xlsx,Medicare Part D,CMS/Office of Enterprise Data & Analytics/Office of the Actuary,2025-04-01,FALSE
 Medicare,Utilization,Part D,Total,,rx_events,CY,2023,1600000000,,CMSFastFacts2025_508.xlsx,Medicare Part D,CMS/Office of Enterprise Data & Analytics/Office of the Actuary,2025-04-01,FALSE
 Medicare,Utilization,Part D,Total,,payments,CY,2023,131100000000,,CMSFastFacts2025_508.xlsx,Medicare Part D,CMS/Office of Enterprise Data & Analytics/Office of the Actuary,2025-04-01,FALSE
@@ -713,3 +693,15 @@ Medicare,Cost Sharing,National Health Expenditures,Health Insurance,,expenditure
 Medicare,Cost Sharing,National Health Expenditures,Other Third Party Payers and Programs,,expenditures,CY,2024,432933000000,,Table 19 National Health Expenditures by Type of Expenditure and Program.xlsx,Table 19,"Centers for Medicare & Medicaid Services, Office of the Actuary, National Health Statistics Group.",,TRUE
 Medicare,Cost Sharing,National Health Expenditures,Government Public Health Activities,,expenditures,CY,2024,157569000000,,Table 19 National Health Expenditures by Type of Expenditure and Program.xlsx,Table 19,"Centers for Medicare & Medicaid Services, Office of the Actuary, National Health Statistics Group.",,TRUE
 Medicare,Cost Sharing,National Health Expenditures,Investment,,expenditures,CY,2024,238664000000,,Table 19 National Health Expenditures by Type of Expenditure and Program.xlsx,Table 19,"Centers for Medicare & Medicaid Services, Office of the Actuary, National Health Statistics Group.",,TRUE
+Medicare,Utilization,Total (A and/or B),Home Health Agency,,persons_served,CY,2018,3365951,,MDCR HHA_CPS_07UHH_2023.xlsx,MDCR HHA 1_CPS_07UHH,"Centers for Medicare & Medicaid Services, Office of Enterprise Data and Analytics, CMS Chronic Conditions Data Warehouse.",,FALSE
+Medicare,Utilization,Total (A and/or B),Home Health Agency,,payments,CY,2018,17934054271.29997,,MDCR HHA_CPS_07UHH_2023.xlsx,MDCR HHA 1_CPS_07UHH,"Centers for Medicare & Medicaid Services, Office of Enterprise Data and Analytics, CMS Chronic Conditions Data Warehouse.",,FALSE
+Medicare,Utilization,Total (A and/or B),Home Health Agency,,persons_served,CY,2019,3281493,,MDCR HHA_CPS_07UHH_2023.xlsx,MDCR HHA 1_CPS_07UHH,"Centers for Medicare & Medicaid Services, Office of Enterprise Data and Analytics, CMS Chronic Conditions Data Warehouse.",,FALSE
+Medicare,Utilization,Total (A and/or B),Home Health Agency,,payments,CY,2019,17850864070.01013,,MDCR HHA_CPS_07UHH_2023.xlsx,MDCR HHA 1_CPS_07UHH,"Centers for Medicare & Medicaid Services, Office of Enterprise Data and Analytics, CMS Chronic Conditions Data Warehouse.",,FALSE
+Medicare,Utilization,Total (A and/or B),Home Health Agency,,persons_served,CY,2020,3054588,,MDCR HHA_CPS_07UHH_2023.xlsx,MDCR HHA 1_CPS_07UHH,"Centers for Medicare & Medicaid Services, Office of Enterprise Data and Analytics, CMS Chronic Conditions Data Warehouse.",,FALSE
+Medicare,Utilization,Total (A and/or B),Home Health Agency,,payments,CY,2020,17082331669.17013,,MDCR HHA_CPS_07UHH_2023.xlsx,MDCR HHA 1_CPS_07UHH,"Centers for Medicare & Medicaid Services, Office of Enterprise Data and Analytics, CMS Chronic Conditions Data Warehouse.",,FALSE
+Medicare,Utilization,Total (A and/or B),Home Health Agency,,persons_served,CY,2021,3018466,,MDCR HHA_CPS_07UHH_2023.xlsx,MDCR HHA 1_CPS_07UHH,"Centers for Medicare & Medicaid Services, Office of Enterprise Data and Analytics, CMS Chronic Conditions Data Warehouse.",,FALSE
+Medicare,Utilization,Total (A and/or B),Home Health Agency,,payments,CY,2021,16872834557.75999,,MDCR HHA_CPS_07UHH_2023.xlsx,MDCR HHA 1_CPS_07UHH,"Centers for Medicare & Medicaid Services, Office of Enterprise Data and Analytics, CMS Chronic Conditions Data Warehouse.",,FALSE
+Medicare,Utilization,Total (A and/or B),Home Health Agency,,persons_served,CY,2022,2831194,,MDCR HHA_CPS_07UHH_2023.xlsx,MDCR HHA 1_CPS_07UHH,"Centers for Medicare & Medicaid Services, Office of Enterprise Data and Analytics, CMS Chronic Conditions Data Warehouse.",,FALSE
+Medicare,Utilization,Total (A and/or B),Home Health Agency,,payments,CY,2022,16161123638.63005,,MDCR HHA_CPS_07UHH_2023.xlsx,MDCR HHA 1_CPS_07UHH,"Centers for Medicare & Medicaid Services, Office of Enterprise Data and Analytics, CMS Chronic Conditions Data Warehouse.",,FALSE
+Medicare,Utilization,Total (A and/or B),Home Health Agency,,persons_served,CY,2023,2714794,,MDCR HHA_CPS_07UHH_2023.xlsx,MDCR HHA 1_CPS_07UHH,"Centers for Medicare & Medicaid Services, Office of Enterprise Data and Analytics, CMS Chronic Conditions Data Warehouse.",,TRUE
+Medicare,Utilization,Total (A and/or B),Home Health Agency,,payments,CY,2023,15864882751.08006,,MDCR HHA_CPS_07UHH_2023.xlsx,MDCR HHA 1_CPS_07UHH,"Centers for Medicare & Medicaid Services, Office of Enterprise Data and Analytics, CMS Chronic Conditions Data Warehouse.",,TRUE

@@ -512,22 +512,19 @@ utilization_years <- df_utilization_bans |>
 df_medicare_util <- df_ff |>
   filter(
     topic == "Utilization",
-    is_latest == TRUE,
-    metric %in% c("persons_served", "payments")
-  ) |>
-  filter_out(
-    category == "Total (A and/or B)" |
-      sub_category %in% c("Benefit Payments", "Administrative Expenses")
-  ) |>
-  filter_out(sub_category == "Total")
+    category != "Part D",
+    sub_category != "Total",
+    is_latest == TRUE
+  )
 
-#create z-score for plotting
+#use deduplicated HHA values (instead of Part A and B shown in FF)
 df_medicare_util <- df_medicare_util |>
-  group_by(metric) |>
-  mutate(zscore = (value - mean(value)) / sd(value)) |>
-  ungroup()
+  filter_out(
+    category %in% c("Part A", "Part B"),
+    sub_category == "Home Health Agency"
+  )
 
-
+#setup formatting for viz
 df_medicare_util <- df_medicare_util |>
   mutate(
     lab_exp = case_when(
@@ -547,11 +544,30 @@ df_medicare_util <- df_medicare_util |>
   )
 
 df_medicare_util <- df_medicare_util |>
-  select(category, sub_category, metric, value) |>
+  select(category, sub_category, metric, data_year, value) |>
   pivot_wider(
     names_from = metric
   ) |>
-  mutate(fill_shape = ifelse(category == "Part A", 21L, 23L))
+  mutate(
+    fill_shape = recode_values(
+      category,
+      "Part A" ~ 21L,
+      "Part B" ~ 23L,
+      default = 22L,
+    )
+  )
+
+#pull HHA year to add to caption if needed
+v_hha_yr <- df_medicare_util |>
+  filter(sub_category == "Home Health Agency") |>
+  pull(data_year)
+
+#add caption if HHA is a different year than Fast Facts
+v_hha_caption <- ifelse(
+  length(unique(df_medicare_util$data_year)) > 1,
+  str_glue("Note: Values for Home Health Agency are for CY {v_hha_yr}"),
+  NULL
+)
 
 #Medicaid & CHIP expenditures
 df_medicaid_exp <- df_ff |>
@@ -645,6 +661,7 @@ utilization <- list(
   bans = utilization_bans,
   years = utilization_years,
   df_medicare_util = df_medicare_util,
+  v_hha_caption = v_hha_caption,
   df_medicaid_exp = df_medicaid_exp,
   df_part_d = df_part_d,
   footnote = v_enrollment_footnote
@@ -752,7 +769,10 @@ df_recent <- df_cs_trend |>
   distinct(category, sub_category)
 
 df_cs_trend <- df_cs_trend |>
-  inner_join(df_recent)
+  inner_join(
+    df_recent,
+    by = join_by(category, sub_category)
+  )
 
 v_cs_cats <- c(
   "Part A<br>*Full*",

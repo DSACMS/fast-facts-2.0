@@ -26,7 +26,7 @@ dir_temp <- tempdir()
 
 #unzip Medicare historic files (also zipped)
 map(
-  .x = list.files("Data", "CMS Program", full.names = TRUE),
+  .x = list.files("Data", "CMS Program.*Enrollment", full.names = TRUE),
   .f = ~ unzip(.x, exdir = dir_temp, junkpaths = TRUE)
 )
 
@@ -48,6 +48,9 @@ path_medicaid <- list.files("Data", "mac", full.names = TRUE)
 
 #unzip NHE by Type data
 path_nhe_type <- list.files("Data", "nhe.*tables.zip", full.names = TRUE)
+
+#path for deduplicated Home Health Agency values
+path_hha <- "Data/CMS Program Statistics - Medicare Home Health Agency.zip"
 
 # IMPORT ------------------------------------------------------------------
 
@@ -71,8 +74,11 @@ df_benes_medicaid <- path_medicaid |>
   list_rbind()
 
 #additional data for reduce Part A premiums not included in FF
-df_premium_a_reduced <- read_csv(path_addtl_premiums) |>
+df_premium_a_reduced <- read_csv(path_addtl_premiums, show_col_types = FALSE) |>
   mutate(data_year = as.integer(data_year))
+
+#deduplicted HHA data
+df_hha <- read_hha(path_hha)
 
 
 # MUNGE -------------------------------------------------------------------
@@ -84,7 +90,8 @@ df_benes_addtl <-
     df_medicare_monthly_enroll,
     df_benes_medicaid,
     df_premium_a_reduced,
-    df_nhe_type
+    df_nhe_type,
+    df_hha
   )
 
 # CHECK ------------------------------------------------------------------
@@ -141,7 +148,8 @@ df_benes_addtl <-
 df_ff <- df_ff |>
   anti_join(
     df_benes_addtl |>
-      distinct(area, sub_category, data_year)
+      distinct(area, sub_category, data_year),
+    by = join_by(area, sub_category, data_year)
   ) |>
   bind_rows(df_benes_addtl)
 
