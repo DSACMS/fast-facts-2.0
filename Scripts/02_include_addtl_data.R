@@ -4,7 +4,7 @@
 # REF ID:   42ad981d
 # LICENSE:  MIT
 # DATE:     2026-05-29
-# UPDATED:  2026-06-08
+# UPDATED:  2026-06-10
 
 # DEPENDENCIES ------------------------------------------------------------
 
@@ -19,14 +19,18 @@ source("Scripts/99_functions.R")
 dir_out <- "Dataout"
 
 #path to main FF data file
-path <- list.files(dir_out, ".parquet", full.names = TRUE)
+path <- list.files(dir_out, "FastFacts_SD.*.parquet", full.names = TRUE)
 
 #temp dir for unzipping Medicare historic files
 dir_temp <- tempdir()
 
 #unzip Medicare historic files (also zipped)
 map(
-  .x = list.files("Data", "CMS Program.*Enrollment", full.names = TRUE),
+  .x = list.files(
+    "Data/data_cms_gov",
+    "CMS Program.*Enrollment",
+    full.names = TRUE
+  ),
   .f = ~ unzip(.x, exdir = dir_temp, junkpaths = TRUE)
 )
 
@@ -38,19 +42,27 @@ path_medicare_prog_stats <- list.files(
 )
 
 #path data.cms.gov download
-path_medicare_monthly_enroll <- "Data/Medicare_Monthly_Enrollment_Jan_2026.zip"
+path_medicare_monthly_enroll <- "Data/data_cms_gov/Medicare_Monthly_Enrollment_Jan_2026.zip"
 
 #path to historic part a reduce premiums
-path_addtl_premiums <- "Data/cms_newsroom_fact-sheets_premiums.csv"
+path_addtl_premiums <- "Data/cms_gov/cms_newsroom_fact-sheets_premiums.csv"
 
 #path for Medicaid historic data
-path_medicaid <- list.files("Data", "mac", full.names = TRUE)
+path_medicaid <- list.files(
+  "Data/medicaid_scorecard/",
+  "mac",
+  full.names = TRUE
+)
 
 #unzip NHE by Type data
-path_nhe_type <- list.files("Data", "nhe.*tables.zip", full.names = TRUE)
+path_nhe_type <- list.files(
+  "Data/cms_gov/",
+  "nhe.*tables.zip",
+  full.names = TRUE
+)
 
 #path for deduplicated Home Health Agency values
-path_hha <- "Data/CMS Program Statistics - Medicare Home Health Agency.zip"
+path_hha <- "Data/data_cms_gov/CMS Program Statistics - Medicare Home Health Agency.zip"
 
 # IMPORT ------------------------------------------------------------------
 
@@ -155,8 +167,8 @@ df_ff <- df_ff |>
 
 # EXPORT -----------------------------------------------------------------
 
-#export csv version
-write_csv(df_ff, str_replace(path, "parquet", "csv"), na = "")
-
 #export parquet version
-write_parquet(df_ff, path)
+write_parquet(
+  df_ff,
+  str_replace(path, "FastFacts", "FastFactsPlus")
+)

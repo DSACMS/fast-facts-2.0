@@ -71,8 +71,4 @@ df_ff <- df_ff |>
 # EXPORT -----------------------------------------------------------------
 
 #export parquet version
-write_parquet(
-  df_ff,
-  str_glue("{release}.parquet") |>
-    str_replace("FastFacts", "FastFactsPlus")
-)
+write_parquet(df_ff, str_glue("{release}.parquet"))

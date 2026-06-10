@@ -4,7 +4,7 @@
 # REF ID:   61fccb95aa0b
 # LICENSE:  MIT
 # DATE:     2026-04-03
-# UPDATED:  2026-05-29
+# UPDATED:  2026-06-10
 
 # DEPENDENCIES ------------------------------------------------------------
 
@@ -22,7 +22,7 @@ source("Scripts/99_functions.R")
 dir_out <- "Dataout"
 
 #path to data file
-(path <- list.files(dir_out, ".parquet", full.names = TRUE))
+(path <- list.files(dir_out, "FastFactsPlus.*.parquet", full.names = TRUE))
 
 
 # IMPORT ------------------------------------------------------------------
@@ -47,7 +47,7 @@ informant <- create_informant(
   tbl = df_ff,
   tbl_name = "CMS Fast Facts",
   label = str_glue(
-    "Data Dictionary | {format.Date(max(df_ff$release_date),'%b %Y')} Release"
+    "Data Dictionary | {format.Date(max(df_ff$release_date, na.rm = TRUE),'%b %Y')} Release"
   )
 )
 
