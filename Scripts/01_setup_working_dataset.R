@@ -4,7 +4,7 @@
 # REF ID:   ebcbe8b1
 # LICENSE:  MIT
 # DATE:     2026-04-02
-# UPDATED:  2026-04-30
+# UPDATED:  2026-06-10
 
 # DEPENDENCIES ------------------------------------------------------------
 
@@ -16,7 +16,7 @@ source("Scripts/99_functions.R")
 # GLOBAL VARIABLES --------------------------------------------------------
 
 #data file
-dir_data <- "Data"
+dir_data <- "Data/fast_facts"
 
 #output location
 dir_out <- "Dataout"
@@ -70,8 +70,9 @@ df_ff <- df_ff |>
 
 # EXPORT -----------------------------------------------------------------
 
-#export csv version
-write_csv(df_ff, str_glue("{release}.csv"), na = "")
-
 #export parquet version
-write_parquet(df_ff, str_glue("{release}.parquet"))
+write_parquet(
+  df_ff,
+  str_glue("{release}.parquet") |>
+    str_replace("FastFacts", "FastFactsPlus")
+)
