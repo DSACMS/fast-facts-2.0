@@ -544,7 +544,7 @@ df_medicare_util <- df_medicare_util |>
   )
 
 df_medicare_util <- df_medicare_util |>
-  select(category, sub_category, metric, value) |>
+  select(category, sub_category, metric, data_year, value) |>
   pivot_wider(
     names_from = metric
   ) |>
@@ -556,6 +556,18 @@ df_medicare_util <- df_medicare_util |>
       default = 22L,
     )
   )
+
+#pull HHA year to add to caption if needed
+v_hha_yr <- df_medicare_util |>
+  filter(sub_category == "Home Health Agency") |>
+  pull(data_year)
+
+#add caption if HHA is a different year than Fast Facts
+v_hha_caption <- ifelse(
+  length(unique(df_medicare_util$data_year)) > 1,
+  str_glue("Note: Values for Home Health Agency are for CY {v_hha_yr}"),
+  NULL
+)
 
 #Medicaid & CHIP expenditures
 df_medicaid_exp <- df_ff |>
@@ -649,6 +661,7 @@ utilization <- list(
   bans = utilization_bans,
   years = utilization_years,
   df_medicare_util = df_medicare_util,
+  v_hha_caption = v_hha_caption,
   df_medicaid_exp = df_medicaid_exp,
   df_part_d = df_part_d,
   footnote = v_enrollment_footnote

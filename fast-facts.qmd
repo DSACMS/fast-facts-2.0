@@ -726,7 +726,10 @@ utilization[["df_medicare_util"]] |>
   scale_y_continuous(
     labels = label_number(prefix = "$", scale_cut = cut_short_scale())
   ) +
-  labs(x = "Persons Served", y = "Program Payments", fill = NULL, shape = NULL) +
+  labs(
+    x = "Persons Served", y = "Program Payments", 
+    caption = utilization[["v_hha_caption"]],
+    fill = NULL, shape = NULL) +
   theme_minimal(base_size = 22, base_family = "Source Sans 3") +
   theme(
     panel.spacing = unit(2, "lines"),
@@ -766,7 +769,6 @@ utilization[["df_part_d"]] |>
   labs(
     x    = NULL, 
     y    = NULL,
-    # title = "Utilization"
   ) +
   scale_x_continuous(
     limits = c(
