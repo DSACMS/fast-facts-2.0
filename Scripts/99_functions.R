@@ -1416,4 +1416,79 @@ read_nhe_types <- function(path) {
   return(df_nhe_type)
 }
 
+
+# Import Home Health Agency (Deduplicated) -------------------------------
+
+read_hha <- function(path) {
+  dir_temp <- tempdir()
+
+  unzip(path, exdir = dir_temp, junkpaths = TRUE)
+
+  list.files(dir_temp, "MDCR", full.names = TRUE) |>
+    unzip(exdir = dir_temp, junkpaths = TRUE)
+
+  path_hha <- list.files(
+    dir_temp,
+    "MDCR HHA_CPS_07UHH_.*.xlsx",
+    full.names = TRUE
+  )
+
+  tab <- "MDCR HHA 1_CPS_07UHH"
+
+  df <- suppressMessages(
+    read_xlsx(path_hha, sheet = tab, range = "$A$4:$K$12")
+  )
+
+  df <- df |>
+    select(
+      data_year = `Type of Entitlement and Calendar Year`,
+      persons_served = `Total Persons With Utilization`,
+      payments = `Total Program Payments`
+    ) |>
+    filter(!is.na(persons_served))
+
+  df <- df |>
+    mutate(data_year = as.integer(data_year)) |>
+    pivot_longer(
+      -data_year,
+      names_to = "metric"
+    )
+
+  #flag the latest year
+  df <- df |>
+    mutate(is_latest = data_year == max(data_year))
+
+  df <- df |>
+    mutate(
+      area = "Medicare",
+      topic = "Utilization",
+      category = "Total (A and/or B)",
+      sub_category = "Home Health Agency",
+      period_type = "CY",
+      source = basename(path_hha),
+      source_tab = tab,
+      source_origin = extract_source(path_hha, tab)
+    )
+
+  #reoder
+  df <- df |>
+    relocate(
+      area,
+      topic,
+      category,
+      sub_category,
+      metric,
+      period_type,
+      data_year,
+      value,
+      source,
+      source_tab
+    )
+
+  #remove HHA files
+  list.files(dir_temp, "MDCR HHA", full.names = TRUE) |> unlink()
+
+  return(df)
+}
+
 # nolint end: object_usage_linter, return_linter.
