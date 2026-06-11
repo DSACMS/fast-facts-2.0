@@ -257,7 +257,7 @@ v_context_sources <- df_ff |>
   paste0(collapse = ", ")
 
 v_context_footnote <- str_glue(
-  "CMS Fast Facts {format(max(df_ff$release_date), '%B %Y')} Release ",
+  "CMS Fast Facts {format(max(df_ff$release_date, na.rm = TRUE), '%B %Y')} Release ",
   "&bull; Data sources: {v_context_sources}"
 )
 
@@ -430,7 +430,7 @@ v_enrollment_sources <- df_ff |>
   paste0(collapse = ", ")
 
 v_enrollment_footnote <- str_glue(
-  "CMS Fast Facts {format(max(df_ff$release_date), '%B %Y')} Release ",
+  "CMS Fast Facts {format(max(df_ff$release_date, na.rm = TRUE), '%B %Y')} Release ",
   "&bull; Data sources: {v_enrollment_sources}"
 )
 
@@ -652,7 +652,7 @@ v_utilization_sources <- df_ff |>
   paste0(collapse = ", ")
 
 v_enrollment_footnote <- str_glue(
-  "CMS Fast Facts {format(max(df_ff$release_date), '%B %Y')} Release ",
+  "CMS Fast Facts {format(max(df_ff$release_date, na.rm = TRUE), '%B %Y')} Release ",
   "&bull; Data sources: {v_utilization_sources}"
 )
 
@@ -815,7 +815,7 @@ v_costsharing_sources <- df_ff |>
   paste0(collapse = ", ")
 
 v_costsharing_footnote <- str_glue(
-  "CMS Fast Facts {format(max(df_ff$release_date), '%B %Y')} Release ",
+  "CMS Fast Facts {format(max(df_ff$release_date, na.rm = TRUE), '%B %Y')} Release ",
   "&bull; Data sources: {v_costsharing_sources}"
 )
 
@@ -926,7 +926,7 @@ v_providers_sources <- df_ff |>
   paste0(collapse = ", ")
 
 v_providers_footnote <- str_glue(
-  "CMS Fast Facts {format(max(df_ff$release_date), '%B %Y')} Release ",
+  "CMS Fast Facts {format(max(df_ff$release_date, na.rm = TRUE), '%B %Y')} Release ",
   "&bull; Data sources: {v_providers_sources}"
 )
 
