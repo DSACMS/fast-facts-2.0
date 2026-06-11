@@ -426,109 +426,52 @@ years_labels <- case_when(
   TRUE                   ~ ""                                 
 )
 
-enrollment[["df_medicare_trend"]] |>
-  ggplot(aes(x = data_year)) +
-  geom_blank(aes(y = value_ma * .9)) +
-  geom_blank(aes(y = value_orig * 1.3)) +
+df_ribbon <- enrollment[["df_medicare_trend"]] |> 
+  select(data_year, sub_category, value) |> 
+  pivot_wider(names_from = sub_category, values_from = value) |> 
+  mutate(
+    ymin = pmin(ma, orig),
+    ymax = pmax(ma, orig)
+  ) |> 
+  select(-c(ma, orig))
+
+enrollment[["df_medicare_trend"]]  |> 
+  ggplot(aes(data_year, value, group = sub_category, fill = fill_color, color = fill_color)) +
+  geom_blank(aes(y = value * 1.3)) +
   geom_ribbon(
-    aes(
-      ymin = pmin(value_orig, value_ma),
-      ymax = pmax(value_orig, value_ma)
-    ),
-    fill = ff_colors$base["warmgray"], #"lightgray",
-    alpha = 0.3
-  ) +
-  geom_label(
-    data =
-      enrollment[["df_medicare_trend"]] |>
-      filter(data_year == min(data_year)),
-    aes(y = value_orig, label = lab_orig, color = "Original Medicare"),
-    family = "Source Sans 3", linewidth = NA,
-    vjust = -.5, hjust = .6, na.rm = TRUE
-  ) +
-  geom_label(
-    data =
-      enrollment[["df_medicare_trend"]] |>
-      filter(data_year == min(data_year)),
-    aes(y = value_ma, label = lab_ma, color = "Medicare Advantage"),
-    family = "Source Sans 3", linewidth = NA,
-    vjust = 1.1, na.rm = TRUE
-  ) +
-  geom_label(
-    data =
-      enrollment[["df_medicare_trend"]] |>
-      filter(data_year == max(data_year)),
-    aes(y = value_orig, label = lab_orig, color = "Original Medicare"),
-    family = "Source Sans 3", linewidth = NA,
-    vjust = 1, hjust = 0, na.rm = TRUE
-  ) +
-  geom_label(
-    data =
-      enrollment[["df_medicare_trend"]] |>
-      filter(data_year == max(data_year)),
-    aes(y = value_ma, label = lab_ma, color = "Medicare Advantage"),
-    family = "Source Sans 3", linewidth = NA,
-    vjust = -.4, hjust = 0, na.rm = TRUE
+    data = df_ribbon,
+    aes(x = data_year, ymin = ymin, ymax = ymax),
+    inherit.aes = FALSE,
+    fill = ff_colors$base["warmgray"], alpha = 0.3
   ) +
   geom_line(
-    aes(y = value_orig, color = "Original Medicare"), 
-    linewidth = 1.5,
-    linetype = 'dotted'
+    linetype = 'dotted',
+    linewidth = 1.5
   ) +
   geom_line(
-    aes(y = value_ma, color = "Medicare Advantage"), 
-    linewidth = 1.5,
-    linetype = 'dotted'
+    data = enrollment[["df_medicare_trend"]]  |> filter(data_year != 2025),
+    linewidth = 2
   ) +
-  geom_line(
-    aes(y = value_orig, color = "Original Medicare"), linewidth = 2,
-    data = enrollment[["df_medicare_trend"]] |> filter(data_year != 2025)
-  ) +
-  geom_line(
-    aes(y = value_ma, color = "Medicare Advantage"), linewidth = 2,
-    data = enrollment[["df_medicare_trend"]] |> filter(data_year != 2025)
-    ) +
-  geom_point(
-    data =
-      enrollment[["df_medicare_trend"]] |>
-      filter(
-        data_year %in% range(enrollment[["df_medicare_trend"]]$data_year)
-      ),
-    aes(y = value_orig, color = "Original Medicare")
+  geom_text(
+    aes(y = lab_pos, label = end_labs), 
+    hjust = .1, na.rm = TRUE,
+    family = "Source Sans 3"
+  ) + 
+  geom_text(
+    aes(y = lab_cat_pos, label = lab_cat), 
+    na.rm = TRUE,
+    family = "Source Sans 3 SemiBold"
   ) +
   geom_point(
-    data =
-      enrollment[["df_medicare_trend"]] |>
-      filter(
-        data_year %in% range(enrollment[["df_medicare_trend"]]$data_year)
-      ),
-    aes(y = value_ma, color = "Medicare Advantage")
+    aes(y = end_pt), na.rm = TRUE,
+    shape = 21, size = 4, color = "white",
+    stroke = 1.2 
   ) +
-  geom_label(
-    aes(y = value_orig, label = lab_orig_cat, color = "Original Medicare"),
-    family = "Source Sans 3 SemiBold", linewidth = NA,
-    vjust = -.9, hjust = 0, na.rm = TRUE
-  ) +
-  geom_label(
-    aes(y = value_ma, label = lab_ma_cat, color = "Medicare Advantage"),
-    family = "Source Sans 3 SemiBold", linewidth = NA,
-    vjust = 1.5, hjust = 0, na.rm = TRUE
-  ) +
-  scale_color_manual(
-    values =
-      c(
-        "Original Medicare" = ff_colors$scales$cobolt[["900"]],
-        "Medicare Advantage" = ff_colors$scales$cobolt[["200"]]
-      )
-  ) +
-  scale_y_continuous(
-    labels = label_number(scale_cut = cut_short_scale()),
-    limits = c(0, NA)
-  ) +
+  scale_y_continuous(label = label_number(scale_cut = cut_short_scale()),limits = c(0, NA)) +
   scale_x_continuous(
     limits = c(
       min(enrollment[["df_medicare_trend"]]$data_year),
-      max(enrollment[["df_medicare_trend"]]$data_year) + 4
+      max(enrollment[["df_medicare_trend"]]$data_year) + 3
     ),
     breaks = seq(
       from = min(enrollment[["df_medicare_trend"]]$data_year),
@@ -537,12 +480,12 @@ enrollment[["df_medicare_trend"]] |>
     ),
     labels = years_labels
   ) +
+  scale_color_identity(aesthetics = c("color", "fill")) +
+  coord_cartesian(clip = "off") + 
   labs(x = NULL, y = NULL, caption = "Note: CY 2025 values are preliminary") +
-  coord_cartesian(clip = "off") +
-  theme_minimal(base_size = 22) +
+  theme_minimal(base_family = "Source Sans 3", base_size = 22)  +
   theme(
     legend.position = "none",
-    # axis.text.y = element_blank(),
     plot.caption = element_text(size = 14, color = "#909090"),
     panel.grid.minor = element_blank(),
     panel.grid.major.x = element_blank()

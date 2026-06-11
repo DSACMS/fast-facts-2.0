@@ -322,55 +322,56 @@ df_medicare_trend <- df_ff |>
     sub_category %in%
       c("Original Medicare Enrollment", "MA & Other Health Plan Enrollment")
   ) |>
-  select(sub_category, metric, data_year, value) |>
+  select(sub_category, data_year, value) |>
   mutate(
     sub_category = sub_category |>
       str_extract("MA|Orig") |>
-      # str_remove(" Enrollment") |>
-      # str_replace("Original Medicare", "orig") |>
       tolower()
-  ) |>
-  group_by(sub_category) |>
-  mutate(
-    delta = (value / lag(value, order_by = data_year)) - 1
-    # delta_lab = label_percent(1, style_positive = "plus")(delta)
-  ) |>
-  ungroup() |>
-  pivot_wider(
-    names_from = sub_category,
-    values_from = c(value, delta)
-  ) |>
-  mutate(
-    lab_orig = case_when(
-      data_year == min(data_year) | data_year == max(data_year) ~ label_number(
-        .1,
-        scale_cut = cut_short_scale()
-      )(value_orig)
-    ),
-    lab_ma = case_when(
-      data_year == min(data_year) | data_year == max(data_year) ~ label_number(
-        .1,
-        scale_cut = cut_short_scale()
-      )(value_ma)
-    ),
-    lab_orig = ifelse(
-      data_year == max(data_year),
-      str_glue(
-        "{lab_orig} ",
-        "({label_percent(1, style_positive = 'plus')(delta_orig)} prior year)"
-      ),
-      lab_orig
-    ),
-    lab_ma = ifelse(
-      data_year == max(data_year),
-      str_glue(
-        "{lab_ma} ({label_percent(1, style_positive = 'plus')(delta_ma)} prior year)"
-      ),
-      lab_ma
-    ),
-    lab_orig_cat = case_when(data_year == 2016 ~ "Original Medicare"),
-    lab_ma_cat = case_when(data_year == 2016 ~ "Medicare Advantage")
   )
+
+df_medicare_trend <- df_medicare_trend |>
+  group_by(data_year) |>
+  mutate(
+    share = value / sum(value)
+  ) |>
+  ungroup()
+
+df_medicare_trend <- df_medicare_trend |>
+  mutate(
+    end_pt = case_when(data_year %in% range(data_year) ~ value),
+    end_labs = case_when(
+      data_year %in% range(data_year) ~
+        str_glue(
+          "{label_number(.1, scale_cut = cut_short_scale())(value)} ({label_percent(1)(share)})"
+        )
+    ),
+    lab_cat = case_when(data_year == 2016 ~ sub_category),
+    lab_cat = recode_values(
+      lab_cat,
+      "orig" ~ "Original Medicare",
+      "ma" ~ "Medicare Advantage"
+    ),
+    lab_cat_pos = case_when(
+      !is.na(lab_cat) & sub_category == "orig" ~ value + 5e6,
+      !is.na(lab_cat) & sub_category == "ma" ~ value - 5e6
+    ),
+    fill_color = ifelse(
+      sub_category == "orig",
+      ff_colors$scales$cobolt[["900"]],
+      ff_colors$scales$cobolt[["200"]]
+    )
+  )
+
+df_medicare_trend <- df_medicare_trend |>
+  group_by(data_year) |>
+  mutate(
+    lab_pos = ifelse(
+      value == max(value, na.rm = TRUE),
+      value + 3e6,
+      value - 3e6
+    )
+  ) |>
+  ungroup()
 
 
 #disagg groups
