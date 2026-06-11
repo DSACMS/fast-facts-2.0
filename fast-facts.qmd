@@ -4,7 +4,7 @@ subtitle: "April 2026 Release"
 logo: assets/CMS_logo_reverse.png
 format: 
   dashboard:
-    embed-resources: true
+    embed-resources: false
     fig-format: png
     theme:
       - cosmo
@@ -643,20 +643,22 @@ Medicaid Expenditures
 #| title: Original Medicare Utilization & Spending
 #| out-width: 100%
 #| out-height: 100%
-#| fig-width: 14
-#| fig-height: 10
+#| fig-width: 16
+#| fig-height: 16
 
 utilization[["df_medicare_util"]] |>
   ggplot(aes(persons_served, payments, fill = category)) +
-  geom_point(aes(shape = category), color = "white", size = 7) +
+  geom_point(aes(shape = category), color = "white", size = 20) +
   geom_text_repel(
     aes(label = sub_category),
-    point.padding = 3,
-    box.padding = .5,
+    point.padding = 10,
+    box.padding = .8,
+    force_pull = 0.3,
+    force = 20,
     min.segment.length = 0,
     family = "Source Sans 3",
     color = ff_colors$elements[["annotation"]],
-    size = 8
+    size = 13
   ) +
   scale_fill_manual(
     values = c(
@@ -668,16 +670,18 @@ utilization[["df_medicare_util"]] |>
   scale_shape_manual(values = c(21, 23, 22)) +
   scale_x_continuous(labels = label_number(scale_cut = cut_short_scale())) +
   scale_y_continuous(
-    labels = label_number(prefix = "$", scale_cut = cut_short_scale())
+    labels = label_number(prefix = "$", scale_cut = cut_short_scale()),
+    limits = c(0, NA),
   ) +
   labs(
     x = "Persons Served", y = "Program Payments", 
     caption = utilization[["v_hha_caption"]],
     fill = NULL, shape = NULL) +
-  theme_minimal(base_size = 22, base_family = "Source Sans 3") +
+  theme_minimal(base_size = 40, base_family = "Source Sans 3") +
   theme(
     panel.spacing = unit(2, "lines"),
     legend.position = "top",
+    plot.caption = element_text(size = 22, color = "#909090"),
     strip.text =
       element_text(
         color = ff_colors$elements[["title"]],
