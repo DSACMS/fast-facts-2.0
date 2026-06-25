@@ -73,7 +73,7 @@ walk(
 
 # Health Spending
 
-## Row {height="25%"}
+## Row {height="20%"}
 
 :::{.valuebox .text-white  label = "ban_nhe" icon="heart-pulse-fill" color="#4A8C6F"}
 National Health Expenditures (NHE)
@@ -372,7 +372,7 @@ icons |>
 # Beneficiary Enrollment
 
 
-## Row {height="25%"}
+## Row {height="20%"}
 
 
 :::{.valuebox .text-white label = "ban_medicare_ab" icon="heart-fill" color="#0071BC"}
@@ -603,7 +603,7 @@ v_mediaid_subpop <- enrollment[["df_disagg_trend"]] |>
 
 # Utilization
 
-## Row {height="25%"}
+## Row {height="20%"}
 
 :::{.valuebox .text-white label = "ban_medicare_util" icon="heart-fill" color="#0071BC"}
 Original Medicare Program Payments/Persons Served
@@ -1067,7 +1067,7 @@ v_outofpocket + plot_spacer() + plot_spacer()
 
 # Providers
 
-## Row {height="25%"}
+## Row {height="20%"}
 
 :::{.valuebox .text-white label = "ban_non_inst" icon="clipboard2-pulse-fill" color="#00538C"}
 Medicare Non-Institutional Providers
