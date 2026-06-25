@@ -102,7 +102,7 @@ df_nhe_sources <- df_nhe_sources |>
     sub_category = recode_values(
       sub_category,
       "National Health Insurance Expenditures" ~ "National Health\nInsurance Expenditures",
-      "Other Third-Party Payers and Programs" ~ "Other Third-Party\nPayers and Programs",
+      "Other Third Party Payers and Programs" ~ "Other Third-Party\nPayers and Programs",
       "Government Public Health Activities" ~ "Government Public\nHealth Activities",
       default = sub_category
     ),
