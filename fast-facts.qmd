@@ -76,29 +76,23 @@ walk(
 ## Row {height="20%"}
 
 :::{.valuebox .text-white  label = "ban_nhe" icon="heart-pulse-fill" color="#4A8C6F"}
-National Health Expenditures (NHE)
+National Health Expenditures (NHE) | `r context$years[["nhe_yr"]]`
 
 `r context$bans[["nhe_total"]]`
-
-`r context$years[["nhe_yr"]]`
 
 :::
 
 :::{.valuebox .text-white label = "ban_health-insurance" icon="shield-plus" color="#6E6E6E"}
-National Health Insurance Expenditures
+National Health Insurance Expenditures | `r context$years[["nhe_yr"]]`
 
 `r context$bans[["health_insurance"]]`
-
-`r context$years[["nhe_yr"]]`
 
 :::
 
 :::{.valuebox .text-white label = "ban_fed_spend" icon="bank" color="#015390"}
-CMS Federal Program Spending
+CMS Federal Program Spending | `r context$years[["fed_spend_yr"]]`
 
 `r context$bans[["fed_spend"]]`
-
-`r context$years[["fed_spend_yr"]]`
 
 :::
 
@@ -376,30 +370,24 @@ icons |>
 
 
 :::{.valuebox .text-white label = "ban_medicare_ab" icon="heart-fill" color="#0071BC"}
-Total Medicare Beneficiaries
+Total Medicare Beneficiaries | `r enrollment$years[["medicare"]]`
 
 `r enrollment$bans[["medicare_ab"]]`
-
-`r enrollment$years[["medicare"]]`
 
 :::
 
 
 :::{.valuebox .text-white label = "ban_medicare_d" icon="prescription2" color="#00538C"}
-Medicare Part D Beneficiaries
+Medicare Part D Beneficiaries | `r enrollment$years[["medicare"]]`
 
 `r enrollment$bans[["medicare_d"]]`
-
-`r enrollment$years[["medicare"]]`
 
 :::
 
 :::{.valuebox .text-white label = "ban_medicaid" icon="people-fill" color="#00A99D"}
-Medicaid & CHIP Beneficiaries
+Medicaid & CHIP Beneficiaries | `r enrollment$years[["medicaid"]] |> str_sub(start = -4)`
  
 `r enrollment$bans[["medicaid"]]`
-
-`r enrollment$years[["medicaid"]] |> str_sub(start = -4)`
 
 :::
 
@@ -616,21 +604,18 @@ Original Medicare Program Payments/Persons Served
 
 
 :::{.valuebox .text-white label = "ban_medicare_d_util" icon="prescription2" color="#00538C"}
-Medicare Part D Expenditures/Utilizers
+Medicare Part D Expenditures | `r utilization$year[["part_d_payments"]]`
 
-`r utilization$bans[["part_d"]]`
+`r utilization$bans[["part_d_payments"]]`
 
 `r utilization$year[["part_d"]]`
 
 :::
 
 :::{.valuebox .text-white label = "ban_medicaid_exp" icon="people-fill" color="#00A99D"}
-Medicaid Expenditures
+Medicaid Expenditures | `r utilization$year[["medicaid_chip"]]`
 
 `r utilization$bans[["medicaid_chip"]]`
-
-`r utilization$year[["medicaid_chip"]]`
-
 
 :::
 
@@ -1070,38 +1055,30 @@ v_outofpocket + plot_spacer() + plot_spacer()
 ## Row {height="20%"}
 
 :::{.valuebox .text-white label = "ban_non_inst" icon="clipboard2-pulse-fill" color="#00538C"}
-Medicare Non-Institutional Providers
+Medicare Non-Institutional Providers | `r providers$years[["Non-Institutional"]]`
 
 `r providers$bans[["Non-Institutional"]]`
-
-`r providers$years["Non-Institutional"]`
 
 :::
 
 :::{.valuebox .text-white label = "ban_Labs" icon="flask" color="#858585"}
-Medicare Lab Providers
+Medicare Lab Providers | `r providers$years[["Lab"]]`
 
 `r providers$bans[["Lab"]]`
-
-`r providers$years["Lab"]`
 
 :::
 
 :::{.valuebox .text-white label = "ban_DMEPOS" icon="people-fill" color="#0071BC"}
-Medicare DMEPOS Providers
+Medicare DMEPOS Providers | `r providers$years[["DMEPOS"]]`
 
 `r providers$bans[["DMEPOS"]]`
-
-`r providers$years["DMEPOS"]`
 
 :::
 
 :::{.valuebox .text-white label = "ban_inst" icon="hospital" color="#59A8DC"}
-Medicare Institutional Providers
+Medicare Institutional Providers | `r providers$years[["Institutional"]]`
 
 `r providers$bans[["Institutional"]]`
-
-`r providers$years["Institutional"]`
 
 :::
 
