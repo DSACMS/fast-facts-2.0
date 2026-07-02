@@ -4,7 +4,7 @@
 # REF ID:   4b4e2514
 # LICENSE:  MIT
 # DATE:     2026-03-20
-# UPDATED:  2026-06-10
+# UPDATED:  2026-07-02
 
 # DEPENDENCIES ------------------------------------------------------------
 
@@ -470,12 +470,14 @@ df_utilization_bans <- df_ff |>
   ) |>
   unite(period, c(period_type, data_year), sep = " ") |>
   select(category, metric, period, value) |>
-  mutate(value = label_number(1, scale_cut = cut_short_scale())(value)) |>
-  pivot_wider(names_from = metric) |>
   mutate(
-    value = str_glue("${payments} / {persons_served}") |> as.character()
+    value = ifelse(
+      metric == "payments",
+      label_number(1, prefix = "$", scale_cut = cut_short_scale())(value),
+      label_number(1, scale_cut = cut_short_scale())(value)
+    )
   ) |>
-  select(-c(persons_served, payments))
+  unite(category, c(category, metric))
 
 df_medicaid_exp_ban <- df_ff |>
   filter(

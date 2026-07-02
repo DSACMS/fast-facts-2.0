@@ -594,11 +594,17 @@ v_mediaid_subpop <- enrollment[["df_disagg_trend"]] |>
 ## Row {height="20%"}
 
 :::{.valuebox .text-white label = "ban_medicare_util" icon="heart-fill" color="#0071BC"}
-Original Medicare Program Payments/Persons Served
+Original Medicare Payments | `r utilization$year[["medicare_total_payments"]]`
 
-`r utilization$bans[["medicare_total"]]`
+`r utilization$bans[["medicare_total_payments"]]`
 
-`r utilization$year[["medicare_total"]]`
+:::
+
+
+:::{.valuebox .text-white label = "ban_medicare_util" icon="heart-fill" color="#0071BC"}
+Original Medicare Persons Served | `r utilization$year[["medicare_total_persons_served"]]`
+
+`r utilization$bans[["medicare_total_persons_served"]]`
 
 :::
 
@@ -608,7 +614,13 @@ Medicare Part D Expenditures | `r utilization$year[["part_d_payments"]]`
 
 `r utilization$bans[["part_d_payments"]]`
 
-`r utilization$year[["part_d"]]`
+:::
+
+
+:::{.valuebox .text-white label = "ban_medicare_d_util" icon="prescription2" color="#00538C"}
+Medicare Part D Utilizers | `r utilization$year[["part_d_persons_served"]]`
+
+`r utilization$bans[["part_d_persons_served"]]`
 
 :::
 
