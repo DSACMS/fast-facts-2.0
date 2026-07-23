@@ -71,7 +71,6 @@ target/
 fast-facts_files/
 test_files/
 Images/
-Data/Historic/
 README_files/
 assets/test/
 Graphics/
@@ -83,3 +82,5 @@ Documents/Local
 test.qmd
 .Rproj.user
 *.pptx
+*.otf
+Data/fast_facts/historic/*.xlsx

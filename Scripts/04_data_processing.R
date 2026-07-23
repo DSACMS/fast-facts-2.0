@@ -4,7 +4,7 @@
 # REF ID:   4b4e2514
 # LICENSE:  MIT
 # DATE:     2026-03-20
-# UPDATED:  2026-05-29
+# UPDATED:  2026-07-02
 
 # DEPENDENCIES ------------------------------------------------------------
 
@@ -25,7 +25,7 @@ source("Scripts/99_functions.R")
 dir_out <- "Dataout"
 
 #path to main FF data file
-path <- list.files(dir_out, ".parquet", full.names = TRUE)
+path <- list.files(dir_out, "FastFactsPlus.*.parquet", full.names = TRUE)
 
 # IMPORT DATA ------------------------------------------------------------
 
@@ -87,15 +87,14 @@ df_nhe_pc <- df_ff |>
   ) |>
   select(category, sub_category, data_year, value, value_fmt, n_icons)
 
-#Hard coded values for other NHE subcategories
-df_nhe_sources <- tribble(
-  ~topic , ~category                               , ~sub_category                            , ~period_type , ~data_year , ~metric        , ~value   ,
-  "NHE"  , "National Health Expenditures Breakout" , "Out of Pocket"                          , "CY"         , 2024L      , "expenditures" , 5.57e+11 ,
-  "NHE"  , "National Health Expenditures Breakout" , "Other Third-Party Payers and Programs"  , "CY"         , 2024L      , "expenditures" , 4.33e+11 ,
-  "NHE"  , "National Health Expenditures Breakout" , "Government Public Health Activities"    , "CY"         , 2024L      , "expenditures" , 1.58e+11 ,
-  "NHE"  , "National Health Expenditures Breakout" , "Investments"                            , "CY"         , 2024L      , "expenditures" , 2.39e+11 ,
-  "NHE"  , "National Health Expenditures Breakout" , "National Health Insurance Expenditures" , "CY"         , 2024L      , "expenditures" , 3.9e+12
-)
+#other NHE subcategories
+df_nhe_sources <- df_ff |>
+  filter(
+    is_latest == TRUE,
+    category == "National Health Expenditures",
+    sub_category != "Total",
+    metric == "expenditures"
+  )
 
 #format for plotting
 df_nhe_sources <- df_nhe_sources |>
@@ -103,7 +102,7 @@ df_nhe_sources <- df_nhe_sources |>
     sub_category = recode_values(
       sub_category,
       "National Health Insurance Expenditures" ~ "National Health\nInsurance Expenditures",
-      "Other Third-Party Payers and Programs" ~ "Other Third-Party\nPayers and Programs",
+      "Other Third Party Payers and Programs" ~ "Other Third-Party\nPayers and Programs",
       "Government Public Health Activities" ~ "Government Public\nHealth Activities",
       default = sub_category
     ),
@@ -258,7 +257,7 @@ v_context_sources <- df_ff |>
   paste0(collapse = ", ")
 
 v_context_footnote <- str_glue(
-  "CMS Fast Facts {format(max(df_ff$release_date), '%B %Y')} Release ",
+  "CMS Fast Facts {format(max(df_ff$release_date, na.rm = TRUE), '%B %Y')} Release ",
   "&bull; Data sources: {v_context_sources}"
 )
 
@@ -323,55 +322,56 @@ df_medicare_trend <- df_ff |>
     sub_category %in%
       c("Original Medicare Enrollment", "MA & Other Health Plan Enrollment")
   ) |>
-  select(sub_category, metric, data_year, value) |>
+  select(sub_category, data_year, value) |>
   mutate(
     sub_category = sub_category |>
       str_extract("MA|Orig") |>
-      # str_remove(" Enrollment") |>
-      # str_replace("Original Medicare", "orig") |>
       tolower()
-  ) |>
-  group_by(sub_category) |>
-  mutate(
-    delta = (value / lag(value, order_by = data_year)) - 1
-    # delta_lab = label_percent(1, style_positive = "plus")(delta)
-  ) |>
-  ungroup() |>
-  pivot_wider(
-    names_from = sub_category,
-    values_from = c(value, delta)
-  ) |>
-  mutate(
-    lab_orig = case_when(
-      data_year == min(data_year) | data_year == max(data_year) ~ label_number(
-        .1,
-        scale_cut = cut_short_scale()
-      )(value_orig)
-    ),
-    lab_ma = case_when(
-      data_year == min(data_year) | data_year == max(data_year) ~ label_number(
-        .1,
-        scale_cut = cut_short_scale()
-      )(value_ma)
-    ),
-    lab_orig = ifelse(
-      data_year == max(data_year),
-      str_glue(
-        "{lab_orig} ",
-        "({label_percent(1, style_positive = 'plus')(delta_orig)} prior year)"
-      ),
-      lab_orig
-    ),
-    lab_ma = ifelse(
-      data_year == max(data_year),
-      str_glue(
-        "{lab_ma} ({label_percent(1, style_positive = 'plus')(delta_ma)} prior year)"
-      ),
-      lab_ma
-    ),
-    lab_orig_cat = case_when(data_year == 2016 ~ "Original Medicare"),
-    lab_ma_cat = case_when(data_year == 2016 ~ "Medicare Advantage")
   )
+
+df_medicare_trend <- df_medicare_trend |>
+  group_by(data_year) |>
+  mutate(
+    share = value / sum(value)
+  ) |>
+  ungroup()
+
+df_medicare_trend <- df_medicare_trend |>
+  mutate(
+    end_pt = case_when(data_year %in% range(data_year) ~ value),
+    end_labs = case_when(
+      data_year %in% range(data_year) ~
+        str_glue(
+          "{label_number(.1, scale_cut = cut_short_scale())(value)} ({label_percent(1)(share)})"
+        )
+    ),
+    lab_cat = case_when(data_year == 2016 ~ sub_category),
+    lab_cat = recode_values(
+      lab_cat,
+      "orig" ~ "Original Medicare",
+      "ma" ~ "Medicare Advantage"
+    ),
+    lab_cat_pos = case_when(
+      !is.na(lab_cat) & sub_category == "orig" ~ value + 5e6,
+      !is.na(lab_cat) & sub_category == "ma" ~ value - 5e6
+    ),
+    fill_color = ifelse(
+      sub_category == "orig",
+      ff_colors$scales$cobolt[["900"]],
+      ff_colors$scales$cobolt[["200"]]
+    )
+  )
+
+df_medicare_trend <- df_medicare_trend |>
+  group_by(data_year) |>
+  mutate(
+    lab_pos = ifelse(
+      value == max(value, na.rm = TRUE),
+      value + 3e6,
+      value - 3e6
+    )
+  ) |>
+  ungroup()
 
 
 #disagg groups
@@ -430,7 +430,7 @@ v_enrollment_sources <- df_ff |>
   paste0(collapse = ", ")
 
 v_enrollment_footnote <- str_glue(
-  "CMS Fast Facts {format(max(df_ff$release_date), '%B %Y')} Release ",
+  "CMS Fast Facts {format(max(df_ff$release_date, na.rm = TRUE), '%B %Y')} Release ",
   "&bull; Data sources: {v_enrollment_sources}"
 )
 
@@ -470,12 +470,14 @@ df_utilization_bans <- df_ff |>
   ) |>
   unite(period, c(period_type, data_year), sep = " ") |>
   select(category, metric, period, value) |>
-  mutate(value = label_number(1, scale_cut = cut_short_scale())(value)) |>
-  pivot_wider(names_from = metric) |>
   mutate(
-    value = str_glue("${payments} / {persons_served}") |> as.character()
+    value = ifelse(
+      metric == "payments",
+      label_number(1, prefix = "$", scale_cut = cut_short_scale())(value),
+      label_number(1, scale_cut = cut_short_scale())(value)
+    )
   ) |>
-  select(-c(persons_served, payments))
+  unite(category, c(category, metric))
 
 df_medicaid_exp_ban <- df_ff |>
   filter(
@@ -513,22 +515,19 @@ utilization_years <- df_utilization_bans |>
 df_medicare_util <- df_ff |>
   filter(
     topic == "Utilization",
-    is_latest == TRUE,
-    metric %in% c("persons_served", "payments")
-  ) |>
-  filter_out(
-    category == "Total (A and/or B)" |
-      sub_category %in% c("Benefit Payments", "Administrative Expenses")
-  ) |>
-  filter_out(sub_category == "Total")
+    category != "Part D",
+    sub_category != "Total",
+    is_latest == TRUE
+  )
 
-#create z-score for plotting
+#use deduplicated HHA values (instead of Part A and B shown in FF)
 df_medicare_util <- df_medicare_util |>
-  group_by(metric) |>
-  mutate(zscore = (value - mean(value)) / sd(value)) |>
-  ungroup()
+  filter_out(
+    category %in% c("Part A", "Part B"),
+    sub_category == "Home Health Agency"
+  )
 
-
+#setup formatting for viz
 df_medicare_util <- df_medicare_util |>
   mutate(
     lab_exp = case_when(
@@ -548,10 +547,30 @@ df_medicare_util <- df_medicare_util |>
   )
 
 df_medicare_util <- df_medicare_util |>
-  select(category, sub_category, metric, value) |>
+  select(category, sub_category, metric, data_year, value) |>
   pivot_wider(
     names_from = metric
+  ) |>
+  mutate(
+    fill_shape = recode_values(
+      category,
+      "Part A" ~ 21L,
+      "Part B" ~ 23L,
+      default = 22L,
+    )
   )
+
+#pull HHA year to add to caption if needed
+v_hha_yr <- df_medicare_util |>
+  filter(sub_category == "Home Health Agency") |>
+  pull(data_year)
+
+#add caption if HHA is a different year than Fast Facts
+v_hha_caption <- ifelse(
+  length(unique(df_medicare_util$data_year)) > 1,
+  str_glue("Note: Values for Home Health Agency are for CY {v_hha_yr}"),
+  NULL
+)
 
 #Medicaid & CHIP expenditures
 df_medicaid_exp <- df_ff |>
@@ -570,33 +589,51 @@ df_medicaid_exp <- df_ff |>
   )
 
 #part D
-
 df_part_d <- df_ff |>
   filter(
     topic == "Utilization",
-    category == "Part D",
-    is_latest
+    category == "Part D"
   ) |>
   filter_out(
     sub_category == "Total",
-    metric %in% c("persons_served", "payments")
-  ) |>
+    metric %in% c("payments") #"persons_served"
+  )
+
+df_part_d <- df_part_d |>
   mutate(
-    sub_category = ifelse(
-      sub_category == "Total",
-      "Prescription Drug Events",
-      sub_category
+    sub_category = case_when(
+      sub_category == "Total" & metric == "payments" ~ "Total Expenditures",
+      metric == "persons_served" ~ "Utilizing Beneficiaries",
+      metric == "rx_events" ~ "Prescription Drug Events",
+      TRUE ~ sub_category
     ),
-    value = ifelse(
-      sub_category == "Prescription Drug Events",
-      label_number(.1, scale_cut = cut_short_scale())(value),
-      label_number(1, prefix = "$", scale_cut = cut_short_scale())(value)
-    )
+    group = ifelse(
+      str_detect(sub_category, "Exp|Pay"),
+      "Expenditures",
+      "Utilization"
+    ),
+    end_point = case_when(data_year %in% range(data_year) ~ value),
+    point_value_lab = case_when(
+      data_year %in% range(data_year) & group == "Utilization" ~
+        label_number(accuracy = .1, scale_cut = cut_short_scale())(value),
+      data_year %in% range(data_year) & group == "Expenditures" ~
+        label_number(
+          prefix = "$",
+          accuracy = .1,
+          scale_cut = cut_short_scale()
+        )(value)
+    ),
+    lab_offset = ifelse(data_year == max(data_year), -.2, 1.2)
   ) |>
-  select(sub_category, value) |>
-  unite(combo, c(sub_category, value), sep = " ") |>
-  pull() |>
-  paste(collapse = " | ")
+  select(
+    group,
+    sub_category,
+    data_year,
+    value,
+    end_point,
+    point_value_lab,
+    lab_offset
+  )
 
 
 #gather sources for footnote
@@ -606,7 +643,6 @@ v_utilization_sources <- df_ff |>
     is_latest == TRUE
   ) |>
   distinct(source_origin) |>
-  add_row(source_origin = "CMS/Office of Enterprise Data & Analytics") |>
   mutate(
     source_origin = str_remove(
       source_origin,
@@ -618,7 +654,7 @@ v_utilization_sources <- df_ff |>
   paste0(collapse = ", ")
 
 v_enrollment_footnote <- str_glue(
-  "CMS Fast Facts {format(max(df_ff$release_date), '%B %Y')} Release ",
+  "CMS Fast Facts {format(max(df_ff$release_date, na.rm = TRUE), '%B %Y')} Release ",
   "&bull; Data sources: {v_utilization_sources}"
 )
 
@@ -628,6 +664,7 @@ utilization <- list(
   bans = utilization_bans,
   years = utilization_years,
   df_medicare_util = df_medicare_util,
+  v_hha_caption = v_hha_caption,
   df_medicaid_exp = df_medicaid_exp,
   df_part_d = df_part_d,
   footnote = v_enrollment_footnote
@@ -674,20 +711,26 @@ df_cs_trend <- df_cs_trend |>
         "Part D Out-of-Pocket Threshold"
       )
     ),
+    sub_category = recode_values(
+      sub_category,
+      "Coinsurance/Day (Days 61-90)" ~
+        "Coinsurance/Inpatient Hospital Day (Days 61-90)",
+      "Coinsurance/SNF Day (Days 21-100)" ~
+        "Coinsurance/Skilled Nursing Facility Day (Days 21-100)",
+      "Coinsurance/LTR Day" ~
+        "Coinsurance/Long Term Reserve Day",
+      default = sub_category
+    ),
     sub_category = case_when(
-      # !is.na(bound) ~ str_glue("{sub_category} ({str_to_title(bound)})"),
       !is.na(bound) ~ str_glue("{sub_category}<br>*{str_to_title(bound)}*"),
       metric == "deductible" &
         category == "Part A" ~ "Part A<br>*Inpatient Hospital*",
-      #"Part A (Inpatient Hospital)",
       metric == "deductible" & category == "Part D" ~ "Part D<br>*Maximum*",
-      #"Part D (Maximum)",
       metric == "deductible" ~ category,
       TRUE ~ sub_category |>
         str_remove("Coinsurance/") |>
         str_replace(" \\(", "<br>*") |>
         str_replace("\\)", "*")
-      # TRUE ~ str_remove(sub_category, "Coinsurance/")
     ),
     sub_category = ifelse(
       str_detect(sub_category, "<br>", negate = TRUE),
@@ -729,7 +772,10 @@ df_recent <- df_cs_trend |>
   distinct(category, sub_category)
 
 df_cs_trend <- df_cs_trend |>
-  inner_join(df_recent)
+  inner_join(
+    df_recent,
+    by = join_by(category, sub_category)
+  )
 
 v_cs_cats <- c(
   "Part A<br>*Full*",
@@ -739,9 +785,9 @@ v_cs_cats <- c(
   "Part A<br>*Inpatient Hospital*",
   "Part B<br>",
   "Part D<br>*Maximum*",
-  "Day<br>*Days 61-90*",
-  "LTR Day<br>",
-  "SNF Day<br>*Days 21-100*",
+  "Inpatient Hospital Day<br>*Days 61-90*",
+  "Long Term Reserve Day<br>",
+  "Skilled Nursing Facility Day<br>*Days 21-100*",
   "Out-of-Pocket Threshold<br>"
   # "Part A (Full)",
   # "Part A (Reduced)",
@@ -771,7 +817,7 @@ v_costsharing_sources <- df_ff |>
   paste0(collapse = ", ")
 
 v_costsharing_footnote <- str_glue(
-  "CMS Fast Facts {format(max(df_ff$release_date), '%B %Y')} Release ",
+  "CMS Fast Facts {format(max(df_ff$release_date, na.rm = TRUE), '%B %Y')} Release ",
   "&bull; Data sources: {v_costsharing_sources}"
 )
 
@@ -882,7 +928,7 @@ v_providers_sources <- df_ff |>
   paste0(collapse = ", ")
 
 v_providers_footnote <- str_glue(
-  "CMS Fast Facts {format(max(df_ff$release_date), '%B %Y')} Release ",
+  "CMS Fast Facts {format(max(df_ff$release_date, na.rm = TRUE), '%B %Y')} Release ",
   "&bull; Data sources: {v_providers_sources}"
 )
 

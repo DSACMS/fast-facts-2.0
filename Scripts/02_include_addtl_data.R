@@ -4,7 +4,7 @@
 # REF ID:   42ad981d
 # LICENSE:  MIT
 # DATE:     2026-05-29
-# UPDATED:
+# UPDATED:  2026-06-10
 
 # DEPENDENCIES ------------------------------------------------------------
 
@@ -19,30 +19,58 @@ source("Scripts/99_functions.R")
 dir_out <- "Dataout"
 
 #path to main FF data file
-path <- list.files(dir_out, ".parquet", full.names = TRUE)
+path <- list.files(dir_out, "FastFacts_SD.*.parquet", full.names = TRUE)
 
 #temp dir for unzipping Medicare historic files
 dir_temp <- tempdir()
 
 #unzip Medicare historic files (also zipped)
 map(
-  .x = list.files("Data", "CMS Program", full.names = TRUE),
+  .x = list.files(
+    "Data/data_cms_gov",
+    "CMS Program.*Enrollment",
+    full.names = TRUE
+  ),
   .f = ~ unzip(.x, exdir = dir_temp, junkpaths = TRUE)
 )
 
 #store paths for sub-zipped Excel files from data.cms.gov
-path_medicare_prog_stats <- list.files(dir_temp, "zip", full.names = TRUE)
+path_medicare_prog_stats <- list.files(
+  dir_temp,
+  "Enroll.*.zip",
+  full.names = TRUE
+)
 
 #path data.cms.gov download
-path_medicare_monthly_enroll <- "Data/Medicare_Monthly_Enrollment_Jan_2026.zip"
+path_medicare_monthly_enroll <- "Data/data_cms_gov/Medicare_Monthly_Enrollment_Jan_2026.zip"
+
+#path to historic part a reduce premiums
+path_addtl_premiums <- "Data/cms_gov/cms_newsroom_fact-sheets_premiums.csv"
 
 #path for Medicaid historic data
-path_medicaid <- list.files("Data", "mac", full.names = TRUE)
+path_medicaid <- list.files(
+  "Data/medicaid_scorecard/",
+  "mac",
+  full.names = TRUE
+)
+
+#unzip NHE by Type data
+path_nhe_type <- list.files(
+  "Data/cms_gov/",
+  "nhe.*tables.zip",
+  full.names = TRUE
+)
+
+#path for deduplicated Home Health Agency values
+path_hha <- "Data/data_cms_gov/CMS Program Statistics - Medicare Home Health Agency.zip"
 
 # IMPORT ------------------------------------------------------------------
 
 #read in Fast Facts structured dataset
 df_ff <- read_parquet(path)
+
+#read in NHE data
+df_nhe_type <- read_nhe_types(path_nhe_type)
 
 #read in historic Medicare pop data
 df_medicare_prog_stats <- path_medicare_prog_stats |>
@@ -57,25 +85,12 @@ df_benes_medicaid <- path_medicaid |>
   map(read_medicaid_scorecard) |>
   list_rbind()
 
-# ADD IN PREMIUM DATA ----------------------------------------------------
-
 #additional data for reduce Part A premiums not included in FF
-df_premium_a_reduced <-
-  tribble(
-    ~data_year , ~value ,
-    2021L      , 259L   ,
-    2022L      , 274L
-  ) |>
-  mutate(
-    area = "Medicare",
-    topic = "Cost Sharing",
-    category = "Premiums",
-    sub_category = "Part A (Reduced)",
-    metric = "premium",
-    period_type = "CY",
-    release_date = as.Date("2026-01-01"),
-    is_latest = FALSE
-  )
+df_premium_a_reduced <- read_csv(path_addtl_premiums, show_col_types = FALSE) |>
+  mutate(data_year = as.integer(data_year))
+
+#deduplicted HHA data
+df_hha <- read_hha(path_hha)
 
 
 # MUNGE -------------------------------------------------------------------
@@ -86,7 +101,9 @@ df_benes_addtl <-
     df_medicare_prog_stats,
     df_medicare_monthly_enroll,
     df_benes_medicaid,
-    df_premium_a_reduced
+    df_premium_a_reduced,
+    df_nhe_type,
+    df_hha
   )
 
 # CHECK ------------------------------------------------------------------
@@ -128,29 +145,30 @@ df_benes_addtl <-
 
 # JOIN -------------------------------------------------------------------
 
-#subset additional data to only years (for each sub pop) not already in FF
-df_benes_addtl <- df_benes_addtl |>
+# #subset additional data to only years (for each sub pop) not already in FF
+# df_benes_addtl <- df_benes_addtl |>
+#   anti_join(
+#     df_ff |>
+#       distinct(area, sub_category, data_year),
+#     by = join_by(area, sub_category, data_year)
+#   )
+
+# #bind additional data onto current FF file
+# df_ff <- bind_rows(df_ff, df_benes_addtl)
+
+# drop subpop data from FF and use additional data points instead
+df_ff <- df_ff |>
   anti_join(
-    df_ff |>
+    df_benes_addtl |>
       distinct(area, sub_category, data_year),
     by = join_by(area, sub_category, data_year)
-  )
-
-#bind additional data onto current FF file
-df_ff <- bind_rows(df_ff, df_benes_addtl)
-
-# #alt - could drop subpop data from FF and use all new
-# df_ff <- df_ff |>
-#   anti_join(
-#     df_benes_addtl |>
-#       distinct(area, sub_category, data_year)
-#   ) |>
-#   bind_rows(df_benes_addtl)
+  ) |>
+  bind_rows(df_benes_addtl)
 
 # EXPORT -----------------------------------------------------------------
 
-#export csv version
-write_csv(df_ff, str_replace(path, "parquet", "csv"), na = "")
-
 #export parquet version
-write_parquet(df_ff, path)
+write_parquet(
+  df_ff,
+  str_replace(path, "FastFacts", "FastFactsPlus")
+)

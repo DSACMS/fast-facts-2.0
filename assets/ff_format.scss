@@ -152,40 +152,104 @@ h1, h2, h3, h4, h5, h6,
 }
 
 // ── Value boxes ──────────────────────────────────────────────
-.value-box {
+.valuebox,
+.value-box,
+.bslib-value-box {
   border: none !important;
   border-radius: $border-radius-lg;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+  min-height: 100%;
+  overflow: hidden !important;
+  position: relative;
 
-  .value-box-title {
+  .card-body {
+    min-height: 100%;
+    overflow: hidden !important;
+    padding: 1rem 1.15rem !important;
+    position: relative;
+  }
+
+  .html-fill-item,
+  .html-fill-container {
+    overflow: hidden !important;
+  }
+
+  .value-box-grid {
+    display: block !important;
+    height: 100%;
+    min-height: 100%;
+    overflow: hidden !important;
+    position: relative;
+  }
+
+  .value-box-area {
+    align-items: flex-start !important;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap: 0 !important;
+    height: 100%;
+    justify-content: flex-start !important;
+    min-height: 100%;
+    overflow: hidden !important;
+    padding-top: 0;
+    padding-right: 3.75rem;
+    position: relative;
+    text-align: left !important;
+    width: 100%;
+  }
+
+  .value-box-title,
+  .value-box-title > p,
+  .value-box-area > p:not([class]) {
+    display: block;
     font-family: "Source Sans 3", system-ui, sans-serif;
-    font-size: 0.8rem;
-    font-weight: 600;
+    font-size: clamp(0.9rem, 1.25vw, 1.1rem) !important;
+    font-weight: 700;
+    line-height: 1.16;
+    flex-shrink: 0;
+    margin: 0;
+    max-height: 2.32em;
+    min-height: 0;
+    overflow: hidden;
+    overflow-wrap: anywhere;
     text-transform: uppercase;
-    letter-spacing: 0.06em;
-    opacity: 0.85;
+    letter-spacing: 0;
+    opacity: 0.95;
+    text-align: left;
+    width: 100%;
   }
 
   .value-box-subtitle {
-    font-size: 0.75rem;
-    font-weight: 400;
-    letter-spacing: 0.25em;
-    margin-top: .25rem;
-    display: block;
-    opacity: 0.75;
+    display: none;
   }
 
   .value-box-value {
+    align-self: flex-start;
     font-family: "Source Sans 3", system-ui, sans-serif;
-    font-size: 2.2rem;
+    font-size: clamp(2.65rem, 4.5vw, 4.4rem);
+    flex-shrink: 0;
     font-weight: 700;
-    line-height: -0.02em;
+    line-height: 1;
+    margin: 12pt 0 0 !important;
+    padding-top: 0;
+    overflow-wrap: anywhere;
+    text-align: left !important;
+    width: 100%;
   }
 
   .value-box-showcase {
-    font-size: 2.5rem;
-    opacity: 0.7;
-}
+    align-items: flex-start !important;
+    display: flex !important;
+    font-size: clamp(2rem, 2.8vw, 3rem);
+    justify-content: flex-end !important;
+    opacity: 0.82;
+    position: absolute !important;
+    right: 1.1rem !important;
+    top: 0.95rem !important;
+    width: auto !important;
+    z-index: 1;
+  }
 
   &.bg-primary {
     background-color: $primary !important;
