@@ -10,10 +10,6 @@ format:
       - cosmo
       - assets/ff_format.scss
     css: assets/print.css
-    nav-buttons:
-      - icon: github
-        href: "#"
-        aria-label: "Source Code"
     scrolling: false
 knitr:
   opts_chunk: 
@@ -618,7 +614,7 @@ Medicare Part D Expenditures | `r utilization$year[["part_d_payments"]]`
 
 
 :::{.valuebox .text-white label = "ban_medicare_d_util" icon="prescription2" color="#00538C"}
-Medicare Part D Utilizers | `r utilization$year[["part_d_persons_served"]]`
+Medicare Part D Utilizers <br> `r utilization$year[["part_d_persons_served"]]`
 
 `r utilization$bans[["part_d_persons_served"]]`
 
