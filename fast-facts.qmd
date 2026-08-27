@@ -419,13 +419,69 @@ utilization[["df_medicaid_exp"]] |>
 
 ### Column
 
+#### Row
+
+```{r}
+#| label: medicaid_trend
+#| title: "Medicaid & CHIP Trends"
+#| out-width: 100%
+#| out-height: 100%
+#| fig-width: 15
+#| fig-height: 5
+
+enrollment[["df_medicaid_trend"]] |> 
+  ggplot(
+    aes(
+      data_year, value,
+      group = sub_category,
+      fill = fill_color, color = fill_color
+    )
+  ) +
+  geom_hline(yintercept = 0, color = ff_colors$elements[["axis"]]) +
+  geom_area(alpha = .4) +
+  geom_line() +
+  geom_point(aes(y = val_pt), na.rm = TRUE) +
+  geom_text(
+    aes(label = lab_val),
+    vjust = -1, na.rm = TRUE,
+    family = "Source Sans 3", size = 12,
+    color = ff_colors$elements[["annotation"]]
+  ) +
+  scale_x_continuous(
+    breaks = range(enrollment[["df_medicaid_trend"]]$data_year),
+    minor_breaks = seq(min(enrollment[["df_medicaid_trend"]]$data_year), max(enrollment[["df_medicaid_trend"]]$data_year)),
+    guide = guide_axis(minor.ticks = TRUE)
+  ) +
+  scale_y_continuous(expand = c(.001, .001)) +
+  scale_color_identity() +
+  scale_fill_identity() +
+  coord_cartesian(clip = "off") +
+  labs(x = NULL, y = NULL) +
+  theme_minimal(base_size = 35, base_family = "Source Sans 3") +
+  theme(
+    legend.position = "none",
+    strip.text =
+      element_text(
+        color = ff_colors$elements[["title"]],
+        face = "bold"
+      ),
+    strip.placement = "outside",
+    axis.text.y = element_blank(),
+    axis.ticks.x = element_line(color = "gray60"),
+    axis.minor.ticks.x.bottom = element_line(color = "gray60"),
+    panel.grid = element_blank(),
+    panel.spacing = unit(2.5, "lines")
+  )
+```
+
+#### Row
 ```{r}
 #| label: medicaid_disagg_trend
 #| title: "Medicaid & CHIP Sub-Populations Trends"
 #| out-width: 100%
 #| out-height: 100%
-#| fig-width: 14
-#| fig-height: 8
+#| fig-width: 15
+#| fig-height: 5
 
 df_disagg_trend_medicaid <- enrollment[["df_disagg_trend"]] |>
   filter(area == "Medicaid & CHIP") |>
@@ -446,7 +502,7 @@ df_disagg_trend_medicaid |>
   geom_text(
     aes(label = lab_val),
     vjust = -1, na.rm = TRUE,
-    family = "Source Sans 3", size = 7,
+    family = "Source Sans 3", size = 11,
     color = ff_colors$elements[["annotation"]]
   ) +
   facet_grid(. ~ fct_reorder2(sub_category, data_year, value), switch = "y") +
@@ -460,7 +516,7 @@ df_disagg_trend_medicaid |>
   scale_fill_identity() +
   coord_cartesian(clip = "off") +
   labs(x = NULL, y = NULL) +
-  theme_minimal(base_size = 22, base_family = "Source Sans 3") +
+  theme_minimal(base_size = 35, base_family = "Source Sans 3") +
   theme(
     legend.position = "none",
     strip.text =

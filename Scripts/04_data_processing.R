@@ -4,7 +4,7 @@
 # REF ID:   4b4e2514
 # LICENSE:  MIT
 # DATE:     2026-03-20
-# UPDATED:  2026-07-02
+# UPDATED:  2026-08-27
 
 # DEPENDENCIES ------------------------------------------------------------
 
@@ -374,6 +374,29 @@ df_medicare_trend <- df_medicare_trend |>
   ungroup()
 
 
+#medicaid total trend
+df_medicaid_trend <- df_ff |>
+  filter(
+    topic == "Enrollment",
+    category == "Medicaid & CHIP",
+    sub_category == "Total",
+  ) |>
+  select(area, metric, sub_category, period_type, data_year, value) |>
+  mutate(fill_color = ff_colors$base[["teal"]]) |>
+  group_by(area, sub_category) |>
+  mutate(
+    val_pt = case_when(
+      data_year %in% range(data_year) ~ value
+    ),
+    lab_val = case_when(
+      data_year %in% range(data_year) ~ label_number(
+        1,
+        scale_cut = cut_short_scale()
+      )(value)
+    )
+  ) |>
+  ungroup()
+
 #disagg groups
 subpop_medicare <- c("Aged", "Disabled")
 subpop_medicaid <- c("Children", "Medicaid Expansion Adults", "Dual Eligible")
@@ -442,6 +465,7 @@ enrollment <- list(
   # df_medicare_util = df_medicare_util,
   # df_medicaid_exp = df_medicaid_exp,
   df_medicare_trend = df_medicare_trend,
+  df_medicaid_trend = df_medicaid_trend,
   df_disagg_trend = df_disagg_trend,
   footnote = v_enrollment_footnote
 )
