@@ -540,9 +540,7 @@ df_disagg_trend_medicaid |>
 Placeholder
 :::
 
-
-# Beneficiary Enrollment
-
+# Medicare
 
 ## Row {height="20%"}
 
@@ -563,9 +561,42 @@ Medicare Part D Beneficiaries <br> `r enrollment$years[["medicare"]]`
 :::
 
 
+:::{.valuebox .text-white label = "ban_medicare_util" icon="heart-fill" color="#0071BC"}
+Original Medicare Payments | `r utilization$year[["medicare_total_payments"]]`
+
+`r utilization$bans[["medicare_total_payments"]]`
+
+:::
+
+
+:::{.valuebox .text-white label = "ban_medicare_util" icon="heart-fill" color="#0071BC"}
+Original Medicare Persons Served | `r utilization$year[["medicare_total_persons_served"]]`
+
+`r utilization$bans[["medicare_total_persons_served"]]`
+
+:::
+
+
+:::{.valuebox .text-white label = "ban_medicare_d_util" icon="prescription2" color="#00538C"}
+Medicare Part D Expenditures | `r utilization$year[["part_d_payments"]]`
+
+`r utilization$bans[["part_d_payments"]]`
+
+:::
+
+
+:::{.valuebox .text-white label = "ban_medicare_d_util" icon="prescription2" color="#00538C"}
+Medicare Part D Utilizers <br> `r utilization$year[["part_d_persons_served"]]`
+
+`r utilization$bans[["part_d_persons_served"]]`
+
+:::
+
 ## Row
 
 ### Column
+
+#### Row
 
 ```{r}
 #| label: df_medicare_trend
@@ -652,19 +683,21 @@ enrollment[["df_medicare_trend"]]  |>
   )
 ```
 
-
-### Column
+#### Row
 
 ```{r}
-#| label: df_disagg_trend
+#| label: medicare_disagg_trend
 #| title: "Sub-Populations Trends"
 #| out-width: 100%
 #| out-height: 100%
 #| fig-width: 14
 #| fig-height: 8
 
-v_medicare_subpop <- enrollment[["df_disagg_trend"]] |>
-  filter(area == "Medicare") |> 
+df_disagg_trend_medicare <- enrollment[["df_disagg_trend"]] |>
+  filter(area == "Medicare") |>
+  mutate(data_year = as.integer(data_year)) 
+
+df_disagg_trend_medicare |> 
   ggplot(
     aes(
       data_year, value,
@@ -679,20 +712,20 @@ v_medicare_subpop <- enrollment[["df_disagg_trend"]] |>
   geom_text(
     aes(label = lab_val),
     vjust = -1, na.rm = TRUE,
-    family = "Source Sans 3", size = 7,
+    family = "Source Sans 3", size = 11,
     color = ff_colors$elements[["annotation"]]
   ) +
-  facet_grid(area ~ fct_reorder2(sub_category, data_year, value), switch = "y") +
-  # facet_wrap(~fct_rev(area) + fct_reorder2(sub_category, data_year, value)) +
+  facet_grid(. ~ fct_reorder2(sub_category, data_year, value), switch = "y") +
   scale_x_continuous(
-    breaks = range(enrollment[["df_disagg_trend"]]$data_year),
-    limits = range(enrollment[["df_disagg_trend"]]$data_year)
+    breaks = range(df_disagg_trend_medicare$data_year),
+    minor_breaks = seq(min(df_disagg_trend_medicare$data_year), max(df_disagg_trend_medicare$data_year)),
+    guide = guide_axis(minor.ticks = TRUE)
   ) +
-  scale_color_identity() +
+  scale_color_identity(expand = c(.001, .001)) +
   scale_fill_identity() +
   coord_cartesian(clip = "off") +
   labs(x = NULL, y = NULL) +
-  theme_minimal(base_size = 22) +
+  theme_minimal(base_size = 35, , base_family = "Source Sans 3") +
   theme(
     legend.position = "none",
     strip.text =
@@ -702,159 +735,11 @@ v_medicare_subpop <- enrollment[["df_disagg_trend"]] |>
       ),
     strip.placement = "outside",
     axis.text.y = element_blank(),
+    axis.ticks.x = element_line(color = "gray60"),
+    axis.minor.ticks.x.bottom = element_line(color = "gray60"),
     panel.grid = element_blank(),
     panel.spacing = unit(2.5, "lines")
-  )
-
-v_mediaid_subpop <- enrollment[["df_disagg_trend"]] |>
-  filter(area == "Medicaid & CHIP") |> 
-  ggplot(
-    aes(
-      data_year, value,
-      group = sub_category,
-      fill = fill_color, color = fill_color
-    )
-  ) +
-  geom_hline(yintercept = 0, color = ff_colors$elements[["axis"]]) +
-  geom_area(alpha = .4) +
-  geom_line() +
-  geom_point(aes(y = val_pt), na.rm = TRUE) +
-  geom_text(
-    aes(label = lab_val),
-    vjust = -1, na.rm = TRUE,
-    family = "Source Sans 3", size = 7,
-    color = ff_colors$elements[["annotation"]]
-  ) +
-  facet_grid(area ~ fct_reorder2(sub_category, data_year, value), switch = "y") +
-  # facet_wrap(~fct_rev(area) + fct_reorder2(sub_category, data_year, value)) +
-  scale_x_continuous(
-    breaks = sort(c(2017, range(enrollment[["df_disagg_trend"]]$data_year))),
-    limits = range(enrollment[["df_disagg_trend"]]$data_year)
-  ) +
-  scale_color_identity() +
-  scale_fill_identity() +
-  coord_cartesian(clip = "off") +
-  labs(x = NULL, y = NULL) +
-  theme_minimal(base_size = 22) +
-  theme(
-    legend.position = "none",
-    strip.text =
-      element_text(
-        color = ff_colors$elements[["title"]],
-        face = "bold"
-      ),
-    strip.placement = "outside",
-    axis.text.y = element_blank(),
-    panel.grid = element_blank(),
-    panel.spacing = unit(2.5, "lines")
-  )
-
-((v_medicare_subpop | plot_spacer()) +
-  plot_layout(widths = c(2, 1)) ) / v_mediaid_subpop 
-```
-
-
-
-## Row {.no-title height="5%"}
-
-::: {.footer-source}
-`r enrollment[["footnote"]]`
-:::
-
-# Utilization
-
-## Row {height="20%"}
-
-:::{.valuebox .text-white label = "ban_medicare_util" icon="heart-fill" color="#0071BC"}
-Original Medicare Payments | `r utilization$year[["medicare_total_payments"]]`
-
-`r utilization$bans[["medicare_total_payments"]]`
-
-:::
-
-
-:::{.valuebox .text-white label = "ban_medicare_util" icon="heart-fill" color="#0071BC"}
-Original Medicare Persons Served | `r utilization$year[["medicare_total_persons_served"]]`
-
-`r utilization$bans[["medicare_total_persons_served"]]`
-
-:::
-
-
-:::{.valuebox .text-white label = "ban_medicare_d_util" icon="prescription2" color="#00538C"}
-Medicare Part D Expenditures | `r utilization$year[["part_d_payments"]]`
-
-`r utilization$bans[["part_d_payments"]]`
-
-:::
-
-
-:::{.valuebox .text-white label = "ban_medicare_d_util" icon="prescription2" color="#00538C"}
-Medicare Part D Utilizers <br> `r utilization$year[["part_d_persons_served"]]`
-
-`r utilization$bans[["part_d_persons_served"]]`
-
-:::
-
-
-## Row
-
-### Column
-
-```{r}
-#| label: orig_medicare_utilization
-#| title: Original Medicare Utilization & Spending
-#| out-width: 100%
-#| out-height: 100%
-#| fig-width: 18
-#| fig-height: 16
-
-utilization[["df_medicare_util"]] |>
-  ggplot(aes(persons_served, payments, fill = category)) +
-  geom_point(aes(shape = category), color = "white", size = 20, alpha = .8) +
-  geom_text_repel(
-    aes(label = sub_category),
-    point.padding = 10,
-    box.padding = .8,
-    force_pull = 0.3,
-    force = 20,
-    min.segment.length = 0,
-    family = "Source Sans 3",
-    color = ff_colors$elements[["annotation"]],
-    size = 15
-  ) +
-  scale_fill_manual(
-    values = c(
-      ff_colors$scales$cobolt[["200"]],
-      ff_colors$scales$cobolt[["700"]],
-      ff_colors$scales$cobolt[["900"]]
-    )
-  ) +
-  scale_shape_manual(values = c(21, 23, 22)) +
-  scale_x_continuous(labels = label_number(scale_cut = cut_short_scale())) +
-  scale_y_continuous(
-    labels = label_number(prefix = "$", scale_cut = cut_short_scale()),
-    limits = c(0, NA),
-  ) +
-  labs(
-    x = "Persons Served", y = "Program Payments", 
-    caption = utilization[["v_hha_caption"]],
-    fill = NULL, shape = NULL) +
-  theme_minimal(base_size = 40, base_family = "Source Sans 3") +
-  theme(
-    panel.spacing = unit(2, "lines"),
-    legend.position = "top",
-    legend.text = element_text(size = 40),
-    plot.caption = element_text(size = 22, color = "#909090"),
-    strip.text =
-      element_text(
-        color = ff_colors$elements[["title"]],
-        face = "bold",
-        size = 18
-      ),
-    axis.title = element_text(face = "bold"),
-    axis.text = element_text(size = 45)
-  )
+  ) 
 ```
 
 ### Column
@@ -966,50 +851,69 @@ utilization[["df_part_d"]] |>
 ### Column
 
 ```{r}
-#| label: medicaid_exp_old
-#| title: Medicaid Expenditures
+#| label: orig_medicare_utilization
+#| title: Original Medicare Utilization & Spending
 #| out-width: 100%
 #| out-height: 100%
 #| fig-width: 18
-#| fig-height: 15
+#| fig-height: 16
 
-utilization[["df_medicaid_exp"]] |>
-  ggplot(aes(value, fct_reorder(sub_category, value))) +
-  geom_blank(aes(x = value * 1.3)) +
-  geom_col(fill = ff_colors$base[["teal"]]) +
-  geom_text(
-    aes(label = value_fmt),
-    hjust = -.1, family = "Source Sans 3",
+utilization[["df_medicare_util"]] |>
+  ggplot(aes(persons_served, payments, fill = category)) +
+  geom_point(aes(shape = category), color = "white", size = 20, alpha = .8) +
+  geom_text_repel(
+    aes(label = sub_category),
+    point.padding = 10,
+    box.padding = .8,
+    force_pull = 0.3,
+    force = 20,
+    min.segment.length = 0,
+    family = "Source Sans 3",
     color = ff_colors$elements[["annotation"]],
-    size = 14
+    size = 15
   ) +
-  coord_cartesian(clip = "off") +
-  scale_x_continuous(expand = c(.005, .005)) +
+  scale_fill_manual(
+    values = c(
+      ff_colors$scales$cobolt[["200"]],
+      ff_colors$scales$cobolt[["700"]],
+      ff_colors$scales$cobolt[["900"]]
+    )
+  ) +
+  scale_shape_manual(values = c(21, 23, 22)) +
+  scale_x_continuous(labels = label_number(scale_cut = cut_short_scale())) +
+  scale_y_continuous(
+    labels = label_number(prefix = "$", scale_cut = cut_short_scale()),
+    limits = c(0, NA),
+  ) +
   labs(
-    x = NULL, y = NULL
-  ) +
-  theme_minimal(base_size = 45) +
+    x = "Persons Served", y = "Program Payments", 
+    caption = utilization[["v_hha_caption"]],
+    fill = NULL, shape = NULL) +
+  theme_minimal(base_size = 40, base_family = "Source Sans 3") +
   theme(
-    axis.text.x = element_blank(),
-    panel.grid.major.y = element_blank(),
-    panel.grid.minor = element_blank(),
-    plot.title =
+    panel.spacing = unit(2, "lines"),
+    legend.position = "top",
+    legend.text = element_text(size = 40),
+    plot.caption = element_text(size = 22, color = "#909090"),
+    strip.text =
       element_text(
+        color = ff_colors$elements[["title"]],
         face = "bold",
-        color = ff_colors$elements[["title"]]
-      )
+        size = 18
+      ),
+    axis.title = element_text(face = "bold"),
+    axis.text = element_text(size = 45)
   )
 ```
 
 ## Row {.no-title height="5%"}
 
 ::: {.footer-source}
-`r utilization[["footnote"]]`
+Placeholder
 :::
 
 
-# Cost Sharing
-
+# Medicare Cost Sharing
 
 ## Row {height="95%"}
 
