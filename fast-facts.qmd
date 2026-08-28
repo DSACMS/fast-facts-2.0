@@ -268,8 +268,8 @@ context[["df_insurance"]] |>
 #| title: "CMS Spending by Category"
 #| out-width: 100%
 #| out-height: 100%
-#| fig-width: 28
-#| fig-height: 14
+#| fig-width: 13
+#| fig-height: 8
 
 context[["df_spend"]] |>
   ggplot(aes(value, sub_category, fill = fill_color)) +
@@ -290,19 +290,19 @@ context[["df_spend"]] |>
   coord_cartesian(clip = "off") +
   labs(x = NULL, y = NULL) +
   theme_minimal(
-    base_size = 50,
+    base_size = 28,
     base_family = "Source Sans 3",
   ) +
   theme(
     panel.grid.minor = element_blank(),
     panel.grid.major.y = element_blank(),
     axis.text.x = element_blank(),
-    axis.text.y = element_text(size = 60),
+    axis.text.y = element_text(size = 28),
     strip.text =
       element_text(
         family = "Source Sans 3 SemiBold",
         color = ff_colors$scales$steel[["900"]],
-        size = 50,
+        size = 28,
         hjust = 0
       )
   )
