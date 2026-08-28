@@ -363,23 +363,6 @@ icons |>
 
 ## Row {height="20%"}
 
-
-:::{.valuebox .text-white label = "ban_medicare_ab" icon="heart-fill" color="#0071BC"}
-Total Medicare Beneficiaries <br> `r enrollment$years[["medicare"]]`
-
-`r enrollment$bans[["medicare_ab"]]`
-
-:::
-
-
-:::{.valuebox .text-white label = "ban_medicare_d" icon="prescription2" color="#00538C"}
-Medicare Part D Beneficiaries <br> `r enrollment$years[["medicare"]]`
-
-`r enrollment$bans[["medicare_d"]]`
-
-:::
-
-
 :::{.valuebox .text-white label = "ban_medicare_util" icon="heart-fill" color="#0071BC"}
 Original Medicare Payments | `r utilization$year[["medicare_total_payments"]]`
 
@@ -387,6 +370,12 @@ Original Medicare Payments | `r utilization$year[["medicare_total_payments"]]`
 
 :::
 
+:::{.valuebox .text-white label = "ban_medicare_ab" icon="heart-fill" color="#0071BC"}
+Total Medicare Beneficiaries <br> `r enrollment$years[["medicare"]]`
+
+`r enrollment$bans[["medicare_ab"]]`
+
+:::
 
 :::{.valuebox .text-white label = "ban_medicare_util" icon="heart-fill" color="#0071BC"}
 Original Medicare Persons Served | `r utilization$year[["medicare_total_persons_served"]]`
@@ -403,6 +392,13 @@ Medicare Part D Expenditures | `r utilization$year[["part_d_payments"]]`
 
 :::
 
+:::{.valuebox .text-white label = "ban_medicare_d" icon="prescription2" color="#00538C"}
+Medicare Part D Beneficiaries <br> `r enrollment$years[["medicare"]]`
+
+`r enrollment$bans[["medicare_d"]]`
+
+:::
+
 
 :::{.valuebox .text-white label = "ban_medicare_d_util" icon="prescription2" color="#00538C"}
 Medicare Part D Utilizers <br> `r utilization$year[["part_d_persons_served"]]`
@@ -415,8 +411,6 @@ Medicare Part D Utilizers <br> `r utilization$year[["part_d_persons_served"]]`
 
 ### Column
 
-#### Row
-
 ```{r}
 #| label: df_medicare_trend
 #| title: >-
@@ -425,7 +419,7 @@ Medicare Part D Utilizers <br> `r utilization$year[["part_d_persons_served"]]`
 #| out-width: 100%
 #| out-height: 100%
 #| fig-width: 14
-#| fig-height: 8
+#| fig-height: 14
 
 plot_years <- min(enrollment[["df_medicare_trend"]]$data_year):max(enrollment[["df_medicare_trend"]]$data_year)
 
@@ -447,7 +441,7 @@ df_ribbon <- enrollment[["df_medicare_trend"]] |>
 
 enrollment[["df_medicare_trend"]]  |> 
   ggplot(aes(data_year, value, group = sub_category, fill = fill_color, color = fill_color)) +
-  geom_blank(aes(y = value * 1.3)) +
+  geom_blank(aes(y = value * 1.2)) +
   geom_ribbon(
     data = df_ribbon,
     aes(x = data_year, ymin = ymin, ymax = ymax),
@@ -456,11 +450,11 @@ enrollment[["df_medicare_trend"]]  |>
   ) +
   geom_line(
     linetype = 'dotted',
-    linewidth = 1.5
+    linewidth = 2.5
   ) +
   geom_line(
     data = enrollment[["df_medicare_trend"]]  |> filter(data_year != 2025),
-    linewidth = 2
+    linewidth = 3
   ) +
   geom_text(
     aes(y = lab_pos, label = end_labs), 
@@ -469,15 +463,19 @@ enrollment[["df_medicare_trend"]]  |>
   ) + 
   geom_text(
     aes(y = lab_cat_pos, label = lab_cat), 
-    na.rm = TRUE,
+    na.rm = TRUE, hjust = .3,
     family = "Source Sans 3 SemiBold"
   ) +
   geom_point(
     aes(y = end_pt), na.rm = TRUE,
-    shape = 21, size = 4, color = "white",
-    stroke = 1.2 
+    shape = 21, size = 8, color = "white",
+    stroke = 2 
   ) +
-  scale_y_continuous(label = label_number(scale_cut = cut_short_scale()),limits = c(0, NA)) +
+  scale_y_continuous(
+    label = label_number(scale_cut = cut_short_scale()),
+    limits = c(0, NA),
+    expand = c(.001, .001)
+    ) +
   scale_x_continuous(
     limits = c(
       min(enrollment[["df_medicare_trend"]]$data_year),
@@ -493,12 +491,67 @@ enrollment[["df_medicare_trend"]]  |>
   scale_color_identity(aesthetics = c("color", "fill")) +
   coord_cartesian(clip = "off") + 
   labs(x = NULL, y = NULL, caption = "Note: CY 2025 values are preliminary") +
-  theme_minimal(base_family = "Source Sans 3", base_size = 22)  +
+  theme_minimal(base_family = "Source Sans 3", base_size = 40)  +
   theme(
     legend.position = "none",
-    plot.caption = element_text(size = 14, color = "#909090"),
+    plot.caption = element_text(size = 24, color = "#909090"),
     panel.grid.minor = element_blank(),
-    panel.grid.major.x = element_blank()
+    panel.grid.major.x = element_blank(),
+    axis.ticks.x = element_line(color = "gray80")
+  )
+```
+
+### Column
+
+#### Row {height="35%"}
+
+```{r}
+#| label: part_d_util
+#| title: Part D Utilization
+#| out-width: 100%
+#| out-height: 100%
+#| fig-width: 26
+#| fig-height: 8
+
+utilization[["df_part_d"]] |>
+  filter(group == "Utilization") |> 
+  ggplot(aes(x = data_year, y = value, group = sub_category)) +
+  geom_blank(aes(y = value * 1.2)) +
+  geom_blank(aes(y = value * .8)) +
+  geom_line(color = ff_colors$scales$cobolt[["700"]], linewidth = 2) +
+  geom_point(
+    aes(y = end_point), na.rm = TRUE, 
+    color = ff_colors$scales$cobolt[["700"]], size = 8
+    ) +
+  geom_text(aes(label = point_value_lab, hjust = lab_offset), size = 20, na.rm = TRUE) + 
+  facet_grid(sub_category ~ .,  scales = "free_y", switch = "y") +
+  labs(
+    x    = NULL, 
+    y    = NULL,
+  ) +
+  scale_x_continuous(
+    limits = c(
+      min(utilization[["df_part_d"]]$data_year) - 2, 
+      max(utilization[["df_part_d"]]$data_year) + 2
+      ),
+    expand = c(0, 0),
+    breaks = range(utilization[["df_part_d"]]$data_year) #NULL
+  ) +
+  scale_y_continuous(expand = c(.001, .001), breaks = NULL) +
+  theme_minimal(base_family = "Source Sans 3", base_size = 50) +
+  theme(
+    strip.text.y.left  = 
+      element_text(angle = 0, hjust = 1, vjust = 0.5, face = "bold", color = "grey20", size = 50),
+    strip.placement    = "outside",
+    # panel.spacing.y    = unit(0, "lines"),
+    panel.grid         = element_blank(),
+    panel.border       = element_blank(),
+    axis.text.y        = element_blank(),
+    axis.ticks         = element_blank(),
+    axis.text.x        = element_text(color = "grey40", size = 50),
+    plot.margin        = margin(12, 12, 12, 12),
+    plot.title.position = "plot",
+    plot.title = element_text(face = "bold")
   )
 ```
 
@@ -506,7 +559,7 @@ enrollment[["df_medicare_trend"]]  |>
 
 ```{r}
 #| label: medicare_disagg_trend
-#| title: "Sub-Populations Trends"
+#| title: "Medicare Sub-Populations Trends"
 #| out-width: 100%
 #| out-height: 100%
 #| fig-width: 14
@@ -540,7 +593,8 @@ df_disagg_trend_medicare |>
     minor_breaks = seq(min(df_disagg_trend_medicare$data_year), max(df_disagg_trend_medicare$data_year)),
     guide = guide_axis(minor.ticks = TRUE)
   ) +
-  scale_color_identity(expand = c(.001, .001)) +
+  scale_y_continuous(expand = c(.001, .001)) +
+  scale_color_identity() +
   scale_fill_identity() +
   coord_cartesian(clip = "off") +
   labs(x = NULL, y = NULL) +
@@ -554,8 +608,8 @@ df_disagg_trend_medicare |>
       ),
     strip.placement = "outside",
     axis.text.y = element_blank(),
-    axis.ticks.x = element_line(color = "gray60"),
-    axis.minor.ticks.x.bottom = element_line(color = "gray60"),
+    # axis.ticks.x = element_line(color = "gray60"),
+    # axis.minor.ticks.x.bottom = element_line(color = "gray60"),
     panel.grid = element_blank(),
     panel.spacing = unit(2.5, "lines")
   ) 
@@ -563,66 +617,14 @@ df_disagg_trend_medicare |>
 
 ### Column
 
-#### Row
-
-```{r}
-#| label: part_d_util
-#| title: Part D Utilization
-#| out-width: 100%
-#| out-height: 100%
-#| fig-width: 22
-#| fig-height: 8
-
-utilization[["df_part_d"]] |>
-  filter(group == "Utilization") |> 
-  ggplot(aes(x = data_year, y = value, group = sub_category)) +
-  geom_blank(aes(y = value * 1.2)) +
-  geom_blank(aes(y = value * .8)) +
-  geom_line(color = ff_colors$scales$cobolt[["700"]], linewidth = 2) +
-  geom_point(
-    aes(y = end_point), na.rm = TRUE, 
-    color = ff_colors$scales$cobolt[["700"]], size = 8
-    ) +
-  geom_text(aes(label = point_value_lab, hjust = lab_offset), size = 20, na.rm = TRUE) + 
-  facet_grid(sub_category ~ .,  scales = "free_y", switch = "y") +
-  labs(
-    x    = NULL, 
-    y    = NULL,
-  ) +
-  scale_x_continuous(
-    limits = c(
-      min(utilization[["df_part_d"]]$data_year) - 2, 
-      max(utilization[["df_part_d"]]$data_year) + 2
-      ),
-    expand = c(0, 0),
-    breaks = range(utilization[["df_part_d"]]$data_year) #NULL
-  ) +
-  scale_y_continuous(breaks = NULL) +
-  theme_minimal(base_family = "Source Sans 3", base_size = 50) +
-  theme(
-    strip.text.y.left  = 
-      element_text(angle = 0, hjust = 1, vjust = 0.5, face = "bold", color = "grey20", size = 50),
-    strip.placement    = "outside",
-    # panel.spacing.y    = unit(0, "lines"),
-    panel.grid         = element_blank(),
-    panel.border       = element_blank(),
-    axis.text.y        = element_blank(),
-    axis.ticks         = element_blank(),
-    axis.title.x       = element_text(color = "grey40", hjust = 1), size = 55,
-    plot.margin        = margin(12, 12, 12, 12),
-    plot.title.position = "plot",
-    plot.title = element_text(face = "bold")
-  )
-```
-
-#### Row
+#### Row {height="35%"}
 
 ```{r}
 #| label: part_d_exp
 #| title: Part D Expenditures
 #| out-width: 100%
 #| out-height: 100%
-#| fig-width: 22
+#| fig-width: 26
 #| fig-height: 8
 
 utilization[["df_part_d"]] |>
@@ -649,7 +651,7 @@ utilization[["df_part_d"]] |>
     expand = c(0, 0),
     breaks = range(utilization[["df_part_d"]]$data_year) #NULL
   ) +
-  scale_y_continuous(breaks = NULL) +
+  scale_y_continuous(expand = c(.001, .001), breaks = NULL) +
   theme_minimal(base_family = "Source Sans 3", base_size = 50) +
   theme(
     strip.text.y.left  = 
@@ -660,21 +662,21 @@ utilization[["df_part_d"]] |>
     panel.border       = element_blank(),
     axis.text.y        = element_blank(),
     axis.ticks         = element_blank(),
-    axis.title.x       = element_text(color = "grey40", hjust = 1), size = 55,
+    axis.text.x        = element_text(color = "grey40", size = 50),
     plot.margin        = margin(12, 12, 12, 12),
     plot.title.position = "plot",
     plot.title = element_text(face = "bold")
   )
 ```
 
-### Column
+#### Row
 
 ```{r}
 #| label: orig_medicare_utilization
 #| title: Original Medicare Utilization & Spending
 #| out-width: 100%
 #| out-height: 100%
-#| fig-width: 18
+#| fig-width: 22
 #| fig-height: 16
 
 utilization[["df_medicare_util"]] |>
@@ -682,14 +684,14 @@ utilization[["df_medicare_util"]] |>
   geom_point(aes(shape = category), color = "white", size = 20, alpha = .8) +
   geom_text_repel(
     aes(label = sub_category),
-    point.padding = 10,
-    box.padding = .8,
+    point.padding = 30,
+    box.padding = 1,
     force_pull = 0.3,
     force = 20,
     min.segment.length = 0,
     family = "Source Sans 3",
     color = ff_colors$elements[["annotation"]],
-    size = 15
+    size = 18
   ) +
   scale_fill_manual(
     values = c(
@@ -708,20 +710,13 @@ utilization[["df_medicare_util"]] |>
     x = "Persons Served", y = "Program Payments", 
     caption = utilization[["v_hha_caption"]],
     fill = NULL, shape = NULL) +
-  theme_minimal(base_size = 40, base_family = "Source Sans 3") +
+  theme_minimal(base_size = 60, base_family = "Source Sans 3") +
   theme(
     panel.spacing = unit(2, "lines"),
     legend.position = "top",
-    legend.text = element_text(size = 40),
-    plot.caption = element_text(size = 22, color = "#909090"),
-    strip.text =
-      element_text(
-        color = ff_colors$elements[["title"]],
-        face = "bold",
-        size = 18
-      ),
-    axis.title = element_text(face = "bold"),
-    axis.text = element_text(size = 45)
+    legend.text = element_text(size = 60),
+    plot.caption = element_text(size = 45, color = "#909090"),
+    axis.title = element_text(face = "bold")
   )
 ```
 
