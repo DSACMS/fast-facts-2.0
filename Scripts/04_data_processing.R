@@ -418,6 +418,63 @@ trend_year_labels <- case_when(
   TRUE ~ ""
 )
 
+#part D
+df_part_d <- df_ff |>
+  filter(
+    topic == "Utilization",
+    category == "Part D"
+  ) |>
+  filter_out(
+    sub_category == "Total",
+    metric %in% c("payments") #"persons_served"
+  )
+
+df_part_d <- df_part_d |>
+  mutate(
+    sub_category = case_when(
+      sub_category == "Total" & metric == "payments" ~ "Total Expenditures",
+      metric == "persons_served" ~ "Utilizing Beneficiaries",
+      metric == "rx_events" ~ "Prescription Drug Events",
+      TRUE ~ sub_category
+    ),
+    group = ifelse(
+      str_detect(sub_category, "Exp|Pay"),
+      "Expenditures",
+      "Utilization"
+    ),
+    end_point = case_when(data_year %in% range(data_year) ~ value),
+    point_value_lab = case_when(
+      data_year %in% range(data_year) & group == "Utilization" ~
+        label_number(accuracy = .1, scale_cut = cut_short_scale())(value),
+      data_year %in% range(data_year) & group == "Expenditures" ~
+        label_number(
+          prefix = "$",
+          accuracy = .1,
+          scale_cut = cut_short_scale()
+        )(value)
+    ),
+    lab_offset = ifelse(data_year == max(data_year), -.2, 1.2)
+  ) |>
+  select(
+    group,
+    sub_category,
+    data_year,
+    value,
+    end_point,
+    point_value_lab,
+    lab_offset
+  )
+
+
+#breakout part D for utilization
+df_part_d_util <- df_part_d |>
+  filter(group == "Utilization")
+
+#breakout part D for exp
+df_part_d_exp <- df_part_d |>
+  filter(group == "Expenditures")
+
+
 #bundle tab data points/frames
 medicare <- list(
   bans = medicare_bans,
@@ -426,6 +483,8 @@ medicare <- list(
   df_medicare_ribbon = df_medicare_ribbon,
   trend_year_labels = trend_year_labels,
   df_disagg_trend = df_disagg_trend,
+  df_part_d_util = df_part_d_util,
+  df_part_d_exp = df_part_d_exp,
   footnote = v_medicare_footnote
 )
 

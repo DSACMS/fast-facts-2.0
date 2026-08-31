@@ -498,8 +498,7 @@ enrollment[["df_medicare_trend"]]  |>
 #| fig-width: 26
 #| fig-height: 8
 
-utilization[["df_part_d"]] |>
-  filter(group == "Utilization") |> 
+medicare[["df_part_d_util"]] |>
   ggplot(aes(x = data_year, y = value, group = sub_category)) +
   geom_blank(aes(y = value * 1.2)) +
   geom_blank(aes(y = value * .8)) +
@@ -516,11 +515,11 @@ utilization[["df_part_d"]] |>
   ) +
   scale_x_continuous(
     limits = c(
-      min(utilization[["df_part_d"]]$data_year) - 2, 
-      max(utilization[["df_part_d"]]$data_year) + 2
+      min(medicare[["df_part_d_util"]]$data_year) - 2, 
+      max(medicare[["df_part_d_util"]]$data_year) + 2
       ),
     expand = c(0, 0),
-    breaks = range(utilization[["df_part_d"]]$data_year) #NULL
+    breaks = range(medicare[["df_part_d_util"]]$data_year) #NULL
   ) +
   scale_y_continuous(expand = c(.001, .001), breaks = NULL) +
   theme_minimal(base_family = "Source Sans 3", base_size = 50) +
@@ -612,8 +611,7 @@ df_disagg_trend_medicare |>
 #| fig-width: 26
 #| fig-height: 8
 
-utilization[["df_part_d"]] |>
-  filter(group == "Expenditures") |> 
+medicare[["df_part_d_exp"]] |>
   ggplot(aes(x = data_year, y = value, group = sub_category)) +
   geom_blank(aes(y = value * 1.2)) +
   geom_blank(aes(y = value * .8)) +
@@ -630,11 +628,11 @@ utilization[["df_part_d"]] |>
   ) +
   scale_x_continuous(
     limits = c(
-      min(utilization[["df_part_d"]]$data_year) - 3, 
-      max(utilization[["df_part_d"]]$data_year) + 3
+      min(medicare[["df_part_d_exp"]]$data_year) - 3, 
+      max(medicare[["df_part_d_exp"]]$data_year) + 3
       ),
     expand = c(0, 0),
-    breaks = range(utilization[["df_part_d"]]$data_year) #NULL
+    breaks = range(medicare[["df_part_d_exp"]]$data_year) #NULL
   ) +
   scale_y_continuous(expand = c(.001, .001), breaks = NULL) +
   theme_minimal(base_family = "Source Sans 3", base_size = 50) +
