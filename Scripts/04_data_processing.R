@@ -4,7 +4,7 @@
 # REF ID:   4b4e2514
 # LICENSE:  MIT
 # DATE:     2026-03-20
-# UPDATED:  2026-08-27
+# UPDATED:  2026-08-31
 
 # DEPENDENCIES ------------------------------------------------------------
 
@@ -239,7 +239,7 @@ years <- c(
 )
 
 #gather sources for footnote
-v_context_sources <- df_ff |>
+v_health_spending_sources <- df_ff |>
   filter(
     is_latest == TRUE,
     category %in%
@@ -256,14 +256,14 @@ v_context_sources <- df_ff |>
   sort() |>
   paste0(collapse = ", ")
 
-v_context_footnote <- str_glue(
+v_health_spending_footnote <- str_glue(
   "CMS Fast Facts {format(max(df_ff$release_date, na.rm = TRUE), '%B %Y')} Release ",
-  "&bull; Data sources: {v_context_sources}"
+  "&bull; Data sources: {v_health_spending_sources}"
 )
 
 
 #bundle tab datapoints/frames
-context <- list(
+health_spending <- list(
   bans = bans_nhe,
   years = years,
   df_nhe_gdp_share = df_nhe_gdp_share,
@@ -272,11 +272,11 @@ context <- list(
   df_insurance = df_insurance,
   df_spend = df_spend,
   fte = fte,
-  footnote = v_context_footnote
+  footnote = v_health_spending_footnote
 )
 
 # export
-write_rds(context, "Dataout/context.rds")
+write_rds(health_spending, "Dataout/health_spending.rds")
 
 
 # ENROLLMENT TAB ---------------------------------------------------------

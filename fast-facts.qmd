@@ -72,23 +72,23 @@ walk(
 ## Row {height="20%"}
 
 :::{.valuebox .text-white  label = "ban_nhe" icon="heart-pulse-fill" color="#4A8C6F"}
-National Health Expenditures (NHE) <br> `r context$years[["nhe_yr"]]`
+National Health Expenditures (NHE) <br> `r health_spending$years[["nhe_yr"]]`
 
-`r context$bans[["nhe_total"]]`
+`r health_spending$bans[["nhe_total"]]`
 
 :::
 
 :::{.valuebox .text-white label = "ban_health-insurance" icon="shield-plus" color="#6E6E6E"}
-National Health Insurance Expenditures <br> `r context$years[["nhe_yr"]]`
+National Health Insurance Expenditures <br> `r health_spending$years[["nhe_yr"]]`
 
-`r context$bans[["health_insurance"]]`
+`r health_spending$bans[["health_insurance"]]`
 
 :::
 
 :::{.valuebox .text-white label = "ban_fed_spend" icon="bank" color="#015390"}
-CMS Federal Program Spending <br> `r context$years[["fed_spend_yr"]]`
+CMS Federal Program Spending <br> `r health_spending$years[["fed_spend_yr"]]`
 
-`r context$bans[["fed_spend"]]`
+`r health_spending$bans[["fed_spend"]]`
 
 :::
 
@@ -101,11 +101,11 @@ CMS Federal Program Spending <br> `r context$years[["fed_spend_yr"]]`
 #| label: share-gdp
 #| title: "NHE share of GDP"
 
-v_nhe_share <- context[["df_nhe_gdp_share"]] |>
+v_nhe_share <- health_spending[["df_nhe_gdp_share"]] |>
   filter(category == "National Health Expenditures") |>
   pull(value_fmt)
 
-context[["df_nhe_gdp_share"]] |>
+health_spending[["df_nhe_gdp_share"]] |>
   ggplot(aes(fill = fill_color, values = value * 100)) +
   geom_waffle(
     n_rows  = 10,       # 10x10 grid = 100 squares
@@ -140,7 +140,7 @@ context[["df_nhe_gdp_share"]] |>
 #| fig-height: 4
 
 # Value and scale
-n_units <- context[["df_nhe_pc"]]$n_icons
+n_units <- health_spending[["df_nhe_pc"]]$n_icons
 
 icons <- tibble(
   index = 1:(n_units),
@@ -158,7 +158,7 @@ icons |>
   ) +
   scale_x_continuous(expand = expansion(add = 0.5)) +
   scale_y_continuous(expand = expansion(add = 0.5)) +
-  labs(title = context$df_nhe_pc[["value_fmt"]]) +
+  labs(title = health_spending$df_nhe_pc[["value_fmt"]]) +
   theme_void(base_family = "Source Sans 3") +
   theme(
     plot.title    =
@@ -184,7 +184,7 @@ icons |>
 #| fig-width: 24
 #| fig-height: 10
 
-context[["df_nhe_sources"]] |> 
+health_spending[["df_nhe_sources"]] |> 
   ggplot(aes(value, fct_reorder(sub_category, value), fill = fill_color)) +
   geom_blank(aes(value * 1.2)) +
   geom_col() +
@@ -228,7 +228,7 @@ context[["df_nhe_sources"]] |>
 #| out.height: "100%"
 #| fig-width: 9
 
-context[["df_insurance"]] |>
+health_spending[["df_insurance"]] |>
   ggplot(aes(value, fct_reorder(sub_category, value), fill = fill_color)) +
   geom_blank(aes(value * 1.3)) +
   geom_col() +
@@ -271,7 +271,7 @@ context[["df_insurance"]] |>
 #| fig-width: 13
 #| fig-height: 8
 
-context[["df_spend"]] |>
+health_spending[["df_spend"]] |>
   ggplot(aes(value, sub_category, fill = fill_color)) +
   geom_blank(aes(value * 1.2)) +
   geom_col(width = .8) +
@@ -317,7 +317,7 @@ context[["df_spend"]] |>
 #| fig-width: 14
 #| fig-height: 4
 
-n_units <- context[["fte"]]$n_icons
+n_units <- health_spending[["fte"]]$n_icons
 
 icons <- tibble(
   x     = 1:(n_units),
@@ -334,7 +334,7 @@ icons |>
   ) +
   scale_x_continuous(expand = expansion(add = 0.5)) +
   scale_y_continuous(expand = expansion(add = 0.5)) +
-  labs(title    = context$fte[["value_fmt"]]) +
+  labs(title    = health_spending$fte[["value_fmt"]]) +
   theme_void(base_family = "Source Sans 3") +
   theme(
     plot.title =
@@ -355,7 +355,7 @@ icons |>
 ## Row {.no-title height="5%"}
 
 ::: {.footer-source}
-`r context[["footnote"]]`
+`r health_spending[["footnote"]]`
 :::
 
 
