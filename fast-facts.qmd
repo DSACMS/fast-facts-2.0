@@ -364,46 +364,46 @@ icons |>
 ## Row {height="20%"}
 
 :::{.valuebox .text-white label = "ban_medicare_util" icon="heart-fill" color="#0071BC"}
-Original Medicare Payments | `r utilization$year[["medicare_total_payments"]]`
+Original Medicare Payments | `r medicare$year[["medicare_total_payments"]]`
 
-`r utilization$bans[["medicare_total_payments"]]`
+`r medicare$bans[["medicare_total_payments"]]`
 
 :::
 
 :::{.valuebox .text-white label = "ban_medicare_ab" icon="heart-fill" color="#0071BC"}
-Total Medicare Beneficiaries <br> `r enrollment$years[["medicare"]]`
+Total Medicare Beneficiaries <br> `r medicare$years[["medicare_total_enrollment"]]`
 
-`r enrollment$bans[["medicare_ab"]]`
+`r medicare$bans[["medicare_total_enrollment"]]`
 
 :::
 
 :::{.valuebox .text-white label = "ban_medicare_util" icon="heart-fill" color="#0071BC"}
-Original Medicare Persons Served | `r utilization$year[["medicare_total_persons_served"]]`
+Original Medicare Persons Served | `r medicare$year[["medicare_total_persons_served"]]`
 
-`r utilization$bans[["medicare_total_persons_served"]]`
+`r medicare$bans[["medicare_total_persons_served"]]`
 
 :::
 
 
 :::{.valuebox .text-white label = "ban_medicare_d_util" icon="prescription2" color="#00538C"}
-Medicare Part D Expenditures | `r utilization$year[["part_d_payments"]]`
+Medicare Part D Expenditures | `r medicare$year[["medicare_part_d_payments"]]`
 
-`r utilization$bans[["part_d_payments"]]`
+`r medicare$bans[["medicare_part_d_payments"]]`
 
 :::
 
 :::{.valuebox .text-white label = "ban_medicare_d" icon="prescription2" color="#00538C"}
-Medicare Part D Beneficiaries <br> `r enrollment$years[["medicare"]]`
+Medicare Part D Beneficiaries <br> `r medicare$years[["medicare_part_d_enrollment"]]`
 
-`r enrollment$bans[["medicare_d"]]`
+`r medicare$bans[["medicare_part_d_enrollment"]]`
 
 :::
 
 
 :::{.valuebox .text-white label = "ban_medicare_d_util" icon="prescription2" color="#00538C"}
-Medicare Part D Utilizers <br> `r utilization$year[["part_d_persons_served"]]`
+Medicare Part D Utilizers <br> `r medicare$year[["medicare_part_d_persons_served"]]`
 
-`r utilization$bans[["part_d_persons_served"]]`
+`r medicare$bans[["medicare_part_d_persons_served"]]`
 
 :::
 
@@ -421,29 +421,11 @@ Medicare Part D Utilizers <br> `r utilization$year[["part_d_persons_served"]]`
 #| fig-width: 14
 #| fig-height: 14
 
-plot_years <- min(enrollment[["df_medicare_trend"]]$data_year):max(enrollment[["df_medicare_trend"]]$data_year)
-
-years_labels <- case_when(
-  plot_years == 2008          ~ "2008",
-  plot_years == 2025          ~ "'25",
-  plot_years %% 2 == 0        ~ paste0("'", str_sub(plot_years, -2)),  
-  TRUE                   ~ ""                                 
-)
-
-df_ribbon <- enrollment[["df_medicare_trend"]] |> 
-  select(data_year, sub_category, value) |> 
-  pivot_wider(names_from = sub_category, values_from = value) |> 
-  mutate(
-    ymin = pmin(ma, orig),
-    ymax = pmax(ma, orig)
-  ) |> 
-  select(-c(ma, orig))
-
 enrollment[["df_medicare_trend"]]  |> 
   ggplot(aes(data_year, value, group = sub_category, fill = fill_color, color = fill_color)) +
   geom_blank(aes(y = value * 1.2)) +
   geom_ribbon(
-    data = df_ribbon,
+    data = enrollment[["df_medicare_ribbon"]],
     aes(x = data_year, ymin = ymin, ymax = ymax),
     inherit.aes = FALSE,
     fill = ff_colors$base["warmgray"], alpha = 0.3
@@ -486,11 +468,14 @@ enrollment[["df_medicare_trend"]]  |>
       to = max(enrollment[["df_medicare_trend"]]$data_year),
       by = 1
     ),
-    labels = years_labels
+    labels = enrollment[["trend_year_labels"]]
   ) +
   scale_color_identity(aesthetics = c("color", "fill")) +
   coord_cartesian(clip = "off") + 
-  labs(x = NULL, y = NULL, caption = "Note: CY 2025 values are preliminary") +
+  labs(
+    x = NULL, y = NULL, 
+    caption = str_glue('Note: CY {max(enrollment[["df_medicare_trend"]]$data_year)} values are preliminary')
+    ) +
   theme_minimal(base_family = "Source Sans 3", base_size = 40)  +
   theme(
     legend.position = "none",

@@ -279,6 +279,156 @@ health_spending <- list(
 write_rds(health_spending, "Dataout/health_spending.rds")
 
 
+# MEDICARE TAB -----------------------------------------------------------
+
+#extract numbers for BAN in tab
+df_medicare_enrollment <- df_ff |>
+  filter(
+    topic == "Enrollment",
+    category %in% c("Parts A and/or B", "Part D"),
+    sub_category == "Total",
+    is_latest == TRUE
+  ) |>
+  unite(name, c(area, category), sep = " ") |>
+  mutate(
+    name = name |>
+      str_replace("Parts A and/or B", "Total") |>
+      str_replace_all(" ", "_") |>
+      tolower() |>
+      paste0("_enrollment"),
+    value_fmt = label_number(1, scale_cut = cut_short_scale())(value)
+  ) |>
+  unite(period, c(period_type, data_year), sep = " ") |>
+  select(name, period, value, value_fmt)
+
+df_medicare_utilization <- df_ff |>
+  filter(
+    topic == "Utilization",
+    category %in% c("Total (A and/or B)", "Part D"),
+    sub_category == "Total",
+    metric %in% c("persons_served", "payments"),
+    is_latest == TRUE
+  ) |>
+  unite(name, c(area, category)) |>
+  unite(period, c(period_type, data_year), sep = " ") |>
+  select(name, metric, period, value) |>
+  mutate(
+    value_fmt = ifelse(
+      metric == "payments",
+      label_number(1, prefix = "$", scale_cut = cut_short_scale())(value),
+      label_number(1, scale_cut = cut_short_scale())(value)
+    )
+  ) |>
+  unite(name, c(name, metric)) |>
+  mutate(
+    name = name |>
+      str_remove(" \\(A and/or B\\)") |>
+      str_replace_all(" ", "_") |>
+      str_remove("&_") |>
+      tolower()
+  )
+
+df_medicare_bans <- df_medicare_enrollment |>
+  bind_rows(df_medicare_utilization)
+
+medicare_bans <- df_medicare_bans |>
+  select(-c(period, value)) |>
+  deframe()
+
+medicare_bans_years <- df_medicare_bans |>
+  select(-starts_with("value")) |>
+  deframe()
+
+
+#Orig v MA trend
+df_medicare_trend <- df_ff |>
+  filter(
+    topic == "Enrollment",
+    sub_category %in%
+      c("Original Medicare Enrollment", "MA & Other Health Plan Enrollment")
+  ) |>
+  select(sub_category, data_year, value) |>
+  mutate(
+    sub_category = sub_category |>
+      str_extract("MA|Orig") |>
+      tolower()
+  )
+
+df_medicare_trend <- df_medicare_trend |>
+  group_by(data_year) |>
+  mutate(
+    share = value / sum(value)
+  ) |>
+  ungroup()
+
+df_medicare_trend <- df_medicare_trend |>
+  mutate(
+    end_pt = case_when(data_year %in% range(data_year) ~ value),
+    end_labs = case_when(
+      data_year %in% range(data_year) ~
+        str_glue(
+          "{label_number(.1, scale_cut = cut_short_scale())(value)} ({label_percent(1)(share)})"
+        )
+    ),
+    lab_cat = case_when(data_year == 2016 ~ sub_category),
+    lab_cat = recode_values(
+      lab_cat,
+      "orig" ~ "Original Medicare",
+      "ma" ~ "Medicare Advantage"
+    ),
+    lab_cat_pos = case_when(
+      !is.na(lab_cat) & sub_category == "orig" ~ value + 5e6,
+      !is.na(lab_cat) & sub_category == "ma" ~ value - 5e6
+    ),
+    fill_color = ifelse(
+      sub_category == "orig",
+      ff_colors$scales$cobolt[["900"]],
+      ff_colors$scales$cobolt[["200"]]
+    )
+  )
+
+df_medicare_trend <- df_medicare_trend |>
+  group_by(data_year) |>
+  mutate(
+    lab_pos = ifelse(
+      value == max(value, na.rm = TRUE),
+      value + 3e6,
+      value - 3e6
+    )
+  ) |>
+  ungroup()
+
+#restructure data for ribbon fill on medicare trends
+df_medicare_ribbon <- df_medicare_trend |>
+  select(data_year, sub_category, value) |>
+  pivot_wider(names_from = sub_category, values_from = value) |>
+  mutate(
+    ymin = pmin(ma, orig),
+    ymax = pmax(ma, orig)
+  ) |>
+  select(-c(ma, orig))
+
+#clean up labeling for years in plot
+plot_years <- unique(df_medicare_trend$data_year)
+
+trend_year_labels <- case_when(
+  plot_years == min(plot_years) ~ as.character(plot_years),
+  plot_years %% 2 == 0 ~ paste0("'", str_sub(plot_years, -2)),
+  plot_years == max(plot_years) ~ paste0("'", str_sub(plot_years, -2)),
+  TRUE ~ ""
+)
+
+#bundle tab data points/frames
+medicare <- list(
+  bans = medicare_bans,
+  years = medicare_bans_years,
+  df_medicare_trend = df_medicare_trend,
+  df_medicare_ribbon = df_medicare_ribbon,
+  trend_year_labels = trend_year_labels,
+  df_disagg_trend = df_disagg_trend,
+  footnote = v_medicare_footnote
+)
+
 # ENROLLMENT TAB ---------------------------------------------------------
 
 #extract numbers for BAN in tab
