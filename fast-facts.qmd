@@ -1139,7 +1139,7 @@ Medicaid & CHIP Beneficiaries <br> `r medicaid$years[["medicaid_enrollment"]] |>
 :::
 
 :::{.valuebox .text-white label = "ban_medicaid_exp" icon="people-fill" color="#00A99D"}
-Medicaid Expenditures <br> `r medicaid$year[["medicaid_payments"]]`
+Medicaid & CHIP Expenditures <br> `r medicaid$year[["medicaid_payments"]]`
 
 `r medicaid$bans[["medicaid_payments"]]`
 
@@ -1264,7 +1264,7 @@ medicaid[["df_medicaid_disagg_trend"]] |>
 
 ```{r}
 #| label: medicaid_exp_sub
-#| title: Medicaid Expenditures
+#| title: Medicaid & CHIP Expenditures
 #| out-width: 100%
 #| out-height: 100%
 #| fig-width: 18
