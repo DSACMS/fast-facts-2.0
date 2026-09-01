@@ -1105,7 +1105,7 @@ medicaid[["df_medicaid_disagg_trend"]] |>
 ## Row {.no-title height="5%"}
 
 ::: {.footer-source}
-`r medicaid[["footnote"]]`
+`r medicare[["footnote"]]`
 :::
 
 
