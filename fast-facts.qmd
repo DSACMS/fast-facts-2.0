@@ -602,25 +602,15 @@ medicare[["df_medicare_util"]] |>
 
 ### Column
 
-#### Row {height="25%"} 
+#### Row
 
-:::{.card label = "ban_medicare_d_util" title="Medicare Part D Utilizers"}
+##### Column {width="30%"}
+:::{.card label = "ban_medicare_d_util" title="Part D Utilizers"}
 
 `r medicare$year[["medicare_part_d_persons_served"]]`
 
 <span class="valuebox-secondary-value">`r medicare$bans[["medicare_part_d_persons_served"]]`</span>
 :::
-
-
-:::{.card label = "ban_medicare_d_util" title ="Medicare Part D Expenditures"}
-
-`r medicare$year[["medicare_part_d_payments"]]`
-
-<span class="valuebox-secondary-value">`r medicare$bans[["medicare_part_d_payments"]]`</span>
-
-:::
-
-#### Row
 
 ##### Column
 
@@ -674,6 +664,18 @@ medicare[["df_part_d_util"]] |>
 ```
 
 #### Row
+
+##### Column {width="30%"}
+
+:::{.card label = "ban_medicare_d_util" title ="Part D Expenditures"}
+
+`r medicare$year[["medicare_part_d_payments"]]`
+
+<span class="valuebox-secondary-value">`r medicare$bans[["medicare_part_d_payments"]]`</span>
+
+:::
+
+##### Column
 
 ```{r}
 #| label: part_d_exp
