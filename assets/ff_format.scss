@@ -270,6 +270,39 @@ h1, h2, h3, h4, h5, h6,
   &.gold      { background-color: $ff-gold;     color: $color-text-primary; }
 }
 
+.valuebox.valuebox-secondary,
+.value-box.valuebox-secondary,
+.bslib-value-box.valuebox-secondary {
+  color: $blue-900 !important;
+
+  .value-box-title,
+  .value-box-title > p,
+  .value-box-area > p:not([class]),
+  .value-box-value,
+  .value-box-subtitle {
+    color: $blue-900 !important;
+  }
+
+  .value-box-title,
+  .value-box-title > p,
+  .value-box-area > p:not([class]) {
+    font-size: clamp(0.75rem, 1vw, 0.9rem) !important;
+  }
+
+  .value-box-value {
+    font-size: clamp(1.8rem, 3vw, 2.75rem) !important;
+  }
+}
+
+.valuebox-secondary-value {
+  color: $blue-900;
+  font-family: "Source Sans 3", system-ui, sans-serif;
+  font-size: clamp(1.8rem, 3vw, 2.75rem);
+  font-weight: 700;
+  line-height: 1;
+  overflow-wrap: anywhere;
+}
+
 // ── Cards ────────────────────────────────────────────────────
 .card {
   border: none !important;
