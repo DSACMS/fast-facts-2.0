@@ -580,7 +580,10 @@ medicare[["df_medicare_disagg_trend"]] |>
   scale_color_identity() +
   scale_fill_identity() +
   coord_cartesian(clip = "off") +
-  labs(x = NULL, y = NULL) +
+  labs(
+    x = NULL, y = NULL,
+    caption = str_glue('Note: CY {max(medicare[["df_medicare_disagg_trend"]]$data_year)} values are preliminary')
+    ) +
   theme_minimal(base_size = 35, , base_family = "Source Sans 3") +
   theme(
     legend.position = "none",
@@ -591,6 +594,7 @@ medicare[["df_medicare_disagg_trend"]] |>
       ),
     strip.placement = "outside",
     axis.text.y = element_blank(),
+    plot.caption = element_text(size = 22, color = "#909090"),
     # axis.ticks.x = element_line(color = "gray60"),
     # axis.minor.ticks.x.bottom = element_line(color = "gray60"),
     panel.grid = element_blank(),
