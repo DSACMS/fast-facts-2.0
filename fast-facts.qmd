@@ -421,11 +421,11 @@ Medicare Part D Utilizers <br> `r medicare$year[["medicare_part_d_persons_served
 #| fig-width: 14
 #| fig-height: 14
 
-enrollment[["df_medicare_trend"]]  |> 
+medicare[["df_medicare_trend"]]  |> 
   ggplot(aes(data_year, value, group = sub_category, fill = fill_color, color = fill_color)) +
   geom_blank(aes(y = value * 1.2)) +
   geom_ribbon(
-    data = enrollment[["df_medicare_ribbon"]],
+    data = medicare[["df_medicare_ribbon"]],
     aes(x = data_year, ymin = ymin, ymax = ymax),
     inherit.aes = FALSE,
     fill = ff_colors$base["warmgray"], alpha = 0.3
@@ -435,7 +435,7 @@ enrollment[["df_medicare_trend"]]  |>
     linewidth = 2.5
   ) +
   geom_line(
-    data = enrollment[["df_medicare_trend"]]  |> filter(data_year != 2025),
+    data = medicare[["df_medicare_trend"]]  |> filter(data_year != 2025),
     linewidth = 3
   ) +
   geom_text(
@@ -460,21 +460,21 @@ enrollment[["df_medicare_trend"]]  |>
     ) +
   scale_x_continuous(
     limits = c(
-      min(enrollment[["df_medicare_trend"]]$data_year),
-      max(enrollment[["df_medicare_trend"]]$data_year) + 3
+      min(medicare[["df_medicare_trend"]]$data_year),
+      max(medicare[["df_medicare_trend"]]$data_year) + 3
     ),
     breaks = seq(
-      from = min(enrollment[["df_medicare_trend"]]$data_year),
-      to = max(enrollment[["df_medicare_trend"]]$data_year),
+      from = min(medicare[["df_medicare_trend"]]$data_year),
+      to = max(medicare[["df_medicare_trend"]]$data_year),
       by = 1
     ),
-    labels = enrollment[["trend_year_labels"]]
+    labels = medicare[["trend_year_labels"]]
   ) +
   scale_color_identity(aesthetics = c("color", "fill")) +
   coord_cartesian(clip = "off") + 
   labs(
     x = NULL, y = NULL, 
-    caption = str_glue('Note: CY {max(enrollment[["df_medicare_trend"]]$data_year)} values are preliminary')
+    caption = str_glue('Note: CY {max(medicare[["df_medicare_trend"]]$data_year)} values are preliminary')
     ) +
   theme_minimal(base_family = "Source Sans 3", base_size = 40)  +
   theme(
@@ -549,11 +549,7 @@ medicare[["df_part_d_util"]] |>
 #| fig-width: 14
 #| fig-height: 8
 
-df_disagg_trend_medicare <- enrollment[["df_disagg_trend"]] |>
-  filter(area == "Medicare") |>
-  mutate(data_year = as.integer(data_year)) 
-
-df_disagg_trend_medicare |> 
+medicare[["df_medicare_disagg_trend"]] |> 
   ggplot(
     aes(
       data_year, value,
@@ -573,8 +569,12 @@ df_disagg_trend_medicare |>
   ) +
   facet_grid(. ~ fct_reorder2(sub_category, data_year, value), switch = "y") +
   scale_x_continuous(
-    breaks = range(df_disagg_trend_medicare$data_year),
-    minor_breaks = seq(min(df_disagg_trend_medicare$data_year), max(df_disagg_trend_medicare$data_year)),
+    breaks = range(medicare[["df_medicare_disagg_trend"]]$data_year),
+    minor_breaks = 
+      seq(
+        min(medicare[["df_medicare_disagg_trend"]]$data_year), 
+        max(medicare[["df_medicare_disagg_trend"]]$data_year)
+      ),
     guide = guide_axis(minor.ticks = TRUE)
   ) +
   scale_y_continuous(expand = c(.001, .001)) +
