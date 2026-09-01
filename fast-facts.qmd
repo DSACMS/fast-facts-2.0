@@ -359,16 +359,9 @@ icons |>
 :::
 
 
-# Medicare
+# Medicare Enrollment/Utilization
 
 ## Row {height="20%"}
-
-:::{.valuebox .text-white label = "ban_medicare_util" icon="heart-fill" color="#0071BC"}
-Original Medicare Payments | `r medicare$year[["medicare_total_payments"]]`
-
-`r medicare$bans[["medicare_total_payments"]]`
-
-:::
 
 :::{.valuebox .text-white label = "ban_medicare_ab" icon="heart-fill" color="#0071BC"}
 Total Medicare Beneficiaries <br> `r medicare$years[["medicare_total_enrollment"]]`
@@ -384,11 +377,10 @@ Original Medicare Persons Served | `r medicare$year[["medicare_total_persons_ser
 
 :::
 
+:::{.valuebox .text-white label = "ban_medicare_util" icon="heart-fill" color="#0071BC"}
+Original Medicare Payments | `r medicare$year[["medicare_total_payments"]]`
 
-:::{.valuebox .text-white label = "ban_medicare_d_util" icon="prescription2" color="#00538C"}
-Medicare Part D Expenditures | `r medicare$year[["medicare_part_d_payments"]]`
-
-`r medicare$bans[["medicare_part_d_payments"]]`
+`r medicare$bans[["medicare_total_payments"]]`
 
 :::
 
@@ -404,6 +396,13 @@ Medicare Part D Beneficiaries <br> `r medicare$years[["medicare_part_d_enrollmen
 Medicare Part D Utilizers <br> `r medicare$year[["medicare_part_d_persons_served"]]`
 
 `r medicare$bans[["medicare_part_d_persons_served"]]`
+
+:::
+
+:::{.valuebox .text-white label = "ban_medicare_d_util" icon="prescription2" color="#00538C"}
+Medicare Part D Expenditures | `r medicare$year[["medicare_part_d_payments"]]`
+
+`r medicare$bans[["medicare_part_d_payments"]]`
 
 :::
 
@@ -488,6 +487,57 @@ medicare[["df_medicare_trend"]]  |>
 
 ### Column
 
+#### Row
+
+```{r}
+#| label: orig_medicare_utilization
+#| title: Original Medicare Utilization & Spending
+#| out-width: 100%
+#| out-height: 100%
+#| fig-width: 22
+#| fig-height: 16
+
+medicare[["df_medicare_util"]] |>
+  ggplot(aes(persons_served, payments, fill = category)) +
+  geom_point(aes(shape = category), color = "white", size = 20, alpha = .8) +
+  geom_text_repel(
+    aes(label = sub_category),
+    point.padding = 30,
+    box.padding = 1,
+    force_pull = 0.3,
+    force = 20,
+    min.segment.length = 0,
+    family = "Source Sans 3",
+    color = ff_colors$elements[["annotation"]],
+    size = 18
+  ) +
+  scale_fill_manual(
+    values = c(
+      ff_colors$scales$cobolt[["200"]],
+      ff_colors$scales$cobolt[["700"]],
+      ff_colors$scales$cobolt[["900"]]
+    )
+  ) +
+  scale_shape_manual(values = c(21, 23, 22)) +
+  scale_x_continuous(labels = label_number(scale_cut = cut_short_scale())) +
+  scale_y_continuous(
+    labels = label_number(prefix = "$", scale_cut = cut_short_scale()),
+    limits = c(0, NA),
+  ) +
+  labs(
+    x = "Persons Served", y = "Program Payments", 
+    caption = medicare[["v_hha_caption"]],
+    fill = NULL, shape = NULL) +
+  theme_minimal(base_size = 60, base_family = "Source Sans 3") +
+  theme(
+    panel.spacing = unit(2, "lines"),
+    legend.position = "top",
+    legend.text = element_text(size = 60),
+    plot.caption = element_text(size = 45, color = "#909090"),
+    axis.title = element_text(face = "bold")
+  )
+```
+
 #### Row {height="35%"}
 
 ```{r}
@@ -539,6 +589,8 @@ medicare[["df_part_d_util"]] |>
   )
 ```
 
+### Column
+
 #### Row
 
 ```{r}
@@ -581,7 +633,10 @@ medicare[["df_medicare_disagg_trend"]] |>
   scale_color_identity() +
   scale_fill_identity() +
   coord_cartesian(clip = "off") +
-  labs(x = NULL, y = NULL) +
+  labs(
+    x = NULL, y = NULL,
+    caption = str_glue('Note: CY {max(medicare[["df_medicare_disagg_trend"]]$data_year)} values are preliminary')
+    ) +
   theme_minimal(base_size = 35, , base_family = "Source Sans 3") +
   theme(
     legend.position = "none",
@@ -592,14 +647,13 @@ medicare[["df_medicare_disagg_trend"]] |>
       ),
     strip.placement = "outside",
     axis.text.y = element_blank(),
+    plot.caption = element_text(size = 22, color = "#909090"),
     # axis.ticks.x = element_line(color = "gray60"),
     # axis.minor.ticks.x.bottom = element_line(color = "gray60"),
     panel.grid = element_blank(),
     panel.spacing = unit(2.5, "lines")
   ) 
 ```
-
-### Column
 
 #### Row {height="35%"}
 
@@ -649,57 +703,6 @@ medicare[["df_part_d_exp"]] |>
     plot.margin        = margin(12, 12, 12, 12),
     plot.title.position = "plot",
     plot.title = element_text(face = "bold")
-  )
-```
-
-#### Row
-
-```{r}
-#| label: orig_medicare_utilization
-#| title: Original Medicare Utilization & Spending
-#| out-width: 100%
-#| out-height: 100%
-#| fig-width: 22
-#| fig-height: 16
-
-medicare[["df_medicare_util"]] |>
-  ggplot(aes(persons_served, payments, fill = category)) +
-  geom_point(aes(shape = category), color = "white", size = 20, alpha = .8) +
-  geom_text_repel(
-    aes(label = sub_category),
-    point.padding = 30,
-    box.padding = 1,
-    force_pull = 0.3,
-    force = 20,
-    min.segment.length = 0,
-    family = "Source Sans 3",
-    color = ff_colors$elements[["annotation"]],
-    size = 18
-  ) +
-  scale_fill_manual(
-    values = c(
-      ff_colors$scales$cobolt[["200"]],
-      ff_colors$scales$cobolt[["700"]],
-      ff_colors$scales$cobolt[["900"]]
-    )
-  ) +
-  scale_shape_manual(values = c(21, 23, 22)) +
-  scale_x_continuous(labels = label_number(scale_cut = cut_short_scale())) +
-  scale_y_continuous(
-    labels = label_number(prefix = "$", scale_cut = cut_short_scale()),
-    limits = c(0, NA),
-  ) +
-  labs(
-    x = "Persons Served", y = "Program Payments", 
-    caption = medicare[["v_hha_caption"]],
-    fill = NULL, shape = NULL) +
-  theme_minimal(base_size = 60, base_family = "Source Sans 3") +
-  theme(
-    panel.spacing = unit(2, "lines"),
-    legend.position = "top",
-    legend.text = element_text(size = 60),
-    plot.caption = element_text(size = 45, color = "#909090"),
-    axis.title = element_text(face = "bold")
   )
 ```
 
@@ -929,186 +932,8 @@ v_outofpocket + plot_spacer() + plot_spacer()
 `r cost_sharing[["footnote"]]`
 :::
 
-# Medicaid
 
-## Row {height="20%"}
-
-:::{.valuebox .text-white label = "ban_medicaid_exp" icon="people-fill" color="#00A99D"}
-Medicaid Expenditures <br> `r medicaid$year[["medicaid_payments"]]`
-
-`r medicaid$bans[["medicaid_payments"]]`
-
-:::
-
-:::{.valuebox .text-white label = "ban_medicaid" icon="people-fill" color="#00A99D"}
-Medicaid & CHIP Beneficiaries <br> `r medicaid$years[["medicaid_enrollment"]] |> str_sub(start = -4)`
- 
-`r medicaid$bans[["medicaid_enrollment"]]`
-
-:::
-
-
-## Row 
-
-### Column {width="50%"}
-
-```{r}
-#| label: medicaid_exp_sub
-#| title: Medicaid Expenditures
-#| out-width: 100%
-#| out-height: 100%
-#| fig-width: 18
-#| fig-height: 15
-
-medicaid[["df_medicaid_exp_sub"]] |>
-  ggplot(aes(value, fct_reorder(sub_category, value))) +
-  geom_blank(aes(x = value * 1.3)) +
-  geom_col(fill = ff_colors$base[["teal"]]) +
-  geom_text(
-    aes(label = value_fmt),
-    hjust = -.1, family = "Source Sans 3",
-    color = ff_colors$elements[["annotation"]],
-    size = 14
-  ) +
-  coord_cartesian(clip = "off") +
-  scale_x_continuous(expand = c(.005, .005)) +
-  labs(
-    x = NULL, y = NULL
-  ) +
-  theme_minimal(base_size = 45) +
-  theme(
-    axis.text.x = element_blank(),
-    panel.grid.major.y = element_blank(),
-    panel.grid.minor = element_blank(),
-    plot.title =
-      element_text(
-        face = "bold",
-        color = ff_colors$elements[["title"]]
-      )
-  )
-```
-
-### Column
-
-#### Row
-
-```{r}
-#| label: medicaid_trend
-#| title: "Medicaid & CHIP Trends"
-#| out-width: 100%
-#| out-height: 100%
-#| fig-width: 15
-#| fig-height: 5
-
-medicaid[["df_medicaid_trend"]] |> 
-  ggplot(
-    aes(
-      data_year, value,
-      group = sub_category,
-      fill = fill_color, color = fill_color
-    )
-  ) +
-  geom_hline(yintercept = 0, color = ff_colors$elements[["axis"]]) +
-  geom_area(alpha = .4) +
-  geom_line() +
-  geom_point(aes(y = val_pt), na.rm = TRUE) +
-  geom_text(
-    aes(label = lab_val),
-    vjust = -1, na.rm = TRUE,
-    family = "Source Sans 3", size = 12,
-    color = ff_colors$elements[["annotation"]]
-  ) +
-  scale_x_continuous(
-    breaks = range(medicaid[["df_medicaid_trend"]]$data_year),
-    minor_breaks = seq(min(medicaid[["df_medicaid_trend"]]$data_year), max(medicaid[["df_medicaid_trend"]]$data_year)),
-    guide = guide_axis(minor.ticks = TRUE)
-  ) +
-  scale_y_continuous(expand = c(.001, .001)) +
-  scale_color_identity() +
-  scale_fill_identity() +
-  coord_cartesian(clip = "off") +
-  labs(x = NULL, y = NULL) +
-  theme_minimal(base_size = 35, base_family = "Source Sans 3") +
-  theme(
-    legend.position = "none",
-    strip.text =
-      element_text(
-        color = ff_colors$elements[["title"]],
-        face = "bold"
-      ),
-    strip.placement = "outside",
-    axis.text.y = element_blank(),
-    axis.ticks.x = element_line(color = "gray60"),
-    axis.minor.ticks.x.bottom = element_line(color = "gray60"),
-    panel.grid = element_blank(),
-    panel.spacing = unit(2.5, "lines")
-  )
-```
-
-#### Row
-```{r}
-#| label: medicaid_disagg_trend
-#| title: "Medicaid & CHIP Sub-Populations Trends"
-#| out-width: 100%
-#| out-height: 100%
-#| fig-width: 15
-#| fig-height: 5
-
-medicaid[["df_medicaid_disagg_trend"]] |> 
-  ggplot(
-    aes(
-      data_year, value,
-      group = sub_category,
-      fill = fill_color, color = fill_color
-    )
-  ) +
-  geom_hline(yintercept = 0, color = ff_colors$elements[["axis"]]) +
-  geom_area(alpha = .4) +
-  geom_line() +
-  geom_point(aes(y = val_pt), na.rm = TRUE) +
-  geom_text(
-    aes(label = lab_val),
-    vjust = -1, na.rm = TRUE,
-    family = "Source Sans 3", size = 11,
-    color = ff_colors$elements[["annotation"]]
-  ) +
-  facet_grid(. ~ fct_reorder2(sub_category, data_year, value), switch = "y") +
-  scale_x_continuous(
-    breaks = range(medicaid[["df_medicaid_disagg_trend"]]$data_year),
-    minor_breaks = seq(min(medicaid[["df_medicaid_disagg_trend"]]$data_year), max(medicaid[["df_medicaid_disagg_trend"]]$data_year)),
-    guide = guide_axis(minor.ticks = TRUE)
-  ) +
-  scale_y_continuous(expand = c(.001, .001)) +
-  scale_color_identity() +
-  scale_fill_identity() +
-  coord_cartesian(clip = "off") +
-  labs(x = NULL, y = NULL) +
-  theme_minimal(base_size = 35, base_family = "Source Sans 3") +
-  theme(
-    legend.position = "none",
-    strip.text =
-      element_text(
-        color = ff_colors$elements[["title"]],
-        face = "bold"
-      ),
-    strip.placement = "outside",
-    axis.text.y = element_blank(),
-    axis.ticks.x = element_line(color = "gray60"),
-    axis.minor.ticks.x.bottom = element_line(color = "gray60"),
-    panel.grid = element_blank(),
-    panel.spacing = unit(2.5, "lines")
-  )
-
-```
-
-## Row {.no-title height="5%"}
-
-::: {.footer-source}
-`r medicare[["footnote"]]`
-:::
-
-
-# Providers
+# Medicare Providers
 
 ## Row {height="20%"}
 
@@ -1305,6 +1130,183 @@ providers[["df_hospital_subset"]] |>
 `r providers[["footnote"]]`
 :::
 
+# Medicaid Enrollment/Utilization
+
+## Row {height="20%"}
+
+:::{.valuebox .text-white label = "ban_medicaid" icon="people-fill" color="#00A99D"}
+Medicaid & CHIP Beneficiaries <br> `r medicaid$years[["medicaid_enrollment"]] |> str_sub(start = -4)`
+ 
+`r medicaid$bans[["medicaid_enrollment"]]`
+
+:::
+
+:::{.valuebox .text-white label = "ban_medicaid_exp" icon="people-fill" color="#00A99D"}
+Medicaid & CHIP Expenditures <br> `r medicaid$year[["medicaid_payments"]]`
+
+`r medicaid$bans[["medicaid_payments"]]`
+
+:::
+
+## Row 
+
+### Column
+
+#### Row
+
+```{r}
+#| label: medicaid_trend
+#| title: "Medicaid & CHIP Beneficiary Trends"
+#| out-width: 100%
+#| out-height: 100%
+#| fig-width: 15
+#| fig-height: 5
+
+medicaid[["df_medicaid_trend"]] |> 
+  ggplot(
+    aes(
+      data_year, value,
+      group = sub_category,
+      fill = fill_color, color = fill_color
+    )
+  ) +
+  geom_hline(yintercept = 0, color = ff_colors$elements[["axis"]]) +
+  geom_area(alpha = .4) +
+  geom_line() +
+  geom_point(aes(y = val_pt), na.rm = TRUE) +
+  geom_text(
+    aes(label = lab_val),
+    vjust = -1, na.rm = TRUE,
+    family = "Source Sans 3", size = 12,
+    color = ff_colors$elements[["annotation"]]
+  ) +
+  scale_x_continuous(
+    breaks = range(medicaid[["df_medicaid_trend"]]$data_year),
+    minor_breaks = seq(min(medicaid[["df_medicaid_trend"]]$data_year), max(medicaid[["df_medicaid_trend"]]$data_year)),
+    guide = guide_axis(minor.ticks = TRUE)
+  ) +
+  scale_y_continuous(expand = c(.001, .001)) +
+  scale_color_identity() +
+  scale_fill_identity() +
+  coord_cartesian(clip = "off") +
+  labs(x = NULL, y = NULL) +
+  theme_minimal(base_size = 35, base_family = "Source Sans 3") +
+  theme(
+    legend.position = "none",
+    strip.text =
+      element_text(
+        color = ff_colors$elements[["title"]],
+        face = "bold"
+      ),
+    strip.placement = "outside",
+    axis.text.y = element_blank(),
+    axis.ticks.x = element_line(color = "gray60"),
+    axis.minor.ticks.x.bottom = element_line(color = "gray60"),
+    panel.grid = element_blank(),
+    panel.spacing = unit(2.5, "lines")
+  )
+```
+
+#### Row
+```{r}
+#| label: medicaid_disagg_trend
+#| title: "Medicaid & CHIP Sub-Populations Trends"
+#| out-width: 100%
+#| out-height: 100%
+#| fig-width: 15
+#| fig-height: 5
+
+medicaid[["df_medicaid_disagg_trend"]] |> 
+  ggplot(
+    aes(
+      data_year, value,
+      group = sub_category,
+      fill = fill_color, color = fill_color
+    )
+  ) +
+  geom_hline(yintercept = 0, color = ff_colors$elements[["axis"]]) +
+  geom_area(alpha = .4) +
+  geom_line() +
+  geom_point(aes(y = val_pt), na.rm = TRUE) +
+  geom_text(
+    aes(label = lab_val),
+    vjust = -1, na.rm = TRUE,
+    family = "Source Sans 3", size = 11,
+    color = ff_colors$elements[["annotation"]]
+  ) +
+  facet_grid(. ~ fct_reorder2(sub_category, data_year, value), switch = "y") +
+  scale_x_continuous(
+    breaks = range(medicaid[["df_medicaid_disagg_trend"]]$data_year),
+    minor_breaks = seq(min(medicaid[["df_medicaid_disagg_trend"]]$data_year), max(medicaid[["df_medicaid_disagg_trend"]]$data_year)),
+    guide = guide_axis(minor.ticks = TRUE)
+  ) +
+  scale_y_continuous(expand = c(.001, .001)) +
+  scale_color_identity() +
+  scale_fill_identity() +
+  coord_cartesian(clip = "off") +
+  labs(x = NULL, y = NULL) +
+  theme_minimal(base_size = 35, base_family = "Source Sans 3") +
+  theme(
+    legend.position = "none",
+    strip.text =
+      element_text(
+        color = ff_colors$elements[["title"]],
+        face = "bold"
+      ),
+    strip.placement = "outside",
+    axis.text.y = element_blank(),
+    axis.ticks.x = element_line(color = "gray60"),
+    axis.minor.ticks.x.bottom = element_line(color = "gray60"),
+    panel.grid = element_blank(),
+    panel.spacing = unit(2.5, "lines")
+  )
+
+```
+
+### Column {width="50%"}
+
+```{r}
+#| label: medicaid_exp_sub
+#| title: Medicaid & CHIP Expenditures by Service
+#| out-width: 100%
+#| out-height: 100%
+#| fig-width: 25
+#| fig-height: 15
+
+medicaid[["df_medicaid_exp_sub"]] |>
+  ggplot(aes(value, fct_reorder(sub_category, value))) +
+  geom_blank(aes(x = value * 1.3)) +
+  geom_col(fill = ff_colors$base[["teal"]]) +
+  geom_text(
+    aes(label = value_fmt),
+    hjust = -.1, family = "Source Sans 3",
+    color = ff_colors$elements[["annotation"]],
+    size = 14
+  ) +
+  coord_cartesian(clip = "off") +
+  scale_x_continuous(expand = c(.005, .005)) +
+  labs(
+    x = NULL, y = NULL
+  ) +
+  theme_minimal(base_size = 45) +
+  theme(
+    axis.text.x = element_blank(),
+    panel.grid.major.y = element_blank(),
+    panel.grid.minor = element_blank(),
+    plot.title =
+      element_text(
+        face = "bold",
+        color = ff_colors$elements[["title"]]
+      )
+  )
+```
+
+## Row {.no-title height="5%"}
+
+::: {.footer-source}
+`r medicaid[["footnote"]]`
+:::
+
 # Notes
 
 ## Row 
@@ -1317,39 +1319,38 @@ providers[["df_hospital_subset"]] |>
 
   - Total Medicaid Amount reported as total gross outlays including the Vaccines for Children Program.
 
-# Enrollment
-
+# Medicare Enrollment/Utilization
+  
   - Populations may not add due to rounding
   - Medicare Advantage (MA) total includes both MA and other health plan enrollment
   - Medicare CY2025 and Medicaid & CHIP  data points are preliminary and subject to change 
-  - Medicaid & CHIP 
-      - Total count represent the number of Medicaid and CHIP beneficiaries with comprehensive coverage.  The categories are sourced from data that include beneficiaries with non-comprehensive coverage and do not sum to the total counts.
-      - Dual Eligible includes Aged, Disabled & ESRD; Counts represent full-benefit eligible individuals.
-      - 2025 data not yet available for Dual Eligible and Medicaid Expansion Adults
-
-
-# Utilization
-
-  - Medicaid & CHIP 
-      - Payments for All Services includes payments for additional services not broken out separately.
-      - Fee-for-service payments = (a) Inpatient Services, (b) Long-Term Care, (c) Physician, Laboratory, and Other Services, and (d) Prescription Drugs
-      - Expenditures by service category do not sum to the total expenditures.  Total expenditures also include Medicare payments for some beneficiaries and adjustments to prior year payments.  Managed care expenditures cover the same services that are delivered via fee-for-service.  Data do not permit allocation of managed care expenditures to the different service categories.  These expenditures are from all Medicaid beneficiaries, regardless of eligibility. 
-  - The Medicaid & CHIP population and expenditure data are from the [Medicaid & CHIP scorecard](https://www.medicaid.gov/state-overviews/scorecard/who-enrolls-medicaid-chip/index.html)
-:::
-
-### Column
-
-::: {.card}
 
 # Medicare Cost Sharing
 
   - The inpatient hospital deductible applies per benefit period.  
   - For Part D, the initial coverage limit was eliminated in 2025. More information can be found [here](https://www.cms.gov/files/document/final-cy-2025-part-d-redesign-program-instructions.pdf)
   
-# Providers
+# Medicare Providers
 
   - In historic Fast Facts files, Labs are categorized as Institutional Providers, but can in fact call under any category. As such, they have been seperated out here so as not to add into the total for Institutional Providers.
   - Non-Institutional Proviers - Providers utilized by Original Medicare beneficiaries for all Part B non-institutional/DMEPOS provider services.  Providers may be counted in more than one specialty classification but are reported as a single provider in the "Total Providers" count.
+:::
+
+### Column
+
+::: {.card}
+
+# Medicaid Enrollment/Utilization
+
+  - Populations may not add due to rounding
+  - Total count represent the number of Medicaid and CHIP beneficiaries with comprehensive coverage.  The categories are sourced from data that include beneficiaries with non-comprehensive coverage and do not sum to the total counts.
+  - Dual Eligible includes Aged, Disabled & ESRD; Counts represent full-benefit eligible individuals.
+  - 2025 data not yet available for Dual Eligible and Medicaid Expansion Adults
+  - Payments for All Services includes payments for additional services not broken out separately.
+  - Fee-for-service payments = (a) Inpatient Services, (b) Long-Term Care, (c) Physician, Laboratory, and Other Services, and (d) Prescription Drugs
+  - Expenditures by service category do not sum to the total expenditures.  Total expenditures also include Medicare payments for some beneficiaries and adjustments to prior year payments.  Managed care expenditures cover the same services that are delivered via fee-for-service.  Data do not permit allocation of managed care expenditures to the different service categories.  These expenditures are from all Medicaid beneficiaries, regardless of eligibility. 
+  - The Medicaid & CHIP population and expenditure data are from the [Medicaid & CHIP scorecard](https://www.medicaid.gov/state-overviews/scorecard/who-enrolls-medicaid-chip/index.html)
+
 
 # Abbreviations
 
