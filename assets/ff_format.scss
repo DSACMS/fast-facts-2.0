@@ -251,6 +251,7 @@ h1, h2, h3, h4, h5, h6,
     z-index: 1;
   }
 
+  
   &.bg-primary {
     background-color: $primary !important;
     color: $color-text-light !important;
@@ -268,30 +269,6 @@ h1, h2, h3, h4, h5, h6,
   &.coral     { background-color: $ff-coral;    color: $color-text-light; }
   &.steel     { background-color: $ff-steel;    color: $color-text-primary; }
   &.gold      { background-color: $ff-gold;     color: $color-text-primary; }
-}
-
-.valuebox.valuebox-secondary,
-.value-box.valuebox-secondary,
-.bslib-value-box.valuebox-secondary {
-  color: $blue-900 !important;
-
-  .value-box-title,
-  .value-box-title > p,
-  .value-box-area > p:not([class]),
-  .value-box-value,
-  .value-box-subtitle {
-    color: $blue-900 !important;
-  }
-
-  .value-box-title,
-  .value-box-title > p,
-  .value-box-area > p:not([class]) {
-    font-size: clamp(0.75rem, 1vw, 0.9rem) !important;
-  }
-
-  .value-box-value {
-    font-size: clamp(1.8rem, 3vw, 2.75rem) !important;
-  }
 }
 
 .valuebox-secondary-value {
