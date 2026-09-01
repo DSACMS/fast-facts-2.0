@@ -1153,7 +1153,7 @@ Medicaid & CHIP Expenditures <br> `r medicaid$year[["medicaid_payments"]]`
 
 ```{r}
 #| label: medicaid_trend
-#| title: "Medicaid & CHIP Trends"
+#| title: "Medicaid & CHIP Beneficiary Trends"
 #| out-width: 100%
 #| out-height: 100%
 #| fig-width: 15
