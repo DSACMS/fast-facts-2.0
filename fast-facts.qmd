@@ -408,21 +408,23 @@ Medicare Part D Expenditures | `r medicare$year[["medicare_part_d_payments"]]`
 
 ## Row
 
-### Column
+### Column 
+
+#### Row {height="65%"}
 
 ```{r}
 #| label: df_medicare_trend
 #| title: >-
-#|   Medicare Advantage Beneficiaries Now Exceeds
+#|   Medicare Advantage Now Exceeds
 #|    Original Medicare Beneficiaries
 #| out-width: 100%
 #| out-height: 100%
-#| fig-width: 14
-#| fig-height: 14
+#| fig-width: 16
+#| fig-height: 8
 
 medicare[["df_medicare_trend"]]  |> 
   ggplot(aes(data_year, value, group = sub_category, fill = fill_color, color = fill_color)) +
-  geom_blank(aes(y = value * 1.2)) +
+  geom_blank(aes(y = value * 1.1)) +
   geom_ribbon(
     data = medicare[["df_medicare_ribbon"]],
     aes(x = data_year, ymin = ymin, ymax = ymax),
@@ -475,7 +477,7 @@ medicare[["df_medicare_trend"]]  |>
     x = NULL, y = NULL, 
     caption = str_glue('Note: CY {max(medicare[["df_medicare_trend"]]$data_year)} values are preliminary')
     ) +
-  theme_minimal(base_family = "Source Sans 3", base_size = 40)  +
+  theme_minimal(base_family = "Source Sans 3", base_size = 30)  +
   theme(
     legend.position = "none",
     plot.caption = element_text(size = 24, color = "#909090"),
@@ -483,6 +485,71 @@ medicare[["df_medicare_trend"]]  |>
     panel.grid.major.x = element_blank(),
     axis.ticks.x = element_line(color = "gray80")
   )
+```
+
+
+#### Row
+
+```{r}
+#| label: medicare_disagg_trend
+#| title: "Medicare Sub-Populations Trends"
+#| out-width: 100%
+#| out-height: 100%
+#| fig-width: 24
+#| fig-height: 8
+
+medicare[["df_medicare_disagg_trend"]] |> 
+  ggplot(
+    aes(
+      data_year, value,
+      group = sub_category,
+      fill = fill_color, color = fill_color
+    )
+  ) +
+  geom_hline(yintercept = 0, color = ff_colors$elements[["axis"]]) +
+  geom_area(alpha = .4) +
+  geom_line() +
+  geom_point(aes(y = val_pt), na.rm = TRUE) +
+  geom_text(
+    aes(label = lab_val),
+    vjust = -1, na.rm = TRUE,
+    family = "Source Sans 3", size = 20,
+    color = ff_colors$elements[["annotation"]]
+  ) +
+  facet_grid(. ~ fct_reorder2(sub_category, data_year, value), switch = "y") +
+  scale_x_continuous(
+    breaks = range(medicare[["df_medicare_disagg_trend"]]$data_year),
+    minor_breaks = 
+      seq(
+        min(medicare[["df_medicare_disagg_trend"]]$data_year), 
+        max(medicare[["df_medicare_disagg_trend"]]$data_year)
+      ),
+    guide = guide_axis(minor.ticks = TRUE)
+  ) +
+  scale_y_continuous(expand = c(.001, .001)) +
+  scale_color_identity() +
+  scale_fill_identity() +
+  coord_cartesian(clip = "off") +
+  labs(
+    x = NULL, y = NULL,
+    caption = str_glue('Note: CY {max(medicare[["df_medicare_disagg_trend"]]$data_year)} values are preliminary')
+    ) +
+  theme_minimal(base_size = 80, , base_family = "Source Sans 3") +
+  theme(
+    legend.position = "none",
+    strip.text =
+      element_text(
+        color = ff_colors$elements[["title"]],
+        face = "bold"
+      ),
+    strip.placement = "outside",
+    axis.text.y = element_blank(),
+    plot.caption = element_text(size = 50, color = "#909090"),
+    # axis.ticks.x = element_line(color = "gray60"),
+    # axis.minor.ticks.x.bottom = element_line(color = "gray60"),
+    panel.grid = element_blank(),
+    panel.spacing = unit(6, "lines")
+  ) 
 ```
 
 ### Column
@@ -495,7 +562,7 @@ medicare[["df_medicare_trend"]]  |>
 #| out-width: 100%
 #| out-height: 100%
 #| fig-width: 22
-#| fig-height: 16
+#| fig-height: 22
 
 medicare[["df_medicare_util"]] |>
   ggplot(aes(persons_served, payments, fill = category)) +
@@ -532,13 +599,16 @@ medicare[["df_medicare_util"]] |>
   theme(
     panel.spacing = unit(2, "lines"),
     legend.position = "top",
-    legend.text = element_text(size = 60),
+    legend.text = element_text(size = 45),
+    legend.background = element_rect(fill = ff_colors$scales$warmgray["100"], color = ff_colors$scales$warmgray["100"]),
     plot.caption = element_text(size = 45, color = "#909090"),
     axis.title = element_text(face = "bold")
   )
 ```
 
-#### Row {height="35%"}
+### Column
+
+#### Row
 
 ```{r}
 #| label: part_d_util
@@ -589,73 +659,7 @@ medicare[["df_part_d_util"]] |>
   )
 ```
 
-### Column
-
 #### Row
-
-```{r}
-#| label: medicare_disagg_trend
-#| title: "Medicare Sub-Populations Trends"
-#| out-width: 100%
-#| out-height: 100%
-#| fig-width: 14
-#| fig-height: 8
-
-medicare[["df_medicare_disagg_trend"]] |> 
-  ggplot(
-    aes(
-      data_year, value,
-      group = sub_category,
-      fill = fill_color, color = fill_color
-    )
-  ) +
-  geom_hline(yintercept = 0, color = ff_colors$elements[["axis"]]) +
-  geom_area(alpha = .4) +
-  geom_line() +
-  geom_point(aes(y = val_pt), na.rm = TRUE) +
-  geom_text(
-    aes(label = lab_val),
-    vjust = -1, na.rm = TRUE,
-    family = "Source Sans 3", size = 11,
-    color = ff_colors$elements[["annotation"]]
-  ) +
-  facet_grid(. ~ fct_reorder2(sub_category, data_year, value), switch = "y") +
-  scale_x_continuous(
-    breaks = range(medicare[["df_medicare_disagg_trend"]]$data_year),
-    minor_breaks = 
-      seq(
-        min(medicare[["df_medicare_disagg_trend"]]$data_year), 
-        max(medicare[["df_medicare_disagg_trend"]]$data_year)
-      ),
-    guide = guide_axis(minor.ticks = TRUE)
-  ) +
-  scale_y_continuous(expand = c(.001, .001)) +
-  scale_color_identity() +
-  scale_fill_identity() +
-  coord_cartesian(clip = "off") +
-  labs(
-    x = NULL, y = NULL,
-    caption = str_glue('Note: CY {max(medicare[["df_medicare_disagg_trend"]]$data_year)} values are preliminary')
-    ) +
-  theme_minimal(base_size = 35, , base_family = "Source Sans 3") +
-  theme(
-    legend.position = "none",
-    strip.text =
-      element_text(
-        color = ff_colors$elements[["title"]],
-        face = "bold"
-      ),
-    strip.placement = "outside",
-    axis.text.y = element_blank(),
-    plot.caption = element_text(size = 22, color = "#909090"),
-    # axis.ticks.x = element_line(color = "gray60"),
-    # axis.minor.ticks.x.bottom = element_line(color = "gray60"),
-    panel.grid = element_blank(),
-    panel.spacing = unit(2.5, "lines")
-  ) 
-```
-
-#### Row {height="35%"}
 
 ```{r}
 #| label: part_d_exp
