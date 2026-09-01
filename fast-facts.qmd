@@ -359,7 +359,7 @@ icons |>
 :::
 
 
-# Medicare
+# Medicare Enrollment/Utilization
 
 ## Row {height="20%"}
 
@@ -929,7 +929,7 @@ v_outofpocket + plot_spacer() + plot_spacer()
 `r cost_sharing[["footnote"]]`
 :::
 
-# Medicaid
+# Medicaid Enrollment/Utilization
 
 ## Row {height="20%"}
 
@@ -1108,7 +1108,7 @@ medicaid[["df_medicaid_disagg_trend"]] |>
 :::
 
 
-# Providers
+# Medicare Providers
 
 ## Row {height="20%"}
 
@@ -1346,7 +1346,7 @@ providers[["df_hospital_subset"]] |>
   - The inpatient hospital deductible applies per benefit period.  
   - For Part D, the initial coverage limit was eliminated in 2025. More information can be found [here](https://www.cms.gov/files/document/final-cy-2025-part-d-redesign-program-instructions.pdf)
   
-# Providers
+# Medicare Providers
 
   - In historic Fast Facts files, Labs are categorized as Institutional Providers, but can in fact call under any category. As such, they have been seperated out here so as not to add into the total for Institutional Providers.
   - Non-Institutional Proviers - Providers utilized by Original Medicare beneficiaries for all Part B non-institutional/DMEPOS provider services.  Providers may be counted in more than one specialty classification but are reported as a single provider in the "Total Providers" count.
