@@ -1317,23 +1317,21 @@ providers[["df_hospital_subset"]] |>
 
   - Total Medicaid Amount reported as total gross outlays including the Vaccines for Children Program.
 
-# Enrollment
-
+# Medicare Enrollment/Utilization
+  
   - Populations may not add due to rounding
   - Medicare Advantage (MA) total includes both MA and other health plan enrollment
   - Medicare CY2025 and Medicaid & CHIP  data points are preliminary and subject to change 
-  - Medicaid & CHIP 
-      - Total count represent the number of Medicaid and CHIP beneficiaries with comprehensive coverage.  The categories are sourced from data that include beneficiaries with non-comprehensive coverage and do not sum to the total counts.
-      - Dual Eligible includes Aged, Disabled & ESRD; Counts represent full-benefit eligible individuals.
-      - 2025 data not yet available for Dual Eligible and Medicaid Expansion Adults
 
+# Medicaid Enrollment/Utilization
 
-# Utilization
-
-  - Medicaid & CHIP 
-      - Payments for All Services includes payments for additional services not broken out separately.
-      - Fee-for-service payments = (a) Inpatient Services, (b) Long-Term Care, (c) Physician, Laboratory, and Other Services, and (d) Prescription Drugs
-      - Expenditures by service category do not sum to the total expenditures.  Total expenditures also include Medicare payments for some beneficiaries and adjustments to prior year payments.  Managed care expenditures cover the same services that are delivered via fee-for-service.  Data do not permit allocation of managed care expenditures to the different service categories.  These expenditures are from all Medicaid beneficiaries, regardless of eligibility. 
+  - Populations may not add due to rounding
+  - Total count represent the number of Medicaid and CHIP beneficiaries with comprehensive coverage.  The categories are sourced from data that include beneficiaries with non-comprehensive coverage and do not sum to the total counts.
+  - Dual Eligible includes Aged, Disabled & ESRD; Counts represent full-benefit eligible individuals.
+  - 2025 data not yet available for Dual Eligible and Medicaid Expansion Adults
+  - Payments for All Services includes payments for additional services not broken out separately.
+  - Fee-for-service payments = (a) Inpatient Services, (b) Long-Term Care, (c) Physician, Laboratory, and Other Services, and (d) Prescription Drugs
+  - Expenditures by service category do not sum to the total expenditures.  Total expenditures also include Medicare payments for some beneficiaries and adjustments to prior year payments.  Managed care expenditures cover the same services that are delivered via fee-for-service.  Data do not permit allocation of managed care expenditures to the different service categories.  These expenditures are from all Medicaid beneficiaries, regardless of eligibility. 
   - The Medicaid & CHIP population and expenditure data are from the [Medicaid & CHIP scorecard](https://www.medicaid.gov/state-overviews/scorecard/who-enrolls-medicaid-chip/index.html)
 :::
 
