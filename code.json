@@ -24,7 +24,7 @@
   "disclaimerURL": "",
   "disclaimerText": "",
   "vcs": "git",
-  "laborHours": 4993,
+  "laborHours": 5025,
   "reuseFrequency": {
     "forks": 0,
     "clones": 0
@@ -52,8 +52,8 @@
   "partners": [],
   "date": {
     "created": "2026-03-17T15:36:33Z",
-    "lastModified": "2026-06-25T17:20:06Z",
-    "metadataLastUpdated": "2026-07-01T03:41:28.600Z"
+    "lastModified": "2026-08-26T21:11:12Z",
+    "metadataLastUpdated": "2026-09-01T03:38:26.567Z"
   },
   "tags": [
     "dsacms-tier2"
