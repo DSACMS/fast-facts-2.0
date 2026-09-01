@@ -363,12 +363,16 @@ icons |>
 
 ## Row {height="20%"}
 
+### Column
+
 :::{.valuebox .text-white label = "ban_medicare_ab" icon="heart-fill" color="#0071BC"}
 Total Medicare Beneficiaries <br> `r medicare$years[["medicare_total_enrollment"]]`
 
 `r medicare$bans[["medicare_total_enrollment"]]`
 
 :::
+
+### Column
 
 :::{.valuebox .text-white label = "ban_medicare_util" icon="heart-fill" color="#0071BC"}
 Original Medicare Persons Served | `r medicare$year[["medicare_total_persons_served"]]`
@@ -377,12 +381,16 @@ Original Medicare Persons Served | `r medicare$year[["medicare_total_persons_ser
 
 :::
 
+### Column
+
 :::{.valuebox .text-white label = "ban_medicare_util" icon="heart-fill" color="#0071BC"}
 Original Medicare Payments | `r medicare$year[["medicare_total_payments"]]`
 
 `r medicare$bans[["medicare_total_payments"]]`
 
 :::
+
+### Column {width="34%"}
 
 :::{.valuebox .text-white label = "ban_medicare_d" icon="prescription2" color="#00538C"}
 Medicare Part D Beneficiaries <br> `r medicare$years[["medicare_part_d_enrollment"]]`
@@ -391,20 +399,6 @@ Medicare Part D Beneficiaries <br> `r medicare$years[["medicare_part_d_enrollmen
 
 :::
 
-
-:::{.valuebox .text-white label = "ban_medicare_d_util" icon="prescription2" color="#00538C"}
-Medicare Part D Utilizers <br> `r medicare$year[["medicare_part_d_persons_served"]]`
-
-`r medicare$bans[["medicare_part_d_persons_served"]]`
-
-:::
-
-:::{.valuebox .text-white label = "ban_medicare_d_util" icon="prescription2" color="#00538C"}
-Medicare Part D Expenditures | `r medicare$year[["medicare_part_d_payments"]]`
-
-`r medicare$bans[["medicare_part_d_payments"]]`
-
-:::
 
 ## Row
 
@@ -607,6 +601,22 @@ medicare[["df_medicare_util"]] |>
 ```
 
 ### Column
+
+#### Row 
+
+:::{.valuebox label = "ban_medicare_d_util" color="white"}
+Medicare Part D Utilizers <br> `r medicare$year[["medicare_part_d_persons_served"]]`
+
+`r medicare$bans[["medicare_part_d_persons_served"]]`
+
+:::
+
+:::{.valuebox label = "ban_medicare_d_util" color="white"}
+Medicare Part D Expenditures | `r medicare$year[["medicare_part_d_payments"]]`
+
+`r medicare$bans[["medicare_part_d_payments"]]`
+
+:::
 
 #### Row
 
