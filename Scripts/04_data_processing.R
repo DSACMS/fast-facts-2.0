@@ -601,7 +601,7 @@ v_medicare_sources <-
   ) %>%
   map(
     ~ .x |>
-      filter(is_latest) |>
+      # filter(is_latest) |>
       select(source_origin)
   ) %>%
   list_rbind() |>
@@ -611,8 +611,10 @@ v_medicare_sources <-
     source_origin = source_origin |>
       str_remove("Office of Enterprise Data & Analytics/") |>
       str_remove("\\.$") |>
+      str_remove("^ ") |>
       str_replace("CMS ", "CMS/")
   ) |>
+  distinct(source_origin) |>
   filter_out(
     source_origin %in%
       c(
