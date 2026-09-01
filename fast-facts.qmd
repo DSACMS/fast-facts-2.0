@@ -662,7 +662,7 @@ medicare[["df_part_d_exp"]] |>
 #| fig-width: 22
 #| fig-height: 16
 
-utilization[["df_medicare_util"]] |>
+medicare[["df_medicare_util"]] |>
   ggplot(aes(persons_served, payments, fill = category)) +
   geom_point(aes(shape = category), color = "white", size = 20, alpha = .8) +
   geom_text_repel(
@@ -691,7 +691,7 @@ utilization[["df_medicare_util"]] |>
   ) +
   labs(
     x = "Persons Served", y = "Program Payments", 
-    caption = utilization[["v_hha_caption"]],
+    caption = medicare[["v_hha_caption"]],
     fill = NULL, shape = NULL) +
   theme_minimal(base_size = 60, base_family = "Source Sans 3") +
   theme(
@@ -706,8 +706,9 @@ utilization[["df_medicare_util"]] |>
 ## Row {.no-title height="5%"}
 
 ::: {.footer-source}
-Placeholder
+`r medicare[["footnote"]]`
 :::
+
 
 
 # Medicare Cost Sharing
@@ -934,16 +935,16 @@ v_outofpocket + plot_spacer() + plot_spacer()
 ## Row {height="20%"}
 
 :::{.valuebox .text-white label = "ban_medicaid_exp" icon="people-fill" color="#00A99D"}
-Medicaid Expenditures <br> `r utilization$year[["medicaid_chip"]]`
+Medicaid Expenditures <br> `r medicaid$year[["medicaid_payments"]]`
 
-`r utilization$bans[["medicaid_chip"]]`
+`r medicaid$bans[["medicaid_payments"]]`
 
 :::
 
 :::{.valuebox .text-white label = "ban_medicaid" icon="people-fill" color="#00A99D"}
-Medicaid & CHIP Beneficiaries <br> `r enrollment$years[["medicaid"]] |> str_sub(start = -4)`
+Medicaid & CHIP Beneficiaries <br> `r medicaid$years[["medicaid_enrollment"]] |> str_sub(start = -4)`
  
-`r enrollment$bans[["medicaid"]]`
+`r medicaid$bans[["medicaid_enrollment"]]`
 
 :::
 
@@ -953,14 +954,14 @@ Medicaid & CHIP Beneficiaries <br> `r enrollment$years[["medicaid"]] |> str_sub(
 ### Column {width="50%"}
 
 ```{r}
-#| label: medicaid_exp
+#| label: medicaid_exp_sub
 #| title: Medicaid Expenditures
 #| out-width: 100%
 #| out-height: 100%
 #| fig-width: 18
 #| fig-height: 15
 
-utilization[["df_medicaid_exp"]] |>
+medicaid[["df_medicaid_exp_sub"]] |>
   ggplot(aes(value, fct_reorder(sub_category, value))) +
   geom_blank(aes(x = value * 1.3)) +
   geom_col(fill = ff_colors$base[["teal"]]) +
@@ -1000,7 +1001,7 @@ utilization[["df_medicaid_exp"]] |>
 #| fig-width: 15
 #| fig-height: 5
 
-enrollment[["df_medicaid_trend"]] |> 
+medicaid[["df_medicaid_trend"]] |> 
   ggplot(
     aes(
       data_year, value,
@@ -1019,8 +1020,8 @@ enrollment[["df_medicaid_trend"]] |>
     color = ff_colors$elements[["annotation"]]
   ) +
   scale_x_continuous(
-    breaks = range(enrollment[["df_medicaid_trend"]]$data_year),
-    minor_breaks = seq(min(enrollment[["df_medicaid_trend"]]$data_year), max(enrollment[["df_medicaid_trend"]]$data_year)),
+    breaks = range(medicaid[["df_medicaid_trend"]]$data_year),
+    minor_breaks = seq(min(medicaid[["df_medicaid_trend"]]$data_year), max(medicaid[["df_medicaid_trend"]]$data_year)),
     guide = guide_axis(minor.ticks = TRUE)
   ) +
   scale_y_continuous(expand = c(.001, .001)) +
@@ -1054,11 +1055,7 @@ enrollment[["df_medicaid_trend"]] |>
 #| fig-width: 15
 #| fig-height: 5
 
-df_disagg_trend_medicaid <- enrollment[["df_disagg_trend"]] |>
-  filter(area == "Medicaid & CHIP") |>
-  mutate(data_year = as.integer(data_year)) 
-  
-df_disagg_trend_medicaid |> 
+medicaid[["df_medicaid_disagg_trend"]] |> 
   ggplot(
     aes(
       data_year, value,
@@ -1078,8 +1075,8 @@ df_disagg_trend_medicaid |>
   ) +
   facet_grid(. ~ fct_reorder2(sub_category, data_year, value), switch = "y") +
   scale_x_continuous(
-    breaks = range(df_disagg_trend_medicaid$data_year),
-    minor_breaks = seq(min(df_disagg_trend_medicaid$data_year), max(df_disagg_trend_medicaid$data_year)),
+    breaks = range(medicaid[["df_medicaid_disagg_trend"]]$data_year),
+    minor_breaks = seq(min(medicaid[["df_medicaid_disagg_trend"]]$data_year), max(medicaid[["df_medicaid_disagg_trend"]]$data_year)),
     guide = guide_axis(minor.ticks = TRUE)
   ) +
   scale_y_continuous(expand = c(.001, .001)) +
@@ -1108,7 +1105,7 @@ df_disagg_trend_medicaid |>
 ## Row {.no-title height="5%"}
 
 ::: {.footer-source}
-Placeholder
+`r medicaid[["footnote"]]`
 :::
 
 
