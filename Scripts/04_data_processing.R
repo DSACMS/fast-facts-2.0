@@ -756,7 +756,8 @@ subpop_medicaid <- c("Children", "Medicaid Expansion Adults", "Dual Eligible")
 df_medicaid_disagg_trend <- df_ff |>
   filter(
     area == "Medicaid & CHIP",
-    sub_category %in% subpop_medicaid
+    sub_category %in% subpop_medicaid,
+    data_year >= 2017
   ) |>
   select(
     area,
