@@ -4,7 +4,7 @@
 # REF ID:   4b4e2514
 # LICENSE:  MIT
 # DATE:     2026-03-20
-# UPDATED:  2026-08-31
+# UPDATED:  2026-09-01
 
 # DEPENDENCIES ------------------------------------------------------------
 
@@ -299,7 +299,7 @@ df_medicare_enrollment <- df_ff |>
     value_fmt = label_number(1, scale_cut = cut_short_scale())(value)
   ) |>
   unite(period, c(period_type, data_year), sep = " ") |>
-  select(name, period, value, value_fmt)
+  select(name, period, value, value_fmt, is_latest, source_origin)
 
 df_medicare_utilization <- df_ff |>
   filter(
@@ -311,7 +311,7 @@ df_medicare_utilization <- df_ff |>
   ) |>
   unite(name, c(area, category)) |>
   unite(period, c(period_type, data_year), sep = " ") |>
-  select(name, metric, period, value) |>
+  select(name, metric, period, value, is_latest, source_origin) |>
   mutate(
     value_fmt = ifelse(
       metric == "payments",
@@ -332,11 +332,11 @@ df_medicare_bans <- df_medicare_enrollment |>
   bind_rows(df_medicare_utilization)
 
 medicare_bans <- df_medicare_bans |>
-  select(-c(period, value)) |>
+  select(name, value_fmt) |>
   deframe()
 
 medicare_bans_years <- df_medicare_bans |>
-  select(-starts_with("value")) |>
+  select(name, period) |>
   deframe()
 
 
@@ -347,7 +347,7 @@ df_medicare_trend <- df_ff |>
     sub_category %in%
       c("Original Medicare Enrollment", "MA & Other Health Plan Enrollment")
   ) |>
-  select(sub_category, data_year, value) |>
+  select(sub_category, data_year, value, is_latest, source_origin) |>
   mutate(
     sub_category = sub_category |>
       str_extract("MA|Orig") |>
@@ -462,9 +462,10 @@ df_part_d <- df_part_d |>
     value,
     end_point,
     point_value_lab,
-    lab_offset
+    lab_offset,
+    is_latest,
+    source_origin
   )
-
 
 #breakout part D for utilization
 df_part_d_util <- df_part_d |>
@@ -474,6 +475,159 @@ df_part_d_util <- df_part_d |>
 df_part_d_exp <- df_part_d |>
   filter(group == "Expenditures")
 
+#disagg groups
+subpop_medicare <- c("Aged", "Disabled")
+
+#diaggregate trends
+df_medicare_disagg_trend <- df_ff |>
+  filter(
+    topic == "Enrollment",
+    (area == "Medicare" & sub_category %in% subpop_medicare)
+  ) |>
+  select(
+    area,
+    metric,
+    sub_category,
+    period_type,
+    data_year,
+    value,
+    is_latest,
+    source_origin
+  ) |>
+  mutate(
+    fill_color = recode_values(
+      sub_category,
+      "Children" ~ ff_colors$base[["plum"]],
+      "Dual Eligible" ~ ff_colors$scales$teal[["200"]],
+      "Medicaid Expansion Adults" ~ ff_colors$scales$teal[["900"]],
+      "Aged" ~ ff_colors$scales$cobolt[["900"]],
+      "Disabled" ~ ff_colors$scales$cobolt[["200"]],
+      default = ff_colors$scales$charcoal[['200']]
+    ),
+    data_year = as.integer(data_year)
+  ) |>
+  group_by(area, sub_category) |>
+  mutate(
+    val_pt = case_when(
+      data_year == min(data_year) | data_year == max(data_year) ~ value
+    ),
+    lab_val = case_when(
+      data_year %in% c(min(data_year), max(data_year)) ~ label_number(
+        1,
+        scale_cut = cut_short_scale()
+      )(value)
+    )
+  ) |>
+  ungroup()
+
+
+#medicare utilization
+df_medicare_util <- df_ff |>
+  filter(
+    topic == "Utilization",
+    category != "Part D",
+    sub_category != "Total",
+    is_latest == TRUE
+  )
+
+#use deduplicated HHA values (instead of Part A and B shown in FF)
+df_medicare_util <- df_medicare_util |>
+  filter_out(
+    category %in% c("Part A", "Part B"),
+    sub_category == "Home Health Agency"
+  )
+
+#setup formatting for viz
+df_medicare_util <- df_medicare_util |>
+  mutate(
+    lab_exp = case_when(
+      metric == "payments" ~ label_number(
+        1,
+        prefix = "$",
+        scale_cut = cut_short_scale()
+      )(value)
+    ),
+    lab_ben = case_when(
+      metric == "persons_served" ~ str_glue(
+        "{sub_category} ",
+        "{label_number(1, scale_cut =  cut_short_scale())(value)}"
+      )
+    ),
+    lab_pos = ifelse(metric == "persons_served", -1, 1.5)
+  )
+
+df_medicare_util <- df_medicare_util |>
+  select(
+    category,
+    sub_category,
+    metric,
+    data_year,
+    value,
+    is_latest,
+    source_origin
+  ) |>
+  pivot_wider(
+    names_from = metric
+  ) |>
+  mutate(
+    fill_shape = recode_values(
+      category,
+      "Part A" ~ 21L,
+      "Part B" ~ 23L,
+      default = 22L,
+    )
+  )
+
+#pull HHA year to add to caption if needed
+v_hha_yr <- df_medicare_util |>
+  filter(sub_category == "Home Health Agency") |>
+  pull(data_year)
+
+#add caption if HHA is a different year than Fast Facts
+v_hha_caption <- ifelse(
+  length(unique(df_medicare_util$data_year)) > 1,
+  str_glue("Note: Values for Home Health Agency are for CY {v_hha_yr}"),
+  NULL
+)
+
+#gather sources for footnote
+v_medicare_sources <-
+  list(
+    df_medicare_bans,
+    df_medicare_trend,
+    df_part_d,
+    df_medicare_disagg_trend,
+    df_medicare_util
+  ) %>%
+  map(
+    ~ .x |>
+      filter(is_latest) |>
+      select(source_origin)
+  ) %>%
+  list_rbind() |>
+  distinct(source_origin) %>%
+  separate_longer_delim(source_origin, ", ") |>
+  mutate(
+    source_origin = source_origin |>
+      str_remove("Office of Enterprise Data & Analytics/") |>
+      str_remove("\\.$") |>
+      str_replace("CMS ", "CMS/")
+  ) |>
+  filter_out(
+    source_origin %in%
+      c(
+        "Centers for Medicare & Medicaid Services",
+        "Office of Enterprise Data and Analytics"
+      )
+  ) |>
+  arrange(source_origin) |>
+  pull(source_origin) |>
+  paste0(collapse = ", ")
+
+v_medicare_footnote <- str_glue(
+  "CMS Fast Facts {format(max(df_ff$release_date, na.rm = TRUE), '%B %Y')} Release ",
+  "&bull; Data sources: {v_medicare_sources}"
+)
 
 #bundle tab data points/frames
 medicare <- list(
@@ -482,11 +636,16 @@ medicare <- list(
   df_medicare_trend = df_medicare_trend,
   df_medicare_ribbon = df_medicare_ribbon,
   trend_year_labels = trend_year_labels,
-  df_disagg_trend = df_disagg_trend,
   df_part_d_util = df_part_d_util,
   df_part_d_exp = df_part_d_exp,
+  df_medicare_disagg_trend = df_medicare_disagg_trend,
+  df_medicare_util = df_medicare_util,
+  v_hha_caption = v_hha_caption,
   footnote = v_medicare_footnote
 )
+
+# export
+write_rds(medicare, "Dataout/medicare.rds")
 
 # ENROLLMENT TAB ---------------------------------------------------------
 
