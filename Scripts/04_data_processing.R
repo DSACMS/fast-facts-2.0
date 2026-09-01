@@ -841,7 +841,7 @@ medicaid <- list(
   df_medicaid_exp_sub = df_medicaid_exp_sub,
   df_medicaid_trend = df_medicaid_trend,
   df_medicaid_disagg_trend = df_medicaid_disagg_trend,
-  footnote = v_medicare_footnote
+  footnote = v_medicaid_footnote
 )
 
 # export
