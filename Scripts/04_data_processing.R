@@ -4,7 +4,7 @@
 # REF ID:   4b4e2514
 # LICENSE:  MIT
 # DATE:     2026-03-20
-# UPDATED:  2026-07-02
+# UPDATED:  2026-09-01
 
 # DEPENDENCIES ------------------------------------------------------------
 
@@ -239,7 +239,7 @@ years <- c(
 )
 
 #gather sources for footnote
-v_context_sources <- df_ff |>
+v_health_spending_sources <- df_ff |>
   filter(
     is_latest == TRUE,
     category %in%
@@ -256,14 +256,14 @@ v_context_sources <- df_ff |>
   sort() |>
   paste0(collapse = ", ")
 
-v_context_footnote <- str_glue(
+v_health_spending_footnote <- str_glue(
   "CMS Fast Facts {format(max(df_ff$release_date, na.rm = TRUE), '%B %Y')} Release ",
-  "&bull; Data sources: {v_context_sources}"
+  "&bull; Data sources: {v_health_spending_sources}"
 )
 
 
 #bundle tab datapoints/frames
-context <- list(
+health_spending <- list(
   bans = bans_nhe,
   years = years,
   df_nhe_gdp_share = df_nhe_gdp_share,
@@ -272,48 +272,73 @@ context <- list(
   df_insurance = df_insurance,
   df_spend = df_spend,
   fte = fte,
-  footnote = v_context_footnote
+  footnote = v_health_spending_footnote
 )
 
 # export
-write_rds(context, "Dataout/context.rds")
+write_rds(health_spending, "Dataout/health_spending.rds")
 
 
-# ENROLLMENT TAB ---------------------------------------------------------
+# MEDICARE TAB -----------------------------------------------------------
 
 #extract numbers for BAN in tab
-df_enrollment <- df_ff |>
+df_medicare_enrollment <- df_ff |>
   filter(
     topic == "Enrollment",
-    category %in% c("Parts A and/or B", "Part D", "Medicaid & CHIP"),
+    category %in% c("Parts A and/or B", "Part D"),
     sub_category == "Total",
     is_latest == TRUE
   ) |>
+  unite(name, c(area, category), sep = " ") |>
   mutate(
-    name = case_when(
-      category == "Parts A and/or B" ~ "medicare_ab",
-      category == "Part D" ~ "medicare_d",
-      category == "Medicaid & CHIP" ~ "medicaid"
-    ),
+    name = name |>
+      str_replace("Parts A and/or B", "Total") |>
+      str_replace_all(" ", "_") |>
+      tolower() |>
+      paste0("_enrollment"),
     value_fmt = label_number(1, scale_cut = cut_short_scale())(value)
+  ) |>
+  unite(period, c(period_type, data_year), sep = " ") |>
+  select(name, period, value, value_fmt, is_latest, source_origin)
+
+df_medicare_utilization <- df_ff |>
+  filter(
+    topic == "Utilization",
+    category %in% c("Total (A and/or B)", "Part D"),
+    sub_category == "Total",
+    metric %in% c("persons_served", "payments"),
+    is_latest == TRUE
+  ) |>
+  unite(name, c(area, category)) |>
+  unite(period, c(period_type, data_year), sep = " ") |>
+  select(name, metric, period, value, is_latest, source_origin) |>
+  mutate(
+    value_fmt = ifelse(
+      metric == "payments",
+      label_number(1, prefix = "$", scale_cut = cut_short_scale())(value),
+      label_number(1, scale_cut = cut_short_scale())(value)
+    )
+  ) |>
+  unite(name, c(name, metric)) |>
+  mutate(
+    name = name |>
+      str_remove(" \\(A and/or B\\)") |>
+      str_replace_all(" ", "_") |>
+      str_remove("&_") |>
+      tolower()
   )
 
-enrollment_bans <- df_enrollment |>
+df_medicare_bans <- df_medicare_enrollment |>
+  bind_rows(df_medicare_utilization)
+
+medicare_bans <- df_medicare_bans |>
   select(name, value_fmt) |>
   deframe()
 
-
-#ban years
-enrollment_years <- df_enrollment |>
-  filter(is_latest) |>
-  distinct(area, period_type, data_year) |>
-  mutate(
-    area = area |>
-      str_extract("Medic(are|aid)") |>
-      tolower()
-  ) |>
-  unite(period, c(period_type, data_year), sep = " ") |>
+medicare_bans_years <- df_medicare_bans |>
+  select(name, period) |>
   deframe()
+
 
 #Orig v MA trend
 df_medicare_trend <- df_ff |>
@@ -322,7 +347,7 @@ df_medicare_trend <- df_ff |>
     sub_category %in%
       c("Original Medicare Enrollment", "MA & Other Health Plan Enrollment")
   ) |>
-  select(sub_category, data_year, value) |>
+  select(sub_category, data_year, value, is_latest, source_origin) |>
   mutate(
     sub_category = sub_category |>
       str_extract("MA|Orig") |>
@@ -373,220 +398,25 @@ df_medicare_trend <- df_medicare_trend |>
   ) |>
   ungroup()
 
-
-#disagg groups
-subpop_medicare <- c("Aged", "Disabled")
-subpop_medicaid <- c("Children", "Medicaid Expansion Adults", "Dual Eligible")
-
-#diaggregate trends
-df_disagg_trend <- df_ff |>
-  filter(
-    topic == "Enrollment",
-    (area == "Medicare" & sub_category %in% subpop_medicare) |
-      (area == "Medicaid & CHIP" & sub_category %in% subpop_medicaid)
-  ) |>
-  select(area, metric, sub_category, period_type, data_year, value) |>
+#restructure data for ribbon fill on medicare trends
+df_medicare_ribbon <- df_medicare_trend |>
+  select(data_year, sub_category, value) |>
+  pivot_wider(names_from = sub_category, values_from = value) |>
   mutate(
-    fill_color = recode_values(
-      sub_category,
-      "Children" ~ ff_colors$base[["plum"]],
-      "Dual Eligible" ~ ff_colors$scales$teal[["200"]],
-      "Medicaid Expansion Adults" ~ ff_colors$scales$teal[["900"]],
-      "Aged" ~ ff_colors$scales$cobolt[["900"]],
-      "Disabled" ~ ff_colors$scales$cobolt[["200"]],
-      default = ff_colors$scales$charcoal[['200']]
-    )
+    ymin = pmin(ma, orig),
+    ymax = pmax(ma, orig)
   ) |>
-  group_by(area, sub_category) |>
-  mutate(
-    val_pt = case_when(
-      data_year == min(data_year) | data_year == max(data_year) ~ value
-    ),
-    lab_val = case_when(
-      data_year %in% c(min(data_year), max(data_year)) ~ label_number(
-        1,
-        scale_cut = cut_short_scale()
-      )(value)
-    )
-  ) |>
-  ungroup()
+  select(-c(ma, orig))
 
-#gather sources for footnote
-v_enrollment_sources <- df_ff |>
-  filter(
-    topic %in% c("Enrollment"),
-    is_latest == TRUE
-  ) |>
-  add_row(source_origin = "CMS/Office of Enterprise Data & Analytics") |>
-  distinct(source_origin) |>
-  mutate(
-    source_origin = str_remove(
-      source_origin,
-      "Office of Enterprise Data & Analytics/"
-    )
-  ) |>
-  pull() |>
-  sort() |>
-  paste0(collapse = ", ")
+#clean up labeling for years in plot
+plot_years <- unique(df_medicare_trend$data_year)
 
-v_enrollment_footnote <- str_glue(
-  "CMS Fast Facts {format(max(df_ff$release_date, na.rm = TRUE), '%B %Y')} Release ",
-  "&bull; Data sources: {v_enrollment_sources}"
+trend_year_labels <- case_when(
+  plot_years == min(plot_years) ~ as.character(plot_years),
+  plot_years %% 2 == 0 ~ paste0("'", str_sub(plot_years, -2)),
+  plot_years == max(plot_years) ~ paste0("'", str_sub(plot_years, -2)),
+  TRUE ~ ""
 )
-
-
-#bundle tab data points/frames
-enrollment <- list(
-  bans = enrollment_bans,
-  years = enrollment_years,
-  # df_medicare_util = df_medicare_util,
-  # df_medicaid_exp = df_medicaid_exp,
-  df_medicare_trend = df_medicare_trend,
-  df_disagg_trend = df_disagg_trend,
-  footnote = v_enrollment_footnote
-)
-
-# export
-write_rds(enrollment, "Dataout/enrollment.rds")
-
-
-# UTILIZATION TAB --------------------------------------------------------
-
-#extract numbers for BAN in tab
-df_utilization_bans <- df_ff |>
-  filter(
-    topic == "Utilization",
-    category %in% c("Total (A and/or B)", "Part D"),
-    sub_category == "Total",
-    is_latest == TRUE,
-    metric %in% c("persons_served", "payments")
-  ) |>
-  mutate(
-    category = ifelse(
-      category == "Total (A and/or B)",
-      "Medicare Total",
-      category
-    )
-  ) |>
-  unite(period, c(period_type, data_year), sep = " ") |>
-  select(category, metric, period, value) |>
-  mutate(
-    value = ifelse(
-      metric == "payments",
-      label_number(1, prefix = "$", scale_cut = cut_short_scale())(value),
-      label_number(1, scale_cut = cut_short_scale())(value)
-    )
-  ) |>
-  unite(category, c(category, metric))
-
-df_medicaid_exp_ban <- df_ff |>
-  filter(
-    topic == "Expenditures",
-    category == "Payments (by Selected Type of Service)",
-    is_latest
-  ) |>
-  unite(period, c(period_type, data_year), sep = " ") |>
-  count(area, period, wt = value, name = "value") |>
-  rename(category = area) |>
-  mutate(
-    value = label_number(1, prefix = "$", scale_cut = cut_short_scale())(value)
-  )
-
-
-df_utilization_bans <- df_utilization_bans |>
-  bind_rows(df_medicaid_exp_ban) |>
-  mutate(
-    category = category |>
-      str_replace_all(" ", "_") |>
-      str_remove("&_") |>
-      tolower()
-  )
-
-utilization_bans <- df_utilization_bans |>
-  select(-period) |>
-  deframe()
-
-utilization_years <- df_utilization_bans |>
-  select(-value) |>
-  deframe()
-
-
-#medicare utilization
-df_medicare_util <- df_ff |>
-  filter(
-    topic == "Utilization",
-    category != "Part D",
-    sub_category != "Total",
-    is_latest == TRUE
-  )
-
-#use deduplicated HHA values (instead of Part A and B shown in FF)
-df_medicare_util <- df_medicare_util |>
-  filter_out(
-    category %in% c("Part A", "Part B"),
-    sub_category == "Home Health Agency"
-  )
-
-#setup formatting for viz
-df_medicare_util <- df_medicare_util |>
-  mutate(
-    lab_exp = case_when(
-      metric == "payments" ~ label_number(
-        1,
-        prefix = "$",
-        scale_cut = cut_short_scale()
-      )(value)
-    ),
-    lab_ben = case_when(
-      metric == "persons_served" ~ str_glue(
-        "{sub_category} ",
-        "{label_number(1, scale_cut =  cut_short_scale())(value)}"
-      )
-    ),
-    lab_pos = ifelse(metric == "persons_served", -1, 1.5)
-  )
-
-df_medicare_util <- df_medicare_util |>
-  select(category, sub_category, metric, data_year, value) |>
-  pivot_wider(
-    names_from = metric
-  ) |>
-  mutate(
-    fill_shape = recode_values(
-      category,
-      "Part A" ~ 21L,
-      "Part B" ~ 23L,
-      default = 22L,
-    )
-  )
-
-#pull HHA year to add to caption if needed
-v_hha_yr <- df_medicare_util |>
-  filter(sub_category == "Home Health Agency") |>
-  pull(data_year)
-
-#add caption if HHA is a different year than Fast Facts
-v_hha_caption <- ifelse(
-  length(unique(df_medicare_util$data_year)) > 1,
-  str_glue("Note: Values for Home Health Agency are for CY {v_hha_yr}"),
-  NULL
-)
-
-#Medicaid & CHIP expenditures
-df_medicaid_exp <- df_ff |>
-  filter(
-    topic == "Expenditures",
-    category == "Payments (by Selected Type of Service)",
-    is_latest
-  ) |>
-  select(metric, category, sub_category, data_year, value) |>
-  mutate(
-    sub_category = str_replace(sub_category, "Laboratory", "Lab"),
-    sub_category = str_replace(sub_category, "and", "&"),
-    value_fmt = label_number(1, prefix = "$", scale_cut = cut_short_scale())(
-      value
-    )
-  )
 
 #part D
 df_part_d <- df_ff |>
@@ -632,46 +462,391 @@ df_part_d <- df_part_d |>
     value,
     end_point,
     point_value_lab,
-    lab_offset
+    lab_offset,
+    is_latest,
+    source_origin
   )
 
+#breakout part D for utilization
+df_part_d_util <- df_part_d |>
+  filter(group == "Utilization")
 
-#gather sources for footnote
-v_utilization_sources <- df_ff |>
+#breakout part D for exp
+df_part_d_exp <- df_part_d |>
+  filter(group == "Expenditures")
+
+#disagg groups
+subpop_medicare <- c("Aged", "Disabled")
+
+#diaggregate trends
+df_medicare_disagg_trend <- df_ff |>
   filter(
-    topic %in% c("Expenditures", "Utilization"),
-    is_latest == TRUE
+    topic == "Enrollment",
+    (area == "Medicare" & sub_category %in% subpop_medicare)
   ) |>
-  distinct(source_origin) |>
+  select(
+    area,
+    metric,
+    sub_category,
+    period_type,
+    data_year,
+    value,
+    is_latest,
+    source_origin
+  ) |>
   mutate(
-    source_origin = str_remove(
-      source_origin,
-      "Office of Enterprise Data & Analytics/"
+    fill_color = recode_values(
+      sub_category,
+      "Children" ~ ff_colors$base[["plum"]],
+      "Dual Eligible" ~ ff_colors$scales$teal[["200"]],
+      "Medicaid Expansion Adults" ~ ff_colors$scales$teal[["900"]],
+      "Aged" ~ ff_colors$scales$cobolt[["900"]],
+      "Disabled" ~ ff_colors$scales$cobolt[["200"]],
+      default = ff_colors$scales$charcoal[['200']]
+    ),
+    data_year = as.integer(data_year)
+  ) |>
+  group_by(area, sub_category) |>
+  mutate(
+    val_pt = case_when(
+      data_year == min(data_year) | data_year == max(data_year) ~ value
+    ),
+    lab_val = case_when(
+      data_year %in% c(min(data_year), max(data_year)) ~ label_number(
+        1,
+        scale_cut = cut_short_scale()
+      )(value)
     )
   ) |>
-  pull() |>
-  sort() |>
-  paste0(collapse = ", ")
+  ungroup()
 
-v_enrollment_footnote <- str_glue(
-  "CMS Fast Facts {format(max(df_ff$release_date, na.rm = TRUE), '%B %Y')} Release ",
-  "&bull; Data sources: {v_utilization_sources}"
+
+#medicare utilization
+df_medicare_util <- df_ff |>
+  filter(
+    topic == "Utilization",
+    category != "Part D",
+    sub_category != "Total",
+    is_latest == TRUE
+  )
+
+#use deduplicated HHA values (instead of Part A and B shown in FF)
+df_medicare_util <- df_medicare_util |>
+  filter_out(
+    category %in% c("Part A", "Part B"),
+    sub_category == "Home Health Agency"
+  )
+
+#setup formatting for viz
+df_medicare_util <- df_medicare_util |>
+  mutate(
+    lab_exp = case_when(
+      metric == "payments" ~ label_number(
+        1,
+        prefix = "$",
+        scale_cut = cut_short_scale()
+      )(value)
+    ),
+    lab_ben = case_when(
+      metric == "persons_served" ~ str_glue(
+        "{sub_category} ",
+        "{label_number(1, scale_cut =  cut_short_scale())(value)}"
+      )
+    ),
+    lab_pos = ifelse(metric == "persons_served", -1, 1.5)
+  )
+
+df_medicare_util <- df_medicare_util |>
+  select(
+    category,
+    sub_category,
+    metric,
+    data_year,
+    value,
+    is_latest,
+    source_origin
+  ) |>
+  pivot_wider(
+    names_from = metric
+  ) |>
+  mutate(
+    fill_shape = recode_values(
+      category,
+      "Part A" ~ 21L,
+      "Part B" ~ 23L,
+      default = 22L,
+    )
+  )
+
+#pull HHA year to add to caption if needed
+v_hha_yr <- df_medicare_util |>
+  filter(sub_category == "Home Health Agency") |>
+  pull(data_year)
+
+#add caption if HHA is a different year than Fast Facts
+v_hha_caption <- ifelse(
+  length(unique(df_medicare_util$data_year)) > 1,
+  str_glue("Note: Values for Home Health Agency are for CY {v_hha_yr}"),
+  NULL
 )
 
+#gather sources for footnote
+v_medicare_sources <-
+  list(
+    df_medicare_bans,
+    df_medicare_trend,
+    df_part_d,
+    df_medicare_disagg_trend,
+    df_medicare_util
+  ) %>%
+  map(
+    ~ .x |>
+      # filter(is_latest) |>
+      select(source_origin)
+  ) %>%
+  list_rbind() |>
+  distinct(source_origin) %>%
+  separate_longer_delim(source_origin, ", ") |>
+  mutate(
+    source_origin = source_origin |>
+      str_remove("Office of Enterprise Data & Analytics/") |>
+      str_remove("\\.$") |>
+      str_remove("^ ") |>
+      str_replace("CMS ", "CMS/")
+  ) |>
+  distinct(source_origin) |>
+  filter_out(
+    source_origin %in%
+      c(
+        "Centers for Medicare & Medicaid Services",
+        "Office of Enterprise Data and Analytics"
+      )
+  ) |>
+  arrange(source_origin) |>
+  pull(source_origin) |>
+  paste0(collapse = ", ")
+
+v_medicare_footnote <- str_glue(
+  "CMS Fast Facts {format(max(df_ff$release_date, na.rm = TRUE), '%B %Y')} Release ",
+  "&bull; Data sources: {v_medicare_sources}"
+)
 
 #bundle tab data points/frames
-utilization <- list(
-  bans = utilization_bans,
-  years = utilization_years,
+medicare <- list(
+  bans = medicare_bans,
+  years = medicare_bans_years,
+  df_medicare_trend = df_medicare_trend,
+  df_medicare_ribbon = df_medicare_ribbon,
+  trend_year_labels = trend_year_labels,
+  df_part_d_util = df_part_d_util,
+  df_part_d_exp = df_part_d_exp,
+  df_medicare_disagg_trend = df_medicare_disagg_trend,
   df_medicare_util = df_medicare_util,
   v_hha_caption = v_hha_caption,
-  df_medicaid_exp = df_medicaid_exp,
-  df_part_d = df_part_d,
-  footnote = v_enrollment_footnote
+  footnote = v_medicare_footnote
 )
 
 # export
-write_rds(utilization, "Dataout/utilization.rds")
+write_rds(medicare, "Dataout/medicare.rds")
+
+
+# MEDICAID TAB -----------------------------------------------------------
+
+#extract numbers for BAN in tab
+df_medicaid_enrollment <- df_ff |>
+  filter(
+    topic == "Enrollment",
+    category == "Medicaid & CHIP",
+    sub_category == "Total",
+    is_latest == TRUE
+  ) |>
+  mutate(
+    name = "medicaid_enrollment",
+    value_fmt = label_number(1, scale_cut = cut_short_scale())(value)
+  ) |>
+  unite(period, c(period_type, data_year), sep = " ") |>
+  select(name, period, value, value_fmt, is_latest, source_origin)
+
+df_medicaid_exp <- df_ff |>
+  filter(
+    topic == "Expenditures",
+    category == "Payments (by Selected Type of Service)",
+    is_latest == TRUE
+  ) |>
+  unite(period, c(period_type, data_year), sep = " ") |>
+  mutate(name = "medicaid_payments") |>
+  count(name, period, is_latest, source_origin, wt = value, name = "value") |>
+  mutate(
+    value_fmt = label_number(1, prefix = "$", scale_cut = cut_short_scale())(
+      value
+    )
+  )
+
+df_medicaid_bans <- df_medicaid_enrollment |>
+  bind_rows(df_medicaid_exp)
+
+medicaid_bans <- df_medicaid_bans |>
+  select(name, value_fmt) |>
+  deframe()
+
+medicaid_bans_years <- df_medicaid_bans |>
+  select(name, period) |>
+  deframe()
+
+#Medicaid & CHIP expenditures by bucket
+df_medicaid_exp_sub <- df_ff |>
+  filter(
+    topic == "Expenditures",
+    category == "Payments (by Selected Type of Service)",
+    is_latest
+  ) |>
+  select(
+    metric,
+    category,
+    sub_category,
+    data_year,
+    value,
+    is_latest,
+    source_origin
+  ) |>
+  mutate(
+    sub_category = str_replace(sub_category, "Laboratory", "Lab"),
+    sub_category = str_replace(sub_category, "and", "&"),
+    value_fmt = label_number(1, prefix = "$", scale_cut = cut_short_scale())(
+      value
+    )
+  )
+
+#medicaid total trend
+df_medicaid_trend <- df_ff |>
+  filter(
+    topic == "Enrollment",
+    category == "Medicaid & CHIP",
+    sub_category == "Total",
+  ) |>
+  select(
+    area,
+    metric,
+    sub_category,
+    period_type,
+    data_year,
+    value,
+    is_latest,
+    source_origin
+  ) |>
+  mutate(fill_color = ff_colors$base[["teal"]]) |>
+  group_by(area, sub_category) |>
+  mutate(
+    val_pt = case_when(
+      data_year %in% range(data_year) ~ value
+    ),
+    lab_val = case_when(
+      data_year %in% range(data_year) ~ label_number(
+        1,
+        scale_cut = cut_short_scale()
+      )(value)
+    )
+  ) |>
+  ungroup()
+
+#disagg groups
+subpop_medicaid <- c("Children", "Medicaid Expansion Adults", "Dual Eligible")
+
+#diaggregate trends
+df_medicaid_disagg_trend <- df_ff |>
+  filter(
+    area == "Medicaid & CHIP",
+    sub_category %in% subpop_medicaid
+  ) |>
+  select(
+    area,
+    metric,
+    sub_category,
+    period_type,
+    data_year,
+    value,
+    is_latest,
+    source_origin
+  ) |>
+  mutate(
+    fill_color = recode_values(
+      sub_category,
+      "Children" ~ ff_colors$base[["plum"]],
+      "Dual Eligible" ~ ff_colors$scales$teal[["200"]],
+      "Medicaid Expansion Adults" ~ ff_colors$scales$teal[["900"]],
+      "Aged" ~ ff_colors$scales$cobolt[["900"]],
+      "Disabled" ~ ff_colors$scales$cobolt[["200"]],
+      default = ff_colors$scales$charcoal[['200']]
+    ),
+    data_year = as.integer(data_year)
+  ) |>
+  group_by(area, sub_category) |>
+  mutate(
+    val_pt = case_when(
+      data_year == min(data_year) | data_year == max(data_year) ~ value
+    ),
+    lab_val = case_when(
+      data_year %in% c(min(data_year), max(data_year)) ~ label_number(
+        1,
+        scale_cut = cut_short_scale()
+      )(value)
+    )
+  ) |>
+  ungroup()
+
+#gather sources for footnote
+v_medicaid_sources <-
+  list(
+    df_medicaid_bans,
+    df_medicaid_exp_sub,
+    df_medicaid_trend,
+    df_medicaid_disagg_trend
+  ) %>%
+  map(
+    ~ .x |>
+      # filter(is_latest) |>
+      select(source_origin)
+  ) %>%
+  list_rbind() |>
+  add_row(source_origin = "CMS/Office of Enterprise Data & Analytics") |>
+  distinct(source_origin) %>%
+  separate_longer_delim(source_origin, ", ") |>
+  mutate(
+    source_origin = source_origin |>
+      str_remove("Office of Enterprise Data & Analytics/") |>
+      str_remove("\\.$") |>
+      str_replace("CMS ", "CMS/")
+  ) |>
+  filter_out(
+    source_origin %in%
+      c(
+        "Centers for Medicare & Medicaid Services",
+        "Office of Enterprise Data and Analytics"
+      )
+  ) |>
+  arrange(source_origin) |>
+  pull(source_origin) |>
+  paste0(collapse = ", ")
+
+v_medicaid_footnote <- str_glue(
+  "CMS Fast Facts {format(max(df_ff$release_date, na.rm = TRUE), '%B %Y')} Release ",
+  "&bull; Data sources: {v_medicaid_sources}"
+)
+
+#bundle tab data points/frames
+medicaid <- list(
+  bans = medicaid_bans,
+  years = medicaid_bans_years,
+  df_medicaid_bans = df_medicaid_bans,
+  df_medicaid_exp_sub = df_medicaid_exp_sub,
+  df_medicaid_trend = df_medicaid_trend,
+  df_medicaid_disagg_trend = df_medicaid_disagg_trend,
+  footnote = v_medicare_footnote
+)
+
+# export
+write_rds(medicaid, "Dataout/medicaid.rds")
+
 
 # COST SHARING TAB -------------------------------------------------------
 
