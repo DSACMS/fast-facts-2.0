@@ -710,7 +710,6 @@ medicare[["df_medicare_util"]] |>
 :::
 
 
-
 # Medicare Cost Sharing
 
 ## Row {height="95%"}
@@ -1342,7 +1341,7 @@ providers[["df_hospital_subset"]] |>
 
 ::: {.card}
 
-# Cost Sharing
+# Medicare Cost Sharing
 
   - The inpatient hospital deductible applies per benefit period.  
   - For Part D, the initial coverage limit was eliminated in 2025. More information can be found [here](https://www.cms.gov/files/document/final-cy-2025-part-d-redesign-program-instructions.pdf)
