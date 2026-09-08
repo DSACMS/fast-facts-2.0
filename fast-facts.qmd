@@ -1134,14 +1134,14 @@ providers[["df_hospital_subset"]] |>
 
 ## Row {height="20%"}
 
-:::{.valuebox .text-white label = "ban_medicaid" icon="people-fill" color="#00A99D"}
+:::{.valuebox .text-white label = "ban_medicaid" icon="people-fill" color="#009F9D"}
 Medicaid & CHIP Beneficiaries <br> `r medicaid$years[["medicaid_enrollment"]] |> str_sub(start = -4)`
  
 `r medicaid$bans[["medicaid_enrollment"]]`
 
 :::
 
-:::{.valuebox .text-white label = "ban_medicaid_exp" icon="people-fill" color="#00A99D"}
+:::{.valuebox .text-white label = "ban_medicaid_exp" icon="people-fill" color="#009F9D"}
 Medicaid & CHIP Expenditures <br> `r medicaid$year[["medicaid_payments"]]`
 
 `r medicaid$bans[["medicaid_payments"]]`
