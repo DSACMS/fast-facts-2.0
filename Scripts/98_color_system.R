@@ -8,7 +8,7 @@
 
 # ── Core Program Colors ──────────────────────────────────────────────────---
 ff_cobolt <- "#0071BC"
-ff_teal <- "#00A99D"
+ff_teal <- "#00A69A"
 ff_plum <- "#7B4F9E"
 
 # ── Extended Categorical Colors ──────────────────────────────────────────────
@@ -25,7 +25,7 @@ ff_warmgray <- "#9B9B9B"
 teal_scale <- c(
   "100" = "#B3E8E5",
   "200" = "#59CEC8",
-  "500" = "#00A99D",
+  "500" = "#00A69A",
   "700" = "#007F75",
   "900" = "#00524C"
 )
@@ -108,7 +108,7 @@ full_colors <- list(
   # Base colors (named vector for quick categorical use)
   base = c(
     azure = "#0071BC",
-    teal = "#00A99D",
+    teal = "#00A69A",
     plum = "#7B4F9E",
     saffron = "#F7A11A",
     coral = "#E05C3A",
