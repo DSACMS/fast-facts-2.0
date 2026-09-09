@@ -370,14 +370,14 @@ Total Medicare Beneficiaries <br> `r medicare$years[["medicare_total_enrollment"
 
 :::
 
-:::{.valuebox .text-white label = "ban_medicare_util" icon="heart-fill" color="#0071BC"}
+:::{.valuebox .text-white label = "ban_medicare_util" icon="heart-fill" color="#3B96D1"}
 Original Medicare Persons Served | `r medicare$year[["medicare_total_persons_served"]]`
 
 `r medicare$bans[["medicare_total_persons_served"]]`
 
 :::
 
-:::{.valuebox .text-white label = "ban_medicare_util" icon="heart-fill" color="#0071BC"}
+:::{.valuebox .text-white label = "ban_medicare_util" icon="heart-fill" color="#3B96D1"}
 Original Medicare Payments | `r medicare$year[["medicare_total_payments"]]`
 
 `r medicare$bans[["medicare_total_payments"]]`
@@ -427,7 +427,7 @@ medicare[["df_medicare_trend"]]  |>
     data = medicare[["df_medicare_ribbon"]],
     aes(x = data_year, ymin = ymin, ymax = ymax),
     inherit.aes = FALSE,
-    fill = ff_colors$base["warmgray"], alpha = 0.3
+    fill = ff_colors$base["warmgray"], alpha = 0.2
   ) +
   geom_line(
     linetype = 'dotted',
@@ -438,7 +438,8 @@ medicare[["df_medicare_trend"]]  |>
     linewidth = 3
   ) +
   geom_text(
-    aes(y = lab_pos, label = end_labs), 
+    aes(y = lab_pos, label = end_labs),  
+    color = ff_colors$elements[["annotation"]],
     hjust = .1, na.rm = TRUE,
     family = "Source Sans 3"
   ) + 
@@ -450,7 +451,7 @@ medicare[["df_medicare_trend"]]  |>
   geom_point(
     aes(y = end_pt), na.rm = TRUE,
     shape = 21, size = 8, color = "white",
-    stroke = 2 
+    stroke = 5 
   ) +
   scale_y_continuous(
     label = label_number(scale_cut = cut_short_scale()),
@@ -499,7 +500,7 @@ medicare[["df_medicare_trend"]]  |>
 
 medicare[["df_medicare_util"]] |>
   ggplot(aes(persons_served, payments, fill = category)) +
-  geom_point(aes(shape = category), color = "white", size = 20, alpha = .8) +
+  geom_point(aes(shape = category), color = "white", size = 20, alpha = 1) +
   geom_text_repel(
     aes(label = sub_category),
     point.padding = 30,
@@ -513,9 +514,9 @@ medicare[["df_medicare_util"]] |>
   ) +
   scale_fill_manual(
     values = c(
-      ff_colors$scales$cobolt[["200"]],
+      ff_colors$scales$cobolt[["300"]],
       ff_colors$scales$cobolt[["700"]],
-      ff_colors$scales$cobolt[["900"]]
+      ff_colors$scales$cobolt[["500"]]
     )
   ) +
   scale_shape_manual(values = c(21, 23, 22)) +
@@ -552,10 +553,10 @@ medicare[["df_part_d_util"]] |>
   ggplot(aes(x = data_year, y = value, group = sub_category)) +
   geom_blank(aes(y = value * 1.2)) +
   geom_blank(aes(y = value * .8)) +
-  geom_line(color = ff_colors$scales$cobolt[["700"]], linewidth = 2) +
+  geom_line(color = ff_colors$scales$cobolt[["700"]], linewidth = 3.5) +
   geom_point(
     aes(y = end_point), na.rm = TRUE, 
-    color = ff_colors$scales$cobolt[["700"]], size = 8
+    color = ff_colors$scales$cobolt[["700"]], size = 10
     ) +
   geom_text(aes(label = point_value_lab, hjust = lab_offset), size = 20, na.rm = TRUE) + 
   facet_grid(sub_category ~ .,  scales = "free_y", switch = "y") +
@@ -669,10 +670,10 @@ medicare[["df_part_d_exp"]] |>
   ggplot(aes(x = data_year, y = value, group = sub_category)) +
   geom_blank(aes(y = value * 1.2)) +
   geom_blank(aes(y = value * .8)) +
-  geom_line(color = ff_colors$scales$cobolt[["700"]], linewidth = 2) +
+  geom_line(color = ff_colors$scales$cobolt[["700"]], linewidth = 3.5) +
   geom_point(
     aes(y = end_point), na.rm = TRUE, 
-    color = ff_colors$scales$cobolt[["700"]], size = 8
+    color = ff_colors$scales$cobolt[["700"]], size = 10
     ) +
   geom_text(aes(label = point_value_lab, hjust = lab_offset), size = 20, na.rm = TRUE) + 
   facet_grid(sub_category ~ .,  scales = "free_y", switch = "y") +
@@ -1213,7 +1214,7 @@ medicaid[["df_medicaid_trend"]] |>
 #| title: "Medicaid & CHIP Sub-Populations Trends"
 #| out-width: 100%
 #| out-height: 100%
-#| fig-width: 15
+#| fig-width: 17
 #| fig-height: 5
 
 medicaid[["df_medicaid_disagg_trend"]] |> 
@@ -1258,7 +1259,7 @@ medicaid[["df_medicaid_disagg_trend"]] |>
     axis.ticks.x = element_line(color = "gray60"),
     axis.minor.ticks.x.bottom = element_line(color = "gray60"),
     panel.grid = element_blank(),
-    panel.spacing = unit(2.5, "lines")
+    panel.spacing = unit(5, "lines")
   )
 
 ```

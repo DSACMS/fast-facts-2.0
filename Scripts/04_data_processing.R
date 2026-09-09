@@ -382,8 +382,8 @@ df_medicare_trend <- df_medicare_trend |>
     ),
     fill_color = ifelse(
       sub_category == "orig",
-      ff_colors$scales$cobolt[["900"]],
-      ff_colors$scales$cobolt[["200"]]
+      ff_colors$scales$cobolt[["300"]],
+      ff_colors$scales$cobolt[["900"]]
     )
   )
 
@@ -501,7 +501,7 @@ df_medicare_disagg_trend <- df_ff |>
       "Dual Eligible" ~ ff_colors$scales$teal[["200"]],
       "Medicaid Expansion Adults" ~ ff_colors$scales$teal[["900"]],
       "Aged" ~ ff_colors$scales$cobolt[["900"]],
-      "Disabled" ~ ff_colors$scales$cobolt[["200"]],
+      "Disabled" ~ ff_colors$scales$cobolt[["300"]],
       default = ff_colors$scales$charcoal[['200']]
     ),
     data_year = as.integer(data_year)
