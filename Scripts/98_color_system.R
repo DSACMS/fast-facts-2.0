@@ -18,7 +18,7 @@ ff_green <- "#4A8C6F"
 ff_steel <- "#4A90C4"
 ff_gold <- "#F2C94C"
 ff_charcoal <- "#3D3D3D"
-ff_warmgray <- "#9B9B9B"
+ff_warmgray <- "#8A8A8A"
 
 # ── Tint & Shade Scales ───────────────────────────────────────────────────────
 
@@ -97,7 +97,7 @@ charcoal_scale <- c(
 warmgray_scale <- c(
   "100" = "#E8E8E8",
   "200" = "#C2C2C2",
-  "500" = "#9B9B9B",
+  "500" = "#8A8A8A",
   "700" = "#6E6E6E",
   "900" = "#3F3F3F"
 )
@@ -116,7 +116,7 @@ full_colors <- list(
     steel = "#4A90C4",
     gold = "#F2C94C",
     charcoal = "#3D3D3D",
-    warmgray = "#9B9B9B"
+    warmgray = "#8A8A8A"
   ),
 
   #chart elements
