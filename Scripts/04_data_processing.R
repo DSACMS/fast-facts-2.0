@@ -773,7 +773,7 @@ df_medicaid_disagg_trend <- df_ff |>
     fill_color = recode_values(
       sub_category,
       "Children" ~ ff_colors$base[["plum"]],
-      "Dual Eligible" ~ ff_colors$scales$teal[["200"]],
+      "Dual Eligible" ~ ff_colors$scales$teal[["700"]],
       "Medicaid Expansion Adults" ~ ff_colors$scales$teal[["900"]],
       "Aged" ~ ff_colors$scales$cobolt[["900"]],
       "Disabled" ~ ff_colors$scales$cobolt[["200"]],
