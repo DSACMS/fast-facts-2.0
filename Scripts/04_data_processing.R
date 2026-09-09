@@ -931,10 +931,10 @@ df_cs_trend <- df_cs_trend |>
       )(value)
     ),
     fill_color = case_when(
-      category == "Part A" ~ ff_colors$scales$cobolt[["200"]],
+      category == "Part A" ~ ff_colors$scales$cobolt[["300"]],
       category == "Part B" ~ ff_colors$scales$cobolt[["700"]],
       category == "Part D" ~ ff_colors$scales$cobolt[["900"]],
-      str_detect(sub_category, "Part A") ~ ff_colors$scales$cobolt[["200"]],
+      str_detect(sub_category, "Part A") ~ ff_colors$scales$cobolt[["300"]],
       str_detect(sub_category, "Part B") ~ ff_colors$scales$cobolt[["700"]],
     )
   ) |>
