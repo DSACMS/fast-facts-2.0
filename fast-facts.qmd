@@ -443,8 +443,9 @@ medicare[["df_medicare_trend"]]  |>
     hjust = .1, na.rm = TRUE,
     family = "Source Sans 3"
   ) + 
-  geom_text(
+  geom_label(
     aes(y = lab_cat_pos, label = lab_cat), 
+    color = "white",
     na.rm = TRUE, hjust = .3,
     family = "Source Sans 3 SemiBold"
   ) +
