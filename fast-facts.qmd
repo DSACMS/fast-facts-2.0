@@ -954,7 +954,7 @@ Medicare Non-Institutional Providers | `r providers$years[["Non-Institutional"]]
 
 :::
 
-:::{.valuebox .text-white label = "ban_Labs" icon="flask" color="#858585"}
+:::{.valuebox .text-white label = "ban_Labs" icon="flask" color="#8A8A8A"}
 Medicare Lab Providers <br> `r providers$years[["Lab"]]`
 
 `r providers$bans[["Lab"]]`
@@ -968,7 +968,7 @@ Medicare DMEPOS Providers <br> `r providers$years[["DMEPOS"]]`
 
 :::
 
-:::{.valuebox .text-white label = "ban_inst" icon="hospital" color="#59A8DC"}
+:::{.valuebox .text-white label = "ban_inst" icon="hospital" color="#3B96D1"}
 Medicare Institutional Providers <br> `r providers$years[["Institutional"]]`
 
 `r providers$bans[["Institutional"]]`

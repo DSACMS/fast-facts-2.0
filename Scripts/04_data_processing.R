@@ -1067,7 +1067,7 @@ df_provider <- df_ff |>
     fill_color = recode_values(
       provider_type,
       "Non-Institutional" ~ ff_colors$scales$cobolt[["700"]],
-      "Institutional" ~ ff_colors$scales$cobolt[["200"]],
+      "Institutional" ~ ff_colors$scales$cobolt[["300"]],
       "DMEPOS" ~ ff_colors$scales$cobolt[["500"]]
     ),
     fill_color = ifelse(
