@@ -1076,6 +1076,7 @@ df_provider <- df_ff |>
       fill_color
     ),
     category = category |>
+      str_remove("Certified ") |>
       fct_reorder(value) |>
       fct_relevel("All Other Providers")
   )
