@@ -4,7 +4,7 @@
 # REF ID:   4b4e2514
 # LICENSE:  MIT
 # DATE:     2026-03-20
-# UPDATED:  2026-09-01
+# UPDATED:  2026-09-16
 
 # DEPENDENCIES ------------------------------------------------------------
 
@@ -1046,7 +1046,7 @@ df_hospital_subset <- df_ff |>
     share = value / sum(value),
     value_fmt = label_number(1, scale_cut = cut_short_scale())(value),
     share_fmt = label_percent(1)(share),
-    fill_color = ff_colors$scales$saffron[["500"]]
+    fill_color = ff_colors$scales$plum[["500"]]
   )
 
 
@@ -1072,7 +1072,7 @@ df_provider <- df_ff |>
     ),
     fill_color = ifelse(
       category == "Hospitals",
-      ff_colors$scales$saffron[["500"]],
+      ff_colors$scales$plum[["500"]],
       fill_color
     ),
     category = category |>
