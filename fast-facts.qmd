@@ -985,8 +985,8 @@ Medicare Institutional Providers <br> `r providers$years[["Institutional"]]`
 #| title: Non-Institutional Provider Types
 #| out-width: 100%
 #| out-height: 100%
-#| fig-width: 24
-#| fig-height: 20
+#| fig-width: 14
+#| fig-height: 14
 
 providers[["df_provider_noninst"]] |>
   ggplot(aes(value, category, fill = fill_color)) +
@@ -996,7 +996,7 @@ providers[["df_provider_noninst"]] |>
     aes(label = value_fmt),
     family = "Source Sans 3",
     color = ff_colors$elements[["annotation"]],
-    size = 18,
+    # size = 18,
     hjust = -.1
   ) +
   scale_x_continuous(expand = c(.005, .005)) +
@@ -1014,7 +1014,7 @@ providers[["df_provider_noninst"]] |>
     axis.text.y =
       element_text(
         # color = ff_colors$elements[["axis"]],
-        size = 50
+        # size = 50
       ),
   )
 
@@ -1027,8 +1027,8 @@ providers[["df_provider_noninst"]] |>
 #| title: DMEPOS Provider Types
 #| out-width: 100%
 #| out-height: 100%
-#| fig-width: 24
-#| fig-height: 20
+#| fig-width: 14
+#| fig-height: 14
 
 providers[["df_providers_dmepos"]] |>
   ggplot(aes(value, category, fill = fill_color)) +
@@ -1037,7 +1037,7 @@ providers[["df_providers_dmepos"]] |>
   geom_text(
     aes(label = value_fmt),
     family = "Source Sans 3",
-    size = 18,
+    # size = 18,
     color = ff_colors$elements[["annotation"]],
     hjust = -.3
   ) +
@@ -1053,7 +1053,7 @@ providers[["df_providers_dmepos"]] |>
     panel.grid.minor = element_blank(),
     panel.grid.major.y = element_blank(),
     axis.text.x = element_blank(),
-    axis.text.y = element_text(size = 50)
+    # axis.text.y = element_text(size = 50)
   )
 ```
 
@@ -1066,7 +1066,7 @@ providers[["df_providers_dmepos"]] |>
 #| out-width: 100%
 #| out-height: 100%
 #| fig-width: 24
-#| fig-height: 10
+#| fig-height: 14
 
 providers[["df_provider_inst"]] |>
   ggplot(aes(value, category, fill = fill_color)) +
