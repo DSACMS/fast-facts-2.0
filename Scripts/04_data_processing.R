@@ -4,7 +4,7 @@
 # REF ID:   4b4e2514
 # LICENSE:  MIT
 # DATE:     2026-03-20
-# UPDATED:  2026-09-01
+# UPDATED:  2026-09-16
 
 # DEPENDENCIES ------------------------------------------------------------
 
@@ -382,8 +382,8 @@ df_medicare_trend <- df_medicare_trend |>
     ),
     fill_color = ifelse(
       sub_category == "orig",
-      ff_colors$scales$cobolt[["900"]],
-      ff_colors$scales$cobolt[["200"]]
+      ff_colors$scales$cobolt[["300"]],
+      ff_colors$scales$cobolt[["900"]]
     )
   )
 
@@ -501,7 +501,7 @@ df_medicare_disagg_trend <- df_ff |>
       "Dual Eligible" ~ ff_colors$scales$teal[["200"]],
       "Medicaid Expansion Adults" ~ ff_colors$scales$teal[["900"]],
       "Aged" ~ ff_colors$scales$cobolt[["900"]],
-      "Disabled" ~ ff_colors$scales$cobolt[["200"]],
+      "Disabled" ~ ff_colors$scales$cobolt[["300"]],
       default = ff_colors$scales$charcoal[['200']]
     ),
     data_year = as.integer(data_year)
@@ -773,7 +773,7 @@ df_medicaid_disagg_trend <- df_ff |>
     fill_color = recode_values(
       sub_category,
       "Children" ~ ff_colors$base[["plum"]],
-      "Dual Eligible" ~ ff_colors$scales$teal[["200"]],
+      "Dual Eligible" ~ ff_colors$scales$teal[["700"]],
       "Medicaid Expansion Adults" ~ ff_colors$scales$teal[["900"]],
       "Aged" ~ ff_colors$scales$cobolt[["900"]],
       "Disabled" ~ ff_colors$scales$cobolt[["200"]],
@@ -931,10 +931,10 @@ df_cs_trend <- df_cs_trend |>
       )(value)
     ),
     fill_color = case_when(
-      category == "Part A" ~ ff_colors$scales$cobolt[["200"]],
+      category == "Part A" ~ ff_colors$scales$cobolt[["300"]],
       category == "Part B" ~ ff_colors$scales$cobolt[["700"]],
       category == "Part D" ~ ff_colors$scales$cobolt[["900"]],
-      str_detect(sub_category, "Part A") ~ ff_colors$scales$cobolt[["200"]],
+      str_detect(sub_category, "Part A") ~ ff_colors$scales$cobolt[["300"]],
       str_detect(sub_category, "Part B") ~ ff_colors$scales$cobolt[["700"]],
     )
   ) |>
@@ -1046,7 +1046,7 @@ df_hospital_subset <- df_ff |>
     share = value / sum(value),
     value_fmt = label_number(1, scale_cut = cut_short_scale())(value),
     share_fmt = label_percent(1)(share),
-    fill_color = ff_colors$scales$saffron[["500"]]
+    fill_color = ff_colors$scales$plum[["500"]]
   )
 
 
@@ -1067,15 +1067,16 @@ df_provider <- df_ff |>
     fill_color = recode_values(
       provider_type,
       "Non-Institutional" ~ ff_colors$scales$cobolt[["700"]],
-      "Institutional" ~ ff_colors$scales$cobolt[["200"]],
+      "Institutional" ~ ff_colors$scales$cobolt[["300"]],
       "DMEPOS" ~ ff_colors$scales$cobolt[["500"]]
     ),
     fill_color = ifelse(
       category == "Hospitals",
-      ff_colors$scales$saffron[["500"]],
+      ff_colors$scales$plum[["500"]],
       fill_color
     ),
     category = category |>
+      str_remove("Certified ") |>
       fct_reorder(value) |>
       fct_relevel("All Other Providers")
   )

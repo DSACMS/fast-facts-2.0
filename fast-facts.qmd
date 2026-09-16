@@ -370,14 +370,14 @@ Total Medicare Beneficiaries <br> `r medicare$years[["medicare_total_enrollment"
 
 :::
 
-:::{.valuebox .text-white label = "ban_medicare_util" icon="heart-fill" color="#0071BC"}
+:::{.valuebox .text-white label = "ban_medicare_util" icon="heart-fill" color="#3B96D1"}
 Original Medicare Persons Served | `r medicare$year[["medicare_total_persons_served"]]`
 
 `r medicare$bans[["medicare_total_persons_served"]]`
 
 :::
 
-:::{.valuebox .text-white label = "ban_medicare_util" icon="heart-fill" color="#0071BC"}
+:::{.valuebox .text-white label = "ban_medicare_util" icon="heart-fill" color="#3B96D1"}
 Original Medicare Payments | `r medicare$year[["medicare_total_payments"]]`
 
 `r medicare$bans[["medicare_total_payments"]]`
@@ -427,7 +427,7 @@ medicare[["df_medicare_trend"]]  |>
     data = medicare[["df_medicare_ribbon"]],
     aes(x = data_year, ymin = ymin, ymax = ymax),
     inherit.aes = FALSE,
-    fill = ff_colors$base["warmgray"], alpha = 0.3
+    fill = ff_colors$base["warmgray"], alpha = 0.2
   ) +
   geom_line(
     linetype = 'dotted',
@@ -438,19 +438,21 @@ medicare[["df_medicare_trend"]]  |>
     linewidth = 3
   ) +
   geom_text(
-    aes(y = lab_pos, label = end_labs), 
+    aes(y = lab_pos, label = end_labs),  
+    color = ff_colors$elements[["annotation"]],
     hjust = .1, na.rm = TRUE,
     family = "Source Sans 3"
   ) + 
-  geom_text(
+  geom_label(
     aes(y = lab_cat_pos, label = lab_cat), 
+    color = "white",
     na.rm = TRUE, hjust = .3,
     family = "Source Sans 3 SemiBold"
   ) +
   geom_point(
     aes(y = end_pt), na.rm = TRUE,
     shape = 21, size = 8, color = "white",
-    stroke = 2 
+    stroke = 5 
   ) +
   scale_y_continuous(
     label = label_number(scale_cut = cut_short_scale()),
@@ -499,7 +501,7 @@ medicare[["df_medicare_trend"]]  |>
 
 medicare[["df_medicare_util"]] |>
   ggplot(aes(persons_served, payments, fill = category)) +
-  geom_point(aes(shape = category), color = "white", size = 20, alpha = .8) +
+  geom_point(aes(shape = category), color = "white", size = 20, alpha = 1) +
   geom_text_repel(
     aes(label = sub_category),
     point.padding = 30,
@@ -513,9 +515,9 @@ medicare[["df_medicare_util"]] |>
   ) +
   scale_fill_manual(
     values = c(
-      ff_colors$scales$cobolt[["200"]],
+      ff_colors$scales$cobolt[["300"]],
       ff_colors$scales$cobolt[["700"]],
-      ff_colors$scales$cobolt[["900"]]
+      ff_colors$scales$cobolt[["500"]]
     )
   ) +
   scale_shape_manual(values = c(21, 23, 22)) +
@@ -552,10 +554,10 @@ medicare[["df_part_d_util"]] |>
   ggplot(aes(x = data_year, y = value, group = sub_category)) +
   geom_blank(aes(y = value * 1.2)) +
   geom_blank(aes(y = value * .8)) +
-  geom_line(color = ff_colors$scales$cobolt[["700"]], linewidth = 2) +
+  geom_line(color = ff_colors$scales$cobolt[["700"]], linewidth = 3.5) +
   geom_point(
     aes(y = end_point), na.rm = TRUE, 
-    color = ff_colors$scales$cobolt[["700"]], size = 8
+    color = ff_colors$scales$cobolt[["700"]], size = 10
     ) +
   geom_text(aes(label = point_value_lab, hjust = lab_offset), size = 20, na.rm = TRUE) + 
   facet_grid(sub_category ~ .,  scales = "free_y", switch = "y") +
@@ -669,10 +671,10 @@ medicare[["df_part_d_exp"]] |>
   ggplot(aes(x = data_year, y = value, group = sub_category)) +
   geom_blank(aes(y = value * 1.2)) +
   geom_blank(aes(y = value * .8)) +
-  geom_line(color = ff_colors$scales$cobolt[["700"]], linewidth = 2) +
+  geom_line(color = ff_colors$scales$cobolt[["700"]], linewidth = 3.5) +
   geom_point(
     aes(y = end_point), na.rm = TRUE, 
-    color = ff_colors$scales$cobolt[["700"]], size = 8
+    color = ff_colors$scales$cobolt[["700"]], size = 10
     ) +
   geom_text(aes(label = point_value_lab, hjust = lab_offset), size = 20, na.rm = TRUE) + 
   facet_grid(sub_category ~ .,  scales = "free_y", switch = "y") +
@@ -749,8 +751,9 @@ cost_sharing[["df_cs_trend"]] |>
         unique(cost_sharing[["df_cs_trend"]]$data_year),
         na.rm = TRUE
       ),
-      expand = expansion(mult = c(0.2, 0.2))
+      expand = expansion(mult = c(0.1, 0.1))
   ) +
+  scale_y_continuous(expand = c(.001, .001)) +
   scale_fill_identity() + 
   scale_color_identity() + 
   coord_cartesian(clip = "off") +
@@ -761,11 +764,12 @@ cost_sharing[["df_cs_trend"]] |>
     strip.text =
       element_markdown(
         color = ff_colors$elements[["title"]],
-        face = "bold"
+        face = "bold",
+        hjust = 0
       ),
     axis.text.y = element_blank(),
     panel.grid = element_blank(),
-    panel.spacing = unit(2.5, "lines")
+    panel.spacing = unit(5, "lines")
   )
 
 ```
@@ -800,8 +804,9 @@ cost_sharing[["df_cs_trend"]] |>
         unique(cost_sharing[["df_cs_trend"]]$data_year),
         na.rm = TRUE
       ),
-      expand = expansion(mult = c(0.2, 0.2))
+      expand = expansion(mult = c(0.1, 0.1))
   ) +
+  scale_y_continuous(expand = c(.001, .001)) +
   scale_fill_identity() + 
   scale_color_identity() + 
   coord_cartesian(clip = "off") +
@@ -812,11 +817,12 @@ cost_sharing[["df_cs_trend"]] |>
     strip.text =
       element_markdown(
         color = ff_colors$elements[["title"]],
-        face = "bold"
+        face = "bold",
+        hjust = 0
       ),
     axis.text.y = element_blank(),
     panel.grid = element_blank(),
-    panel.spacing = unit(2.5, "lines")
+    panel.spacing = unit(5, "lines")
   )
 
 ```
@@ -853,8 +859,9 @@ cost_sharing[["df_cs_trend"]] |>
         unique(cost_sharing[["df_cs_trend"]]$data_year),
         na.rm = TRUE
       ),
-      expand = expansion(mult = c(0.2, 0.2))
+      expand = expansion(mult = c(0.1, 0.1))
   ) +
+  scale_y_continuous(expand = c(.001, .001)) +
   scale_fill_identity() + 
   scale_color_identity() + 
   coord_cartesian(clip = "off") +
@@ -865,11 +872,12 @@ cost_sharing[["df_cs_trend"]] |>
     strip.text =
       element_markdown(
         color = ff_colors$elements[["title"]],
-        face = "bold"
+        face = "bold",
+        hjust = 0
       ),
     axis.text.y = element_blank(),
     panel.grid = element_blank(),
-    panel.spacing = unit(2.5, "lines")
+    panel.spacing = unit(5, "lines")
   )
 
 ```
@@ -903,8 +911,9 @@ v_outofpocket <- cost_sharing[["df_cs_trend"]] |>
         unique(cost_sharing[["df_cs_trend"]]$data_year),
         na.rm = TRUE
       ),
-      expand = expansion(mult = c(0.2, 0.2))
+      expand = expansion(mult = c(0.1, 0.1))
   ) +
+  scale_y_continuous(expand = c(.001, .001)) +
   scale_fill_identity() + 
   scale_color_identity() + 
   coord_cartesian(clip = "off") +
@@ -915,11 +924,12 @@ v_outofpocket <- cost_sharing[["df_cs_trend"]] |>
     strip.text =
       element_markdown(
         color = ff_colors$elements[["title"]],
-        face = "bold"
+        face = "bold",
+        hjust = 0
       ),
     axis.text.y = element_blank(),
     panel.grid = element_blank(),
-    panel.spacing = unit(2.5, "lines")
+    panel.spacing = unit(5, "lines")
   )
 
 v_outofpocket + plot_spacer() + plot_spacer()
@@ -944,7 +954,7 @@ Medicare Non-Institutional Providers | `r providers$years[["Non-Institutional"]]
 
 :::
 
-:::{.valuebox .text-white label = "ban_Labs" icon="flask" color="#858585"}
+:::{.valuebox .text-white label = "ban_Labs" icon="flask" color="#8A8A8A"}
 Medicare Lab Providers <br> `r providers$years[["Lab"]]`
 
 `r providers$bans[["Lab"]]`
@@ -958,7 +968,7 @@ Medicare DMEPOS Providers <br> `r providers$years[["DMEPOS"]]`
 
 :::
 
-:::{.valuebox .text-white label = "ban_inst" icon="hospital" color="#59A8DC"}
+:::{.valuebox .text-white label = "ban_inst" icon="hospital" color="#3B96D1"}
 Medicare Institutional Providers <br> `r providers$years[["Institutional"]]`
 
 `r providers$bans[["Institutional"]]`
@@ -975,8 +985,8 @@ Medicare Institutional Providers <br> `r providers$years[["Institutional"]]`
 #| title: Non-Institutional Provider Types
 #| out-width: 100%
 #| out-height: 100%
-#| fig-width: 24
-#| fig-height: 20
+#| fig-width: 14
+#| fig-height: 14
 
 providers[["df_provider_noninst"]] |>
   ggplot(aes(value, category, fill = fill_color)) +
@@ -986,7 +996,7 @@ providers[["df_provider_noninst"]] |>
     aes(label = value_fmt),
     family = "Source Sans 3",
     color = ff_colors$elements[["annotation"]],
-    size = 18,
+    # size = 18,
     hjust = -.1
   ) +
   scale_x_continuous(expand = c(.005, .005)) +
@@ -1004,7 +1014,7 @@ providers[["df_provider_noninst"]] |>
     axis.text.y =
       element_text(
         # color = ff_colors$elements[["axis"]],
-        size = 50
+        # size = 50
       ),
   )
 
@@ -1017,8 +1027,8 @@ providers[["df_provider_noninst"]] |>
 #| title: DMEPOS Provider Types
 #| out-width: 100%
 #| out-height: 100%
-#| fig-width: 24
-#| fig-height: 20
+#| fig-width: 14
+#| fig-height: 14
 
 providers[["df_providers_dmepos"]] |>
   ggplot(aes(value, category, fill = fill_color)) +
@@ -1027,7 +1037,7 @@ providers[["df_providers_dmepos"]] |>
   geom_text(
     aes(label = value_fmt),
     family = "Source Sans 3",
-    size = 18,
+    # size = 18,
     color = ff_colors$elements[["annotation"]],
     hjust = -.3
   ) +
@@ -1043,7 +1053,7 @@ providers[["df_providers_dmepos"]] |>
     panel.grid.minor = element_blank(),
     panel.grid.major.y = element_blank(),
     axis.text.x = element_blank(),
-    axis.text.y = element_text(size = 50)
+    # axis.text.y = element_text(size = 50)
   )
 ```
 
@@ -1056,7 +1066,7 @@ providers[["df_providers_dmepos"]] |>
 #| out-width: 100%
 #| out-height: 100%
 #| fig-width: 24
-#| fig-height: 10
+#| fig-height: 14
 
 providers[["df_provider_inst"]] |>
   ggplot(aes(value, category, fill = fill_color)) +
@@ -1094,7 +1104,7 @@ providers[["df_provider_inst"]] |>
 #| out-width: 100%
 #| out-height: 100%
 #| fig-width: 24
-#| fig-height: 6
+#| fig-height: 8
 
 providers[["df_hospital_subset"]] |>
   ggplot(aes(value, fct_reorder(sub_category, value), fill = fill_color)) +
@@ -1104,7 +1114,7 @@ providers[["df_hospital_subset"]] |>
     aes(label = value_fmt),
     family = "Source Sans 3",
     color = ff_colors$elements[["annotation"]],
-    hjust = -.1
+    hjust = -.2
   ) +
   scale_x_continuous(expand = c(.005, .005)) +
   scale_fill_identity() +
@@ -1134,14 +1144,14 @@ providers[["df_hospital_subset"]] |>
 
 ## Row {height="20%"}
 
-:::{.valuebox .text-white label = "ban_medicaid" icon="people-fill" color="#00A99D"}
+:::{.valuebox .text-white label = "ban_medicaid" icon="people-fill" color="#009F9D"}
 Medicaid & CHIP Beneficiaries <br> `r medicaid$years[["medicaid_enrollment"]] |> str_sub(start = -4)`
  
 `r medicaid$bans[["medicaid_enrollment"]]`
 
 :::
 
-:::{.valuebox .text-white label = "ban_medicaid_exp" icon="people-fill" color="#00A99D"}
+:::{.valuebox .text-white label = "ban_medicaid_exp" icon="people-fill" color="#009F9D"}
 Medicaid & CHIP Expenditures <br> `r medicaid$year[["medicaid_payments"]]`
 
 `r medicaid$bans[["medicaid_payments"]]`
@@ -1213,7 +1223,7 @@ medicaid[["df_medicaid_trend"]] |>
 #| title: "Medicaid & CHIP Sub-Populations Trends"
 #| out-width: 100%
 #| out-height: 100%
-#| fig-width: 15
+#| fig-width: 17
 #| fig-height: 5
 
 medicaid[["df_medicaid_disagg_trend"]] |> 
@@ -1258,7 +1268,7 @@ medicaid[["df_medicaid_disagg_trend"]] |>
     axis.ticks.x = element_line(color = "gray60"),
     axis.minor.ticks.x.bottom = element_line(color = "gray60"),
     panel.grid = element_blank(),
-    panel.spacing = unit(2.5, "lines")
+    panel.spacing = unit(5, "lines")
   )
 
 ```

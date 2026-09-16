@@ -8,7 +8,7 @@
 
 # ── Core Program Colors ──────────────────────────────────────────────────---
 ff_cobolt <- "#0071BC"
-ff_teal <- "#00A99D"
+ff_teal <- "#009F9D"
 ff_plum <- "#7B4F9E"
 
 # ── Extended Categorical Colors ──────────────────────────────────────────────
@@ -18,14 +18,14 @@ ff_green <- "#4A8C6F"
 ff_steel <- "#4A90C4"
 ff_gold <- "#F2C94C"
 ff_charcoal <- "#3D3D3D"
-ff_warmgray <- "#9B9B9B"
+ff_warmgray <- "#8A8A8A"
 
 # ── Tint & Shade Scales ───────────────────────────────────────────────────────
 
 teal_scale <- c(
   "100" = "#B3E8E5",
   "200" = "#59CEC8",
-  "500" = "#00A99D",
+  "500" = "#009F9D",
   "700" = "#007F75",
   "900" = "#00524C"
 )
@@ -33,6 +33,7 @@ teal_scale <- c(
 cobolt_scale <- c(
   "100" = "#B3D6F0",
   "200" = "#59A8DC",
+  "300" = "#3B96D1",
   "500" = "#0071BC",
   "700" = "#00538C",
   "900" = "#003459"
@@ -97,7 +98,7 @@ charcoal_scale <- c(
 warmgray_scale <- c(
   "100" = "#E8E8E8",
   "200" = "#C2C2C2",
-  "500" = "#9B9B9B",
+  "500" = "#8A8A8A",
   "700" = "#6E6E6E",
   "900" = "#3F3F3F"
 )
@@ -108,7 +109,7 @@ full_colors <- list(
   # Base colors (named vector for quick categorical use)
   base = c(
     azure = "#0071BC",
-    teal = "#00A99D",
+    teal = "#009F9D",
     plum = "#7B4F9E",
     saffron = "#F7A11A",
     coral = "#E05C3A",
@@ -116,7 +117,7 @@ full_colors <- list(
     steel = "#4A90C4",
     gold = "#F2C94C",
     charcoal = "#3D3D3D",
-    warmgray = "#9B9B9B"
+    warmgray = "#8A8A8A"
   ),
 
   #chart elements
