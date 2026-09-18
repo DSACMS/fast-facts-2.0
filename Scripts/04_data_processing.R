@@ -77,15 +77,19 @@ df_nhe_gdp_share <- df_nhe_gdp_share |>
 #extract NHE per capita
 df_nhe_pc <- df_ff |>
   filter(
-    is_latest == TRUE,
     category == "National Health Expenditures",
     sub_category == "Per Capita"
   ) |>
   mutate(
     value_fmt = label_comma(1, prefix = "$")(value),
-    n_icons = round(value / 1000)
+    value_fmt = label_number(.1, prefix = "$", scale_cut = cut_short_scale())(
+      value
+    ),
+    fill_color = ff_colors$base[["green"]],
+    val_pt = case_when(data_year %in% range(data_year) ~ value),
+    lab_val = case_when(data_year %in% range(data_year) ~ value_fmt),
   ) |>
-  select(category, sub_category, data_year, value, value_fmt, n_icons)
+  select(category, sub_category, data_year, value, fill_color, val_pt, lab_val)
 
 #other NHE subcategories
 df_nhe_sources <- df_ff |>
