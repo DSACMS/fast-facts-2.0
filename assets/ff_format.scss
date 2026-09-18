@@ -251,6 +251,7 @@ h1, h2, h3, h4, h5, h6,
     z-index: 1;
   }
 
+  
   &.bg-primary {
     background-color: $primary !important;
     color: $color-text-light !important;
@@ -268,6 +269,15 @@ h1, h2, h3, h4, h5, h6,
   &.coral     { background-color: $ff-coral;    color: $color-text-light; }
   &.steel     { background-color: $ff-steel;    color: $color-text-primary; }
   &.gold      { background-color: $ff-gold;     color: $color-text-primary; }
+}
+
+.valuebox-secondary-value {
+  color: $blue-900;
+  font-family: "Source Sans 3", system-ui, sans-serif;
+  font-size: clamp(1.8rem, 3vw, 2.75rem);
+  font-weight: 700;
+  line-height: 1;
+  overflow-wrap: anywhere;
 }
 
 // ── Cards ────────────────────────────────────────────────────
