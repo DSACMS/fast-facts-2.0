@@ -372,7 +372,7 @@ icons |>
 
 ### Column
 
-:::{.valuebox .text-white label = "ban_medicare_ab" icon="heart-fill" color="#0071BC"}
+:::{.valuebox .text-white label = "ban_medicare_ab" icon="people-fill" color="#0071BC"}
 Total Medicare Beneficiaries <br> `r medicare$years[["medicare_total_enrollment"]]`
 
 `r medicare$bans[["medicare_total_enrollment"]]`
@@ -381,7 +381,7 @@ Total Medicare Beneficiaries <br> `r medicare$years[["medicare_total_enrollment"
 
 ### Column
 
-:::{.valuebox .text-white label = "ban_medicare_util" icon="heart-fill" color="#3B96D1"}
+:::{.valuebox .text-white label = "ban_medicare_util" icon="people-fill" color="#3B96D1"}
 Original Medicare Persons Served | `r medicare$year[["medicare_total_persons_served"]]`
 
 `r medicare$bans[["medicare_total_persons_served"]]`
@@ -390,7 +390,7 @@ Original Medicare Persons Served | `r medicare$year[["medicare_total_persons_ser
 
 ### Column
 
-:::{.valuebox .text-white label = "ban_medicare_util" icon="heart-fill" color="#3B96D1"}
+:::{.valuebox .text-white label = "ban_medicare_util" icon="cash" color="#3B96D1"}
 Original Medicare Payments | `r medicare$year[["medicare_total_payments"]]`
 
 `r medicare$bans[["medicare_total_payments"]]`
@@ -1176,7 +1176,7 @@ Medicaid & CHIP Beneficiaries <br> `r medicaid$years[["medicaid_enrollment"]] |>
 
 :::
 
-:::{.valuebox .text-white label = "ban_medicaid_exp" icon="people-fill" color="#009F9D"}
+:::{.valuebox .text-white label = "ban_medicaid_exp" icon="cash" color="#009F9D"}
 Medicaid & CHIP Expenditures <br> `r medicaid$year[["medicaid_payments"]]`
 
 `r medicaid$bans[["medicaid_payments"]]`
