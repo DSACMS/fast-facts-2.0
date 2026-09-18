@@ -366,7 +366,7 @@ icons |>
 :::
 
 
-# Medicare Enrollment/Utilization
+# Medicare Enrollment & Utilization
 
 ## Row {height="20%"}
 
@@ -1165,7 +1165,7 @@ providers[["df_hospital_subset"]] |>
 `r providers[["footnote"]]`
 :::
 
-# Medicaid Enrollment/Utilization
+# Medicaid Enrollment & Utilization
 
 ## Row {height="20%"}
 
