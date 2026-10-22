@@ -98,7 +98,7 @@ CMS Federal Program Spending <br> `r health_spending$years[["fed_spend_yr"]]`
 
 #### Row {height="40%"}
 ```{r}
-#| label: share-gdp
+#| label: fig-share-gdp
 #| title: "NHE share of GDP"
 
 v_nhe_share <- health_spending[["df_nhe_gdp_share"]] |>
@@ -132,7 +132,7 @@ health_spending[["df_nhe_gdp_share"]] |>
 ```
 
 ```{r}
-#| label: per_capita
+#| label: fig-per_capita
 #| title: "NHE per capita"
 #| out-width: 100%
 #| out-height: 100%
@@ -184,7 +184,7 @@ health_spending[["df_nhe_pc"]] |>
 #### Row
 
 ```{r}
-#| label: nhe_sources
+#| label: fig-nhe_sources
 #| title: "NHE by Source of Funds"
 #| out-width: 100%
 #| out-height: 100%
@@ -229,7 +229,7 @@ health_spending[["df_nhe_sources"]] |>
 ### Column
 
 ```{r}
-#| label: insurance_bar
+#| label: fig-insurance_bar
 #| title: "National Health Insurance Expenditures by Payer"
 #| fig-height: 8
 #| out.height: "100%"
@@ -271,7 +271,7 @@ health_spending[["df_insurance"]] |>
 
 #### Row {height="70%"}
 ```{r}
-#| label: fed_spend_pictogram
+#| label: fig-fed_spend_pictogram
 #| title: "CMS Spending by Category"
 #| out-width: 100%
 #| out-height: 100%
@@ -318,7 +318,7 @@ health_spending[["df_spend"]] |>
 
 #### Row {height="30%"}
 ```{r}
-#| label: fte
+#| label: fig-fte
 #| title: "CMS Full-Time Equivalents (FTEs)"
 #| out-width: 100%
 #| fig-width: 14
@@ -414,7 +414,7 @@ Medicare Part D Beneficiaries <br> `r medicare$years[["medicare_part_d_enrollmen
 #### Row {height="65%"}
 
 ```{r}
-#| label: df_medicare_trend
+#| label: fig-medicare_trend
 #| title: >-
 #|   Medicare Advantage Now Exceeds
 #|    Original Medicare Beneficiaries
@@ -494,7 +494,7 @@ medicare[["df_medicare_trend"]]  |>
 #### Row
 
 ```{r}
-#| label: medicare_disagg_trend
+#| label: fig-medicare_disagg_trend
 #| title: "Medicare Sub-Populations Trends"
 #| out-width: 100%
 #| out-height: 100%
@@ -560,7 +560,7 @@ medicare[["df_medicare_disagg_trend"]] |>
 #### Row
 
 ```{r}
-#| label: orig_medicare_utilization
+#| label: fig-orig_medicare_utilization
 #| title: Original Medicare Utilization & Spending
 #| out-width: 100%
 #| out-height: 100%
@@ -634,7 +634,7 @@ medicare[["df_medicare_util"]] |>
 ##### Column
 
 ```{r}
-#| label: part_d_util
+#| label: fig-part_d_util
 #| title: Part D Utilization
 #| out-width: 100%
 #| out-height: 100%
@@ -685,7 +685,7 @@ medicare[["df_part_d_util"]] |>
 #### Row
 
 ```{r}
-#| label: part_d_exp
+#| label: fig-part_d_exp
 #| title: Part D Expenditures
 #| out-width: 100%
 #| out-height: 100%
@@ -748,7 +748,7 @@ medicare[["df_part_d_exp"]] |>
 
 
 ```{r}
-#| label: premiums
+#| label: fig-premiums
 #| title: "Premiums"
 #| out-width: 100%
 #| out-height: 100%
@@ -801,7 +801,7 @@ cost_sharing[["df_cs_trend"]] |>
 
 
 ```{r}
-#| label: deductibles
+#| label: fig-deductibles
 #| title: "Deductibles"
 #| out-width: 100%
 #| out-height: 100%
@@ -856,7 +856,7 @@ cost_sharing[["df_cs_trend"]] |>
 
 
 ```{r}
-#| label: coinsurance
+#| label: fig-coinsurance
 #| title: "Coinsurance (Part A)"
 #| out-width: 100%
 #| out-height: 100%
@@ -908,7 +908,7 @@ cost_sharing[["df_cs_trend"]] |>
 ```
 
 ```{r}
-#| label: other_part_d
+#| label: fig-other_part_d
 #| title: "Part D Out-of-Pocket Threshold"
 #| out-width: 100%
 #| out-height: 100%
@@ -1006,7 +1006,7 @@ Medicare Institutional Providers <br> `r providers$years[["Institutional"]]`
 ### Column
 
 ```{r}
-#| label: noninstitutional_providers
+#| label: fig-noninstitutional_providers
 #| title: Non-Institutional Provider Types
 #| out-width: 100%
 #| out-height: 100%
@@ -1048,7 +1048,7 @@ providers[["df_provider_noninst"]] |>
 ### Column
 
 ```{r}
-#| label: dmepos_viz
+#| label: fig-dmepos
 #| title: DMEPOS Provider Types
 #| out-width: 100%
 #| out-height: 100%
@@ -1086,7 +1086,7 @@ providers[["df_providers_dmepos"]] |>
 
 #### Row {height="60%"}
 ```{r}
-#| label: institutional_providers
+#| label: fig-institutional_providers
 #| title: Institutional Provider Types
 #| out-width: 100%
 #| out-height: 100%
@@ -1124,7 +1124,7 @@ providers[["df_provider_inst"]] |>
 #### Row {height="40%"}
 
 ```{r}
-#| label: hopsital_type
+#| label: fig-hopsital_type
 #| title: Hospital Provider Subset
 #| out-width: 100%
 #| out-height: 100%
@@ -1190,7 +1190,7 @@ Medicaid & CHIP Expenditures <br> `r medicaid$year[["medicaid_payments"]]`
 #### Row
 
 ```{r}
-#| label: medicaid_trend
+#| label: fig-medicaid_trend
 #| title: "Medicaid & CHIP Beneficiary Trends"
 #| out-width: 100%
 #| out-height: 100%
@@ -1244,7 +1244,7 @@ medicaid[["df_medicaid_trend"]] |>
 
 #### Row
 ```{r}
-#| label: medicaid_disagg_trend
+#| label: fig-medicaid_disagg_trend
 #| title: "Medicaid & CHIP Sub-Populations Trends"
 #| out-width: 100%
 #| out-height: 100%
@@ -1301,7 +1301,7 @@ medicaid[["df_medicaid_disagg_trend"]] |>
 ### Column {width="50%"}
 
 ```{r}
-#| label: medicaid_exp_sub
+#| label: fig-medicaid_exp_sub
 #| title: Medicaid & CHIP Expenditures by Service
 #| out-width: 100%
 #| out-height: 100%
