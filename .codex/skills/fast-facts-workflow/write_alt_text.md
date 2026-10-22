@@ -155,7 +155,7 @@ To find all figure chunks in the project:
 grep -n "#| label: fig-" *.qmd
 
 # Find figures in a specific file
-grep -n "#| label: fig-" numeric-splines.qmd
+grep -n "#| label: fig-" *.qmd
 
 # Find a specific figure
 grep -rn "#| label: fig-splines-predictor-outcome" *.qmd
