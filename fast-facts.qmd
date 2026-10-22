@@ -100,6 +100,10 @@ CMS Federal Program Spending <br> `r health_spending$years[["fed_spend_yr"]]`
 ```{r}
 #| label: share-gdp
 #| title: "NHE share of GDP"
+#| fig-alt: |
+#|   Waffle chart with a 10-by-10 grid representing U.S. gross domestic
+#|   product in CY 2024. Eighteen of the 100 squares are filled to show that
+#|   national health expenditures accounted for 18 percent of GDP.
 
 v_nhe_share <- health_spending[["df_nhe_gdp_share"]] |>
   filter(category == "National Health Expenditures") |>
@@ -134,6 +138,10 @@ health_spending[["df_nhe_gdp_share"]] |>
 ```{r}
 #| label: per_capita
 #| title: "NHE per capita"
+#| fig-alt: |
+#|   Area chart of national health expenditures per person by year.
+#|   Per-capita spending rises each year, from $11,582 in CY 2019 to $15,474 in
+#|   CY 2024, an increase of about one-third over the period.
 #| out-width: 100%
 #| out-height: 100%
 #| fig-width: 8
@@ -186,6 +194,12 @@ health_spending[["df_nhe_pc"]] |>
 ```{r}
 #| label: nhe_sources
 #| title: "NHE by Source of Funds"
+#| fig-alt: |
+#|   Horizontal bar chart of CY 2024 national health expenditures by source of
+#|   funds. Health insurance is by far the largest source at $3.9 trillion;
+#|   out-of-pocket spending is $557 billion, other third-party payers and
+#|   programs $433 billion, investment $239 billion, and government public
+#|   health activities $158 billion.
 #| out-width: 100%
 #| out-height: 100%
 #| fig-width: 24
@@ -231,6 +245,12 @@ health_spending[["df_nhe_sources"]] |>
 ```{r}
 #| label: insurance_bar
 #| title: "National Health Insurance Expenditures by Payer"
+#| fig-alt: |
+#|   Faceted horizontal bar chart of CY 2024 national health insurance
+#|   expenditures by payer. Private health insurance is largest at $1.6
+#|   trillion, followed by Medicare at $1.1 trillion and Medicaid at $932
+#|   billion; Veterans Affairs, Defense, and CHIP are much smaller at $118
+#|   billion, $50 billion, and $31 billion, respectively.
 #| fig-height: 8
 #| out.height: "100%"
 #| fig-width: 9
@@ -273,6 +293,14 @@ health_spending[["df_insurance"]] |>
 ```{r}
 #| label: fed_spend_pictogram
 #| title: "CMS Spending by Category"
+#| fig-alt: |
+#|   Faceted horizontal bar chart of CMS spending by category. Of $1.9
+#|   trillion in federal program spending, Medicare benefits account for
+#|   $1.158 trillion, or 61 percent, and Medicaid for $687 billion, or 36
+#|   percent; CHIP and other spending are about 1 percent each. Separate
+#|   panels divide $8 billion in program management between a $4.1 billion
+#|   appropriation and $3.4 billion from other sources, and show $2.6 billion
+#|   for health care fraud and abuse control. Data are from CY 2024.
 #| out-width: 100%
 #| out-height: 100%
 #| fig-width: 13
@@ -320,6 +348,10 @@ health_spending[["df_spend"]] |>
 ```{r}
 #| label: fte
 #| title: "CMS Full-Time Equivalents (FTEs)"
+#| fig-alt: |
+#|   Pictogram of six person symbols representing the approximate scale of
+#|   CMS staffing, one person symbol per 1,000 staff. The prominently displayed
+#|   total is 6,083 full-time equivalents in FY 2025.
 #| out-width: 100%
 #| fig-width: 14
 #| fig-height: 4
@@ -414,10 +446,17 @@ Medicare Part D Beneficiaries <br> `r medicare$years[["medicare_part_d_enrollmen
 #### Row {height="65%"}
 
 ```{r}
-#| label: df_medicare_trend
+#| label: medicare_trend
 #| title: >-
 #|   Medicare Advantage Now Exceeds
 #|    Original Medicare Beneficiaries
+#| fig-alt: |
+#|   Two-line chart of Medicare beneficiaries by program from CY 2008 through
+#|   2025. Medicare Advantage enrollment climbs from 10 million, or 22
+#|   percent, to 35.3 million, or 51 percent, while Original Medicare moves
+#|   from 35.5 million, or 78 percent, to 34.0 million, or 49 percent. The
+#|   lines cross in CY 2024; dotted final segments indicate preliminary
+#|   CY 2025 values.
 #| out-width: 100%
 #| out-height: 100%
 #| fig-width: 16
@@ -496,6 +535,12 @@ medicare[["df_medicare_trend"]]  |>
 ```{r}
 #| label: medicare_disagg_trend
 #| title: "Medicare Sub-Populations Trends"
+#| fig-alt: |
+#|   Faceted area chart with one panel each for aged and disabled
+#|   Medicare beneficiaries from CY 2008 through 2025. The aged population
+#|   increases steadily from 38 million to 62 million, while the disabled
+#|   population rises to nearly 9 million in the mid-2010s and then declines
+#|   to about 7 million. The CY 2025 endpoints are preliminary.
 #| out-width: 100%
 #| out-height: 100%
 #| fig-width: 24
@@ -562,6 +607,14 @@ medicare[["df_medicare_disagg_trend"]] |>
 ```{r}
 #| label: orig_medicare_utilization
 #| title: Original Medicare Utilization & Spending
+#| fig-alt: |
+#|   Scatter chart of six Original Medicare service types, with persons
+#|   served on the horizontal axis and program payments on the vertical axis.
+#|   Physician and durable medical equipment services reach the most people,
+#|   28.4 million, and have the highest payments, $132.7 billion; inpatient
+#|   hospital services have nearly the same payments, $131.2 billion, but
+#|   serve 4.8 million people. Other service types serve fewer people and
+#|   account for lower payments.
 #| out-width: 100%
 #| out-height: 100%
 #| fig-width: 22
@@ -636,6 +689,11 @@ medicare[["df_medicare_util"]] |>
 ```{r}
 #| label: part_d_util
 #| title: Part D Utilization
+#| fig-alt: |
+#|   Two-panel line chart of Medicare Part D utilization from CY 2019 through
+#|   2024. Utilizing beneficiaries increase steadily from 45.1 million to
+#|   53.3 million, while prescription drug events remain near 1.5 billion
+#|   through 2022 before increasing to 1.7 billion in 2024.
 #| out-width: 100%
 #| out-height: 100%
 #| fig-width: 26
@@ -687,6 +745,11 @@ medicare[["df_part_d_util"]] |>
 ```{r}
 #| label: part_d_exp
 #| title: Part D Expenditures
+#| fig-alt: |
+#|   Two-panel line chart of Medicare Part D expenditures from CY 2019 through
+#|   2024. Benefit payments rise overall from $97.1 billion to $145.7
+#|   billion, with the largest increase occurring after CY 2021. Administrative
+#|   expenses stay nearly flat at $500 million.
 #| out-width: 100%
 #| out-height: 100%
 #| fig-width: 26
@@ -750,6 +813,12 @@ medicare[["df_part_d_exp"]] |>
 ```{r}
 #| label: premiums
 #| title: "Premiums"
+#| fig-alt: |
+#|   Faceted area chart of annual Medicare premiums from CY 2021
+#|   through 2026, with panels for reduced and full Part A premiums and 
+#|   standard and maximum Part B premiums. All four amounts increase overall:
+#|   by 2026 they reach $311 and $565 for Part A and $202.90 and $689.90 for 
+#|   Part B, respectively.
 #| out-width: 100%
 #| out-height: 100%
 #| fig-width: 14
@@ -803,6 +872,12 @@ cost_sharing[["df_cs_trend"]] |>
 ```{r}
 #| label: deductibles
 #| title: "Deductibles"
+#| fig-alt: |
+#|   Faceted area chart of annual Medicare deductibles from CY 2021
+#|   through 2026, with separate panels for the Part A inpatient hospital,
+#|   Part B, and maximum Part D deductibles. All three rise over the period,
+#|   from $1,484 to $1,736 for Part A, $203 to $283 for Part B, and $445 to
+#|   $615 for Part D, respectively.
 #| out-width: 100%
 #| out-height: 100%
 #| fig-width: 14
@@ -858,6 +933,12 @@ cost_sharing[["df_cs_trend"]] |>
 ```{r}
 #| label: coinsurance
 #| title: "Coinsurance (Part A)"
+#| fig-alt: |
+#|   Faceted area chart of Medicare Part A daily coinsurance from CY 2021
+#|   through 2026. Costs increase in all three panels: inpatient hospital
+#|   days 61 through 90 rise from $371 to $434, lifetime reserve days from
+#|   $742 to $868, and skilled nursing facility days 21 through 100 from
+#|   $185.50 to $217.
 #| out-width: 100%
 #| out-height: 100%
 #| fig-width: 14
@@ -910,6 +991,11 @@ cost_sharing[["df_cs_trend"]] |>
 ```{r}
 #| label: other_part_d
 #| title: "Part D Out-of-Pocket Threshold"
+#| fig-alt: |
+#|   Area chart of the annual Medicare Part D out-of-pocket threshold
+#|   from CY 2021 through 2026. The threshold rises from $6,550 in CY 2021 to
+#|   $8,000 in 2024, then drops sharply to $2,000 in CY 2025 and increases 
+#|   slightly to $2,100 in 2026 following the Part D benefit redesign.
 #| out-width: 100%
 #| out-height: 100%
 #| fig-width: 14
@@ -1008,6 +1094,12 @@ Medicare Institutional Providers <br> `r providers$years[["Institutional"]]`
 ```{r}
 #| label: noninstitutional_providers
 #| title: Non-Institutional Provider Types
+#| fig-alt: |
+#|   Horizontal bar chart of Medicare non-institutional provider counts by
+#|   type. Non-physician practitioners are the largest group at 684,000,
+#|   followed by primary care at 224,000 and medical specialties at 192,000.
+#|   Opioid treatment programs are the smallest group at about 1,000. Data are
+#|   for CY 2024.
 #| out-width: 100%
 #| out-height: 100%
 #| fig-width: 14
@@ -1048,8 +1140,14 @@ providers[["df_provider_noninst"]] |>
 ### Column
 
 ```{r}
-#| label: dmepos_viz
+#| label: dmepos
 #| title: DMEPOS Provider Types
+#| fig-alt: |
+#|   Horizontal bar chart of Medicare durable medical equipment, prosthetics,
+#|   orthotics, and supplies provider counts by type. Pharmacies dominate at
+#|   43,000 providers, or 61 percent, followed by medical supply companies at
+#|   8,000; every other type has about 5,000 or fewer providers. Data are for
+#|   CY 2024.
 #| out-width: 100%
 #| out-height: 100%
 #| fig-width: 14
@@ -1088,6 +1186,12 @@ providers[["df_providers_dmepos"]] |>
 ```{r}
 #| label: institutional_providers
 #| title: Institutional Provider Types
+#| fig-alt: |
+#|   Horizontal bar chart of Medicare institutional provider counts by type.
+#|   Skilled nursing facilities are the largest group at about 15,000,
+#|   followed by federally qualified health centers and home health agencies
+#|   at about 12,000 each. Comprehensive outpatient rehabilitation facilities
+#|   are the smallest group at 139. Data are for CY 2024.
 #| out-width: 100%
 #| out-height: 100%
 #| fig-width: 24
@@ -1126,6 +1230,12 @@ providers[["df_provider_inst"]] |>
 ```{r}
 #| label: hopsital_type
 #| title: Hospital Provider Subset
+#| fig-alt: |
+#|   Horizontal bar chart of Medicare hospital provider counts by hospital
+#|   type. Short-stay hospitals are the largest group at about 3,000, or 52
+#|   percent, followed by roughly 1,000 critical access hospitals, or 23
+#|   percent. Religious non-medical institutions are the smallest group at
+#|   12. Data are for CY 2024.
 #| out-width: 100%
 #| out-height: 100%
 #| fig-width: 24
@@ -1192,6 +1302,11 @@ Medicaid & CHIP Expenditures <br> `r medicaid$year[["medicaid_payments"]]`
 ```{r}
 #| label: medicaid_trend
 #| title: "Medicaid & CHIP Beneficiary Trends"
+#| fig-alt: |
+#|   Area chart of total Medicaid and CHIP beneficiaries from 2017
+#|   through 2025. Enrollment falls from about 74 million in 2017 to 71
+#|   million in 2019, rises sharply to a peak of about 93 million in 2022,
+#|   then declines to a preliminary 79 million in 2025.
 #| out-width: 100%
 #| out-height: 100%
 #| fig-width: 15
@@ -1246,6 +1361,14 @@ medicaid[["df_medicaid_trend"]] |>
 ```{r}
 #| label: medicaid_disagg_trend
 #| title: "Medicaid & CHIP Sub-Populations Trends"
+#| fig-alt: |
+#|   Faceted area chart of Medicaid and CHIP enrollment from 2017
+#|   onward, with panels for children, Medicaid expansion adults, and people
+#|   eligible for both Medicare and Medicaid. Children rise from 36 million
+#|   to a 2022 peak of 42 million before falling to 37 million in 2025;
+#|   expansion adults peak at 24 million in 2022 and fall to 21 million in
+#|   2024, while dual-eligible enrollment remains near 8 million to 9 million.
+#|   The latter two series end in 2024 because 2025 data are unavailable.
 #| out-width: 100%
 #| out-height: 100%
 #| fig-width: 17
@@ -1303,6 +1426,13 @@ medicaid[["df_medicaid_disagg_trend"]] |>
 ```{r}
 #| label: medicaid_exp_sub
 #| title: Medicaid & CHIP Expenditures by Service
+#| fig-alt: |
+#|   Horizontal bar chart of fiscal year 2024 Medicaid and CHIP expenditures
+#|   by selected service. Managed care is by far the largest category at $509
+#|   billion, followed by long-term care at $191 billion and physician,
+#|   laboratory, and other services at $130 billion. The remaining categories
+#|   range from $12 billion for other services to $73 billion for inpatient
+#|   services.
 #| out-width: 100%
 #| out-height: 100%
 #| fig-width: 25

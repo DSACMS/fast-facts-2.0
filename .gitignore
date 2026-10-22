@@ -84,3 +84,5 @@ test.qmd
 *.pptx
 *.otf
 Data/fast_facts/historic/*.xlsx
+/.quarto/
+**/*.quarto_ipynb
