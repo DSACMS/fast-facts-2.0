@@ -37,6 +37,7 @@ library(ggrepel)
 library(waffle)
 library(gt, warn.conflicts = FALSE)
 library(gtExtras)
+library(plotly)
 
 #add colors
 source("Scripts/98_color_system.R")
@@ -498,25 +499,42 @@ medicare[["df_medicare_trend"]]  |>
 #| title: "Medicare Sub-Populations Trends"
 #| out-width: 100%
 #| out-height: 100%
-#| fig-width: 24
-#| fig-height: 8
+#| fig-height: 16
 
-medicare[["df_medicare_disagg_trend"]] |> 
+caption_text <- str_glue(
+  "Note: CY {max(medicare[['df_medicare_disagg_trend']]$data_year)} values are preliminary"
+)
+
+label_offset <- diff(
+  range(medicare[["df_medicare_disagg_trend"]]$value, na.rm = TRUE)
+) * 0.04
+
+p <- medicare[["df_medicare_disagg_trend"]] |> 
   ggplot(
     aes(
       data_year, value,
       group = sub_category,
-      fill = fill_color, color = fill_color
+      fill = fill_color, color = fill_color,
+      text = 
+        str_glue(
+          "CY {data_year}",
+          "\n{label_number(.1, scale_cut = cut_short_scale())(value)} Beneficiaries"
+        )
     )
   ) +
+  geom_blank(aes(y = value * 1.1)) +
   geom_hline(yintercept = 0, color = ff_colors$elements[["axis"]]) +
   geom_area(alpha = .4) +
   geom_line() +
   geom_point(aes(y = val_pt), na.rm = TRUE) +
   geom_text(
-    aes(label = lab_val),
-    vjust = -1, na.rm = TRUE,
-    family = "Source Sans 3", size = 20,
+    aes(
+      # y = value * 1.1,
+      y = value + label_offset,
+      label = lab_val
+      ),
+     na.rm = TRUE,
+    family = "Source Sans 3", #size = 20,
     color = ff_colors$elements[["annotation"]]
   ) +
   facet_grid(. ~ fct_reorder2(sub_category, data_year, value), switch = "y") +
@@ -537,7 +555,8 @@ medicare[["df_medicare_disagg_trend"]] |>
     x = NULL, y = NULL,
     caption = str_glue('Note: CY {max(medicare[["df_medicare_disagg_trend"]]$data_year)} values are preliminary')
     ) +
-  theme_minimal(base_size = 80, , base_family = "Source Sans 3") +
+  # theme_minimal(base_size = 80, , base_family = "Source Sans 3") +
+  theme_minimal(base_family = "Source Sans 3") +
   theme(
     legend.position = "none",
     strip.text =
@@ -547,12 +566,52 @@ medicare[["df_medicare_disagg_trend"]] |>
       ),
     strip.placement = "outside",
     axis.text.y = element_blank(),
-    plot.caption = element_text(size = 50, color = "#909090"),
+    # plot.caption = element_text(size = 50, color = "#909090"),
+    plot.caption = element_text(color = "#909090"),
     # axis.ticks.x = element_line(color = "gray60"),
     # axis.minor.ticks.x.bottom = element_line(color = "gray60"),
     panel.grid = element_blank(),
     panel.spacing = unit(6, "lines")
   ) 
+
+  ggplotly(p, tooltip = "text") |> 
+  add_annotations(
+      text      = caption_text,
+      x         = 1,
+
+      y         = .02, 
+      xref      = "paper",
+      yref      = "paper",
+      xanchor   = "right",
+      yanchor   = "top",
+      align     = "bottom",
+      showarrow = FALSE,
+      font      = list(
+        family = "Source Sans 3",
+        size   = 11,
+        color  = "#909090"
+      )
+    ) |>
+  layout(
+    autosize = TRUE,
+    margin = list(
+      l = 5,
+      r = 5,
+      t = 25,
+      b = 25
+    ),
+    # margin = list(b = 65),
+    hoverlabel = list(
+      bgcolor = "white",
+      font = list(
+        family = "Source Sans 3",
+        size = 13,
+        color = "black"
+      ),
+      bordercolor = "gray"
+    )
+  ) |>
+  config(displayModeBar = FALSE)
 ```
 
 ### Column
