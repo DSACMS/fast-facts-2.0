@@ -4,7 +4,7 @@
 # REF ID:   4b4e2514
 # LICENSE:  MIT
 # DATE:     2026-03-20
-# UPDATED:  2026-09-16
+# UPDATED:  2026-11-24
 
 # DEPENDENCIES ------------------------------------------------------------
 
@@ -211,16 +211,16 @@ df_spend <- df_ff |>
   select(category, sub_category, value, share, value_fmt, share_fmt, fill_color)
 
 # FTEs
-fte <- df_ff |>
-  filter(
-    is_latest == TRUE,
-    category == "FTE Employment"
-  ) |>
-  mutate(
-    value_fmt = label_comma()(value),
-    n_icons = round(value / 1e3)
-  ) |>
-  select(category, data_year, value, value_fmt, n_icons)
+# fte <- df_ff |>
+#   filter(
+#     is_latest == TRUE,
+#     category == "FTE Employment"
+#   ) |>
+#   mutate(
+#     value_fmt = label_comma()(value),
+#     n_icons = round(value / 1e3)
+#   ) |>
+#   select(category, data_year, value, value_fmt, n_icons)
 
 #combine years
 years <- c(
@@ -250,8 +250,8 @@ v_health_spending_sources <- df_ff |>
       c(
         "National Health Expenditures",
         "Health Insurance",
-        "Federal Program Spending",
-        "FTE Employment"
+        "Federal Program Spending"
+        # "FTE Employment"
       ),
     is_latest == TRUE
   ) |>
@@ -275,7 +275,7 @@ health_spending <- list(
   df_nhe_sources = df_nhe_sources,
   df_insurance = df_insurance,
   df_spend = df_spend,
-  fte = fte,
+  # fte = fte,
   footnote = v_health_spending_footnote
 )
 
@@ -437,7 +437,7 @@ df_part_d <- df_part_d |>
   mutate(
     sub_category = case_when(
       sub_category == "Total" & metric == "payments" ~ "Total Expenditures",
-      metric == "persons_served" ~ "Utilizing Beneficiaries",
+      metric == "persons_served" ~ "Utilizers", #previously "Utilizing Beneficiaries"
       metric == "rx_events" ~ "Prescription Drug Events",
       TRUE ~ sub_category
     ),
@@ -814,12 +814,24 @@ v_medicaid_sources <-
   ) %>%
   list_rbind() |>
   add_row(source_origin = "CMS/Office of Enterprise Data & Analytics") |>
+  mutate(
+    source_origin = ifelse(
+      source_origin %in%
+        c(
+          "Quarterly Enrollment Snapshots",
+          "Medicaid and CHIP Performance Indicators"
+        ),
+      "medicaid.gov",
+      source_origin
+    )
+  ) |>
   distinct(source_origin) %>%
   separate_longer_delim(source_origin, ", ") |>
   mutate(
     source_origin = source_origin |>
       str_remove("Office of Enterprise Data & Analytics/") |>
       str_remove("\\.$") |>
+      str_remove(" \\(MBES\\) Enrollment") |>
       str_replace("CMS ", "CMS/")
   ) |>
   filter_out(
