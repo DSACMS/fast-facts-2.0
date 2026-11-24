@@ -99,7 +99,7 @@ CMS Federal Program Spending <br> `r health_spending$years[["fed_spend_yr"]]`
 #### Row {height="40%"}
 ```{r}
 #| label: share-gdp
-#| title: "NHE share of GDP"
+#| title: !expr 'paste0("NHE share of GDP, ", health_spending$years[["nhe_yr"]])'
 #| fig-alt: |
 #|   Waffle chart with a 10-by-10 grid representing U.S. gross domestic
 #|   product in CY 2024. Eighteen of the 100 squares are filled to show that
@@ -193,7 +193,7 @@ health_spending[["df_nhe_pc"]] |>
 
 ```{r}
 #| label: nhe_sources
-#| title: "NHE by Source of Funds"
+#| title: !expr 'paste0("NHE by Source of Funds, ", health_spending$years[["nhe_yr"]])'
 #| fig-alt: |
 #|   Horizontal bar chart of CY 2024 national health expenditures by source of
 #|   funds. Health insurance is by far the largest source at $3.9 trillion;
@@ -244,7 +244,7 @@ health_spending[["df_nhe_sources"]] |>
 
 ```{r}
 #| label: insurance_bar
-#| title: "National Health Insurance Expenditures by Payer"
+#| title: !expr 'paste0("National Health Insurance Expenditures by Payer, ", health_spending$years[["nhe_yr"]])'
 #| fig-alt: |
 #|   Faceted horizontal bar chart of CY 2024 national health insurance
 #|   expenditures by payer. Private health insurance is largest at $1.6
@@ -291,7 +291,7 @@ health_spending[["df_insurance"]] |>
 
 ```{r}
 #| label: fed_spend_bar
-#| title: "CMS Spending by Category"
+#| title: !expr 'paste0("CMS Spending by Category, ", health_spending$years[["fed_spend_yr"]])'
 #| fig-alt: |
 #|   Faceted horizontal bar chart of CMS spending by category. Of $1.9
 #|   trillion in federal program spending, Medicare benefits account for
@@ -558,7 +558,7 @@ medicare[["df_medicare_disagg_trend"]] |>
 
 ```{r}
 #| label: orig_medicare_utilization
-#| title: Original Medicare Utilization & Spending
+#| title: !expr 'paste0("Original Medicare Utilization & Spending, ", medicare$years[["medicare_total_persons_served"]])'
 #| fig-alt: |
 #|   Scatter chart of six Original Medicare service types, with persons
 #|   served on the horizontal axis and program payments on the vertical axis.
@@ -1048,7 +1048,7 @@ Medicare Institutional Providers <br> `r providers$years[["Institutional"]]`
 
 ```{r}
 #| label: noninstitutional_providers
-#| title: Non-Institutional Provider Types
+#| title: !expr 'paste0("Non-Institutional Provider Types, ", providers$years[["Non-Institutional"]])'
 #| fig-alt: |
 #|   Horizontal bar chart of Medicare non-institutional provider counts by
 #|   type. Non-physician practitioners are the largest group at 684,000,
@@ -1096,7 +1096,7 @@ providers[["df_provider_noninst"]] |>
 
 ```{r}
 #| label: dmepos
-#| title: DMEPOS Provider Types
+#| title: !expr 'paste0("DMEPOS Provider Types, ", providers$years[["DMEPOS"]])'
 #| fig-alt: |
 #|   Horizontal bar chart of Medicare durable medical equipment, prosthetics,
 #|   orthotics, and supplies provider counts by type. Pharmacies dominate at
@@ -1140,7 +1140,7 @@ providers[["df_providers_dmepos"]] |>
 #### Row {height="60%"}
 ```{r}
 #| label: institutional_providers
-#| title: Institutional Provider Types
+#| title: !expr 'paste0("Institutional Provider Types, ", providers$years[["Institutional"]])'
 #| fig-alt: |
 #|   Horizontal bar chart of Medicare institutional provider counts by type.
 #|   Skilled nursing facilities are the largest group at about 15,000,
@@ -1184,7 +1184,7 @@ providers[["df_provider_inst"]] |>
 
 ```{r}
 #| label: hopsital_type
-#| title: Hospital Provider Subset
+#| title: !expr 'paste0("Hospital Provider Subset, ", providers$years[["Institutional"]])'
 #| fig-alt: |
 #|   Horizontal bar chart of Medicare hospital provider counts by hospital
 #|   type. Short-stay hospitals are the largest group at about 3,000, or 52
@@ -1380,7 +1380,7 @@ medicaid[["df_medicaid_disagg_trend"]] |>
 
 ```{r}
 #| label: medicaid_exp_sub
-#| title: Medicaid & CHIP Expenditures by Service
+#| title: !expr 'paste0("Medicaid & CHIP Expenditures by Service, ", medicaid$years[["medicaid_payments"]])'
 #| fig-alt: |
 #|   Horizontal bar chart of fiscal year 2024 Medicaid and CHIP expenditures
 #|   by selected service. Managed care is by far the largest category at $509
