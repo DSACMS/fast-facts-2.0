@@ -211,16 +211,16 @@ df_spend <- df_ff |>
   select(category, sub_category, value, share, value_fmt, share_fmt, fill_color)
 
 # FTEs
-fte <- df_ff |>
-  filter(
-    is_latest == TRUE,
-    category == "FTE Employment"
-  ) |>
-  mutate(
-    value_fmt = label_comma()(value),
-    n_icons = round(value / 1e3)
-  ) |>
-  select(category, data_year, value, value_fmt, n_icons)
+# fte <- df_ff |>
+#   filter(
+#     is_latest == TRUE,
+#     category == "FTE Employment"
+#   ) |>
+#   mutate(
+#     value_fmt = label_comma()(value),
+#     n_icons = round(value / 1e3)
+#   ) |>
+#   select(category, data_year, value, value_fmt, n_icons)
 
 #combine years
 years <- c(
@@ -250,8 +250,8 @@ v_health_spending_sources <- df_ff |>
       c(
         "National Health Expenditures",
         "Health Insurance",
-        "Federal Program Spending",
-        "FTE Employment"
+        "Federal Program Spending"
+        # "FTE Employment"
       ),
     is_latest == TRUE
   ) |>
@@ -275,7 +275,7 @@ health_spending <- list(
   df_nhe_sources = df_nhe_sources,
   df_insurance = df_insurance,
   df_spend = df_spend,
-  fte = fte,
+  # fte = fte,
   footnote = v_health_spending_footnote
 )
 

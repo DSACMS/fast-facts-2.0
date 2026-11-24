@@ -289,9 +289,8 @@ health_spending[["df_insurance"]] |>
 
 ### Column
 
-#### Row {height="70%"}
 ```{r}
-#| label: fed_spend_pictogram
+#| label: fed_spend_bar
 #| title: "CMS Spending by Category"
 #| fig-alt: |
 #|   Faceted horizontal bar chart of CMS spending by category. Of $1.9
@@ -303,7 +302,7 @@ health_spending[["df_insurance"]] |>
 #|   for health care fraud and abuse control. Data are from CY 2024.
 #| out-width: 100%
 #| out-height: 100%
-#| fig-width: 13
+#| fig-width: 8
 #| fig-height: 8
 
 health_spending[["df_spend"]] |>
@@ -314,6 +313,7 @@ health_spending[["df_spend"]] |>
     aes(label = value_fmt),
     family = "Source Sans 3",
     color = ff_colors$elements[["annotation"]],
+    size = 18/.pt,
     hjust = -.1
   ) +
   facet_wrap(
@@ -325,71 +325,23 @@ health_spending[["df_spend"]] |>
   coord_cartesian(clip = "off") +
   labs(x = NULL, y = NULL) +
   theme_minimal(
-    base_size = 28,
+    base_size = 22,
     base_family = "Source Sans 3",
   ) +
   theme(
     panel.grid.minor = element_blank(),
     panel.grid.major.y = element_blank(),
     axis.text.x = element_blank(),
-    axis.text.y = element_text(size = 28),
+    axis.text.y = element_text(size = 18),
     strip.text =
       element_text(
         family = "Source Sans 3 SemiBold",
         color = ff_colors$scales$steel[["900"]],
-        size = 28,
+        # size = 22,
         hjust = 0
       )
   )
 ```
-
-
-#### Row {height="30%"}
-```{r}
-#| label: fte
-#| title: "CMS Full-Time Equivalents (FTEs)"
-#| fig-alt: |
-#|   Pictogram of six person symbols representing the approximate scale of
-#|   CMS staffing, one person symbol per 1,000 staff. The prominently displayed
-#|   total is 6,083 full-time equivalents in FY 2025.
-#| out-width: 100%
-#| fig-width: 14
-#| fig-height: 4
-
-n_units <- health_spending[["fte"]]$n_icons
-
-icons <- tibble(
-  x     = 1:(n_units),
-  y     = 0
-)
-
-icons |>
-  ggplot(aes(x = x, y = y)) +
-  geom_text(
-    label  = "\uf007",              # Font Awesome "person" / user icon
-    family = "FontAwesome7Solid",
-    size   = 50,
-    color  = "#015390" #ff_colors$scales$steel["900"]
-  ) +
-  scale_x_continuous(expand = expansion(add = 0.5)) +
-  scale_y_continuous(expand = expansion(add = 0.5)) +
-  labs(title    = health_spending$fte[["value_fmt"]]) +
-  theme_void(base_family = "Source Sans 3") +
-  theme(
-    plot.title =
-      element_text(
-        size = 80,
-        hjust = .5,
-        face = "bold",
-        color = ff_colors$scales$steel["900"]
-      ),
-    plot.subtitle = element_text(size = 30, hjust = 0.5, color = "gray40"),
-    plot.caption  = element_text(size = 9, hjust = 0.5, color = "gray60"),
-    plot.margin   = margin(10, 10, 10, 10)
-  )
-
-```
-
 
 ## Row {.no-title height="5%"}
 
