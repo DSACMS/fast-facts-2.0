@@ -814,12 +814,24 @@ v_medicaid_sources <-
   ) %>%
   list_rbind() |>
   add_row(source_origin = "CMS/Office of Enterprise Data & Analytics") |>
+  mutate(
+    source_origin = ifelse(
+      source_origin %in%
+        c(
+          "Quarterly Enrollment Snapshots",
+          "Medicaid and CHIP Performance Indicators"
+        ),
+      "medicaid.gov",
+      source_origin
+    )
+  ) |>
   distinct(source_origin) %>%
   separate_longer_delim(source_origin, ", ") |>
   mutate(
     source_origin = source_origin |>
       str_remove("Office of Enterprise Data & Analytics/") |>
       str_remove("\\.$") |>
+      str_remove(" \\(MBES\\) Enrollment") |>
       str_replace("CMS ", "CMS/")
   ) |>
   filter_out(
