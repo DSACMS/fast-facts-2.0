@@ -574,18 +574,21 @@ medicare[["df_medicare_disagg_trend"]] |>
 
 medicare[["df_medicare_util"]] |>
   ggplot(aes(persons_served, payments, fill = category)) +
-  geom_point(aes(shape = category), color = "white", size = 20, alpha = 1) +
   geom_text_repel(
     aes(label = sub_category),
-    point.padding = 30,
-    box.padding = 1,
+    point.padding = grid::unit(2, "mm"),
+    box.padding = grid::unit(2, "mm"),
+    point.size = 20,
     force_pull = 0.3,
-    force = 20,
-    min.segment.length = 0,
+    force = 25,
+    seed = 42,
     family = "Source Sans 3",
     color = ff_colors$elements[["annotation"]],
+    segment.color = ff_colors$elements[["annotation"]],
+    segment.size = 2,
     size = 18
   ) +
+  geom_point(aes(shape = category), color = "white", size = 20, alpha = 1) +
   scale_fill_manual(
     values = c(
       ff_colors$scales$cobolt[["300"]],
